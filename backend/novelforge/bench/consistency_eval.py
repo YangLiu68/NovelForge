@@ -32,7 +32,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from novelforge.bench.retrieval_eval import _git_commit, migrate, recreate_database
 from novelforge.core.contradictions import detect_contradictions
-from novelforge.core.evaluation import evaluate
+from novelforge.core.evaluation import evaluate, normalize_finding
 from novelforge.core.extraction import EXTRACTOR
 from novelforge.models import Chapter, Novel, Passage
 from novelforge.retrieval.embedders import get_embedder
@@ -103,6 +103,8 @@ def run(
             elapsed = time.perf_counter() - t
             result = evaluate(findings, gt_scoped, bodies).as_dict()
             result.update({"seconds": round(elapsed, 2), **context})
+            # Keep the raw findings so a scoring change can be re-applied without re-running.
+            result["findings_raw"] = [normalize_finding(f) for f in findings]
             report["systems"][system] = result
     engine.dispose()
     report["labelled_contradictions"] = len(gt_scoped["contradictions"])
