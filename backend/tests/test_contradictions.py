@@ -118,3 +118,11 @@ def test_ability_used_without_learning():
         )
         == []
     )
+
+
+def test_explicit_change_starts_a_new_period():
+    texts = ["Mara's hair was black.", "That week Mara dyed her hair red.", "Mara's hair was red."]
+    assert run(texts, days=[0, 5, 9]) == []
+    texts[2] = "Mara's hair was black."
+    [f] = run(texts, days=[0, 5, 9])
+    assert f.kind == "attribute_conflict" and [e.value for e in f.evidence] == ["red", "black"]

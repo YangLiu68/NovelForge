@@ -104,3 +104,27 @@ def test_claim_ids_are_deterministic_and_version_scoped():
     c = extract_claims(chapter("Mara's eyes were grey.", version=2), CAST)
     assert [x.id for x in a] == [x.id for x in b]
     assert a[0].id != c[0].id
+
+
+def test_rules_v3_patterns():
+    body = (
+        "At fifty, Mara had stopped expecting letters. Tomas dove from the pier and swam to the "
+        "boat. That week Mara dyed her hair red. Three days later Tomas was in Varrow. "
+        "The next morning Mara arrived in Hollin."
+    )
+    claims = extract_claims(chapter(body, story_day=100), CAST)
+    got = [(c.subject_id, c.predicate, c.value, c.effective_day, c.details) for c in claims]
+    assert got == [
+        ("m", "age", "50", 100, {}),
+        ("t", "ability:swim", "used", 100, {}),
+        ("m", "hair_color", "red", 100, {"change": True}),
+        ("t", "location", "Varrow", 103, {"day_offset": 3}),
+        ("m", "location", "Hollin", 101, {"day_offset": 1}),
+    ]
+
+
+def test_capitalised_words_do_not_chain_verbs():
+    # Conservative: a name inside the chain stops it (it could be the real subject), so this
+    # sentence yields nothing rather than a guess.
+    assert facts("Mara watched Tomas and swam.") == []
+    assert facts("Mara said nothing and Tomas swam.") == [("t", "ability:swim", "used", "asserted")]

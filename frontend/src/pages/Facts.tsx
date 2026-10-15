@@ -20,7 +20,7 @@ export default function Facts() {
     <div className="page">
       <h1>Extracted facts</h1>
       <p className="muted small">
-        Proposals from the rules-v1 extractor. They are never written to the character sheet
+        Proposals from the rule extractor (and the LLM extractor when enabled). They are never written to canon
         automatically. Hedged statements and dialogue get low confidence.
       </p>
       {error && <p className="error">{error}</p>}

@@ -1,0 +1,3595 @@
+{
+  "corpus": "syn-1000-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 3,
+    "seed": 7,
+    "chapters": 1000
+  },
+  "extractor": "rules",
+  "embedder": "fastembed:BAAI/bge-small-en-v1.5",
+  "k": 5,
+  "systems": {
+    "no-memory": {
+      "findings": 32,
+      "true_positives": 26,
+      "false_positives": 6,
+      "duplicates": 0,
+      "false_negatives": 99,
+      "precision": 0.8125,
+      "recall_all": 0.208,
+      "recall_detectable": 0.208,
+      "negatives": 148,
+      "negatives_violated": 6,
+      "cited_spans": 42,
+      "cited_spans_correct": 42,
+      "citation_precision": 1.0,
+      "labelled_spans_covered": 42,
+      "labelled_spans_total": 42,
+      "citation_recall": 1.0,
+      "by_category": {
+        "abilities": {
+          "labelled": 10,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        },
+        "identity": {
+          "labelled": 44,
+          "detected": 10,
+          "fp": 1,
+          "recall": 0.2273
+        },
+        "location": {
+          "labelled": 16,
+          "detected": 16,
+          "fp": 5,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 27,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        },
+        "world_rules": {
+          "labelled": 28,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT103",
+        "GT110",
+        "GT114",
+        "GT12",
+        "GT121",
+        "GT124",
+        "GT16",
+        "GT23",
+        "GT26",
+        "GT33",
+        "GT37",
+        "GT40",
+        "GT47",
+        "GT5",
+        "GT54",
+        "GT61",
+        "GT65",
+        "GT68",
+        "GT72",
+        "GT75",
+        "GT79",
+        "GT82",
+        "GT89",
+        "GT9",
+        "GT93",
+        "GT96"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT2",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT3",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT6",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT8",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT10",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT13",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT14",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT15",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT17",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT18",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT19",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT20",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT21",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT22",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT24",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT25",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT27",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT28",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT29",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT30",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT31",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT32",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT34",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT35",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT36",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT38",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT39",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT41",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT42",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT43",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT44",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT45",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT46",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT48",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT49",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT50",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT51",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT52",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT53",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT55",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT56",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT57",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT58",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT59",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT60",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT62",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT63",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT64",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT66",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT67",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT69",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT70",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT71",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT73",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT74",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT76",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT77",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT78",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT80",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT81",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT83",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT84",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT85",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT86",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT87",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT88",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT90",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT91",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT92",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT94",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT95",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT97",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT98",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT99",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT100",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT101",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT102",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT104",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT105",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT106",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT107",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT108",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT109",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT111",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT112",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT113",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT115",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT116",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT117",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT118",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT119",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT120",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT122",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT123",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT125",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [
+        {
+          "kind": "location_conflict",
+          "subject": "Orlis Garton",
+          "predicate": "location",
+          "spans": [
+            [
+              247,
+              149,
+              175
+            ],
+            [
+              247,
+              753,
+              774
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Tewen Talner",
+          "predicate": "location",
+          "spans": [
+            [
+              430,
+              128,
+              149
+            ],
+            [
+              430,
+              655,
+              676
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Isavik Marley",
+          "predicate": "location",
+          "spans": [
+            [
+              534,
+              166,
+              194
+            ],
+            [
+              534,
+              683,
+              705
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              103,
+              123
+            ],
+            [
+              620,
+              904,
+              924
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Dawen Halley",
+          "predicate": "location",
+          "spans": [
+            [
+              828,
+              113,
+              139
+            ],
+            [
+              828,
+              578,
+              599
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Tewen Talner",
+          "predicate": "location",
+          "spans": [
+            [
+              933,
+              297,
+              318
+            ],
+            [
+              933,
+              943,
+              965
+            ]
+          ]
+        }
+      ],
+      "violated_negatives": [
+        "N34",
+        "N61",
+        "N78",
+        "N86",
+        "N126",
+        "N140"
+      ],
+      "seconds": 1.14,
+      "avg_context_claims": 2.5
+    },
+    "vector-only": {
+      "findings": 89,
+      "true_positives": 56,
+      "false_positives": 24,
+      "duplicates": 9,
+      "false_negatives": 69,
+      "precision": 0.7,
+      "recall_all": 0.448,
+      "recall_detectable": 0.448,
+      "negatives": 148,
+      "negatives_violated": 16,
+      "cited_spans": 112,
+      "cited_spans_correct": 89,
+      "citation_precision": 0.7946,
+      "labelled_spans_covered": 89,
+      "labelled_spans_total": 102,
+      "citation_recall": 0.8725,
+      "by_category": {
+        "abilities": {
+          "labelled": 10,
+          "detected": 7,
+          "fp": 0,
+          "recall": 0.7
+        },
+        "identity": {
+          "labelled": 44,
+          "detected": 20,
+          "fp": 19,
+          "recall": 0.4545
+        },
+        "location": {
+          "labelled": 16,
+          "detected": 16,
+          "fp": 5,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 27,
+          "detected": 13,
+          "fp": 0,
+          "recall": 0.4815
+        },
+        "world_rules": {
+          "labelled": 28,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT10",
+        "GT102",
+        "GT103",
+        "GT108",
+        "GT110",
+        "GT114",
+        "GT115",
+        "GT12",
+        "GT120",
+        "GT121",
+        "GT122",
+        "GT123",
+        "GT124",
+        "GT13",
+        "GT15",
+        "GT16",
+        "GT17",
+        "GT20",
+        "GT23",
+        "GT25",
+        "GT26",
+        "GT27",
+        "GT3",
+        "GT31",
+        "GT32",
+        "GT33",
+        "GT37",
+        "GT38",
+        "GT40",
+        "GT43",
+        "GT47",
+        "GT5",
+        "GT53",
+        "GT54",
+        "GT55",
+        "GT6",
+        "GT61",
+        "GT64",
+        "GT65",
+        "GT66",
+        "GT68",
+        "GT71",
+        "GT72",
+        "GT75",
+        "GT79",
+        "GT8",
+        "GT81",
+        "GT82",
+        "GT83",
+        "GT85",
+        "GT89",
+        "GT9",
+        "GT92",
+        "GT93",
+        "GT95",
+        "GT96"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT2",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT14",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT18",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT19",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT21",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT22",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT24",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT28",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT29",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT30",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT34",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT35",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT36",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT39",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT41",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT42",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT44",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT45",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT46",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT48",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT49",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT50",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT51",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT52",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT56",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT57",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT58",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT59",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT60",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT62",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT63",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT67",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT69",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT70",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT73",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT74",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT76",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT77",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT78",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT80",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT84",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT86",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT87",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT88",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT90",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT91",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT94",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT97",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT98",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT99",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT100",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT101",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT104",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT105",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT106",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT107",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT109",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT111",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT112",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT113",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT116",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT117",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT118",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT119",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT125",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ],
+            [
+              204,
+              103,
+              125
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Orlis Garton",
+          "predicate": "location",
+          "spans": [
+            [
+              247,
+              149,
+              175
+            ],
+            [
+              247,
+              753,
+              774
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Camo Ashwick",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              83,
+              175,
+              196
+            ],
+            [
+              320,
+              807,
+              826
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ],
+            [
+              204,
+              103,
+              125
+            ],
+            [
+              330,
+              141,
+              161
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Tewen Talner",
+          "predicate": "location",
+          "spans": [
+            [
+              430,
+              128,
+              149
+            ],
+            [
+              430,
+              655,
+              676
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nibel Wexley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              124,
+              709,
+              729
+            ],
+            [
+              489,
+              795,
+              817
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Isavik Marley",
+          "predicate": "location",
+          "spans": [
+            [
+              534,
+              166,
+              194
+            ],
+            [
+              534,
+              683,
+              705
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nibel Wexley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              124,
+              709,
+              729
+            ],
+            [
+              489,
+              795,
+              817
+            ],
+            [
+              550,
+              335,
+              355
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ],
+            [
+              204,
+              103,
+              125
+            ],
+            [
+              551,
+              257,
+              277
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Vena Garton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              199,
+              492,
+              511
+            ],
+            [
+              675,
+              928,
+              949
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              400,
+              296,
+              318
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nidra Falford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              463,
+              120,
+              139
+            ],
+            [
+              681,
+              263,
+              284
+            ],
+            [
+              716,
+              1130,
+              1150
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Vena Garton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              199,
+              492,
+              511
+            ],
+            [
+              675,
+              928,
+              949
+            ],
+            [
+              744,
+              1032,
+              1052
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              400,
+              296,
+              318
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              797,
+              210,
+              228
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Dawen Halley",
+          "predicate": "location",
+          "spans": [
+            [
+              828,
+              113,
+              139
+            ],
+            [
+              828,
+              578,
+              599
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nibel Wexley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              124,
+              709,
+              729
+            ],
+            [
+              489,
+              795,
+              817
+            ],
+            [
+              839,
+              610,
+              632
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Brasa Halton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              253,
+              1102,
+              1124
+            ],
+            [
+              840,
+              625,
+              645
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Brasa Halton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              253,
+              1102,
+              1124
+            ],
+            [
+              840,
+              625,
+              645
+            ],
+            [
+              907,
+              276,
+              296
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Tewen Talner",
+          "predicate": "location",
+          "spans": [
+            [
+              933,
+              297,
+              318
+            ],
+            [
+              933,
+              943,
+              965
+            ]
+          ]
+        }
+      ],
+      "violated_negatives": [
+        "N7",
+        "N21",
+        "N28",
+        "N34",
+        "N35",
+        "N42",
+        "N61",
+        "N70",
+        "N78",
+        "N86",
+        "N95",
+        "N103",
+        "N111",
+        "N126",
+        "N128",
+        "N140"
+      ],
+      "seconds": 103.57,
+      "avg_context_claims": 13.4
+    },
+    "hybrid": {
+      "findings": 78,
+      "true_positives": 49,
+      "false_positives": 26,
+      "duplicates": 3,
+      "false_negatives": 76,
+      "precision": 0.6533,
+      "recall_all": 0.392,
+      "recall_detectable": 0.392,
+      "negatives": 148,
+      "negatives_violated": 19,
+      "cited_spans": 103,
+      "cited_spans_correct": 75,
+      "citation_precision": 0.7282,
+      "labelled_spans_covered": 75,
+      "labelled_spans_total": 88,
+      "citation_recall": 0.8523,
+      "by_category": {
+        "abilities": {
+          "labelled": 10,
+          "detected": 2,
+          "fp": 1,
+          "recall": 0.2
+        },
+        "identity": {
+          "labelled": 44,
+          "detected": 20,
+          "fp": 20,
+          "recall": 0.4545
+        },
+        "location": {
+          "labelled": 16,
+          "detected": 16,
+          "fp": 5,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 27,
+          "detected": 11,
+          "fp": 0,
+          "recall": 0.4074
+        },
+        "world_rules": {
+          "labelled": 28,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT103",
+        "GT108",
+        "GT110",
+        "GT114",
+        "GT115",
+        "GT12",
+        "GT120",
+        "GT121",
+        "GT122",
+        "GT123",
+        "GT124",
+        "GT13",
+        "GT15",
+        "GT16",
+        "GT17",
+        "GT20",
+        "GT23",
+        "GT26",
+        "GT3",
+        "GT32",
+        "GT33",
+        "GT37",
+        "GT38",
+        "GT40",
+        "GT43",
+        "GT45",
+        "GT47",
+        "GT5",
+        "GT53",
+        "GT54",
+        "GT61",
+        "GT64",
+        "GT65",
+        "GT66",
+        "GT68",
+        "GT71",
+        "GT72",
+        "GT75",
+        "GT79",
+        "GT8",
+        "GT81",
+        "GT82",
+        "GT85",
+        "GT89",
+        "GT9",
+        "GT92",
+        "GT93",
+        "GT95",
+        "GT96"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT2",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT6",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT10",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT14",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT18",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT19",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT21",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT22",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT24",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT25",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT27",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT28",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT29",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT30",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT31",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT34",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT35",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT36",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT39",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT41",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT42",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT44",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT46",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT48",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT49",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT50",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT51",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT52",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT55",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT56",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT57",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT58",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT59",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT60",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT62",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT63",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT67",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT69",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT70",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT73",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT74",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT76",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT77",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT78",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT80",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT83",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT84",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT86",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT87",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT88",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT90",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT91",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT94",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT97",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT98",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT99",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT100",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT101",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT102",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT104",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT105",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT106",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT107",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT109",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT111",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT112",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT113",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT116",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT117",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT118",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT119",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT125",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ],
+            [
+              204,
+              103,
+              125
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Orlis Garton",
+          "predicate": "location",
+          "spans": [
+            [
+              247,
+              149,
+              175
+            ],
+            [
+              247,
+              753,
+              774
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Camo Ashwick",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              80,
+              480,
+              499
+            ],
+            [
+              83,
+              175,
+              196
+            ],
+            [
+              320,
+              807,
+              826
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ],
+            [
+              204,
+              103,
+              125
+            ],
+            [
+              330,
+              141,
+              161
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Ariko Lonshaw",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              191,
+              111,
+              129
+            ],
+            [
+              373,
+              664,
+              686
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Tewen Talner",
+          "predicate": "location",
+          "spans": [
+            [
+              430,
+              128,
+              149
+            ],
+            [
+              430,
+              655,
+              676
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nibel Wexley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              124,
+              709,
+              729
+            ],
+            [
+              265,
+              314,
+              332
+            ],
+            [
+              489,
+              795,
+              817
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Isavik Marley",
+          "predicate": "location",
+          "spans": [
+            [
+              534,
+              166,
+              194
+            ],
+            [
+              534,
+              683,
+              705
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nibel Wexley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              124,
+              709,
+              729
+            ],
+            [
+              265,
+              314,
+              332
+            ],
+            [
+              489,
+              795,
+              817
+            ],
+            [
+              550,
+              335,
+              355
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ],
+            [
+              204,
+              103,
+              125
+            ],
+            [
+              330,
+              141,
+              161
+            ],
+            [
+              551,
+              257,
+              277
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "subject": "Dara Dunford",
+          "predicate": "ability:read",
+          "spans": [
+            [
+              13,
+              754,
+              773
+            ],
+            [
+              640,
+              965,
+              974
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Vena Garton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              199,
+              492,
+              511
+            ],
+            [
+              675,
+              928,
+              949
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              400,
+              296,
+              318
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nidra Falford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              463,
+              120,
+              139
+            ],
+            [
+              716,
+              1130,
+              1150
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Vena Garton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              199,
+              492,
+              511
+            ],
+            [
+              675,
+              928,
+              949
+            ],
+            [
+              744,
+              1032,
+              1052
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Isalis Ashby",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              724,
+              290,
+              311
+            ],
+            [
+              791,
+              968,
+              991
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Dawen Halley",
+          "predicate": "location",
+          "spans": [
+            [
+              828,
+              113,
+              139
+            ],
+            [
+              828,
+              578,
+              599
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nibel Wexley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              124,
+              709,
+              729
+            ],
+            [
+              489,
+              795,
+              817
+            ],
+            [
+              550,
+              335,
+              355
+            ],
+            [
+              839,
+              610,
+              632
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Brasa Halton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              253,
+              1102,
+              1124
+            ],
+            [
+              840,
+              625,
+              645
+            ]
+          ]
+        }
+      ],
+      "violated_negatives": [
+        "N7",
+        "N21",
+        "N28",
+        "N34",
+        "N35",
+        "N42",
+        "N51",
+        "N61",
+        "N70",
+        "N78",
+        "N86",
+        "N91",
+        "N95",
+        "N103",
+        "N111",
+        "N120",
+        "N126",
+        "N128",
+        "N140"
+      ],
+      "seconds": 114.06,
+      "avg_context_claims": 14.8
+    },
+    "structured": {
+      "findings": 82,
+      "true_positives": 67,
+      "false_positives": 13,
+      "duplicates": 2,
+      "false_negatives": 58,
+      "precision": 0.8375,
+      "recall_all": 0.536,
+      "recall_detectable": 0.536,
+      "negatives": 148,
+      "negatives_violated": 19,
+      "cited_spans": 170,
+      "cited_spans_correct": 113,
+      "citation_precision": 0.6647,
+      "labelled_spans_covered": 113,
+      "labelled_spans_total": 125,
+      "citation_recall": 0.904,
+      "by_category": {
+        "abilities": {
+          "labelled": 10,
+          "detected": 8,
+          "fp": 0,
+          "recall": 0.8
+        },
+        "identity": {
+          "labelled": 44,
+          "detected": 21,
+          "fp": 8,
+          "recall": 0.4773
+        },
+        "location": {
+          "labelled": 16,
+          "detected": 16,
+          "fp": 5,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 27,
+          "detected": 22,
+          "fp": 0,
+          "recall": 0.8148
+        },
+        "world_rules": {
+          "labelled": 28,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT10",
+        "GT102",
+        "GT103",
+        "GT108",
+        "GT109",
+        "GT110",
+        "GT113",
+        "GT114",
+        "GT115",
+        "GT116",
+        "GT117",
+        "GT12",
+        "GT120",
+        "GT121",
+        "GT122",
+        "GT123",
+        "GT124",
+        "GT13",
+        "GT15",
+        "GT16",
+        "GT17",
+        "GT20",
+        "GT23",
+        "GT25",
+        "GT26",
+        "GT27",
+        "GT3",
+        "GT31",
+        "GT32",
+        "GT33",
+        "GT37",
+        "GT38",
+        "GT39",
+        "GT40",
+        "GT43",
+        "GT45",
+        "GT46",
+        "GT47",
+        "GT48",
+        "GT5",
+        "GT53",
+        "GT54",
+        "GT55",
+        "GT6",
+        "GT60",
+        "GT61",
+        "GT64",
+        "GT65",
+        "GT66",
+        "GT67",
+        "GT68",
+        "GT71",
+        "GT72",
+        "GT74",
+        "GT75",
+        "GT8",
+        "GT81",
+        "GT82",
+        "GT83",
+        "GT85",
+        "GT88",
+        "GT89",
+        "GT9",
+        "GT92",
+        "GT93",
+        "GT95",
+        "GT96"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT2",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT14",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT18",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT19",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT21",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT22",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT24",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT28",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT29",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT30",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT34",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT35",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT36",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT41",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT42",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT44",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT49",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT50",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT51",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT52",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT56",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT57",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT58",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT59",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT62",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT63",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT69",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT70",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT73",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT76",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT77",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT78",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT79",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT80",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT84",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT86",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT87",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT90",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT91",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT94",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT97",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT98",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT99",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT100",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT101",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT104",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT105",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT106",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT107",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT111",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT112",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT118",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT119",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT125",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [
+        {
+          "kind": "attribute_conflict",
+          "subject": "Cadra Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              72,
+              123,
+              145
+            ],
+            [
+              175,
+              510,
+              532
+            ],
+            [
+              204,
+              103,
+              125
+            ],
+            [
+              330,
+              141,
+              161
+            ],
+            [
+              551,
+              257,
+              277
+            ],
+            [
+              990,
+              132,
+              152
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Camo Ashwick",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              80,
+              480,
+              499
+            ],
+            [
+              83,
+              175,
+              196
+            ],
+            [
+              239,
+              131,
+              152
+            ],
+            [
+              320,
+              807,
+              826
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nibel Wexley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              124,
+              709,
+              729
+            ],
+            [
+              131,
+              344,
+              362
+            ],
+            [
+              265,
+              314,
+              332
+            ],
+            [
+              489,
+              795,
+              817
+            ],
+            [
+              550,
+              335,
+              355
+            ],
+            [
+              839,
+              610,
+              632
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Ariko Lonshaw",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              191,
+              111,
+              129
+            ],
+            [
+              221,
+              136,
+              156
+            ],
+            [
+              236,
+              315,
+              333
+            ],
+            [
+              373,
+              664,
+              686
+            ],
+            [
+              542,
+              360,
+              382
+            ],
+            [
+              700,
+              517,
+              537
+            ],
+            [
+              719,
+              303,
+              323
+            ],
+            [
+              878,
+              374,
+              394
+            ],
+            [
+              897,
+              165,
+              185
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Isalis Ashby",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              199,
+              312,
+              333
+            ],
+            [
+              724,
+              290,
+              311
+            ],
+            [
+              791,
+              968,
+              991
+            ],
+            [
+              963,
+              109,
+              130
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Vena Garton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              199,
+              492,
+              511
+            ],
+            [
+              399,
+              120,
+              137
+            ],
+            [
+              675,
+              928,
+              949
+            ],
+            [
+              744,
+              1032,
+              1052
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Brasa Halton",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              253,
+              1102,
+              1124
+            ],
+            [
+              577,
+              404,
+              424
+            ],
+            [
+              840,
+              625,
+              645
+            ],
+            [
+              907,
+              276,
+              296
+            ],
+            [
+              949,
+              212,
+              232
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Habel Wexner",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              272,
+              421,
+              443
+            ],
+            [
+              946,
+              864,
+              885
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Orlis Garton",
+          "predicate": "location",
+          "spans": [
+            [
+              247,
+              149,
+              175
+            ],
+            [
+              247,
+              753,
+              774
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Tewen Talner",
+          "predicate": "location",
+          "spans": [
+            [
+              430,
+              128,
+              149
+            ],
+            [
+              430,
+              655,
+              676
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Isavik Marley",
+          "predicate": "location",
+          "spans": [
+            [
+              534,
+              166,
+              194
+            ],
+            [
+              534,
+              683,
+              705
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Dawen Halley",
+          "predicate": "location",
+          "spans": [
+            [
+              828,
+              113,
+              139
+            ],
+            [
+              828,
+              578,
+              599
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "subject": "Tewen Talner",
+          "predicate": "location",
+          "spans": [
+            [
+              933,
+              297,
+              318
+            ],
+            [
+              933,
+              943,
+              965
+            ]
+          ]
+        }
+      ],
+      "violated_negatives": [
+        "N7",
+        "N21",
+        "N28",
+        "N34",
+        "N35",
+        "N42",
+        "N51",
+        "N61",
+        "N70",
+        "N78",
+        "N86",
+        "N95",
+        "N103",
+        "N111",
+        "N120",
+        "N126",
+        "N128",
+        "N140",
+        "N141"
+      ],
+      "seconds": 0.36,
+      "avg_context_claims": 2491
+    }
+  },
+  "extraction": {
+    "extractor": "rules-v2",
+    "note": "claims extracted during import",
+    "seconds": 0.0
+  },
+  "index_seconds": 136.39,
+  "labelled_contradictions": 125,
+  "labelled_negatives": 148,
+  "chapters": 1000,
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10"
+  }
+}

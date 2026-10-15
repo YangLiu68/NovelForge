@@ -1,0 +1,98 @@
+{
+  "corpus": "load-100-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 3,
+    "seed": 7,
+    "chapters": 100,
+    "filler": 25
+  },
+  "embedder": "hash:384",
+  "size": {
+    "chapters": 100,
+    "words": 124999,
+    "passages": 3342,
+    "claims": 425
+  },
+  "import": {
+    "seconds": 8.31,
+    "chapters_per_s": 12.0,
+    "note": "includes passage split, scenes, rules-v2 extraction, revisions"
+  },
+  "index": {
+    "seconds": 3.74,
+    "passages_per_s": 893.8,
+    "passages": 3342,
+    "updated": 3342,
+    "cache_hits": 0,
+    "embedded": 3335,
+    "tokens": 162322,
+    "tokens_exact": false,
+    "embed_ms": 2083.8
+  },
+  "search_ms": {
+    "keyword": {
+      "p50": 4.41,
+      "p95": 6.62,
+      "mean": 4.75,
+      "n": 50
+    },
+    "fts": {
+      "p50": 19.48,
+      "p95": 34.13,
+      "mean": 20.68,
+      "n": 50
+    },
+    "vector": {
+      "p50": 25.48,
+      "p95": 45.25,
+      "mean": 28.21,
+      "n": 50
+    },
+    "hybrid": {
+      "p50": 43.99,
+      "p95": 62.16,
+      "mean": 45.74,
+      "n": 50
+    },
+    "vector_hnsw": {
+      "p50": 23.48,
+      "p95": 36.65,
+      "mean": 26.11,
+      "n": 50
+    }
+  },
+  "hnsw_build_seconds": 3.13,
+  "hnsw_recall_at_10_vs_exact": 1.0,
+  "contradiction_report_ms": {
+    "p50": 88.64,
+    "p95": 111.82,
+    "mean": 95.59,
+    "n": 3
+  },
+  "graph_ms": {
+    "p50": 194.07,
+    "p95": 213.75,
+    "mean": 195.4,
+    "n": 3
+  },
+  "timeline_ms": {
+    "p50": 78.24,
+    "p95": 215.99,
+    "mean": 126.37,
+    "n": 3
+  },
+  "chapter_save_ms": {
+    "p50": 112.08,
+    "p95": 166.85,
+    "mean": 118.56,
+    "n": 10
+  },
+  "db_size_mb": 36.4,
+  "peak_rss_mb": 159.7,
+  "environment": {
+    "machine": "arm64",
+    "system": "macOS-15.3.2-arm64-arm-64bit",
+    "python": "3.12.10"
+  }
+}

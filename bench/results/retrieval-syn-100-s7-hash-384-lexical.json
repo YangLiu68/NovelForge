@@ -2,7 +2,7 @@
   "corpus": "syn-100-s7",
   "generator": {
     "name": "novelforge.bench.generate",
-    "version": 1,
+    "version": 3,
     "seed": 7,
     "chapters": 100
   },
@@ -16,8 +16,8 @@
   },
   "passages": 842,
   "chapters": 100,
-  "import_seconds": 4.54,
-  "index_seconds": 1.69,
+  "import_seconds": 2.58,
+  "index_seconds": 0.43,
   "index": {
     "passages": 842,
     "updated": 842,
@@ -25,7 +25,7 @@
     "embedded": 835,
     "tokens": 19867,
     "tokens_exact": false,
-    "embed_ms": 998.0
+    "embed_ms": 276.3
   },
   "cost_usd": 0.0,
   "modes": {
@@ -37,7 +37,7 @@
           "recall@5": 0.2443,
           "recall@10": 0.25,
           "mrr@10": 0.2352,
-          "ndcg@10": 0.21,
+          "ndcg@10": 0.2085,
           "citation_precision@3": 0.2249
         },
         "lexical": {
@@ -46,7 +46,7 @@
           "recall@5": 0.4886,
           "recall@10": 0.5,
           "mrr@10": 0.4705,
-          "ndcg@10": 0.42,
+          "ndcg@10": 0.417,
           "citation_precision@3": 0.4498
         },
         "paraphrase": {
@@ -60,14 +60,14 @@
         }
       },
       "latency_ms": {
-        "p50": 2.6,
-        "p95": 11.71,
-        "mean": 4.71
+        "p50": 1.25,
+        "p95": 2.86,
+        "mean": 1.45
       },
       "stage_p50_ms": {
-        "keyword": 2.08,
+        "keyword": 1.1,
         "hydrate": 0.0,
-        "total": 2.6
+        "total": 1.25
       },
       "query_tokens": 0,
       "rerank_pairs": 0
@@ -75,42 +75,42 @@
     "fts": {
       "metrics": {
         "all": {
-          "recall@1": 0.5881,
+          "recall@1": 0.5909,
           "recall@3": 0.8352,
           "recall@5": 0.8949,
           "recall@10": 0.9716,
-          "mrr@10": 0.7231,
-          "ndcg@10": 0.7528,
-          "citation_precision@3": 0.3608
+          "mrr@10": 0.7255,
+          "ndcg@10": 0.7533,
+          "citation_precision@3": 0.3684
         },
         "lexical": {
-          "recall@1": 0.6193,
+          "recall@1": 0.625,
           "recall@3": 0.8523,
           "recall@5": 0.9091,
           "recall@10": 0.983,
-          "mrr@10": 0.7481,
-          "ndcg@10": 0.7804,
-          "citation_precision@3": 0.3788
+          "mrr@10": 0.7519,
+          "ndcg@10": 0.781,
+          "citation_precision@3": 0.3864
         },
         "paraphrase": {
           "recall@1": 0.5568,
           "recall@3": 0.8182,
           "recall@5": 0.8807,
           "recall@10": 0.9602,
-          "mrr@10": 0.6981,
-          "ndcg@10": 0.7251,
-          "citation_precision@3": 0.3428
+          "mrr@10": 0.699,
+          "ndcg@10": 0.7256,
+          "citation_precision@3": 0.3504
         }
       },
       "latency_ms": {
-        "p50": 5.95,
-        "p95": 13.47,
-        "mean": 7.04
+        "p50": 5.39,
+        "p95": 9.76,
+        "mean": 5.67
       },
       "stage_p50_ms": {
-        "fts": 4.08,
-        "hydrate": 1.72,
-        "total": 5.95
+        "fts": 3.81,
+        "hydrate": 1.5,
+        "total": 5.39
       },
       "query_tokens": 0,
       "rerank_pairs": 0
@@ -118,43 +118,43 @@
     "vector": {
       "metrics": {
         "all": {
-          "recall@1": 0.5795,
+          "recall@1": 0.5881,
           "recall@3": 0.8494,
           "recall@5": 0.892,
           "recall@10": 0.9403,
-          "mrr@10": 0.7143,
-          "ndcg@10": 0.7407,
-          "citation_precision@3": 0.3693
+          "mrr@10": 0.7195,
+          "ndcg@10": 0.7445,
+          "citation_precision@3": 0.3759
         },
         "lexical": {
-          "recall@1": 0.5966,
+          "recall@1": 0.6023,
           "recall@3": 0.9034,
           "recall@5": 0.9432,
           "recall@10": 0.9602,
-          "mrr@10": 0.738,
-          "ndcg@10": 0.7644,
-          "citation_precision@3": 0.3958
+          "mrr@10": 0.7417,
+          "ndcg@10": 0.7685,
+          "citation_precision@3": 0.4015
         },
         "paraphrase": {
-          "recall@1": 0.5625,
+          "recall@1": 0.5739,
           "recall@3": 0.7955,
           "recall@5": 0.8409,
           "recall@10": 0.9205,
-          "mrr@10": 0.6906,
-          "ndcg@10": 0.717,
-          "citation_precision@3": 0.3428
+          "mrr@10": 0.6972,
+          "ndcg@10": 0.7206,
+          "citation_precision@3": 0.3504
         }
       },
       "latency_ms": {
-        "p50": 4.05,
-        "p95": 6.6,
-        "mean": 4.17
+        "p50": 4.31,
+        "p95": 6.0,
+        "mean": 4.47
       },
       "stage_p50_ms": {
-        "embed_query": 0.09,
-        "vector": 2.51,
+        "embed_query": 0.1,
+        "vector": 2.76,
         "hydrate": 1.4,
-        "total": 4.05
+        "total": 4.31
       },
       "query_tokens": 2632,
       "rerank_pairs": 0
@@ -162,44 +162,44 @@
     "hybrid": {
       "metrics": {
         "all": {
-          "recall@1": 0.6676,
+          "recall@1": 0.6761,
           "recall@3": 0.8665,
           "recall@5": 0.892,
           "recall@10": 0.9688,
-          "mrr@10": 0.7728,
-          "ndcg@10": 0.7949,
-          "citation_precision@3": 0.3864
+          "mrr@10": 0.778,
+          "ndcg@10": 0.7978,
+          "citation_precision@3": 0.3958
         },
         "lexical": {
-          "recall@1": 0.7273,
+          "recall@1": 0.733,
           "recall@3": 0.9091,
           "recall@5": 0.9318,
           "recall@10": 0.9886,
-          "mrr@10": 0.8208,
-          "ndcg@10": 0.8414,
-          "citation_precision@3": 0.4148
+          "mrr@10": 0.8245,
+          "ndcg@10": 0.8439,
+          "citation_precision@3": 0.4261
         },
         "paraphrase": {
-          "recall@1": 0.608,
+          "recall@1": 0.6193,
           "recall@3": 0.8239,
           "recall@5": 0.8523,
           "recall@10": 0.9489,
-          "mrr@10": 0.7249,
-          "ndcg@10": 0.7484,
-          "citation_precision@3": 0.358
+          "mrr@10": 0.7315,
+          "ndcg@10": 0.7518,
+          "citation_precision@3": 0.3655
         }
       },
       "latency_ms": {
-        "p50": 7.75,
-        "p95": 13.09,
-        "mean": 8.12
+        "p50": 9.57,
+        "p95": 15.6,
+        "mean": 10.31
       },
       "stage_p50_ms": {
-        "fts": 3.12,
-        "embed_query": 0.11,
-        "vector": 2.92,
-        "hydrate": 1.49,
-        "total": 7.75
+        "fts": 4.38,
+        "embed_query": 0.12,
+        "vector": 3.31,
+        "hydrate": 1.59,
+        "total": 9.57
       },
       "query_tokens": 2632,
       "rerank_pairs": 0
@@ -207,45 +207,45 @@
     "hybrid_rerank": {
       "metrics": {
         "all": {
-          "recall@1": 0.4489,
-          "recall@3": 0.6023,
-          "recall@5": 0.6449,
-          "recall@10": 0.7188,
-          "mrr@10": 0.5343,
-          "ndcg@10": 0.5539,
-          "citation_precision@3": 0.2689
+          "recall@1": 0.4659,
+          "recall@3": 0.6051,
+          "recall@5": 0.6506,
+          "recall@10": 0.7244,
+          "mrr@10": 0.5448,
+          "ndcg@10": 0.5612,
+          "citation_precision@3": 0.2756
         },
         "lexical": {
-          "recall@1": 0.625,
+          "recall@1": 0.6534,
           "recall@3": 0.8239,
-          "recall@5": 0.8807,
+          "recall@5": 0.8864,
           "recall@10": 0.9489,
-          "mrr@10": 0.7321,
-          "ndcg@10": 0.762,
-          "citation_precision@3": 0.3655
+          "mrr@10": 0.7468,
+          "ndcg@10": 0.772,
+          "citation_precision@3": 0.375
         },
         "paraphrase": {
-          "recall@1": 0.2727,
-          "recall@3": 0.3807,
-          "recall@5": 0.4091,
-          "recall@10": 0.4886,
-          "mrr@10": 0.3364,
-          "ndcg@10": 0.3458,
-          "citation_precision@3": 0.1723
+          "recall@1": 0.2784,
+          "recall@3": 0.3864,
+          "recall@5": 0.4148,
+          "recall@10": 0.5,
+          "mrr@10": 0.3427,
+          "ndcg@10": 0.3503,
+          "citation_precision@3": 0.1761
         }
       },
       "latency_ms": {
-        "p50": 8.48,
-        "p95": 11.55,
-        "mean": 8.68
+        "p50": 10.57,
+        "p95": 15.52,
+        "mean": 10.99
       },
       "stage_p50_ms": {
-        "fts": 1.62,
+        "fts": 4.09,
         "embed_query": 0.12,
-        "vector": 3.1,
-        "rerank": 0.63,
-        "hydrate": 1.36,
-        "total": 8.48
+        "vector": 3.05,
+        "rerank": 0.61,
+        "hydrate": 1.2,
+        "total": 10.57
       },
       "query_tokens": 2632,
       "rerank_pairs": 10560
@@ -255,6 +255,6 @@
     "machine": "arm64",
     "system": "Darwin 24.3.0",
     "python": "3.12.10",
-    "commit": "eadd507"
+    "commit": "2572c56"
   }
 }
