@@ -36,8 +36,8 @@ def enqueue_llm_extraction(session: Session, chapter: Chapter, llm_spec: str) ->
 
 
 def max_words_for(llm_spec: str) -> int:
-    # Small local models get small windows; Claude reads whole chapters.
-    return 6000 if llm_spec.startswith("anthropic") else 1200
+    # Small local models get small windows (short, bounded JSON); Claude reads whole chapters.
+    return 6000 if llm_spec.startswith("anthropic") else 500
 
 
 @handler("extract_chapter")

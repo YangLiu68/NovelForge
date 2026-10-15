@@ -12,10 +12,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
-from novelforge.api import analysis, chapters, characters, jobs, novels, review, samples
+from novelforge.api import (
+    analysis,
+    chapters,
+    characters,
+    jobs,
+    novels,
+    review,
+    samples,
+    workflows,
+)
 from novelforge.config import get_settings
 from novelforge.db import get_engine, get_sessionmaker
 from novelforge.jobs import Worker, load_handlers
+from novelforge.llm.base import LLMError
 from novelforge.services.errors import Conflict, NotFound
 
 log = logging.getLogger("novelforge.http")
@@ -82,6 +92,11 @@ def create_app() -> FastAPI:
     async def not_found(_: Request, exc: NotFound):
         return JSONResponse(status_code=404, content={"detail": str(exc)})
 
+    @app.exception_handler(LLMError)
+    async def llm_error(_: Request, exc: LLMError):
+        status = 400 if exc.kind == "config" else 502
+        return JSONResponse(status_code=status, content={"detail": str(exc)})
+
     @app.exception_handler(Conflict)
     async def conflict(_: Request, exc: Conflict):
         return JSONResponse(
@@ -99,7 +114,7 @@ def create_app() -> FastAPI:
             conn.execute(text("SELECT 1"))
         return {"status": "ok"}
 
-    for module in (novels, chapters, characters, analysis, samples, jobs, review):
+    for module in (novels, chapters, characters, analysis, samples, jobs, review, workflows):
         app.include_router(module.router)
     app.include_router(analysis.findings_router)
     return app

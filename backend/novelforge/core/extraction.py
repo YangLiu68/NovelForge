@@ -137,7 +137,7 @@ def surface_forms(characters: Iterable[CharacterRef]) -> list[_Surface]:
     return sorted(out, key=lambda s: (-len(s.text), s.text))
 
 
-def _who_pattern(forms: list[_Surface]) -> str:
+def who_pattern(forms: list[_Surface]) -> str:
     alts = []
     for f in forms:
         escaped = re.escape(f.text)
@@ -192,7 +192,7 @@ def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> l
     forms = surface_forms(characters)
     if not forms or not chapter.body:
         return []
-    who = _who_pattern(forms)
+    who = who_pattern(forms)
     lookup = {f.text.lower(): f.character for f in forms}
     body = chapter.body
     seen: set[tuple[str, int, int]] = set()

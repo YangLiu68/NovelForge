@@ -29,6 +29,12 @@ package metadata (`pgserver` from its bundled LICENSE file).
 | pydantic-settings | 2.16.0 | MIT | |
 | PyYAML | 6.0.3 | MIT | |
 | pgserver (optional `localdb` extra) | 0.1.4 | Apache-2.0 | Bundles PostgreSQL 16.2 (PostgreSQL License) and pgvector 0.6.2 (PostgreSQL License). Development only. |
+| pgvector (Python) | 0.5.0 | MIT | SQLAlchemy `Vector` type |
+| httpx | 0.28.1 | BSD-3-Clause | Ollama and OpenAI-compatible HTTP calls |
+| anthropic (optional `anthropic` extra) | 1.11.0 | MIT | Official SDK for Claude |
+| fastembed (optional `embeddings` extra) | 0.8.1 | Apache-2.0 | Local ONNX embedding and cross-encoder models |
+| onnxruntime (optional `embeddings` extra) | 1.30.0 | MIT | |
+| tokenizers, huggingface-hub (via fastembed) | 0.23.3, 1.33.0 | Apache-2.0 | |
 
 Dev: pytest 9.1.1 (MIT), httpx 0.28.1 (BSD-3-Clause), ruff 0.17.0 (MIT).
 
@@ -60,6 +66,15 @@ Node's built-in test runner instead.
 
 ## Models and APIs
 
-Milestone 1 calls no model or external API. Later milestones will add optional providers
-(Anthropic, OpenAI-compatible, Ollama). Their terms of service apply to whoever supplies the key,
-and manuscript text sent to a hosted provider leaves the machine; the default stays a local mock.
+Nothing in the repository requires a model or an API key: tests, CI and the default
+configuration use deterministic mocks. Optional models are downloaded by the user at run time
+and are not redistributed here:
+
+| Model | Used for | License | Notes |
+|---|---|---|---|
+| BAAI/bge-small-en-v1.5 (Qdrant ONNX quantisation, via fastembed) | `EMBEDDER=fastembed` | MIT | ~67 MB, CPU |
+| cross-encoder/ms-marco-MiniLM-L-6-v2 (Xenova ONNX export, via fastembed) | `RERANKER=cross-encoder` | Apache-2.0 | ~80 MB, CPU |
+| Qwen2.5 3B Instruct (Ollama `qwen2.5:3b`) | Local LLM evaluation runs | Qwen Research License | Non-commercial research terms; used only for local measurement, not shipped |
+| Claude (`claude-opus-5-5`) | `LLM=anthropic` | Anthropic commercial terms | Needs the user's own credentials; manuscript text leaves the machine |
+
+Hosted providers' terms apply to whoever supplies the key. The default stays local.

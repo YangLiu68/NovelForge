@@ -19,6 +19,8 @@ TEST_DB = "novelforge_test"
 os.environ["JOBS_IN_PROCESS"] = "false"
 os.environ["EMBEDDER"] = "hash"
 os.environ["RERANKER"] = "lexical"
+os.environ["LLM"] = "mock"
+os.environ["WORKFLOW_INLINE"] = "true"
 
 
 def server_url() -> URL:

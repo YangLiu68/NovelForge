@@ -208,3 +208,99 @@ export interface CanonChange {
   note: string | null;
   created_at: string;
 }
+
+export interface CritiqueIssue {
+  kind: string;
+  category: string;
+  severity: string;
+  subject: string;
+  explanation: string;
+  suggestion: string;
+  draft_evidence: Evidence[];
+  established_evidence: Evidence[];
+  canon_value: string | null;
+}
+
+export interface Critique {
+  issues: CritiqueIssue[];
+  draft_facts: number;
+  checked_against_facts: number;
+  words: number;
+  method: string;
+}
+
+export interface WorkflowRun {
+  id: string;
+  novel_id: string;
+  chapter_id: string | null;
+  base_version: number | null;
+  goal: string;
+  llm: string;
+  status: string;
+  iteration: number;
+  max_iterations: number;
+  plan: string | null;
+  draft: string | null;
+  critique: Critique | null;
+  applied_chapter_id: string | null;
+  applied_version: number | null;
+  input_tokens: number;
+  output_tokens: number;
+  cost_usd: number | null;
+  error: string | null;
+  created_at: string;
+  steps?: { id: string; kind: string; attempt: number; status: string; chars: number }[];
+}
+
+export interface GraphNode {
+  id: string;
+  name: string;
+  mentions: number;
+  first_chapter: number | null;
+  attributes: Record<string, string>;
+}
+
+export interface GraphEdge {
+  source: string;
+  target: string;
+  weight: number;
+  relationships: string[];
+  samples: {
+    chapter_id: string;
+    chapter_number: number;
+    chapter_version: number;
+    start: number;
+    end: number;
+    quote: string;
+  }[];
+}
+
+export interface TimelineEvent {
+  claim_id: string;
+  day: number;
+  chapter_id: string;
+  chapter_number: number | null;
+  chapter_version: number | null;
+  predicate: string;
+  family: string;
+  value: string;
+  status: string;
+  start: number | null;
+  end: number | null;
+  quote: string;
+}
+
+export interface TimelineData {
+  lanes: { character_id: string; name: string; events: TimelineEvent[] }[];
+  findings: {
+    id: string;
+    kind: string;
+    severity: string;
+    subject_id: string | null;
+    claim_ids: string[];
+    explanation: string;
+  }[];
+  day_range: [number, number] | null;
+  chapters: { number: number; story_day: number | null }[];
+  undated_claims: number;
+}

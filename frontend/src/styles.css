@@ -17,6 +17,11 @@
   --low: #57606a;
   --low-soft: #eef0f2;
   --info-soft: #e8f0fb;
+  --fam-location: #2f6fb5;
+  --fam-status: #b3261e;
+  --fam-ability: #7b4fb0;
+  --fam-attribute: #8a8578;
+  --fam-age: #1f8a70;
   --radius: 8px;
   --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-prose: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
@@ -44,6 +49,11 @@
     --low: #b0b8c0;
     --low-soft: #2c2f33;
     --info-soft: #222d3a;
+    --fam-location: #7fb0ea;
+    --fam-status: #ff8a80;
+    --fam-ability: #c3a3f0;
+    --fam-attribute: #b8b2a6;
+    --fam-age: #6fd3b5;
     color-scheme: dark;
   }
 }
@@ -264,3 +274,39 @@ legend { font-size: 0.85rem; color: var(--muted); padding: 0 0.25rem; }
 .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0 1rem; }
 .grid-2 ul { padding-left: 1.1rem; margin: 0; }
 .dismiss-form { flex: 1; min-width: 260px; margin: 0; }
+
+/* Draft assistant */
+.assistant { display: grid; grid-template-columns: 300px 1fr; gap: 1rem; align-items: start; }
+.runs .run-list { list-style: none; padding: 0; margin: 0.75rem 0 0; display: grid; gap: 0.3rem; }
+.runs .link.active { font-weight: 700; }
+.stepper { list-style: none; display: flex; gap: 0.25rem; padding: 0; margin: 0 0 0.75rem; flex-wrap: wrap; }
+.stepper li { padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
+.stepper li.done { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.stepper li.current { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.plan-editor { min-height: 14rem; }
+.source.live { max-height: 50vh; overflow-y: auto; }
+@media (max-width: 900px) { .assistant { grid-template-columns: 1fr; } }
+
+/* Graph & timeline */
+.page.wide { max-width: 1280px; }
+.graph-layout { display: grid; grid-template-columns: 1fr 300px; gap: 1rem; margin-top: 0.75rem; }
+.graph-canvas, .timeline-canvas { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.graph-side h4 { margin: 0.75rem 0 0.25rem; font-size: 0.9rem; }
+.graph-side ul { padding-left: 1rem; margin: 0; }
+svg .edge { stroke: var(--border); cursor: pointer; }
+svg .edge.rel { stroke: var(--accent); stroke-dasharray: 5 3; }
+svg .edge:hover { stroke: var(--accent); }
+svg .dim { opacity: 0.15; }
+svg .node { cursor: pointer; }
+svg .node circle { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+svg .node.selected circle { fill: var(--accent); }
+svg .node text { font-size: 11px; fill: var(--text); pointer-events: none; }
+svg .lane { stroke: var(--border); }
+svg .lane-label, svg .axis-label { font-size: 11px; fill: var(--muted); }
+svg .event { cursor: pointer; stroke: var(--surface); stroke-width: 1; }
+svg .event.flagged { stroke: var(--high); stroke-width: 2.5; }
+svg .conflict-link { fill: none; stroke: var(--high); stroke-width: 2; stroke-dasharray: 4 3; cursor: pointer; }
+.legend { display: flex; gap: 0.75rem; flex-wrap: wrap; color: var(--muted); }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; }
+.swatch.conflict { border-radius: 0; height: 2px; width: 14px; background: var(--high); }
+@media (max-width: 900px) { .graph-layout { grid-template-columns: 1fr; } }

@@ -5,6 +5,8 @@ import type {
   ChapterSummary,
   Character,
   Claim,
+  GraphEdge,
+  GraphNode,
   JobStats,
   Novel,
   Report,
@@ -13,6 +15,8 @@ import type {
   RevisionSummary,
   SearchMode,
   SearchResult,
+  TimelineData,
+  WorkflowRun,
 } from "./types";
 
 export class ApiError extends Error {
@@ -124,6 +128,29 @@ export const api = {
     ),
   llmConfig: () =>
     request<{ llm: string; llm_extraction_on_save: boolean; effort: string }>("GET", "/api/llm"),
+
+  startWorkflow: (
+    novelId: string,
+    body: { goal: string; chapter_id?: string | null; max_iterations?: number },
+  ) => request<WorkflowRun>("POST", `/api/novels/${novelId}/workflows`, body),
+  listWorkflows: (novelId: string) =>
+    request<WorkflowRun[]>("GET", `/api/novels/${novelId}/workflows`),
+  getWorkflow: (id: string) => request<WorkflowRun>("GET", `/api/workflows/${id}`),
+  approvePlan: (id: string, plan: string) =>
+    request<WorkflowRun>("POST", `/api/workflows/${id}/approve-plan`, { plan }),
+  decide: (id: string, action: "apply" | "revise" | "discard", force = false) =>
+    request<{ status: string; chapter_id?: string; version?: number; run?: WorkflowRun }>(
+      "POST",
+      `/api/workflows/${id}/decide`,
+      { action, force },
+    ),
+  cancelWorkflow: (id: string) =>
+    request<{ cancelled: boolean }>("POST", `/api/workflows/${id}/cancel`),
+  retryWorkflow: (id: string) => request<WorkflowRun>("POST", `/api/workflows/${id}/retry`),
+
+  graph: (novelId: string) =>
+    request<{ nodes: GraphNode[]; edges: GraphEdge[] }>("GET", `/api/novels/${novelId}/graph`),
+  timeline: (novelId: string) => request<TimelineData>("GET", `/api/novels/${novelId}/timeline`),
 
   listSamples: () => request<{ name: string }[]>("GET", "/api/samples"),
   importSample: (name: string) =>

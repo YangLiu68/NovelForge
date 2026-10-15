@@ -1,5 +1,42 @@
 # Progress log
 
+## 2026-10-15: Milestones 2–6
+
+The user asked for the whole plan to be carried through autonomously, to a high standard, with
+self-review. Each milestone was implemented, tested, reviewed and committed separately
+(`git log`). Heavy runs (tests, browsers, benchmarks, local LLM) went through this machine's
+shared resource manager.
+
+**M2 Retrieval.** pgvector embeddings with a content-addressed cache; PostgreSQL job queue;
+embedders (hash mock, fastembed bge-small, Ollama, OpenAI-compatible) and rerankers (lexical mock,
+MiniLM cross-encoder); five retrieval modes with per-stage ranks and timings; the seeded
+synthetic-novel generator; the retrieval benchmark.
+
+**M3 Extraction and review.** LLM interface (mock, Anthropic SDK, Ollama); schema-validated
+extraction with quote verification and windows; idempotent extraction jobs; rules-v2; review
+queue with canon tables, audit log and decision memory; extraction benchmark.
+
+**M4 Contradictions.** Dead-character, travel-time and ability detectors; the LLM world-rule
+judge over retrieved passages; persisted findings with dismiss/resolve and automatic
+resolution; evaluation by category, subject and evidence overlap; the consistency benchmark with
+a memory ablation.
+
+**M5 Drafting.** Plan → approve → draft → evidence-grounded check → apply/revise/discard, bounded
+to at most three drafts, streamed over SSE with cancel and retry; applying is an
+optimistic-locked save.
+
+**M6 Scale and polish.** Character graph and timeline; load tests up to 1,000 chapters; one
+script that regenerates every benchmark; docs and demo video script.
+
+**Bugs found by tests and review along the way** (all fixed, with tests):
+- switching search mode cleared the query being typed;
+- a slow earlier response could overwrite a newer one on the Contradictions and Search pages;
+- the quote locator stripped a leading quotation mark from unwrapped quotes;
+- the generator picked a random value inside a search loop, so it could fail to find a rule;
+- the API let a client choose any LLM spec (now limited to the configured model or the mock);
+- a live SSE stream held a database connection for its whole duration;
+- a small local model could loop until the HTTP timeout (output is now capped per call).
+
 ## 2026-10-14: Milestone 1 complete
 
 **Environment** (details in PLAN.md): Apple M4, 16 GB, no Docker, no API keys, Python 3.12 + uv,
