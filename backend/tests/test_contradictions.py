@@ -6,14 +6,20 @@ MARA = CharacterRef("m", "Mara Venn")
 TOMAS = CharacterRef("t", "Tomas Hale", (), {"birthplace": "Varrow"})
 
 
-def run(texts, cast=(MARA, TOMAS), days=None, min_confidence=0.6):
+def run(texts, cast=(MARA, TOMAS), days=None, min_confidence=0.6, modalities=("asserted",)):
     days = days or [None] * len(texts)
     chapters = [
         ChapterRef(f"c{i}", i, f"Ch {i}", body, 1, day)
         for i, (body, day) in enumerate(zip(texts, days, strict=True), start=1)
     ]
     claims = [c for ch in chapters for c in extract_claims(ch, list(cast))]
-    return detect_contradictions(claims, chapters, list(cast), min_confidence=min_confidence)
+    return detect_contradictions(
+        claims,
+        chapters,
+        list(cast),
+        min_confidence=min_confidence,
+        modalities=frozenset(modalities),
+    )
 
 
 def test_static_conflict_with_evidence_from_both_sides():
@@ -41,7 +47,7 @@ def test_consistent_text_gives_no_findings():
 def test_low_confidence_claims_are_excluded_by_default():
     texts = ["Mara's eyes were grey.", "Mara's eyes seemed green."]
     assert run(texts) == []
-    [f] = run(texts, min_confidence=0.3)
+    [f] = run(texts, min_confidence=0.3, modalities=("asserted", "hedged"))
     assert f.severity == "medium"  # a hedged claim is involved
 
 

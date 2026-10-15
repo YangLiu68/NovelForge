@@ -247,3 +247,19 @@ legend { font-size: 0.85rem; color: var(--muted); padding: 0 0.25rem; }
 .why { display: inline-flex; gap: 0.25rem; flex-wrap: wrap; }
 .chip { font-size: 0.75rem; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 0 0.45rem; }
 .indexing { font-size: 0.8rem; color: var(--muted); padding: 0.25rem 0.5rem; }
+
+/* Review & canon */
+.review-head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem; }
+.value-input { width: 11rem; padding: 0.15rem 0.4rem; }
+.review-card.uncertain { opacity: 0.85; border-style: dashed; }
+.review-card .actions { margin-top: 0.5rem; }
+.review-card .evidence-link { display: block; }
+.badge.modality-asserted { background: var(--accent-soft); color: var(--accent); }
+.badge.modality-hedged, .badge.modality-reported, .badge.modality-recalled { background: var(--low-soft); color: var(--low); }
+.warn-text { color: var(--medium); margin: 0.35rem 0 0; }
+.toolbar select { margin-left: 0.25rem; }
+.timeline { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; }
+.timeline li { display: flex; gap: 0.5rem; align-items: baseline; flex-wrap: wrap; }
+.timeline .day { min-width: 5.5rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0 1rem; }
+.grid-2 ul { padding-left: 1.1rem; margin: 0; }

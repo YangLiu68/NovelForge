@@ -21,6 +21,8 @@ dependencies = [
 localdb = ["pgserver>=0.1.4"]
 # Local ONNX embedding model and cross-encoder reranker (CPU, no GPU needed).
 embeddings = ["fastembed==0.8.1", "onnxruntime==1.30.0"]
+# Claude via the official Anthropic SDK (LLM_PROVIDER=anthropic).
+anthropic = ["anthropic==1.11.0"]
 
 [project.scripts]
 novelforge = "novelforge.cli:main"

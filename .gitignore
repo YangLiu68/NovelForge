@@ -24,3 +24,6 @@ frontend/playwright-report/
 .idea/
 .vscode/
 *.log
+
+# Generated benchmark corpora (reproducible from seed: novelforge gen-corpus)
+bench/corpora/

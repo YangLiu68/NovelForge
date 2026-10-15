@@ -1,11 +1,14 @@
 import type {
+  Canon,
+  CanonChange,
   Chapter,
   ChapterSummary,
   Character,
   Claim,
+  JobStats,
   Novel,
   Report,
-  JobStats,
+  ReviewPage,
   Revision,
   RevisionSummary,
   SearchMode,
@@ -80,11 +83,37 @@ export const api = {
     request<SearchResult>("GET", `/api/novels/${novelId}/search?${q({ q: query, mode })}`),
   jobs: () => request<JobStats>("GET", "/api/jobs"),
   claims: (novelId: string) => request<Claim[]>("GET", `/api/novels/${novelId}/claims`),
-  contradictions: (novelId: string, minConfidence?: number) =>
+  contradictions: (novelId: string, includeUncertain = false) =>
     request<Report>(
       "GET",
-      `/api/novels/${novelId}/contradictions?${q({ min_confidence: minConfidence })}`,
+      `/api/novels/${novelId}/contradictions?${q({ include_uncertain: String(includeUncertain) })}`,
     ),
+
+  review: (novelId: string, status = "proposed", family?: string, offset = 0) =>
+    request<ReviewPage>(
+      "GET",
+      `/api/novels/${novelId}/review?${q({ status, family, offset, limit: 50 })}`,
+    ),
+  acceptClaim: (id: string, body: { replace_canon?: boolean; value?: string; note?: string }) =>
+    request<{ status: string; changed: string[] }>("POST", `/api/claims/${id}/accept`, body),
+  rejectClaim: (id: string, note?: string) =>
+    request<{ status: string }>("POST", `/api/claims/${id}/reject`, { note }),
+  acceptBatch: (novelId: string, claimIds: string[]) =>
+    request<{ accepted: string[]; skipped: { id: string; reason: string }[] }>(
+      "POST",
+      `/api/novels/${novelId}/review/accept-batch`,
+      { claim_ids: claimIds },
+    ),
+  canon: (novelId: string) => request<Canon>("GET", `/api/novels/${novelId}/canon`),
+  canonChanges: (novelId: string) =>
+    request<CanonChange[]>("GET", `/api/novels/${novelId}/canon/changes`),
+  extract: (novelId: string, llm?: string) =>
+    request<{ queued_for: number; llm: string }>(
+      "POST",
+      `/api/novels/${novelId}/extract?${q({ llm })}`,
+    ),
+  llmConfig: () =>
+    request<{ llm: string; llm_extraction_on_save: boolean; effort: string }>("GET", "/api/llm"),
 
   listSamples: () => request<{ name: string }[]>("GET", "/api/samples"),
   importSample: (name: string) =>

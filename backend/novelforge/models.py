@@ -166,6 +166,7 @@ class Claim(Base):
     __table_args__ = (
         Index("ix_claim_novel_subject", "novel_id", "subject_character_id", "predicate"),
         Index("ix_claim_chapter", "chapter_id"),
+        Index("ix_claim_novel_status", "novel_id", "status"),
         CheckConstraint(
             "(time_certainty = 'unknown' AND effective_day IS NULL)"
             " OR (time_certainty <> 'unknown' AND effective_day IS NOT NULL)",
@@ -181,15 +182,24 @@ class Claim(Base):
         ForeignKey("character.id", ondelete="CASCADE")
     )
     subject_text: Mapped[str] = mapped_column(String(200))
+    # Predicates: eye_color, hair_color, handedness, birthplace, age, location, status,
+    # ability:<skill>, event, relationship, world_rule, foreshadowing, causal.
     predicate: Mapped[str] = mapped_column(String(64))
-    value: Mapped[str] = mapped_column(String(200))  # normalised
-    raw_value: Mapped[str] = mapped_column(String(200))  # as written
-    modality: Mapped[str] = mapped_column(String(16))  # asserted | hedged | reported
+    value: Mapped[str] = mapped_column(String(500))  # normalised
+    raw_value: Mapped[str] = mapped_column(String(500))  # as written
+    modality: Mapped[str] = mapped_column(String(16))  # asserted | hedged | reported | recalled
     confidence: Mapped[float] = mapped_column(Float)
+    # proposed -> accepted | rejected. Only a human review moves a claim out of "proposed".
     status: Mapped[str] = mapped_column(String(16), default="proposed")
-    extractor: Mapped[str] = mapped_column(String(32))
+    extractor: Mapped[str] = mapped_column(String(64))
     effective_day: Mapped[int | None] = mapped_column(Integer)
     time_certainty: Mapped[str] = mapped_column(String(16))  # chapter_day | unknown
+    details: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
+    # Stable identity of "the same statement" across re-extractions (subject, predicate, value,
+    # quote); used to re-apply earlier review decisions after the chapter is edited.
+    fingerprint: Mapped[str] = mapped_column(String(40), default="")
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    review_note: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = _now_column()
 
     evidence: Mapped[list["EvidenceSpan"]] = relationship(
@@ -244,3 +254,157 @@ class Job(Base):
     created_at: Mapped[datetime] = _now_column()
     started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class Scene(Base):
+    """A scene: the part of a chapter between scene breaks (a line of `* * *`, `***` or `---`)."""
+
+    __tablename__ = "scene"
+    __table_args__ = (UniqueConstraint("chapter_id", "ordinal"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    chapter_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("chapter.id", ondelete="CASCADE"))
+    ordinal: Mapped[int] = mapped_column(Integer)
+    start: Mapped[int] = mapped_column(Integer)
+    end: Mapped[int] = mapped_column(Integer)
+
+
+class Location(Base):
+    __tablename__ = "location"
+    __table_args__ = (UniqueConstraint("novel_id", "name"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    name: Mapped[str] = mapped_column(String(200))
+    aliases: Mapped[list[str]] = mapped_column(JSONB, default=list)
+    description: Mapped[str] = mapped_column(Text, default="")
+    # Minimum travel time in days to other locations, by name. Used by the travel check.
+    travel_days: Mapped[dict[str, int]] = mapped_column(JSONB, default=dict)
+    version: Mapped[int] = mapped_column(Integer, nullable=False)
+    created_at: Mapped[datetime] = _now_column()
+
+    __mapper_args__ = {"version_id_col": version, "eager_defaults": True}
+
+
+class WorldRule(Base):
+    """Canon: a rule of the story world (accepted from a claim or entered by the author)."""
+
+    __tablename__ = "world_rule"
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    statement: Mapped[str] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(16), default="active")  # active | retired
+    source_claim_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("claim.id", ondelete="SET NULL")
+    )
+    source_chapter_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("chapter.id", ondelete="SET NULL")
+    )
+    created_at: Mapped[datetime] = _now_column()
+
+
+class TimelineEvent(Base):
+    """Canon: something that happened at a point in story time."""
+
+    __tablename__ = "timeline_event"
+    __table_args__ = (Index("ix_timeline_novel_day", "novel_id", "story_day"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    kind: Mapped[str] = mapped_column(String(32))  # death | travel | learned | event
+    description: Mapped[str] = mapped_column(Text)
+    subject_character_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("character.id", ondelete="CASCADE")
+    )
+    location: Mapped[str | None] = mapped_column(String(200))
+    story_day: Mapped[int | None] = mapped_column(Integer)
+    chapter_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("chapter.id", ondelete="SET NULL")
+    )
+    source_claim_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("claim.id", ondelete="SET NULL")
+    )
+    created_at: Mapped[datetime] = _now_column()
+
+
+class PlotThread(Base):
+    """Canon: a set-up the story owes a pay-off for (foreshadowing)."""
+
+    __tablename__ = "plot_thread"
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    title: Mapped[str] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(16), default="open")  # open | resolved | dropped
+    setup_chapter_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("chapter.id", ondelete="SET NULL")
+    )
+    payoff_chapter_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("chapter.id", ondelete="SET NULL")
+    )
+    source_claim_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("claim.id", ondelete="SET NULL")
+    )
+    created_at: Mapped[datetime] = _now_column()
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+
+class Relationship(Base):
+    __tablename__ = "relationship"
+    __table_args__ = (
+        UniqueConstraint("novel_id", "source_character_id", "target_character_id", "kind"),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    source_character_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("character.id", ondelete="CASCADE")
+    )
+    target_character_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("character.id", ondelete="CASCADE")
+    )
+    kind: Mapped[str] = mapped_column(String(64))  # e.g. sibling, rival, employer, friend
+    description: Mapped[str] = mapped_column(Text, default="")
+    source_claim_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("claim.id", ondelete="SET NULL")
+    )
+    created_at: Mapped[datetime] = _now_column()
+
+
+class CanonChange(Base):
+    """Audit trail: every change to canon, who made it and which claim it came from."""
+
+    __tablename__ = "canon_change"
+    __table_args__ = (Index("ix_canon_change_novel", "novel_id", "created_at"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    entity_type: Mapped[str] = mapped_column(String(32))
+    entity_id: Mapped[uuid.UUID | None] = mapped_column()
+    field: Mapped[str] = mapped_column(String(64))
+    old_value: Mapped[Any | None] = mapped_column(JSONB)
+    new_value: Mapped[Any | None] = mapped_column(JSONB)
+    source_claim_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("claim.id", ondelete="SET NULL")
+    )
+    actor: Mapped[str] = mapped_column(String(64), default="author")
+    note: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[datetime] = _now_column()
+
+
+class ReviewDecision(Base):
+    """A review decision keyed by claim fingerprint, re-applied when the claim is re-extracted."""
+
+    __tablename__ = "review_decision"
+
+    novel_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("novel.id", ondelete="CASCADE"), primary_key=True
+    )
+    fingerprint: Mapped[str] = mapped_column(String(40), primary_key=True)
+    decision: Mapped[str] = mapped_column(String(16))  # accepted | rejected
+    note: Mapped[str | None] = mapped_column(Text)
+    decided_at: Mapped[datetime] = _now_column()

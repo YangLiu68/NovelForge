@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
-from novelforge.api import analysis, chapters, characters, jobs, novels, samples
+from novelforge.api import analysis, chapters, characters, jobs, novels, review, samples
 from novelforge.config import get_settings
 from novelforge.db import get_engine, get_sessionmaker
 from novelforge.jobs import Worker, load_handlers
@@ -86,7 +86,11 @@ def create_app() -> FastAPI:
     async def conflict(_: Request, exc: Conflict):
         return JSONResponse(
             status_code=409,
-            content={"detail": str(exc), "current_version": exc.current_version},
+            content={
+                "detail": str(exc),
+                "current_version": exc.current_version,
+                "canon_value": getattr(exc, "canon_value", None),
+            },
         )
 
     @app.get("/api/health")
@@ -95,7 +99,7 @@ def create_app() -> FastAPI:
             conn.execute(text("SELECT 1"))
         return {"status": "ok"}
 
-    for module in (novels, chapters, characters, analysis, samples, jobs):
+    for module in (novels, chapters, characters, analysis, samples, jobs, review):
         app.include_router(module.router)
     return app
 

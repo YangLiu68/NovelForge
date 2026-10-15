@@ -35,6 +35,13 @@ class Settings(BaseSettings):
     # Run the job worker inside the API process. Turn off when running `novelforge worker`.
     jobs_in_process: bool = True
 
+    # LLM: "mock" (offline, deterministic), "anthropic[:model]" (Claude; default
+    # claude-opus-5-5), "ollama:<model>" (local). LLM extraction runs as a background job after
+    # every chapter save when llm_extraction is on.
+    llm: str = "mock"
+    llm_effort: str = "medium"  # Claude effort: low | medium | high | xhigh | max
+    llm_extraction: bool = False
+
 
 @lru_cache
 def get_settings() -> Settings:

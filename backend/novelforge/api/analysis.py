@@ -89,16 +89,25 @@ def list_claims(novel: Novel = Depends(novel_dep), session: Session = SessionDep
 
 @router.get("/contradictions", response_model=ReportOut)
 def contradictions(
+    include_uncertain: bool = Query(
+        False, description="Also let hedged statements and dialogue create findings."
+    ),
     min_confidence: float | None = Query(None, ge=0, le=1),
     novel: Novel = Depends(novel_dep),
     session: Session = SessionDep,
 ):
-    threshold = get_settings().report_min_confidence if min_confidence is None else min_confidence
+    if min_confidence is None:
+        min_confidence = 0.3 if include_uncertain else get_settings().report_min_confidence
+    modalities = (
+        frozenset({"asserted", "hedged", "reported"})
+        if include_uncertain
+        else frozenset({"asserted"})
+    )
     started = time.perf_counter()
-    findings, claim_count = contradiction_report(session, novel.id, threshold)
+    findings, claim_count = contradiction_report(session, novel.id, min_confidence, modalities)
     return {
         "novel_id": novel.id,
-        "min_confidence": threshold,
+        "min_confidence": min_confidence,
         "claims_considered": claim_count,
         "findings": [
             {**f.__dict__, "evidence": [e.__dict__ for e in f.evidence]} for f in findings

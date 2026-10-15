@@ -38,6 +38,7 @@ class SkipJob(Exception):  # noqa: N818 - control flow, not an error
 def load_handlers() -> None:
     """Import the modules that register job handlers."""
     import novelforge.retrieval.index  # noqa: F401
+    import novelforge.services.extraction_jobs  # noqa: F401
 
 
 def handler(kind: str) -> Callable[[Handler], Handler]:

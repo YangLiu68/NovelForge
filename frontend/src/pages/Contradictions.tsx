@@ -53,7 +53,7 @@ export default function Contradictions() {
   useEffect(() => {
     setReport(null);
     api
-      .contradictions(novel.id, includeLow ? 0.3 : undefined)
+      .contradictions(novel.id, includeLow)
       .then(setReport)
       .catch((e: Error) => setError(e.message));
     // Re-run when chapters change (an edit re-extracts facts).

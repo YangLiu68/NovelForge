@@ -149,3 +149,23 @@ def stem(word: str) -> str:
 def tokens(text: str) -> list[str]:
     """Lowercased, stop-word-free, lightly stemmed word tokens."""
     return [stem(w) for w in _WORD.findall(text.lower()) if w not in STOPWORDS]
+
+
+_SCENE_BREAK = re.compile(r"^[ \t]*(?:\*[ \t]*\*[ \t]*\*[ \t*]*|-{3,}|#{1,3}[ \t]*)$", re.M)
+
+
+def split_scenes(body: str) -> list[TextSpan]:
+    """Scenes are the parts of a chapter between scene-break lines (`* * *`, `***`, `---`)."""
+    spans: list[TextSpan] = []
+    pos = 0
+    for m in [*_SCENE_BREAK.finditer(body), None]:
+        end = m.start() if m else len(body)
+        chunk = body[pos:end]
+        lead = len(chunk) - len(chunk.lstrip())
+        trail = len(chunk) - len(chunk.rstrip())
+        s, e = pos + lead, end - trail
+        if e > s:
+            spans.append(TextSpan(s, e, body[s:e]))
+        if m:
+            pos = m.end()
+    return spans

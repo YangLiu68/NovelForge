@@ -1,0 +1,260 @@
+{
+  "corpus": "syn-100-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 1,
+    "seed": 7,
+    "chapters": 100
+  },
+  "embedder": "fastembed:BAAI/bge-small-en-v1.5",
+  "embedder_local": true,
+  "reranker": "cross-encoder:Xenova/ms-marco-MiniLM-L-6-v2",
+  "queries": 352,
+  "query_kinds": {
+    "lexical": 176,
+    "paraphrase": 176
+  },
+  "passages": 842,
+  "chapters": 100,
+  "import_seconds": 2.88,
+  "index_seconds": 17.72,
+  "index": {
+    "passages": 842,
+    "updated": 842,
+    "cache_hits": 0,
+    "embedded": 835,
+    "tokens": 44658,
+    "tokens_exact": true,
+    "embed_ms": 17345.9
+  },
+  "cost_usd": 0.0,
+  "modes": {
+    "keyword": {
+      "metrics": {
+        "all": {
+          "recall@1": 0.2301,
+          "recall@3": 0.2358,
+          "recall@5": 0.2443,
+          "recall@10": 0.25,
+          "mrr@10": 0.2352,
+          "ndcg@10": 0.21,
+          "citation_precision@3": 0.2249
+        },
+        "lexical": {
+          "recall@1": 0.4602,
+          "recall@3": 0.4716,
+          "recall@5": 0.4886,
+          "recall@10": 0.5,
+          "mrr@10": 0.4705,
+          "ndcg@10": 0.42,
+          "citation_precision@3": 0.4498
+        },
+        "paraphrase": {
+          "recall@1": 0.0,
+          "recall@3": 0.0,
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "ndcg@10": 0.0,
+          "citation_precision@3": 0.0
+        }
+      },
+      "latency_ms": {
+        "p50": 1.23,
+        "p95": 3.65,
+        "mean": 1.63
+      },
+      "stage_p50_ms": {
+        "keyword": 1.09,
+        "hydrate": 0.0,
+        "total": 1.23
+      },
+      "query_tokens": 0,
+      "rerank_pairs": 0
+    },
+    "fts": {
+      "metrics": {
+        "all": {
+          "recall@1": 0.5881,
+          "recall@3": 0.8352,
+          "recall@5": 0.8949,
+          "recall@10": 0.9716,
+          "mrr@10": 0.7231,
+          "ndcg@10": 0.7528,
+          "citation_precision@3": 0.3608
+        },
+        "lexical": {
+          "recall@1": 0.6193,
+          "recall@3": 0.8523,
+          "recall@5": 0.9091,
+          "recall@10": 0.983,
+          "mrr@10": 0.7481,
+          "ndcg@10": 0.7804,
+          "citation_precision@3": 0.3788
+        },
+        "paraphrase": {
+          "recall@1": 0.5568,
+          "recall@3": 0.8182,
+          "recall@5": 0.8807,
+          "recall@10": 0.9602,
+          "mrr@10": 0.6981,
+          "ndcg@10": 0.7251,
+          "citation_precision@3": 0.3428
+        }
+      },
+      "latency_ms": {
+        "p50": 3.5,
+        "p95": 6.05,
+        "mean": 3.77
+      },
+      "stage_p50_ms": {
+        "fts": 1.77,
+        "hydrate": 1.56,
+        "total": 3.5
+      },
+      "query_tokens": 0,
+      "rerank_pairs": 0
+    },
+    "vector": {
+      "metrics": {
+        "all": {
+          "recall@1": 0.5994,
+          "recall@3": 0.858,
+          "recall@5": 0.9432,
+          "recall@10": 0.9773,
+          "mrr@10": 0.7419,
+          "ndcg@10": 0.779,
+          "citation_precision@3": 0.3845
+        },
+        "lexical": {
+          "recall@1": 0.625,
+          "recall@3": 0.8636,
+          "recall@5": 0.9432,
+          "recall@10": 0.9773,
+          "mrr@10": 0.7538,
+          "ndcg@10": 0.7936,
+          "citation_precision@3": 0.3958
+        },
+        "paraphrase": {
+          "recall@1": 0.5739,
+          "recall@3": 0.8523,
+          "recall@5": 0.9432,
+          "recall@10": 0.9773,
+          "mrr@10": 0.7301,
+          "ndcg@10": 0.7643,
+          "citation_precision@3": 0.3731
+        }
+      },
+      "latency_ms": {
+        "p50": 19.45,
+        "p95": 41.96,
+        "mean": 22.45
+      },
+      "stage_p50_ms": {
+        "embed_query": 11.9,
+        "vector": 4.53,
+        "hydrate": 1.85,
+        "total": 19.45
+      },
+      "query_tokens": 4042,
+      "rerank_pairs": 0
+    },
+    "hybrid": {
+      "metrics": {
+        "all": {
+          "recall@1": 0.7415,
+          "recall@3": 0.9432,
+          "recall@5": 0.9631,
+          "recall@10": 1.0,
+          "mrr@10": 0.8422,
+          "ndcg@10": 0.8647,
+          "citation_precision@3": 0.4328
+        },
+        "lexical": {
+          "recall@1": 0.7727,
+          "recall@3": 0.9545,
+          "recall@5": 0.9716,
+          "recall@10": 1.0,
+          "mrr@10": 0.8616,
+          "ndcg@10": 0.8883,
+          "citation_precision@3": 0.4527
+        },
+        "paraphrase": {
+          "recall@1": 0.7102,
+          "recall@3": 0.9318,
+          "recall@5": 0.9545,
+          "recall@10": 1.0,
+          "mrr@10": 0.8228,
+          "ndcg@10": 0.8412,
+          "citation_precision@3": 0.4129
+        }
+      },
+      "latency_ms": {
+        "p50": 19.8,
+        "p95": 34.62,
+        "mean": 21.42
+      },
+      "stage_p50_ms": {
+        "fts": 2.19,
+        "embed_query": 10.62,
+        "vector": 4.16,
+        "hydrate": 1.62,
+        "total": 19.8
+      },
+      "query_tokens": 4042,
+      "rerank_pairs": 0
+    },
+    "hybrid_rerank": {
+      "metrics": {
+        "all": {
+          "recall@1": 0.8807,
+          "recall@3": 0.9801,
+          "recall@5": 0.9801,
+          "recall@10": 1.0,
+          "mrr@10": 0.9312,
+          "ndcg@10": 0.9438,
+          "citation_precision@3": 0.4867
+        },
+        "lexical": {
+          "recall@1": 0.9148,
+          "recall@3": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.9555,
+          "ndcg@10": 0.9632,
+          "citation_precision@3": 0.5019
+        },
+        "paraphrase": {
+          "recall@1": 0.8466,
+          "recall@3": 0.9602,
+          "recall@5": 0.9602,
+          "recall@10": 1.0,
+          "mrr@10": 0.907,
+          "ndcg@10": 0.9245,
+          "citation_precision@3": 0.4716
+        }
+      },
+      "latency_ms": {
+        "p50": 235.66,
+        "p95": 326.34,
+        "mean": 239.85
+      },
+      "stage_p50_ms": {
+        "fts": 2.23,
+        "embed_query": 12.59,
+        "vector": 4.75,
+        "rerank": 205.39,
+        "hydrate": 2.21,
+        "total": 235.66
+      },
+      "query_tokens": 4042,
+      "rerank_pairs": 10560
+    }
+  },
+  "environment": {
+    "machine": "arm64",
+    "system": "Darwin 24.3.0",
+    "python": "3.12.10",
+    "commit": "eadd507"
+  }
+}

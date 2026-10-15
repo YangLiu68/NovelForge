@@ -47,8 +47,13 @@ export default function Search() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // Sync the box from the URL only when the query itself changes, so switching modes keeps
+  // whatever the user is typing.
   useEffect(() => {
     setInput(query);
+  }, [query]);
+
+  useEffect(() => {
     if (!query.trim()) {
       setResult(null);
       return;
@@ -67,7 +72,10 @@ export default function Search() {
     setParams(input.trim() ? { q: input.trim(), mode } : { mode });
   };
 
-  const setMode = (m: SearchMode) => setParams(query ? { q: query, mode: m } : { mode: m });
+  const setMode = (m: SearchMode) => {
+    const q = input.trim() || query;
+    setParams(q ? { q, mode: m } : { mode: m });
+  };
   const cov = result?.index_coverage;
 
   return (

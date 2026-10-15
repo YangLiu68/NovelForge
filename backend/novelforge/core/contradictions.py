@@ -82,12 +82,29 @@ def _chapter_list(numbers: list[int]) -> str:
     return words[0] if len(words) == 1 else ", ".join(words[:-1]) + " and " + words[-1]
 
 
+def dedupe_claims(claims: list[ExtractedClaim]) -> list[ExtractedClaim]:
+    """Several extractors can state the same fact from the same words; keep the most confident."""
+    best: dict[tuple, ExtractedClaim] = {}
+    for c in claims:
+        key = (c.subject_id, c.predicate, c.value, c.chapter_id, c.spans[0].start, c.spans[0].end)
+        if key not in best or c.confidence > best[key].confidence:
+            best[key] = c
+    return list(best.values())
+
+
 def detect_contradictions(
     claims: list[ExtractedClaim],
     chapters: list[ChapterRef],
     characters: list[CharacterRef],
     min_confidence: float = 0.6,
+    modalities: frozenset[str] = frozenset({"asserted"}),
 ) -> list[Finding]:
+    """Findings over claims with an allowed modality and enough confidence.
+
+    By default only narrator assertions count: hedged perception, dialogue and memories are
+    extracted (and shown) but cannot by themselves create a contradiction.
+    """
+    claims = dedupe_claims(claims)
     chapter_by_id = {c.id: c for c in chapters}
     character_by_id = {c.id: c for c in characters}
 
@@ -119,6 +136,7 @@ def detect_contradictions(
     for claim in claims:
         if (
             claim.confidence >= min_confidence
+            and claim.modality in modalities
             and claim.predicate in PREDICATES
             and claim.chapter_id in chapter_by_id
             and claim.subject_id in character_by_id
