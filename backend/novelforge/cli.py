@@ -369,7 +369,12 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_e2e_server)
 
     args = parser.parse_args(argv)
-    return args.func(args)
+    try:
+        return args.func(args)
+    finally:
+        from novelforge.retrieval.embedders import release_models
+
+        release_models()
 
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@ from typing import Any
 import yaml
 
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim
-from novelforge.core.extraction import extract_claims
+from novelforge.core.extraction import EXTRACTOR, extract_claims
 from novelforge.core.sample import load_folder
 
 SCORED = (
@@ -84,7 +84,7 @@ def run(corpus: Path, extractor: str, max_chapters: int | None = None) -> dict[s
     if extractor == "rules":
         for r in refs:
             claims += extract_claims(r, cast)
-        name = "rules-v2"
+        name = EXTRACTOR
     else:
         from novelforge.extraction.runner import extract_with_llm
         from novelforge.llm.registry import get_llm
