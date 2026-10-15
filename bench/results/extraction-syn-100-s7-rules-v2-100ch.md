@@ -1,4 +1,4 @@
-Corpus `syn-100-s7` (100 chapters), extractor `rules-v2`, 0.31 s.
+Corpus `syn-100-s7` (100 chapters), extractor `rules-v2`, 0.26 s.
 
 | Predicate | TP | FP | FN | Precision | Recall | F1 |
 |---|---|---|---|---|---|---|

@@ -795,26 +795,26 @@
         "N126",
         "N140"
       ],
-      "seconds": 1.14,
+      "seconds": 2.52,
       "avg_context_claims": 2.5
     },
     "vector-only": {
       "findings": 89,
-      "true_positives": 56,
-      "false_positives": 24,
+      "true_positives": 55,
+      "false_positives": 25,
       "duplicates": 9,
-      "false_negatives": 69,
-      "precision": 0.7,
-      "recall_all": 0.448,
-      "recall_detectable": 0.448,
+      "false_negatives": 70,
+      "precision": 0.6875,
+      "recall_all": 0.44,
+      "recall_detectable": 0.44,
       "negatives": 148,
-      "negatives_violated": 16,
-      "cited_spans": 112,
-      "cited_spans_correct": 89,
-      "citation_precision": 0.7946,
-      "labelled_spans_covered": 89,
-      "labelled_spans_total": 102,
-      "citation_recall": 0.8725,
+      "negatives_violated": 15,
+      "cited_spans": 108,
+      "cited_spans_correct": 90,
+      "citation_precision": 0.8333,
+      "labelled_spans_covered": 90,
+      "labelled_spans_total": 100,
+      "citation_recall": 0.9,
       "by_category": {
         "abilities": {
           "labelled": 10,
@@ -824,9 +824,9 @@
         },
         "identity": {
           "labelled": 44,
-          "detected": 20,
-          "fp": 19,
-          "recall": 0.4545
+          "detected": 19,
+          "fp": 20,
+          "recall": 0.4318
         },
         "location": {
           "labelled": 16,
@@ -872,15 +872,14 @@
         "GT27",
         "GT3",
         "GT31",
-        "GT32",
         "GT33",
         "GT37",
         "GT38",
         "GT40",
         "GT43",
+        "GT46",
         "GT47",
         "GT5",
-        "GT53",
         "GT54",
         "GT55",
         "GT6",
@@ -888,6 +887,7 @@
         "GT64",
         "GT65",
         "GT66",
+        "GT67",
         "GT68",
         "GT71",
         "GT72",
@@ -897,7 +897,6 @@
         "GT81",
         "GT82",
         "GT83",
-        "GT85",
         "GT89",
         "GT9",
         "GT92",
@@ -991,6 +990,12 @@
           "reason": ""
         },
         {
+          "id": "GT32",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
           "id": "GT34",
           "category": "abilities",
           "kind": "ability_conflict",
@@ -1039,12 +1044,6 @@
           "reason": ""
         },
         {
-          "id": "GT46",
-          "category": "timeline",
-          "kind": "dead_character_active",
-          "reason": ""
-        },
-        {
           "id": "GT48",
           "category": "abilities",
           "kind": "ability_conflict",
@@ -1072,6 +1071,12 @@
           "id": "GT52",
           "category": "timeline",
           "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT53",
+          "category": "timeline",
+          "kind": "dead_character_active",
           "reason": ""
         },
         {
@@ -1114,12 +1119,6 @@
           "id": "GT63",
           "category": "world_rules",
           "kind": "world_rule_violation",
-          "reason": ""
-        },
-        {
-          "id": "GT67",
-          "category": "timeline",
-          "kind": "dead_character_active",
           "reason": ""
         },
         {
@@ -1174,6 +1173,12 @@
           "id": "GT84",
           "category": "world_rules",
           "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT85",
+          "category": "identity",
+          "kind": "attribute_conflict",
           "reason": ""
         },
         {
@@ -1524,6 +1529,33 @@
         },
         {
           "kind": "attribute_conflict",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              92,
+              296,
+              318
+            ],
+            [
+              400,
+              296,
+              318
+            ],
+            [
+              620,
+              103,
+              123
+            ],
+            [
+              620,
+              904,
+              924
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
           "subject": "Vena Garton",
           "predicate": "hair_color",
           "spans": [
@@ -1709,27 +1741,9 @@
               296
             ]
           ]
-        },
-        {
-          "kind": "location_conflict",
-          "subject": "Tewen Talner",
-          "predicate": "location",
-          "spans": [
-            [
-              933,
-              297,
-              318
-            ],
-            [
-              933,
-              943,
-              965
-            ]
-          ]
         }
       ],
       "violated_negatives": [
-        "N7",
         "N21",
         "N28",
         "N34",
@@ -1746,26 +1760,26 @@
         "N128",
         "N140"
       ],
-      "seconds": 103.57,
+      "seconds": 246.46,
       "avg_context_claims": 13.4
     },
     "hybrid": {
       "findings": 78,
-      "true_positives": 49,
-      "false_positives": 26,
+      "true_positives": 48,
+      "false_positives": 27,
       "duplicates": 3,
-      "false_negatives": 76,
-      "precision": 0.6533,
-      "recall_all": 0.392,
-      "recall_detectable": 0.392,
+      "false_negatives": 77,
+      "precision": 0.64,
+      "recall_all": 0.384,
+      "recall_detectable": 0.384,
       "negatives": 148,
-      "negatives_violated": 19,
-      "cited_spans": 103,
-      "cited_spans_correct": 75,
-      "citation_precision": 0.7282,
-      "labelled_spans_covered": 75,
-      "labelled_spans_total": 88,
-      "citation_recall": 0.8523,
+      "negatives_violated": 18,
+      "cited_spans": 98,
+      "cited_spans_correct": 76,
+      "citation_precision": 0.7755,
+      "labelled_spans_covered": 76,
+      "labelled_spans_total": 86,
+      "citation_recall": 0.8837,
       "by_category": {
         "abilities": {
           "labelled": 10,
@@ -1775,9 +1789,9 @@
         },
         "identity": {
           "labelled": 44,
-          "detected": 20,
-          "fp": 20,
-          "recall": 0.4545
+          "detected": 19,
+          "fp": 21,
+          "recall": 0.4318
         },
         "location": {
           "labelled": 16,
@@ -1818,21 +1832,21 @@
         "GT23",
         "GT26",
         "GT3",
-        "GT32",
         "GT33",
         "GT37",
         "GT38",
         "GT40",
         "GT43",
         "GT45",
+        "GT46",
         "GT47",
         "GT5",
-        "GT53",
         "GT54",
         "GT61",
         "GT64",
         "GT65",
         "GT66",
+        "GT67",
         "GT68",
         "GT71",
         "GT72",
@@ -1841,7 +1855,6 @@
         "GT8",
         "GT81",
         "GT82",
-        "GT85",
         "GT89",
         "GT9",
         "GT92",
@@ -1965,6 +1978,12 @@
           "reason": ""
         },
         {
+          "id": "GT32",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
           "id": "GT34",
           "category": "abilities",
           "kind": "ability_conflict",
@@ -2007,12 +2026,6 @@
           "reason": ""
         },
         {
-          "id": "GT46",
-          "category": "timeline",
-          "kind": "dead_character_active",
-          "reason": ""
-        },
-        {
           "id": "GT48",
           "category": "abilities",
           "kind": "ability_conflict",
@@ -2040,6 +2053,12 @@
           "id": "GT52",
           "category": "timeline",
           "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT53",
+          "category": "timeline",
+          "kind": "dead_character_active",
           "reason": ""
         },
         {
@@ -2088,12 +2107,6 @@
           "id": "GT63",
           "category": "world_rules",
           "kind": "world_rule_violation",
-          "reason": ""
-        },
-        {
-          "id": "GT67",
-          "category": "timeline",
-          "kind": "dead_character_active",
           "reason": ""
         },
         {
@@ -2154,6 +2167,12 @@
           "id": "GT84",
           "category": "world_rules",
           "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT85",
+          "category": "identity",
+          "kind": "attribute_conflict",
           "reason": ""
         },
         {
@@ -2546,6 +2565,38 @@
           ]
         },
         {
+          "kind": "attribute_conflict",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              92,
+              296,
+              318
+            ],
+            [
+              400,
+              296,
+              318
+            ],
+            [
+              596,
+              104,
+              124
+            ],
+            [
+              620,
+              103,
+              123
+            ],
+            [
+              620,
+              904,
+              924
+            ]
+          ]
+        },
+        {
           "kind": "ability_conflict",
           "subject": "Dara Dunford",
           "predicate": "ability:read",
@@ -2700,27 +2751,9 @@
               632
             ]
           ]
-        },
-        {
-          "kind": "attribute_conflict",
-          "subject": "Brasa Halton",
-          "predicate": "hair_color",
-          "spans": [
-            [
-              253,
-              1102,
-              1124
-            ],
-            [
-              840,
-              625,
-              645
-            ]
-          ]
         }
       ],
       "violated_negatives": [
-        "N7",
         "N21",
         "N28",
         "N34",
@@ -2740,26 +2773,26 @@
         "N128",
         "N140"
       ],
-      "seconds": 114.06,
+      "seconds": 196.24,
       "avg_context_claims": 14.8
     },
     "structured": {
       "findings": 82,
-      "true_positives": 67,
-      "false_positives": 13,
+      "true_positives": 65,
+      "false_positives": 15,
       "duplicates": 2,
-      "false_negatives": 58,
-      "precision": 0.8375,
-      "recall_all": 0.536,
-      "recall_detectable": 0.536,
+      "false_negatives": 60,
+      "precision": 0.8125,
+      "recall_all": 0.52,
+      "recall_detectable": 0.52,
       "negatives": 148,
-      "negatives_violated": 19,
-      "cited_spans": 170,
-      "cited_spans_correct": 113,
-      "citation_precision": 0.6647,
-      "labelled_spans_covered": 113,
-      "labelled_spans_total": 125,
-      "citation_recall": 0.904,
+      "negatives_violated": 18,
+      "cited_spans": 153,
+      "cited_spans_correct": 111,
+      "citation_precision": 0.7255,
+      "labelled_spans_covered": 111,
+      "labelled_spans_total": 121,
+      "citation_recall": 0.9174,
       "by_category": {
         "abilities": {
           "labelled": 10,
@@ -2769,9 +2802,9 @@
         },
         "identity": {
           "labelled": 44,
-          "detected": 21,
-          "fp": 8,
-          "recall": 0.4773
+          "detected": 19,
+          "fp": 10,
+          "recall": 0.4318
         },
         "location": {
           "labelled": 16,
@@ -2803,7 +2836,6 @@
         "GT114",
         "GT115",
         "GT116",
-        "GT117",
         "GT12",
         "GT120",
         "GT121",
@@ -2852,7 +2884,6 @@
         "GT81",
         "GT82",
         "GT83",
-        "GT85",
         "GT88",
         "GT89",
         "GT9",
@@ -3097,6 +3128,12 @@
           "reason": ""
         },
         {
+          "id": "GT85",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
           "id": "GT86",
           "category": "identity",
           "kind": "canon_conflict",
@@ -3193,6 +3230,12 @@
           "reason": ""
         },
         {
+          "id": "GT117",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
           "id": "GT118",
           "category": "world_rules",
           "kind": "world_rule_violation",
@@ -3212,6 +3255,43 @@
         }
       ],
       "false_positive_findings": [
+        {
+          "kind": "attribute_conflict",
+          "subject": "Nidra Falford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              57,
+              134,
+              155
+            ],
+            [
+              463,
+              120,
+              139
+            ],
+            [
+              681,
+              263,
+              284
+            ],
+            [
+              716,
+              1130,
+              1150
+            ],
+            [
+              956,
+              312,
+              332
+            ],
+            [
+              970,
+              139,
+              157
+            ]
+          ]
+        },
         {
           "kind": "attribute_conflict",
           "subject": "Cadra Garrow",
@@ -3273,6 +3353,68 @@
               320,
               807,
               826
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              92,
+              296,
+              318
+            ],
+            [
+              400,
+              296,
+              318
+            ],
+            [
+              596,
+              104,
+              124
+            ],
+            [
+              620,
+              103,
+              123
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              797,
+              210,
+              228
+            ],
+            [
+              889,
+              424,
+              444
+            ],
+            [
+              921,
+              185,
+              205
+            ],
+            [
+              967,
+              140,
+              160
+            ],
+            [
+              991,
+              205,
+              223
             ]
           ]
         },
@@ -3555,7 +3697,6 @@
         }
       ],
       "violated_negatives": [
-        "N7",
         "N21",
         "N28",
         "N34",
@@ -3575,7 +3716,7 @@
         "N140",
         "N141"
       ],
-      "seconds": 0.36,
+      "seconds": 0.46,
       "avg_context_claims": 2491
     }
   },
@@ -3584,7 +3725,7 @@
     "note": "claims extracted during import",
     "seconds": 0.0
   },
-  "index_seconds": 136.39,
+  "index_seconds": 446.9,
   "labelled_contradictions": 125,
   "labelled_negatives": 148,
   "chapters": 1000,
