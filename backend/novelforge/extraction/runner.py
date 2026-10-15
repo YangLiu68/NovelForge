@@ -15,7 +15,7 @@ from typing import Any
 
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.extraction import CLAIM_NAMESPACE, surface_forms
-from novelforge.core.text import split_passages
+from novelforge.core.text import number_to_words, split_passages
 from novelforge.extraction.prompt import PROMPT_VERSION, SYSTEM, user_prompt
 from novelforge.extraction.schema import KINDS, MODALITIES, SCHEMA, SUBJECTLESS, to_predicate
 from novelforge.extraction.verify import locate
@@ -72,8 +72,36 @@ def windows(body: str, max_words: int) -> list[tuple[int, int]]:
     return out or [(0, len(body))]
 
 
+# Kinds whose value is a literal that the quote must contain (value grounding).
+GROUNDED = {"eye_color", "hair_color", "handedness", "birthplace", "location", "age"}
+
+
+def value_grounded(predicate: str, value: str, quote: str) -> bool:
+    """Does the quote actually state this value? A real quote with an unrelated value ("Jorin
+    could not swim" offered as evidence that Jorin is at the harbour) is rejected.
+
+    Strict by design: an inferred value ("eyes the colour of sea glass" -> green) is rejected too,
+    trading some recall for precision.
+    """
+    if predicate not in GROUNDED:
+        return True
+    q = quote.lower().replace("-", " ")
+    if predicate == "age":
+        n = int(value)
+        return str(n) in q or number_to_words(n).replace("-", " ") in q
+    if predicate == "handedness":
+        return value in q
+    if predicate in ("eye_color", "hair_color"):
+        return value in q or {"grey": "gray", "blond": "blonde"}.get(value, value) in q
+    return value.lower().replace("-", " ") in q
+
+
 def extract_with_llm(
-    chapter: ChapterRef, characters: list[CharacterRef], llm: LLM, max_words: int = 1500
+    chapter: ChapterRef,
+    characters: list[CharacterRef],
+    llm: LLM,
+    max_words: int = 1500,
+    check_values: bool = True,
 ) -> ExtractionRun:
     run = ExtractionRun(extractor=f"llm:{llm.name}")
     lookup = {f.text.lower(): f.character for f in surface_forms(characters)}
@@ -100,6 +128,12 @@ def extract_with_llm(
             continue
         for fact in facts:
             claim, reason = _to_claim(chapter, fact, lookup, run.extractor, (ws, we))
+            if (
+                claim is not None
+                and check_values
+                and not value_grounded(claim.predicate, claim.value, claim.spans[0].quote)
+            ):
+                claim, reason = None, "value not in quote"
             if claim is None:
                 run.rejected.append({"fact": fact, "reason": reason})
                 continue

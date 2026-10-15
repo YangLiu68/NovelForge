@@ -185,11 +185,26 @@ def cmd_bench_retrieval(args: argparse.Namespace) -> int:
 def cmd_bench_extraction(args: argparse.Namespace) -> int:
     from novelforge.bench import extraction_eval
 
-    report = extraction_eval.run(Path(args.corpus), args.extractor, args.max_chapters)
     out = Path(args.out)
+    cache = None
+    if args.extractor != "rules":
+        safe_llm = args.extractor.replace("/", "_").replace(":", "-")
+        cache = (
+            Path(args.cache)
+            if args.cache
+            else (out / "llm-cache" / f"{Path(args.corpus).name}-{safe_llm}.jsonl")
+        )
+    report = extraction_eval.run(
+        Path(args.corpus),
+        args.extractor,
+        args.max_chapters,
+        cache,
+        check_values=not args.no_value_check,
+    )
     out.mkdir(parents=True, exist_ok=True)
     safe = report["extractor"].replace("/", "_").replace(":", "-")
-    path = out / f"extraction-{report['corpus']}-{safe}-{report['chapters']}ch.json"
+    suffix = "" if report["value_check"] else "-no-value-check"
+    path = out / f"extraction-{report['corpus']}-{safe}-{report['chapters']}ch{suffix}.json"
     path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     path.with_suffix(".md").write_text(extraction_eval.to_markdown(report) + "\n", encoding="utf-8")
     print(extraction_eval.to_markdown(report))
@@ -332,6 +347,16 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("corpus")
     p.add_argument("--extractor", default="rules", help="rules | mock | ollama:<model> | anthropic")
     p.add_argument("--max-chapters", type=int, default=None)
+    p.add_argument(
+        "--cache",
+        default=None,
+        help="LLM response cache (JSONL); default bench/results/llm-cache/<corpus>-<llm>",
+    )
+    p.add_argument(
+        "--no-value-check",
+        action="store_true",
+        help="ablation: keep LLM facts whose value is not in their quote",
+    )
     p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
     p.set_defaults(func=cmd_bench_extraction)
 

@@ -242,3 +242,41 @@ def test_mock_stream_cancel():
             cancel.set()
     assert seen[-1].cancelled and seen[-1].done
     assert seen[-1].result.text == "one two three four five six "
+
+
+def test_value_must_be_grounded_in_the_quote():
+    from novelforge.extraction.runner import value_grounded
+
+    assert value_grounded("location", "Hollin", "Tomas was in Hollin")
+    assert not value_grounded("location", "the harbour", "Jorin could not swim.")
+    assert value_grounded("age", "31", "At thirty-one, Mara")
+    assert value_grounded("handedness", "left", "Being left-handed, Tomas")
+    assert not value_grounded("eye_color", "green", "eyes the colour of sea glass")
+    assert value_grounded("world_rule", "anything", "unrelated")  # free-text kinds pass
+    llm = MockLLM()
+    llm.queue_json(
+        {
+            "facts": [
+                fact(
+                    subject="Tomas Hale",
+                    kind="location",
+                    value="the harbour",
+                    quote="Tomas was in Hollin that morning",
+                )
+            ]
+        }
+    )
+    run = extract_with_llm(CH, [MARA, TOMAS], llm)
+    assert run.claims == [] and run.rejected[0]["reason"] == "value not in quote"
+
+
+def test_caching_llm_replays_without_calling(tmp_path):
+    from novelforge.llm.cache import CachingLLM
+
+    inner = MockLLM()
+    inner.queue_json({"facts": []})
+    cached = CachingLLM(inner, tmp_path / "c.jsonl")
+    first = cached.generate_json("s", "p", SCHEMA)
+    again = CachingLLM(MockLLM(), tmp_path / "c.jsonl").generate_json("s", "p", SCHEMA)
+    assert first.data == again.data == {"facts": []}
+    assert len(inner.calls) == 1

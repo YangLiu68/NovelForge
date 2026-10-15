@@ -169,3 +169,13 @@ def split_scenes(body: str) -> list[TextSpan]:
         if m:
             pos = m.end()
     return spans
+
+
+def number_to_words(n: int) -> str:
+    """English words for 0-99 ("thirty-one"); digits above that."""
+    if n >= 100 or n < 0:
+        return str(n)
+    if n < 20:
+        return _UNITS[n]
+    tens, ones = divmod(n, 10)
+    return _TENS[tens - 2] + ("" if ones == 0 else "-" + _UNITS[ones])
