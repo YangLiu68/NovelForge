@@ -143,3 +143,24 @@ def test_colour_words_for_one_colour_do_not_conflict():
     assert report("golden", "yellow") == []
     assert report("blond", "golden") == []
     assert report("auburn", "red") == ["attribute_conflict"]
+
+
+def test_states_in_time_clauses_are_not_about_now():
+    # v5, from the held-out books: a past age or place is recalled, not asserted.
+    assert facts("Tomas had worn a beard ever since he was twenty.") == [
+        ("t", "age", "20", "recalled")
+    ]
+    assert facts("She had known Mara since Mara was four years old.") == [
+        ("m", "age", "4", "recalled")
+    ]
+    assert facts("Nobody remembered the house before Ilsa came to Varrow.") == [
+        ("i", "location", "Varrow", "recalled")
+    ]
+    after = [("t", "location", "Varrow", "asserted")]
+    assert facts("Tomas arrived in Varrow before noon.") == after
+
+
+def test_with_phrase_quote_does_not_cross_a_sentence_break():
+    body = "Tomas waited at the gate. He was a tall boy, with hazel eyes."
+    claims = extract_claims(ChapterRef("c1", 1, "T", body, 1, 0), CAST)
+    assert [c.spans[0].quote for c in claims] == ["He was a tall boy, with hazel eyes"]

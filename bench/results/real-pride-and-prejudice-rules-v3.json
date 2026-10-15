@@ -1,0 +1,157 @@
+{
+  "book": "pride-and-prejudice",
+  "title": "Pride and Prejudice",
+  "author": "Jane Austen",
+  "role": "held-out",
+  "source": {
+    "url": "https://www.gutenberg.org/cache/epub/42671/pg42671.txt",
+    "sha256": "3d2d320092e4b501cd0075bbc4fccac2c322d925710a9df05172e9cef86b5863",
+    "matches_manifest": true
+  },
+  "extractor": "rules-v3",
+  "claims_from": "claims-pride-and-prejudice-rules-v3.jsonl",
+  "sheet_pronouns": true,
+  "chapters": 61,
+  "words": 121681,
+  "characters": 25,
+  "seconds": 0.01,
+  "claims": 6,
+  "precision": {
+    "overall": {
+      "correct": 4,
+      "modality": 2,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 0.6667
+    },
+    "asserted_only": {
+      "correct": 2,
+      "modality": 1,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 0.6667
+    },
+    "ability": {
+      "correct": 4,
+      "modality": 1,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 0.8
+    },
+    "age": {
+      "correct": 0,
+      "modality": 1,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 0.0
+    }
+  },
+  "by_modality": {
+    "asserted": {
+      "correct": 2,
+      "modality": 1
+    },
+    "hedged": {
+      "modality": 1
+    },
+    "reported": {
+      "correct": 2
+    }
+  },
+  "errors": {
+    "modality": 2
+  },
+  "recall": {
+    "candidate_sentences": 42,
+    "unlabelled_sentences": 0,
+    "all": {
+      "facts": 4,
+      "found": 0,
+      "recall": 0.0
+    },
+    "age": {
+      "facts": 4,
+      "found": 0,
+      "recall": 0.0
+    },
+    "asserted": {
+      "facts": 3,
+      "found": 0,
+      "recall": 0.0
+    }
+  },
+  "missed_examples": [
+    {
+      "chapter": 9,
+      "sentence": "Lydia was a stout, well-grown girl of fifteen, with a fine complexion and good-humoured countenance; a favourite with her mother, whose affection had brought her into public at an early age.",
+      "subject": "Lydia Bennet",
+      "predicate": "age",
+      "value": "15",
+      "asserted": true
+    },
+    {
+      "chapter": 13,
+      "sentence": "He was a tall, heavy looking young man of five and twenty.",
+      "subject": "William Collins",
+      "predicate": "age",
+      "value": "25",
+      "asserted": true
+    },
+    {
+      "chapter": 22,
+      "sentence": "This preservative she had now obtained; and at the age of twenty-seven, without having ever been handsome, she felt all the good luck of it.",
+      "subject": "Charlotte Lucas",
+      "predicate": "age",
+      "value": "27",
+      "asserted": true
+    },
+    {
+      "chapter": 49,
+      "sentence": "she cried: \"This is delightful indeed!--She will be married!--I shall see her again!--She will be married at sixteen!--My good, kind brother!--I knew how it would be--I knew he would manage every thing.",
+      "subject": "Lydia Bennet",
+      "predicate": "age",
+      "value": "16",
+      "asserted": false
+    }
+  ],
+  "findings": {
+    "total": 0,
+    "true": 0,
+    "false": 0,
+    "unlabelled": 0,
+    "rows": []
+  },
+  "wrong_examples": [
+    {
+      "chapter": 12,
+      "subject": "Elizabeth Bennet",
+      "predicate": "ability:write",
+      "value": "used",
+      "modality": "hedged",
+      "quote": "Elizabeth wrote",
+      "verdict": "modality",
+      "error": "modality: should be asserted",
+      "note": "'might' belongs to the carriage being sent"
+    },
+    {
+      "chapter": 50,
+      "subject": "Jane Bennet",
+      "predicate": "age",
+      "value": "16",
+      "modality": "asserted",
+      "quote": "Jane was sixteen",
+      "verdict": "modality",
+      "error": "modality: should be not asserted",
+      "note": "'since Jane was sixteen': a past age (a past state: right fact, not an assertion about now)"
+    }
+  ],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "ef1f062"
+  }
+}
