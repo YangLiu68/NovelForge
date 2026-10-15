@@ -286,6 +286,21 @@ def extract(
     return {"queued_for": len(chapters), "llm": spec, "queue": queue_stats(session)}
 
 
+@router.post("/novels/{novel_id}/judge-rules")
+def judge_rules(
+    llm: str | None = Query(None, max_length=120),
+    novel: Novel = Depends(novel_dep),
+    session: Session = SessionDep,
+):
+    """Queue the LLM world-rule judge (idempotent for unchanged chapters and rules)."""
+    from novelforge.services.rule_judge import collect_rules, enqueue_judge
+
+    spec = llm or get_settings().llm
+    key = enqueue_judge(session, novel, spec)
+    session.commit()
+    return {"queued": key, "rules": len(collect_rules(session, novel.id)), "llm": spec}
+
+
 @router.get("/llm")
 def llm_config():
     s = get_settings()

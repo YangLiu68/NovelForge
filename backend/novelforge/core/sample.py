@@ -35,6 +35,13 @@ class SampleChapter:
 
 
 @dataclass(frozen=True)
+class SampleLocation:
+    id: uuid.UUID
+    name: str
+    travel_days: dict[str, int]
+
+
+@dataclass(frozen=True)
 class SampleNovel:
     id: uuid.UUID
     slug: str
@@ -43,6 +50,7 @@ class SampleNovel:
     characters: list[SampleCharacter]
     chapters: list[SampleChapter]
     ground_truth: dict = field(default_factory=dict)
+    locations: list[SampleLocation] = field(default_factory=list)
 
 
 def _split_front_matter(text: str) -> tuple[dict, str]:
@@ -100,7 +108,16 @@ def load_folder(folder: Path) -> SampleNovel:
         )
     gt_path = folder / "ground_truth.yaml"
     ground_truth = yaml.safe_load(gt_path.read_text(encoding="utf-8")) if gt_path.exists() else {}
+    locations = [
+        SampleLocation(
+            id=sid("location", loc["name"]),
+            name=loc["name"],
+            travel_days={k: int(v) for k, v in (loc.get("travel_days") or {}).items()},
+        )
+        for loc in meta.get("locations") or []
+    ]
     return SampleNovel(
+        locations=locations,
         id=sid("novel", slug),
         slug=slug,
         title=meta["title"],

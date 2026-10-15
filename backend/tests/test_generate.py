@@ -78,3 +78,19 @@ def test_corpus_imports(client, tmp_path):
     novel_id = str(result.novel.id)
     assert len(client.get(f"/api/novels/{novel_id}/chapters").json()) == 12
     assert client.get(f"/api/novels/{novel_id}/contradictions").status_code == 200
+
+
+def test_consistency_benchmark_runs_and_structured_memory_wins(tmp_path, database_url):
+    from sqlalchemy.engine import make_url
+
+    from novelforge.bench import consistency_eval
+
+    out = tmp_path / "c"
+    generate(out, 40, seed=5)
+    base = make_url(database_url).set(database="postgres")
+    report = consistency_eval.run(out, base, database="novelforge_test_consistency")
+    systems = report["systems"]
+    assert set(systems) == {"no-memory", "vector-only", "hybrid", "structured"}
+    assert systems["structured"]["recall_all"] >= systems["no-memory"]["recall_all"]
+    assert systems["structured"]["negatives_violated"] == 0
+    assert consistency_eval.to_markdown(report).count("|") > 20

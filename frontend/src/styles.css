@@ -263,3 +263,4 @@ legend { font-size: 0.85rem; color: var(--muted); padding: 0 0.25rem; }
 .timeline .day { min-width: 5.5rem; color: var(--muted); font-variant-numeric: tabular-nums; }
 .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0 1rem; }
 .grid-2 ul { padding-left: 1.1rem; margin: 0; }
+.dismiss-form { flex: 1; min-width: 260px; margin: 0; }

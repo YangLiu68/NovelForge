@@ -1,22 +1,28 @@
 import time
+import uuid
 from typing import cast
 
 from fastapi import APIRouter, Depends, Query
-from sqlalchemy import select
+from pydantic import BaseModel, Field
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from novelforge.api.deps import SessionDep, novel_dep
 from novelforge.config import get_settings
-from novelforge.models import Chapter, Character, Novel
+from novelforge.core.contradictions import SEVERITY_ORDER
+from novelforge.models import Chapter, Character, Novel, StoredFinding
 from novelforge.retrieval.embedders import get_embedder
 from novelforge.retrieval.index import coverage
 from novelforge.retrieval.rerankers import get_reranker
 from novelforge.retrieval.search import Mode
 from novelforge.retrieval.search import search as retrieval_search
 from novelforge.schemas import ClaimOut, ReportOut, SearchOut, SpanOut
+from novelforge.services.errors import NotFound
+from novelforge.services.findings import fingerprint, refresh_findings, set_status, travel_matrix
 from novelforge.services.report import contradiction_report, load_claims
 
 router = APIRouter(prefix="/api/novels/{novel_id}", tags=["analysis"])
+findings_router = APIRouter(prefix="/api/findings", tags=["findings"])
 
 
 @router.get("/search", response_model=SearchOut)
@@ -89,28 +95,122 @@ def list_claims(novel: Novel = Depends(novel_dep), session: Session = SessionDep
 
 @router.get("/contradictions", response_model=ReportOut)
 def contradictions(
+    status: str = Query("open", pattern="^(open|dismissed|resolved|all)$"),
     include_uncertain: bool = Query(
-        False, description="Also let hedged statements and dialogue create findings."
+        False, description="Preview: also let hedged statements and dialogue create findings."
     ),
     min_confidence: float | None = Query(None, ge=0, le=1),
     novel: Novel = Depends(novel_dep),
     session: Session = SessionDep,
 ):
-    if min_confidence is None:
-        min_confidence = 0.3 if include_uncertain else get_settings().report_min_confidence
-    modalities = (
-        frozenset({"asserted", "hedged", "reported"})
-        if include_uncertain
-        else frozenset({"asserted"})
-    )
     started = time.perf_counter()
-    findings, claim_count = contradiction_report(session, novel.id, min_confidence, modalities)
+    if include_uncertain:
+        # A what-if preview: computed on the fly, never stored.
+        threshold = 0.3 if min_confidence is None else min_confidence
+        findings, claim_count = contradiction_report(
+            session,
+            novel.id,
+            threshold,
+            frozenset({"asserted", "hedged", "reported"}),
+            travel=travel_matrix(session, novel.id),
+        )
+        items = [
+            {
+                **f.__dict__,
+                "id": fingerprint(f),
+                "status": "preview",
+                "detector": "rules",
+                "evidence": [e.__dict__ for e in f.evidence],
+            }
+            for f in findings
+        ]
+        counts = {"preview": len(items)}
+    else:
+        threshold = (
+            get_settings().report_min_confidence if min_confidence is None else min_confidence
+        )
+        stats = refresh_findings(session, novel.id, threshold)
+        session.commit()
+        claim_count = stats["claims_considered"]
+        query = select(StoredFinding).where(StoredFinding.novel_id == novel.id)
+        if status != "all":
+            query = query.where(StoredFinding.status == status)
+        rows = session.scalars(query).all()
+        rows.sort(
+            key=lambda r: (
+                SEVERITY_ORDER.get(r.severity, 3),
+                min((e["chapter_number"] for e in r.evidence), default=0),
+                r.subject_name,
+                r.predicate,
+            )
+        )
+        items = [
+            {
+                "id": str(r.id),
+                "kind": r.kind,
+                "category": r.category,
+                "subject_id": str(r.subject_character_id) if r.subject_character_id else "",
+                "subject_name": r.subject_name,
+                "predicate": r.predicate,
+                "severity": r.severity,
+                "explanation": r.explanation,
+                "suggestion": r.suggestion,
+                "canon_value": r.canon_value,
+                "evidence": r.evidence,
+                "status": r.status,
+                "status_note": r.status_note,
+                "detector": r.detector,
+                "auto_resolved": r.auto_resolved,
+            }
+            for r in rows
+        ]
+        counts = dict(
+            session.execute(
+                select(StoredFinding.status, func.count())
+                .where(StoredFinding.novel_id == novel.id)
+                .group_by(StoredFinding.status)
+            ).all()
+        )
     return {
         "novel_id": novel.id,
-        "min_confidence": min_confidence,
+        "min_confidence": threshold,
         "claims_considered": claim_count,
-        "findings": [
-            {**f.__dict__, "evidence": [e.__dict__ for e in f.evidence]} for f in findings
-        ],
+        "status_counts": counts,
+        "findings": items,
         "took_ms": round((time.perf_counter() - started) * 1000, 2),
     }
+
+
+class StatusIn(BaseModel):
+    note: str | None = Field(None, max_length=2000)
+
+
+def _finding(session: Session, finding_id: uuid.UUID) -> StoredFinding:
+    row = session.get(StoredFinding, finding_id)
+    if row is None:
+        raise NotFound("Finding", finding_id)
+    return row
+
+
+@findings_router.post("/{finding_id}/dismiss")
+def dismiss(finding_id: uuid.UUID, payload: StatusIn, session: Session = SessionDep):
+    row = _finding(session, finding_id)
+    set_status(session, row, "dismissed", payload.note)
+    session.commit()
+    return {"id": str(row.id), "status": row.status}
+
+
+@findings_router.post("/{finding_id}/resolve")
+def resolve(finding_id: uuid.UUID, payload: StatusIn, session: Session = SessionDep):
+    row = _finding(session, finding_id)
+    set_status(session, row, "resolved", payload.note)
+    session.commit()
+    return {"id": str(row.id), "status": row.status}
+
+
+@findings_router.post("/{finding_id}/reopen")
+def reopen(finding_id: uuid.UUID, session: Session = SessionDep):
+    row = _finding(session, finding_id)
+    set_status(session, row, "open", None)
+    session.commit()
+    return {"id": str(row.id), "status": row.status}

@@ -408,3 +408,41 @@ class ReviewDecision(Base):
     decision: Mapped[str] = mapped_column(String(16))  # accepted | rejected
     note: Mapped[str | None] = mapped_column(Text)
     decided_at: Mapped[datetime] = _now_column()
+
+
+class StoredFinding(Base):
+    """A contradiction finding with a lifecycle: open -> dismissed | resolved.
+
+    `fingerprint` identifies the finding by its kind, subject and the evidence text (not offsets),
+    so a dismissed finding stays dismissed across re-runs and edits elsewhere in the chapter,
+    and comes back only when its evidence changes.
+    """
+
+    __tablename__ = "finding"
+    __table_args__ = (
+        UniqueConstraint("novel_id", "fingerprint"),
+        Index("ix_finding_novel_status", "novel_id", "status"),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    fingerprint: Mapped[str] = mapped_column(String(40))
+    detector: Mapped[str] = mapped_column(String(64))  # rules | rule-judge:<llm>
+    kind: Mapped[str] = mapped_column(String(64))
+    category: Mapped[str] = mapped_column(String(32))
+    subject_character_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("character.id", ondelete="CASCADE")
+    )
+    subject_name: Mapped[str] = mapped_column(String(200))
+    predicate: Mapped[str] = mapped_column(String(64))
+    severity: Mapped[str] = mapped_column(String(16))
+    explanation: Mapped[str] = mapped_column(Text)
+    suggestion: Mapped[str] = mapped_column(Text)
+    canon_value: Mapped[str | None] = mapped_column(String(500))
+    evidence: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
+    status: Mapped[str] = mapped_column(String(16), default="open")
+    status_note: Mapped[str | None] = mapped_column(Text)
+    auto_resolved: Mapped[bool] = mapped_column(default=False)
+    status_changed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    first_seen_at: Mapped[datetime] = _now_column()
+    last_seen_at: Mapped[datetime] = _now_column()

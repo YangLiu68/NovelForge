@@ -231,3 +231,25 @@ test("review: accept into canon, refuse silent overwrite, reject out of the repo
   await expect(page.getByTestId("canon-changes")).toContainText("attributes.eye_color");
   await expect(page.getByTestId("canon-changes")).toContainText("grey");
 });
+
+test("dismiss a finding with a reason; it moves to the dismissed tab", async ({ page, request }) => {
+  const novel = await (await request.post("/api/novels", { data: { title: "Dismissal" } })).json();
+  await request.post(`/api/novels/${novel.id}/characters`, { data: { name: "Kell Varn" } });
+  const chapters = ["Kell was left-handed.", "Kell was right-handed."];
+  for (const body of chapters) {
+    await request.post(`/api/novels/${novel.id}/chapters`, { data: { title: "C", body } });
+  }
+  await page.goto(`/novels/${novel.id}/contradictions`);
+  const finding = page.getByTestId("finding");
+  await expect(finding).toHaveCount(1);
+  await finding.getByRole("button", { name: "Dismiss…" }).click();
+  await expect(finding.getByRole("button", { name: "Dismiss", exact: true })).toBeDisabled();
+  await finding.getByLabel("Reason").fill("intentional: Kell is lying");
+  await finding.getByRole("button", { name: "Dismiss", exact: true }).click();
+  await expect(page.getByTestId("finding")).toHaveCount(0);
+  await page.getByRole("radio", { name: /dismissed/ }).click();
+  await expect(page.getByTestId("finding")).toContainText("intentional: Kell is lying");
+  await page.getByRole("button", { name: "Reopen" }).click();
+  await page.getByRole("radio", { name: /open/ }).click();
+  await expect(page.getByTestId("finding")).toHaveCount(1);
+});

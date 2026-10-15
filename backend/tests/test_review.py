@@ -105,11 +105,12 @@ def test_accept_location_creates_location_and_timeline(client, tmp_path, session
     items = _claims(client, nid, family="presence")["items"]
     loc = next(c for c in items if c["predicate"] == "location")
     r = client.post(f"/api/claims/{loc['id']}/accept", json={})
-    assert r.json()["changed"] == ["location", "timeline_event"]
+    # Generated corpora ship their places (with travel times), so only the event is new.
+    assert r.json()["changed"] == ["timeline_event"]
     canon = client.get(f"/api/novels/{nid}/canon").json()
-    assert canon["locations"][0]["name"] == loc["value"]
+    assert loc["value"] in {x["name"] for x in canon["locations"]}
     assert canon["timeline"][0]["kind"] == "travel"
-    assert session.scalar(select(Location.name)) == loc["value"]
+    assert session.scalar(select(Location).where(Location.name == loc["value"])).travel_days
 
 
 def test_batch_accept_skips_canon_conflicts(client, sample_novel_id):

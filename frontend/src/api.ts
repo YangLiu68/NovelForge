@@ -83,10 +83,20 @@ export const api = {
     request<SearchResult>("GET", `/api/novels/${novelId}/search?${q({ q: query, mode })}`),
   jobs: () => request<JobStats>("GET", "/api/jobs"),
   claims: (novelId: string) => request<Claim[]>("GET", `/api/novels/${novelId}/claims`),
-  contradictions: (novelId: string, includeUncertain = false) =>
+  contradictions: (novelId: string, includeUncertain = false, status = "open") =>
     request<Report>(
       "GET",
-      `/api/novels/${novelId}/contradictions?${q({ include_uncertain: String(includeUncertain) })}`,
+      `/api/novels/${novelId}/contradictions?${q({
+        include_uncertain: String(includeUncertain),
+        status,
+      })}`,
+    ),
+  setFindingStatus: (id: string, action: "dismiss" | "resolve" | "reopen", note?: string) =>
+    request<{ status: string }>("POST", `/api/findings/${id}/${action}`, { note }),
+  judgeRules: (novelId: string) =>
+    request<{ queued: string; rules: number; llm: string }>(
+      "POST",
+      `/api/novels/${novelId}/judge-rules`,
     ),
 
   review: (novelId: string, status = "proposed", family?: string, offset = 0) =>

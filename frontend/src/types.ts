@@ -108,7 +108,7 @@ export interface JobStats {
 }
 
 export interface Evidence extends SpanRef {
-  claim_id: string;
+  claim_id: string | null;
   value: string;
   modality: string;
   confidence: number;
@@ -118,7 +118,14 @@ export interface Evidence extends SpanRef {
 
 export interface Finding {
   id: string;
-  kind: "attribute_conflict" | "canon_conflict" | "age_timeline";
+  kind:
+    | "attribute_conflict"
+    | "canon_conflict"
+    | "age_timeline"
+    | "dead_character_active"
+    | "location_conflict"
+    | "ability_conflict"
+    | "world_rule_violation";
   category: string;
   subject_id: string;
   subject_name: string;
@@ -128,12 +135,17 @@ export interface Finding {
   suggestion: string;
   canon_value: string | null;
   evidence: Evidence[];
+  status: "open" | "dismissed" | "resolved" | "preview";
+  status_note: string | null;
+  detector: string;
+  auto_resolved: boolean;
 }
 
 export interface Report {
   novel_id: string;
   min_confidence: number;
   claims_considered: number;
+  status_counts: Record<string, number>;
   findings: Finding[];
   took_ms: number;
 }

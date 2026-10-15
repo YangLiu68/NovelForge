@@ -10,7 +10,7 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from novelforge.core.sample import SampleNovel, load_folder, load_sample
-from novelforge.models import Novel
+from novelforge.models import Location, Novel
 from novelforge.services import workspace
 
 
@@ -45,6 +45,10 @@ def import_novel(session: Session, sample: SampleNovel) -> ImportResult:
             c.attributes,
             character_id=c.id,
             rebuild=False,
+        )
+    for loc in sample.locations:
+        session.add(
+            Location(id=loc.id, novel_id=novel.id, name=loc.name, travel_days=loc.travel_days)
         )
     for ch in sample.chapters:
         workspace.create_chapter(
