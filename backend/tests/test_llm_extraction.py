@@ -280,3 +280,29 @@ def test_caching_llm_replays_without_calling(tmp_path):
     again = CachingLLM(MockLLM(), tmp_path / "c.jsonl").generate_json("s", "p", SCHEMA)
     assert first.data == again.data == {"facts": []}
     assert len(inner.calls) == 1
+
+
+def test_caching_llm_replays_repeatable_failures_only(tmp_path):
+    from novelforge.llm.base import LLMError
+    from novelforge.llm.cache import CachingLLM
+
+    class Failing(MockLLM):
+        def __init__(self, kind):
+            super().__init__()
+            self.kind = kind
+
+        def generate_json(self, system, prompt, schema, max_tokens=16000):
+            self.calls.append(prompt)
+            raise LLMError(self.kind, "output hit num_predict=2048")
+
+    capped = Failing("max_tokens")
+    for llm in (capped, MockLLM()):  # the second run never reaches the model
+        with pytest.raises(LLMError) as err:
+            CachingLLM(llm, tmp_path / "c.jsonl").generate_json("s", "p", SCHEMA)
+        assert err.value.kind == "max_tokens" and "2048" in str(err.value)
+    assert len(capped.calls) == 1
+
+    down = Failing("transport")
+    with pytest.raises(LLMError):
+        CachingLLM(down, tmp_path / "t.jsonl").generate_json("s", "p", SCHEMA)
+    assert not (tmp_path / "t.jsonl").exists()

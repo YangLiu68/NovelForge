@@ -265,7 +265,7 @@ def run(
         "cache": None
         if cache is None or extractor == "rules"
         else {
-            "path": str(cache),
+            "file": cache.name,
             "hits": getattr(llm, "hits", 0),
             "misses": getattr(llm, "misses", 0),
         },
