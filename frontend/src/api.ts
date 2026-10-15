@@ -5,8 +5,10 @@ import type {
   Claim,
   Novel,
   Report,
+  JobStats,
   Revision,
   RevisionSummary,
+  SearchMode,
   SearchResult,
 } from "./types";
 
@@ -74,8 +76,9 @@ export const api = {
     request<Character>("PATCH", `/api/characters/${id}`, { ...fields, version }),
   deleteCharacter: (id: string) => request<void>("DELETE", `/api/characters/${id}`),
 
-  search: (novelId: string, query: string) =>
-    request<SearchResult>("GET", `/api/novels/${novelId}/search?${q({ q: query })}`),
+  search: (novelId: string, query: string, mode: SearchMode = "hybrid") =>
+    request<SearchResult>("GET", `/api/novels/${novelId}/search?${q({ q: query, mode })}`),
+  jobs: () => request<JobStats>("GET", "/api/jobs"),
   claims: (novelId: string) => request<Claim[]>("GET", `/api/novels/${novelId}/claims`),
   contradictions: (novelId: string, minConfidence?: number) =>
     request<Report>(

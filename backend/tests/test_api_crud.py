@@ -24,8 +24,10 @@ def test_validation_errors(client):
     assert client.post("/api/novels", json={"title": "   "}).status_code == 422
     assert client.get("/api/novels/not-a-uuid").status_code == 422
     novel = make_novel(client)
-    r = client.post(f"/api/novels/{novel['id']}/characters",
-                    json={"name": "X", "attributes": {"Eye Color": "blue"}})
+    r = client.post(
+        f"/api/novels/{novel['id']}/characters",
+        json={"name": "X", "attributes": {"Eye Color": "blue"}},
+    )
     assert r.status_code == 422
 
 
@@ -57,10 +59,13 @@ def test_chapter_crud_numbering_and_revisions(client):
 
 def test_stale_chapter_save_is_rejected_and_changes_nothing(client):
     novel = make_novel(client)
-    ch = client.post(f"/api/novels/{novel['id']}/chapters",
-                     json={"title": "One", "body": "v1"}).json()
-    assert client.patch(f"/api/chapters/{ch['id']}",
-                        json={"version": 1, "body": "edit A"}).status_code == 200
+    ch = client.post(
+        f"/api/novels/{novel['id']}/chapters", json={"title": "One", "body": "v1"}
+    ).json()
+    assert (
+        client.patch(f"/api/chapters/{ch['id']}", json={"version": 1, "body": "edit A"}).status_code
+        == 200
+    )
     r = client.patch(f"/api/chapters/{ch['id']}", json={"version": 1, "body": "edit B"})
     assert r.status_code == 409
     assert r.json()["current_version"] == 2
@@ -70,20 +75,36 @@ def test_stale_chapter_save_is_rejected_and_changes_nothing(client):
 
 def test_stale_character_and_novel_saves_are_rejected(client):
     novel = make_novel(client)
-    assert client.patch(f"/api/novels/{novel['id']}",
-                        json={"version": 7, "title": "X"}).status_code == 409
+    assert (
+        client.patch(f"/api/novels/{novel['id']}", json={"version": 7, "title": "X"}).status_code
+        == 409
+    )
     ch = client.post(f"/api/novels/{novel['id']}/characters", json={"name": "Mara"}).json()
-    assert client.patch(f"/api/characters/{ch['id']}",
-                        json={"version": 1, "description": "a"}).status_code == 200
-    assert client.patch(f"/api/characters/{ch['id']}",
-                        json={"version": 1, "description": "b"}).status_code == 409
+    assert (
+        client.patch(
+            f"/api/characters/{ch['id']}", json={"version": 1, "description": "a"}
+        ).status_code
+        == 200
+    )
+    assert (
+        client.patch(
+            f"/api/characters/{ch['id']}", json={"version": 1, "description": "b"}
+        ).status_code
+        == 409
+    )
 
 
 def test_character_crud(client):
     novel = make_novel(client)
     base = f"/api/novels/{novel['id']}/characters"
-    r = client.post(base, json={"name": "Mara Venn", "aliases": [" the cartographer ", ""],
-                                "attributes": {"eye_color": "grey", "notes": "  "}})
+    r = client.post(
+        base,
+        json={
+            "name": "Mara Venn",
+            "aliases": [" the cartographer ", ""],
+            "attributes": {"eye_color": "grey", "notes": "  "},
+        },
+    )
     assert r.status_code == 201
     ch = r.json()
     assert ch["aliases"] == ["the cartographer"] and ch["attributes"] == {"eye_color": "grey"}
@@ -101,8 +122,10 @@ def test_deleting_a_novel_cascades(client, session):
 
     novel = make_novel(client)
     client.post(f"/api/novels/{novel['id']}/characters", json={"name": "Mara Venn"})
-    client.post(f"/api/novels/{novel['id']}/chapters",
-                json={"title": "One", "body": "Mara's eyes were grey."})
+    client.post(
+        f"/api/novels/{novel['id']}/chapters",
+        json={"title": "One", "body": "Mara's eyes were grey."},
+    )
     assert session.scalar(select(func.count()).select_from(Claim)) == 1
     client.delete(f"/api/novels/{novel['id']}")
     for model in (Chapter, Character, Claim, EvidenceSpan, Passage, Revision):

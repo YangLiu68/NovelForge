@@ -83,24 +83,102 @@ def cmd_eval_sample(args: argparse.Namespace) -> int:
             claims, chapters, characters, min_confidence=settings.report_min_confidence
         )
     result = evaluate(findings, sample.ground_truth, bodies).as_dict()
-    result.update({"sample": args.name, "extractor": EXTRACTOR, "mode": "db" if args.db else
-                   "in-memory", "min_confidence": settings.report_min_confidence})
+    result.update(
+        {
+            "sample": args.name,
+            "extractor": EXTRACTOR,
+            "mode": "db" if args.db else "in-memory",
+            "min_confidence": settings.report_min_confidence,
+        }
+    )
     if args.json:
         print(json.dumps(result, indent=2))
         return 0
-    print(f"sample={args.name} extractor={EXTRACTOR} mode={result['mode']} "
-          f"min_confidence={result['min_confidence']}")
-    print(f"findings={result['findings']} TP={result['true_positives']} "
-          f"FP={result['false_positives']} FN={result['false_negatives']}")
-    print(f"precision={result['precision']} recall(all)={result['recall_all']} "
-          f"recall(m1-detectable)={result['recall_detectable']}")
+    print(
+        f"sample={args.name} extractor={EXTRACTOR} mode={result['mode']} "
+        f"min_confidence={result['min_confidence']}"
+    )
+    print(
+        f"findings={result['findings']} TP={result['true_positives']} "
+        f"FP={result['false_positives']} FN={result['false_negatives']}"
+    )
+    print(
+        f"precision={result['precision']} recall(all)={result['recall_all']} "
+        f"recall(m1-detectable)={result['recall_detectable']}"
+    )
     print(f"negatives violated={result['negatives_violated']}/{result['negatives']}")
-    print(f"citation precision={result['citation_precision']} "
-          f"({result['cited_spans_correct']}/{result['cited_spans']} cited spans) "
-          f"citation recall={result['citation_recall']} "
-          f"({result['labelled_spans_covered']}/{result['labelled_spans_total']} labelled spans)")
+    print(
+        f"citation precision={result['citation_precision']} "
+        f"({result['cited_spans_correct']}/{result['cited_spans']} cited spans) "
+        f"citation recall={result['citation_recall']} "
+        f"({result['labelled_spans_covered']}/{result['labelled_spans_total']} labelled spans)"
+    )
     for m in result["missed"]:
         print(f"missed {m['id']}: {m['reason']}")
+    return 0
+
+
+def cmd_gen_corpus(args: argparse.Namespace) -> int:
+    from novelforge.bench.generate import generate
+
+    gt = generate(Path(args.out), args.chapters, args.seed)
+    counts = {k: len(v) for k, v in gt.items() if isinstance(v, list)}
+    print(f"wrote {args.out}: {args.chapters} chapters, seed {args.seed}, {counts}")
+    return 0
+
+
+def cmd_import_corpus(args: argparse.Namespace) -> int:
+    from novelforge.db import get_sessionmaker
+    from novelforge.services.importer import import_folder
+
+    with get_sessionmaker()() as session:
+        result = import_folder(session, Path(args.path))
+        session.commit()
+        state = "imported" if result.created else "already present"
+        print(f"{args.path}: {state} (novel id {result.novel.id})")
+    return 0
+
+
+def cmd_worker(args: argparse.Namespace) -> int:
+    import logging
+    import signal
+    import threading
+
+    from novelforge.db import get_sessionmaker
+    from novelforge.jobs import Worker, load_handlers, run_pending
+
+    logging.basicConfig(level="INFO", format="%(message)s")
+    load_handlers()
+    if args.once:
+        print(f"ran {run_pending(get_sessionmaker())} jobs")
+        return 0
+    worker = Worker(get_sessionmaker())
+    stop = threading.Event()
+    signal.signal(signal.SIGINT, lambda *_: stop.set())
+    signal.signal(signal.SIGTERM, lambda *_: stop.set())
+    worker.start()
+    stop.wait()
+    worker.stop()
+    return 0
+
+
+def cmd_bench_retrieval(args: argparse.Namespace) -> int:
+    from sqlalchemy.engine import make_url
+
+    from novelforge.bench import retrieval_eval
+    from novelforge.db import resolve_database_url
+
+    report = retrieval_eval.run(
+        Path(args.corpus),
+        make_url(resolve_database_url()),
+        args.embedder,
+        args.reranker,
+        args.modes.split(","),
+        max_queries=args.max_queries,
+    )
+    path = retrieval_eval.save(report, Path(args.out))
+    print(retrieval_eval.to_markdown(report))
+    print(f"\nsaved {path} and {path.with_suffix('.md')}")
     return 0
 
 
@@ -162,6 +240,29 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--db", action="store_true", help="run through the database")
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_eval_sample)
+
+    p = sub.add_parser("gen-corpus", help="generate a synthetic benchmark corpus")
+    p.add_argument("--chapters", type=int, default=100)
+    p.add_argument("--seed", type=int, default=7)
+    p.add_argument("--out", required=True)
+    p.set_defaults(func=cmd_gen_corpus)
+
+    p = sub.add_parser("import-corpus", help="import a corpus folder (idempotent)")
+    p.add_argument("path")
+    p.set_defaults(func=cmd_import_corpus)
+
+    p = sub.add_parser("worker", help="run the background job worker")
+    p.add_argument("--once", action="store_true", help="drain the queue and exit")
+    p.set_defaults(func=cmd_worker)
+
+    p = sub.add_parser("bench-retrieval", help="retrieval benchmark on a generated corpus")
+    p.add_argument("corpus")
+    p.add_argument("--embedder", default="hash")
+    p.add_argument("--reranker", default="lexical")
+    p.add_argument("--modes", default="keyword,fts,vector,hybrid,hybrid_rerank")
+    p.add_argument("--max-queries", type=int, default=None)
+    p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
+    p.set_defaults(func=cmd_bench_retrieval)
 
     p = sub.add_parser("serve", help="run the API server")
     p.add_argument("--host", default="127.0.0.1")

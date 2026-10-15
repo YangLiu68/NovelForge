@@ -34,12 +34,19 @@ def list_chapters(novel: Novel = Depends(novel_dep), session: Session = SessionD
     return [_summary(c) for c in rows]
 
 
-@router.post("/novels/{novel_id}/chapters", response_model=ChapterOut,
-             status_code=status.HTTP_201_CREATED)
-def create_chapter(payload: ChapterCreate, novel: Novel = Depends(novel_dep),
-                   session: Session = SessionDep):
+@router.post(
+    "/novels/{novel_id}/chapters", response_model=ChapterOut, status_code=status.HTTP_201_CREATED
+)
+def create_chapter(
+    payload: ChapterCreate, novel: Novel = Depends(novel_dep), session: Session = SessionDep
+):
     chapter = workspace.create_chapter(
-        session, novel, payload.title, payload.body, payload.number, payload.story_day,
+        session,
+        novel,
+        payload.title,
+        payload.body,
+        payload.number,
+        payload.story_day,
         payload.story_time_label,
     )
     session.commit()
@@ -52,8 +59,9 @@ def get_chapter(chapter: Chapter = Depends(chapter_dep)):
 
 
 @router.patch("/chapters/{chapter_id}", response_model=ChapterOut)
-def update_chapter(payload: ChapterUpdate, chapter: Chapter = Depends(chapter_dep),
-                   session: Session = SessionDep):
+def update_chapter(
+    payload: ChapterUpdate, chapter: Chapter = Depends(chapter_dep), session: Session = SessionDep
+):
     fields = payload.model_dump(exclude_unset=True, exclude={"version"})
     workspace.update_chapter(session, chapter, payload.version, fields)
     session.commit()

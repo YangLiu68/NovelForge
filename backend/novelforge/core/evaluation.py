@@ -83,9 +83,7 @@ def evaluate(findings: list[Finding], ground_truth: dict, bodies: dict[int, str]
                 correct += 1
         for ch, start, end in labelled:
             total += 1
-            if any(
-                e.chapter_number == ch and e.start < end and start < e.end for e in f.evidence
-            ):
+            if any(e.chapter_number == ch and e.start < end and start < e.end for e in f.evidence):
                 covered += 1
 
     violated = [

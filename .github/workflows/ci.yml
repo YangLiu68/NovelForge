@@ -39,11 +39,16 @@ jobs:
       - run: uv sync --frozen
       - run: uv run ruff check .
       - run: uv run pytest
+      - run: uv run ruff format --check .
       - name: Sample evaluation (in-memory and through the database)
         run: |
           uv run novelforge migrate
           uv run novelforge eval-sample
           uv run novelforge eval-sample --db
+      - name: Retrieval benchmark smoke test (mock embedder, small generated corpus)
+        run: |
+          uv run novelforge gen-corpus --chapters 30 --seed 1 --out /tmp/syn30
+          uv run novelforge bench-retrieval /tmp/syn30 --embedder hash --reranker lexical --out /tmp/bench
 
   frontend:
     runs-on: ubuntu-latest

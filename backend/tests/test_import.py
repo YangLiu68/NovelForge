@@ -12,8 +12,16 @@ def snapshot(session):
     return {
         "chapters": rows(Chapter, "id", "number", "title", "content_hash", "story_day"),
         "characters": rows(Character, "id", "name", "aliases", "attributes"),
-        "claims": rows(Claim, "id", "subject_character_id", "predicate", "value", "modality",
-                       "effective_day", "time_certainty"),
+        "claims": rows(
+            Claim,
+            "id",
+            "subject_character_id",
+            "predicate",
+            "value",
+            "modality",
+            "effective_day",
+            "time_certainty",
+        ),
         "spans": rows(EvidenceSpan, "id", "claim_id", "start", "end", "quote"),
         "passages": rows(Passage, "id", "start", "end"),
     }
@@ -56,7 +64,7 @@ def test_every_claim_is_grounded_and_timed(client, sample_novel_id, session):
     for claim in claims:
         assert claim["evidence"], claim
         for span in claim["evidence"]:
-            assert bodies[span["chapter_id"]][span["start"]:span["end"]] == span["quote"]
+            assert bodies[span["chapter_id"]][span["start"] : span["end"]] == span["quote"]
         if claim["time_certainty"] == "unknown":
             assert claim["effective_day"] is None
         else:

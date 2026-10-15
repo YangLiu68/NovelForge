@@ -95,10 +95,18 @@ def detect_contradictions(
         ch = chapter_by_id[claim.chapter_id]
         return [
             Evidence(
-                claim_id=claim.id, chapter_id=ch.id, chapter_number=ch.number,
-                chapter_title=ch.title, chapter_version=span.chapter_version, start=span.start,
-                end=span.end, quote=span.quote, value=claim.value, modality=claim.modality,
-                confidence=claim.confidence, effective_day=claim.effective_day,
+                claim_id=claim.id,
+                chapter_id=ch.id,
+                chapter_number=ch.number,
+                chapter_title=ch.title,
+                chapter_version=span.chapter_version,
+                start=span.start,
+                end=span.end,
+                quote=span.quote,
+                value=claim.value,
+                modality=claim.modality,
+                confidence=claim.confidence,
+                effective_day=claim.effective_day,
                 time_certainty=claim.time_certainty,
             )
             for span in claim.spans
@@ -185,9 +193,7 @@ def _static_findings(character, predicate, group, evidence, order) -> list[Findi
     others = [c for v, cs in ranked[1:] for c in cs]
     all_claims = [c for _, cs in ranked for c in cs]
     all_claims.sort(key=order)
-    sides = "; ".join(
-        f"'{v}' in {_chapter_list([order(c)[0] for c in cs])}" for v, cs in ranked
-    )
+    sides = "; ".join(f"'{v}' in {_chapter_list([order(c)[0] for c in cs])}" for v, cs in ranked)
     asserted = all(c.modality == "asserted" for c in all_claims)
     return [
         Finding(

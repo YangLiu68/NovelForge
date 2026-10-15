@@ -16,10 +16,13 @@ def test_split_passages_offsets_slice_the_body():
     body = "First para\nstill first.\n\n  Second para.\n\n\n# Heading\n\nLast"
     spans = split_passages(body)
     assert [s.text for s in spans] == [
-        "First para\nstill first.", "Second para.", "# Heading", "Last",
+        "First para\nstill first.",
+        "Second para.",
+        "# Heading",
+        "Last",
     ]
     for s in spans:
-        assert body[s.start:s.end] == s.text
+        assert body[s.start : s.end] == s.text
 
 
 def test_split_passages_empty():

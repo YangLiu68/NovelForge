@@ -176,12 +176,18 @@ class SearchHitOut(BaseModel):
     text: str
     score: float
     highlights: list[tuple[int, int]]
+    ranks: dict[str, int] = Field(default_factory=dict)
 
 
 class SearchOut(BaseModel):
     query: str
+    mode: str
+    embedder: str | None
+    reranker: str | None
     hits: list[SearchHitOut]
     took_ms: float
+    timings_ms: dict[str, float]
+    index_coverage: dict[str, int] | None
 
 
 class EvidenceOut(BaseModel):

@@ -25,6 +25,16 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
     log_level: str = "INFO"
 
+    # Retrieval. "hash" is a deterministic lexical mock (tests/CI); for real semantic search use
+    # "fastembed:BAAI/bge-small-en-v1.5" (needs `uv sync --extra embeddings`).
+    embedder: str = "hash"
+    reranker: str = "lexical"  # none | lexical | cross-encoder[:model]
+    model_cache_dir: Path = Path.home() / ".cache" / "novelforge"
+    ollama_url: str = "http://127.0.0.1:11434"
+    openai_base_url: str = "https://api.openai.com/v1"
+    # Run the job worker inside the API process. Turn off when running `novelforge worker`.
+    jobs_in_process: bool = True
+
 
 @lru_cache
 def get_settings() -> Settings:

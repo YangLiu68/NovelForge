@@ -24,11 +24,19 @@ def load_claims(session: Session, novel_id: uuid.UUID) -> list[Claim]:
 
 def to_extracted(claim: Claim) -> ExtractedClaim:
     return ExtractedClaim(
-        id=str(claim.id), chapter_id=str(claim.chapter_id), chapter_version=claim.chapter_version,
-        subject_id=str(claim.subject_character_id), subject_text=claim.subject_text,
-        predicate=claim.predicate, value=claim.value, raw_value=claim.raw_value,
-        modality=claim.modality, confidence=claim.confidence, effective_day=claim.effective_day,
-        time_certainty=claim.time_certainty, extractor=claim.extractor,
+        id=str(claim.id),
+        chapter_id=str(claim.chapter_id),
+        chapter_version=claim.chapter_version,
+        subject_id=str(claim.subject_character_id),
+        subject_text=claim.subject_text,
+        predicate=claim.predicate,
+        value=claim.value,
+        raw_value=claim.raw_value,
+        modality=claim.modality,
+        confidence=claim.confidence,
+        effective_day=claim.effective_day,
+        time_certainty=claim.time_certainty,
+        extractor=claim.extractor,
         spans=tuple(
             Span(str(s.chapter_id), s.chapter_version, s.start, s.end, s.quote)
             for s in claim.evidence
@@ -36,11 +44,11 @@ def to_extracted(claim: Claim) -> ExtractedClaim:
     )
 
 
-def contradiction_report(session: Session, novel_id: uuid.UUID,
-                         min_confidence: float) -> tuple[list[Finding], int]:
+def contradiction_report(
+    session: Session, novel_id: uuid.UUID, min_confidence: float
+) -> tuple[list[Finding], int]:
     chapters = [
-        chapter_ref(c)
-        for c in session.scalars(select(Chapter).where(Chapter.novel_id == novel_id))
+        chapter_ref(c) for c in session.scalars(select(Chapter).where(Chapter.novel_id == novel_id))
     ]
     claims = [to_extracted(c) for c in load_claims(session, novel_id)]
     findings = detect_contradictions(

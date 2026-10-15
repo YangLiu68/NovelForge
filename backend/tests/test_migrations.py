@@ -7,6 +7,7 @@ TABLES = {"novel", "chapter", "revision", "passage", "character", "claim", "evid
 
 def test_upgrade_and_downgrade_on_empty_database():
     from alembic import command
+
     from novelforge.cli import _alembic_config
 
     name = "novelforge_migration_test"

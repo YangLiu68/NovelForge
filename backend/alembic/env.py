@@ -1,8 +1,8 @@
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import create_engine
 
-from alembic import context
 from novelforge.db import ensure_database, resolve_database_url
 from novelforge.models import Base
 
@@ -14,8 +14,9 @@ target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
-    context.configure(url=resolve_database_url(), target_metadata=target_metadata,
-                      literal_binds=True)
+    context.configure(
+        url=resolve_database_url(), target_metadata=target_metadata, literal_binds=True
+    )
     with context.begin_transaction():
         context.run_migrations()
 

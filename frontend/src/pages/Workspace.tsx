@@ -10,7 +10,29 @@ export default function Workspace() {
   const [novel, setNovel] = useState<Novel | null>(null);
   const [chapters, setChapters] = useState<ChapterSummary[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [pendingJobs, setPendingJobs] = useState(0);
   const navigate = useNavigate();
+
+  // Background indexing indicator: poll while jobs are queued or running.
+  useEffect(() => {
+    let timer: number | undefined;
+    let cancelled = false;
+    const poll = async () => {
+      try {
+        const stats = await api.jobs();
+        const pending = (stats.counts.queued ?? 0) + (stats.counts.running ?? 0);
+        if (!cancelled) setPendingJobs(pending);
+        timer = window.setTimeout(poll, pending > 0 ? 1500 : 10000);
+      } catch {
+        timer = window.setTimeout(poll, 10000);
+      }
+    };
+    poll();
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [chapters]);
 
   const refreshChapters = useCallback(async () => {
     if (!novelId) return;
@@ -58,6 +80,11 @@ export default function Workspace() {
             + New
           </button>
         </div>
+        {pendingJobs > 0 && (
+          <div className="indexing" data-testid="indexing">
+            Indexing… {pendingJobs} job{pendingJobs === 1 ? "" : "s"} left
+          </div>
+        )}
         <ol className="chapter-list">
           {chapters.map((c) => (
             <li key={c.id}>

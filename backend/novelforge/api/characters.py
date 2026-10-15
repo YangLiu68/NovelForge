@@ -17,10 +17,14 @@ def list_characters(novel: Novel = Depends(novel_dep), session: Session = Sessio
     ).all()
 
 
-@router.post("/novels/{novel_id}/characters", response_model=CharacterOut,
-             status_code=status.HTTP_201_CREATED)
-def create_character(payload: CharacterCreate, novel: Novel = Depends(novel_dep),
-                     session: Session = SessionDep):
+@router.post(
+    "/novels/{novel_id}/characters",
+    response_model=CharacterOut,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_character(
+    payload: CharacterCreate, novel: Novel = Depends(novel_dep), session: Session = SessionDep
+):
     character = workspace.create_character(
         session, novel, payload.name, payload.aliases, payload.description, payload.attributes
     )
@@ -34,8 +38,11 @@ def get_character(character: Character = Depends(character_dep)):
 
 
 @router.patch("/characters/{character_id}", response_model=CharacterOut)
-def update_character(payload: CharacterUpdate, character: Character = Depends(character_dep),
-                     session: Session = SessionDep):
+def update_character(
+    payload: CharacterUpdate,
+    character: Character = Depends(character_dep),
+    session: Session = SessionDep,
+):
     fields = payload.model_dump(exclude_unset=True, exclude={"version"})
     workspace.update_character(session, character, payload.version, fields)
     session.commit()
@@ -43,7 +50,6 @@ def update_character(payload: CharacterUpdate, character: Character = Depends(ch
 
 
 @router.delete("/characters/{character_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_character(character: Character = Depends(character_dep),
-                     session: Session = SessionDep):
+def delete_character(character: Character = Depends(character_dep), session: Session = SessionDep):
     workspace.delete_character(session, character)
     session.commit()

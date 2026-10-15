@@ -57,6 +57,7 @@ test("hedged and dialogue statements appear only when asked for", async ({ page,
 test("search results link to the matching passage", async ({ page, request }) => {
   const novelId = await importSample(request);
   await page.goto(`/novels/${novelId}/search`);
+  await page.getByRole("radio", { name: "Exact" }).click();
   await page.getByLabel("Search query").fill('"sea wall"');
   await page.getByRole("button", { name: "Search" }).click();
   const hits = page.getByTestId("search-hit");
@@ -65,6 +66,34 @@ test("search results link to the matching passage", async ({ page, request }) =>
   const snippet = await hits.first().locator(".snippet").innerText();
   await hits.first().getByTestId("search-hit-link").click();
   await expect(page.getByTestId("span-highlight")).toHaveText(snippet);
+});
+
+test("hybrid search answers a question and explains each result", async ({ page, request }) => {
+  const novelId = await importSample(request);
+  // The API's in-process worker embeds the chapters in the background.
+  await expect
+    .poll(async () => (await (await request.get(`/api/novels/${novelId}/index`)).json()).coverage, {
+      timeout: 20_000,
+    })
+    .toEqual(expect.objectContaining({ embedded: expect.any(Number) }));
+  await expect
+    .poll(async () => {
+      const c = (await (await request.get(`/api/novels/${novelId}/index`)).json()).coverage;
+      return c.embedded === c.total;
+    })
+    .toBe(true);
+  await page.goto(`/novels/${novelId}/search?q=${encodeURIComponent("What colour are Mara's eyes?")}`);
+  await expect(page.getByRole("radio", { name: "Hybrid", exact: true })).toHaveAttribute(
+    "aria-checked",
+    "true",
+  );
+  // E2E runs with the deterministic mock embedder, so only require the answer in the top 3.
+  const hits = page.getByTestId("search-hit");
+  await expect(hits.first().locator(".chip").filter({ hasText: "fused #1" })).toBeVisible();
+  const top3 = await hits.evaluateAll((els) => els.slice(0, 3).map((e) => e.textContent ?? ""));
+  expect(top3.some((t) => t.includes("Mara's grey eyes"))).toBe(true);
+  await page.getByRole("radio", { name: "Exact" }).click();
+  await expect(page.getByTestId("search-summary")).toContainText("0 results");
 });
 
 test("edits persist, and a stale save shows a conflict instead of overwriting", async ({

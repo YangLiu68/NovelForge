@@ -43,7 +43,7 @@ def test_spans_are_exact_slices():
     claims = extract_claims(chapter(body), CAST)
     assert len(claims) == 1
     span = claims[0].spans[0]
-    assert body[span.start:span.end] == span.quote == "Mara's eyes were grey"
+    assert body[span.start : span.end] == span.quote == "Mara's eyes were grey"
 
 
 def test_alias_sentence_start_capitalised():
@@ -57,9 +57,7 @@ def test_hedged_and_reported_modalities():
     assert facts('"Says here Tomas Hale has blue eyes," the clerk said.') == [
         ("t", "eye_color", "blue", "reported")
     ]
-    assert facts("Some said Tomas was born in Hollin.") == [
-        ("t", "birthplace", "Hollin", "hedged")
-    ]
+    assert facts("Some said Tomas was born in Hollin.") == [("t", "birthplace", "Hollin", "hedged")]
 
 
 def test_hedge_in_other_clause_does_not_leak():

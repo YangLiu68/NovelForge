@@ -32,6 +32,7 @@ def stop_local_server(pgdata: Path) -> bool:
     if not (pgdata / "postmaster.pid").exists():
         return False
     pg_ctl = Path(pgserver.__file__).parent / "pginstall" / "bin" / "pg_ctl"
-    subprocess.run([str(pg_ctl), "-D", str(pgdata), "stop", "-m", "fast"], check=True,
-                   capture_output=True)
+    subprocess.run(
+        [str(pg_ctl), "-D", str(pgdata), "stop", "-m", "fast"], check=True, capture_output=True
+    )
     return True

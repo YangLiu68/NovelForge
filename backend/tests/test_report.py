@@ -24,7 +24,7 @@ def test_sample_report_finds_seeded_contradictions(client, sample_novel_id):
         assert f["explanation"] and f["suggestion"] and f["evidence"]
         for e in f["evidence"]:
             body = client.get(f"/api/chapters/{e['chapter_id']}").json()["body"]
-            assert body[e["start"]:e["end"]] == e["quote"]
+            assert body[e["start"] : e["end"]] == e["quote"]
 
 
 def test_low_confidence_threshold_surfaces_hedged_and_reported_claims(client, sample_novel_id):
@@ -48,18 +48,21 @@ def test_character_sheet_change_reextracts(client, sample_novel_id):
     chars = {c["name"]: c for c in client.get(f"/api/novels/{sample_novel_id}/characters").json()}
     tomas = chars["Tomas Hale"]
     # Make Hollin canon: the canon conflict now points at chapter 1's "Varrow".
-    r = client.patch(f"/api/characters/{tomas['id']}",
-                     json={"version": tomas["version"], "attributes": {"birthplace": "Hollin"}})
+    r = client.patch(
+        f"/api/characters/{tomas['id']}",
+        json={"version": tomas["version"], "attributes": {"birthplace": "Hollin"}},
+    )
     assert r.status_code == 200
-    [f] = [f for f in report(client, sample_novel_id)["findings"]
-           if f["predicate"] == "birthplace"]
+    [f] = [f for f in report(client, sample_novel_id)["findings"] if f["predicate"] == "birthplace"]
     assert f["canon_value"] == "Hollin" and [e["quote"] for e in f["evidence"]] == [
         "Tomas, born in Varrow"
     ]
     # Dropping the name "Ilsa Corr" + alias removes Ilsa's claims, so the age finding goes.
     ilsa = chars["Ilsa Corr"]
-    client.patch(f"/api/characters/{ilsa['id']}",
-                 json={"version": ilsa["version"], "name": "Ilse Kor", "aliases": []})
+    client.patch(
+        f"/api/characters/{ilsa['id']}",
+        json={"version": ilsa["version"], "name": "Ilse Kor", "aliases": []},
+    )
     got = {(f["subject_name"], f["predicate"]) for f in report(client, sample_novel_id)["findings"]}
     assert ("Ilse Kor", "age") not in got
 

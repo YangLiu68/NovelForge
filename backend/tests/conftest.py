@@ -15,6 +15,10 @@ from sqlalchemy.engine import URL, make_url
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TEST_DB = "novelforge_test"
+# Tests drive the job queue explicitly (run_pending) and use the deterministic mock embedder.
+os.environ["JOBS_IN_PROCESS"] = "false"
+os.environ["EMBEDDER"] = "hash"
+os.environ["RERANKER"] = "lexical"
 
 
 def server_url() -> URL:
@@ -67,15 +71,18 @@ def database_url() -> Iterator[str]:
 
 @pytest.fixture(autouse=True)
 def clean_tables(request):
-    if "database_url" not in request.fixturenames and "client" not in request.fixturenames \
-            and "session" not in request.fixturenames:
+    if (
+        "database_url" not in request.fixturenames
+        and "client" not in request.fixturenames
+        and "session" not in request.fixturenames
+    ):
         yield
         return
     request.getfixturevalue("database_url")
     from novelforge.db import get_engine
 
     with get_engine().begin() as conn:
-        conn.execute(text("TRUNCATE novel CASCADE"))
+        conn.execute(text("TRUNCATE novel, job, embedding_cache CASCADE"))
     yield
 
 
@@ -102,3 +109,13 @@ def sample_novel_id(client) -> str:
     r = client.post("/api/samples/lanternfall/import")
     assert r.status_code == 200, r.text
     return r.json()["novel_id"]
+
+
+@pytest.fixture
+def run_jobs(database_url):
+    """Drain the job queue synchronously; returns the number of jobs run."""
+    from novelforge.db import get_sessionmaker
+    from novelforge.jobs import load_handlers, run_pending
+
+    load_handlers()
+    return lambda: run_pending(get_sessionmaker())

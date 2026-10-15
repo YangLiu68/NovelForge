@@ -53,8 +53,13 @@ def _flush(session: Session, obj: Any, label: str) -> None:
 # Novels
 
 
-def create_novel(session: Session, title: str, synopsis: str = "",
-                 novel_id: uuid.UUID | None = None, slug: str | None = None) -> Novel:
+def create_novel(
+    session: Session,
+    title: str,
+    synopsis: str = "",
+    novel_id: uuid.UUID | None = None,
+    slug: str | None = None,
+) -> Novel:
     novel = Novel(id=novel_id or uuid.uuid4(), title=title, synopsis=synopsis, slug=slug)
     session.add(novel)
     _flush(session, novel, "Novel")
@@ -75,14 +80,24 @@ def update_novel(session: Session, novel: Novel, version: int, fields: dict[str,
 
 def _write_revision(session: Session, chapter: Chapter) -> None:
     session.add(
-        Revision(chapter_id=chapter.id, version=chapter.version, title=chapter.title,
-                 body=chapter.body, content_hash=chapter.content_hash)
+        Revision(
+            chapter_id=chapter.id,
+            version=chapter.version,
+            title=chapter.title,
+            body=chapter.body,
+            content_hash=chapter.content_hash,
+        )
     )
 
 
 def create_chapter(
-    session: Session, novel: Novel, title: str, body: str = "", number: int | None = None,
-    story_day: int | None = None, story_time_label: str | None = None,
+    session: Session,
+    novel: Novel,
+    title: str,
+    body: str = "",
+    number: int | None = None,
+    story_day: int | None = None,
+    story_time_label: str | None = None,
     chapter_id: uuid.UUID | None = None,
 ) -> Chapter:
     if number is None:
@@ -92,8 +107,14 @@ def create_chapter(
         number = (current_max or 0) + 1
     body = normalize_body(body)
     chapter = Chapter(
-        id=chapter_id or uuid.uuid4(), novel_id=novel.id, number=number, title=title, body=body,
-        story_day=story_day, story_time_label=story_time_label, content_hash=content_hash(body),
+        id=chapter_id or uuid.uuid4(),
+        novel_id=novel.id,
+        number=number,
+        title=title,
+        body=body,
+        story_day=story_day,
+        story_time_label=story_time_label,
+        content_hash=content_hash(body),
     )
     session.add(chapter)
     _flush(session, chapter, f"Chapter {number}")
@@ -102,8 +123,9 @@ def create_chapter(
     return chapter
 
 
-def update_chapter(session: Session, chapter: Chapter, version: int,
-                   fields: dict[str, Any]) -> Chapter:
+def update_chapter(
+    session: Session, chapter: Chapter, version: int, fields: dict[str, Any]
+) -> Chapter:
     _check_version(chapter, version, "Chapter")
     if "body" in fields:
         fields["body"] = normalize_body(fields["body"])
@@ -125,13 +147,21 @@ def update_chapter(session: Session, chapter: Chapter, version: int,
 
 
 def create_character(
-    session: Session, novel: Novel, name: str, aliases: list[str] | None = None,
-    description: str = "", attributes: dict[str, str] | None = None,
-    character_id: uuid.UUID | None = None, rebuild: bool = True,
+    session: Session,
+    novel: Novel,
+    name: str,
+    aliases: list[str] | None = None,
+    description: str = "",
+    attributes: dict[str, str] | None = None,
+    character_id: uuid.UUID | None = None,
+    rebuild: bool = True,
 ) -> Character:
     character = Character(
-        id=character_id or uuid.uuid4(), novel_id=novel.id, name=name.strip(),
-        aliases=_clean_aliases(aliases or []), description=description,
+        id=character_id or uuid.uuid4(),
+        novel_id=novel.id,
+        name=name.strip(),
+        aliases=_clean_aliases(aliases or []),
+        description=description,
         attributes=dict(attributes or {}),
     )
     session.add(character)
@@ -141,8 +171,9 @@ def create_character(
     return character
 
 
-def update_character(session: Session, character: Character, version: int,
-                     fields: dict[str, Any]) -> Character:
+def update_character(
+    session: Session, character: Character, version: int, fields: dict[str, Any]
+) -> Character:
     _check_version(character, version, "Character")
     if "aliases" in fields:
         fields["aliases"] = _clean_aliases(fields["aliases"])

@@ -1,4 +1,5 @@
 import time
+from typing import cast
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import select
@@ -7,19 +8,41 @@ from sqlalchemy.orm import Session
 from novelforge.api.deps import SessionDep, novel_dep
 from novelforge.config import get_settings
 from novelforge.models import Chapter, Character, Novel
+from novelforge.retrieval.embedders import get_embedder
+from novelforge.retrieval.index import coverage
+from novelforge.retrieval.rerankers import get_reranker
+from novelforge.retrieval.search import Mode
+from novelforge.retrieval.search import search as retrieval_search
 from novelforge.schemas import ClaimOut, ReportOut, SearchOut, SpanOut
 from novelforge.services.report import contradiction_report, load_claims
-from novelforge.services.search import search_passages
 
 router = APIRouter(prefix="/api/novels/{novel_id}", tags=["analysis"])
 
 
 @router.get("/search", response_model=SearchOut)
-def search(q: str = Query(..., min_length=1, max_length=500),
-           limit: int = Query(20, ge=1, le=100),
-           novel: Novel = Depends(novel_dep), session: Session = SessionDep):
-    hits, took_ms = search_passages(session, novel.id, q, limit)
-    return {"query": q, "hits": [h.__dict__ for h in hits], "took_ms": round(took_ms, 2)}
+def search(
+    q: str = Query(..., min_length=1, max_length=500),
+    mode: str = Query("keyword", pattern="^(keyword|fts|vector|hybrid|hybrid_rerank)$"),
+    limit: int = Query(20, ge=1, le=100),
+    novel: Novel = Depends(novel_dep),
+    session: Session = SessionDep,
+):
+    settings = get_settings()
+    embedder = (
+        get_embedder(settings.embedder) if mode in ("vector", "hybrid", "hybrid_rerank") else None
+    )
+    reranker = get_reranker(settings.reranker) if mode == "hybrid_rerank" else None
+    result = retrieval_search(session, novel.id, q, cast(Mode, mode), limit, embedder, reranker)
+    return {
+        "query": q,
+        "mode": mode,
+        "embedder": embedder.name if embedder else None,
+        "reranker": reranker.name if reranker else None,
+        "hits": [h.__dict__ for h in result.hits],
+        "took_ms": result.timings_ms["total"],
+        "timings_ms": result.timings_ms,
+        "index_coverage": coverage(session, novel.id, embedder.name) if embedder else None,
+    }
 
 
 @router.get("/claims", response_model=list[ClaimOut])
@@ -35,16 +58,27 @@ def list_claims(novel: Novel = Depends(novel_dep), session: Session = SessionDep
     claims.sort(key=lambda c: (chapters[c.chapter_id].number, c.evidence[0].start))
     return [
         ClaimOut(
-            id=c.id, subject_character_id=c.subject_character_id,
+            id=c.id,
+            subject_character_id=c.subject_character_id,
             subject_name=names.get(c.subject_character_id, c.subject_text),
-            predicate=c.predicate, value=c.value, raw_value=c.raw_value, modality=c.modality,
-            confidence=c.confidence, status=c.status, extractor=c.extractor,
-            effective_day=c.effective_day, time_certainty=c.time_certainty,
+            predicate=c.predicate,
+            value=c.value,
+            raw_value=c.raw_value,
+            modality=c.modality,
+            confidence=c.confidence,
+            status=c.status,
+            extractor=c.extractor,
+            effective_day=c.effective_day,
+            time_certainty=c.time_certainty,
             evidence=[
                 SpanOut(
-                    chapter_id=s.chapter_id, chapter_number=chapters[s.chapter_id].number,
+                    chapter_id=s.chapter_id,
+                    chapter_number=chapters[s.chapter_id].number,
                     chapter_title=chapters[s.chapter_id].title,
-                    chapter_version=s.chapter_version, start=s.start, end=s.end, quote=s.quote,
+                    chapter_version=s.chapter_version,
+                    start=s.start,
+                    end=s.end,
+                    quote=s.quote,
                 )
                 for s in c.evidence
             ],
@@ -54,8 +88,11 @@ def list_claims(novel: Novel = Depends(novel_dep), session: Session = SessionDep
 
 
 @router.get("/contradictions", response_model=ReportOut)
-def contradictions(min_confidence: float | None = Query(None, ge=0, le=1),
-                   novel: Novel = Depends(novel_dep), session: Session = SessionDep):
+def contradictions(
+    min_confidence: float | None = Query(None, ge=0, le=1),
+    novel: Novel = Depends(novel_dep),
+    session: Session = SessionDep,
+):
     threshold = get_settings().report_min_confidence if min_confidence is None else min_confidence
     started = time.perf_counter()
     findings, claim_count = contradiction_report(session, novel.id, threshold)

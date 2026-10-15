@@ -9,7 +9,7 @@ from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from novelforge.core.sample import load_sample
+from novelforge.core.sample import SampleNovel, load_folder, load_sample
 from novelforge.models import Novel
 from novelforge.services import workspace
 
@@ -21,7 +21,14 @@ class ImportResult:
 
 
 def import_sample(session: Session, samples_dir: Path, name: str) -> ImportResult:
-    sample = load_sample(samples_dir, name)
+    return import_novel(session, load_sample(samples_dir, name))
+
+
+def import_folder(session: Session, folder: Path) -> ImportResult:
+    return import_novel(session, load_folder(folder))
+
+
+def import_novel(session: Session, sample: SampleNovel) -> ImportResult:
     existing = session.get(Novel, sample.id)
     if existing is not None:
         return ImportResult(existing, created=False)
@@ -30,12 +37,24 @@ def import_sample(session: Session, samples_dir: Path, name: str) -> ImportResul
     )
     for c in sample.characters:
         workspace.create_character(
-            session, novel, c.name, c.aliases, c.description, c.attributes,
-            character_id=c.id, rebuild=False,
+            session,
+            novel,
+            c.name,
+            c.aliases,
+            c.description,
+            c.attributes,
+            character_id=c.id,
+            rebuild=False,
         )
     for ch in sample.chapters:
         workspace.create_chapter(
-            session, novel, ch.title, ch.body, ch.number, ch.story_day, ch.story_time_label,
+            session,
+            novel,
+            ch.title,
+            ch.body,
+            ch.number,
+            ch.story_day,
+            ch.story_time_label,
             chapter_id=ch.id,
         )  # characters exist already, so each chapter's claims are extracted here
     return ImportResult(novel, created=True)

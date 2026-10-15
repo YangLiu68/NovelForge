@@ -76,6 +76,8 @@ export interface Claim {
   evidence: SpanRef[];
 }
 
+export type SearchMode = "keyword" | "fts" | "vector" | "hybrid" | "hybrid_rerank";
+
 export interface SearchHit {
   passage_id: string;
   chapter_id: string;
@@ -87,12 +89,22 @@ export interface SearchHit {
   text: string;
   score: number;
   highlights: [number, number][];
+  ranks: Record<string, number>;
 }
 
 export interface SearchResult {
   query: string;
+  mode: SearchMode;
+  embedder: string | null;
+  reranker: string | null;
   hits: SearchHit[];
   took_ms: number;
+  timings_ms: Record<string, number>;
+  index_coverage: { total: number; embedded: number } | null;
+}
+
+export interface JobStats {
+  counts: Record<string, number>;
 }
 
 export interface Evidence extends SpanRef {

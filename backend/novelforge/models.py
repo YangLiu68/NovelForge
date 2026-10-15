@@ -1,14 +1,14 @@
 """SQLAlchemy ORM models.
 
-M1 implements the entities the first vertical slice needs: Novel, Chapter, Revision, Passage,
-Character, Claim, EvidenceSpan. Scene, Relationship, Location, WorldRule, TimelineEvent and
-PlotThread arrive with the extraction pipeline in M3 (see PLAN.md).
+Workspace: Novel, Chapter, Revision, Character. Evidence: Passage (search unit, with an
+optional embedding), Claim, EvidenceSpan. Infrastructure: EmbeddingCache, Job.
 """
 
 import uuid
 from datetime import datetime
 from typing import Any
 
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     CheckConstraint,
     Computed,
@@ -49,11 +49,15 @@ class Novel(Base):
     )
 
     chapters: Mapped[list["Chapter"]] = relationship(
-        back_populates="novel", cascade="all, delete-orphan", passive_deletes=True,
+        back_populates="novel",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
         order_by="Chapter.number",
     )
     characters: Mapped[list["Character"]] = relationship(
-        back_populates="novel", cascade="all, delete-orphan", passive_deletes=True,
+        back_populates="novel",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
         order_by="Character.name",
     )
 
@@ -112,6 +116,7 @@ class Passage(Base):
     __table_args__ = (
         Index("ix_passage_tsv", "tsv", postgresql_using="gin"),
         Index("ix_passage_novel", "novel_id"),
+        Index("ix_passage_embedding_model", "novel_id", "embedding_model"),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
@@ -124,6 +129,11 @@ class Passage(Base):
     tsv: Mapped[Any] = mapped_column(
         TSVECTOR, Computed("to_tsvector('english', text)", persisted=True)
     )
+    text_hash: Mapped[str] = mapped_column(String(64))
+    # Dimension-less vector column: different embedders have different sizes. Each model gets its
+    # own partial HNSW index on (embedding::vector(dim)) WHERE embedding_model = '<model>'.
+    embedding: Mapped[Any | None] = mapped_column(Vector())
+    embedding_model: Mapped[str | None] = mapped_column(String(120))
 
 
 class Character(Base):
@@ -190,7 +200,7 @@ class Claim(Base):
 class EvidenceSpan(Base):
     __tablename__ = "evidence_span"
     __table_args__ = (
-        CheckConstraint("start >= 0 AND \"end\" > start", name="span_bounds"),
+        CheckConstraint('start >= 0 AND "end" > start', name="span_bounds"),
         Index("ix_evidence_span_claim", "claim_id"),
     )
 
@@ -201,3 +211,36 @@ class EvidenceSpan(Base):
     start: Mapped[int] = mapped_column(Integer)  # code-point offsets into chapter.body
     end: Mapped[int] = mapped_column(Integer)
     quote: Mapped[str] = mapped_column(Text)
+
+
+class EmbeddingCache(Base):
+    """Content-addressed embeddings: unchanged paragraphs are never embedded twice."""
+
+    __tablename__ = "embedding_cache"
+
+    model: Mapped[str] = mapped_column(String(120), primary_key=True)
+    text_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    dim: Mapped[int] = mapped_column(Integer)
+    embedding: Mapped[Any] = mapped_column(Vector())
+    created_at: Mapped[datetime] = _now_column()
+
+
+class Job(Base):
+    """A unit of background work. `key` makes enqueueing idempotent."""
+
+    __tablename__ = "job"
+    __table_args__ = (Index("ix_job_queue", "status", "run_after"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    kind: Mapped[str] = mapped_column(String(64))
+    key: Mapped[str] = mapped_column(String(300), unique=True)
+    payload: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
+    status: Mapped[str] = mapped_column(String(16), default="queued")
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    max_attempts: Mapped[int] = mapped_column(Integer, default=3)
+    error: Mapped[str | None] = mapped_column(Text)
+    result: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    run_after: Mapped[datetime] = _now_column()
+    created_at: Mapped[datetime] = _now_column()
+    started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

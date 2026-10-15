@@ -62,7 +62,13 @@ def available_samples(samples_dir: Path) -> list[str]:
 def load_sample(samples_dir: Path, name: str) -> SampleNovel:
     if name not in available_samples(samples_dir):
         raise FileNotFoundError(f"unknown sample '{name}'")
-    folder = samples_dir / name
+    return load_folder(samples_dir / name)
+
+
+def load_folder(folder: Path) -> SampleNovel:
+    """Load any folder with novel.yaml + chapter files (samples and generated corpora)."""
+    if not (folder / "novel.yaml").exists():
+        raise FileNotFoundError(f"{folder} has no novel.yaml")
     meta = yaml.safe_load((folder / "novel.yaml").read_text(encoding="utf-8"))
     slug = meta["slug"]
 

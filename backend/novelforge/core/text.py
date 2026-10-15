@@ -66,16 +66,38 @@ def inside_dialogue(text: str, pos: int) -> bool:
 
 
 _UNITS = [
-    "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-    "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
     "nineteen",
 ]
 _TENS = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
 
 # Matches 1-3 digit numbers and English number words from zero to ninety-nine.
 NUMBER_PATTERN = (
-    r"(?:\d{1,3}|(?:" + "|".join(_TENS) + r")(?:[- ](?:" + "|".join(_UNITS[1:10]) + r"))?|"
-    + "|".join(sorted(_UNITS, key=len, reverse=True)) + r")"
+    r"(?:\d{1,3}|(?:"
+    + "|".join(_TENS)
+    + r")(?:[- ](?:"
+    + "|".join(_UNITS[1:10])
+    + r"))?|"
+    + "|".join(sorted(_UNITS, key=len, reverse=True))
+    + r")"
 )
 
 
@@ -93,3 +115,37 @@ def parse_number(token: str) -> int | None:
         if len(parts) == 1:
             return value
     return None
+
+
+_WORD = re.compile(r"[a-z0-9]+(?:['’][a-z]+)?")
+# fmt: off
+STOPWORDS = frozenset({
+    "a", "an", "and", "are", "as", "at", "be", "been", "but", "by", "did", "do", "does", "for",
+    "from", "had", "has", "have", "he", "her", "hers", "him", "his", "how", "i", "if", "in",
+    "into", "is", "it", "its", "me", "my", "no", "not", "of", "on", "or", "our", "she", "so",
+    "that", "the", "their", "them", "they", "this", "to", "us", "was", "we", "were", "what",
+    "when", "where", "which", "who", "whom", "why", "will", "with", "would", "you", "your",
+})
+# fmt: on
+
+
+def stem(word: str) -> str:
+    """A tiny, deterministic suffix stripper (not Porter); enough for lexical baselines."""
+    for suffix, repl in (
+        ("'s", ""),
+        ("’s", ""),
+        ("ies", "y"),
+        ("ied", "y"),
+        ("ing", ""),
+        ("ed", ""),
+        ("es", ""),
+        ("s", ""),
+    ):
+        if word.endswith(suffix) and len(word) - len(suffix) >= 3:
+            return word[: -len(suffix)] + repl
+    return word
+
+
+def tokens(text: str) -> list[str]:
+    """Lowercased, stop-word-free, lightly stemmed word tokens."""
+    return [stem(w) for w in _WORD.findall(text.lower()) if w not in STOPWORDS]
