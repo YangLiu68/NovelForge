@@ -29,7 +29,7 @@ class LLMError(Exception):
 
     def __init__(self, kind: str, message: str):
         super().__init__(f"{kind}: {message}")
-        self.kind = kind
+        self.kind, self.message = kind, message
 
 
 @dataclass
