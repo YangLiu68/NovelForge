@@ -894,6 +894,7 @@ class Generator:
                 and f["predicate"] == attr
                 and f["chapter"] < before
                 and f["kind"] == "asserted"
+                and f.get("template") != "dyed"  # as in v3: cite the plain statement
             ):
                 return f
         return None
@@ -1275,6 +1276,19 @@ class Generator:
                 Sentence(self.fill("{N}'s hair was {v} now.", p, v=new), tag2),
             )
             p.hair = new
+            # Both sentences state the new colour; the first one is the change itself.
+            self.facts.append(
+                {
+                    "tag": tag1,
+                    "chapter": ch.number,
+                    "subject": p.name,
+                    "predicate": "hair_color",
+                    "value": new,
+                    "template": "dyed",
+                    "kind": "asserted",
+                    "day": ch.day,
+                }
+            )
             self.facts.append(
                 {
                     "tag": tag2,
@@ -1326,7 +1340,8 @@ class Generator:
                 "name": p.name,
                 "aliases": [p.alias] if p.alias else [],
                 "description": f"Pronouns: {p.pronoun}/{p.pr('o')}.",
-                "attributes": dict(p.sheet),
+                # Authors record pronouns on the sheet; the extractor uses them for "her eyes".
+                "attributes": {**dict(p.sheet), "pronouns": f"{p.pronoun}/{p.pr('o')}"},
             }
             for p in self.people
         ]
@@ -1361,7 +1376,7 @@ class Generator:
         gt = {
             "generator": {
                 "name": "novelforge.bench.generate",
-                "version": 3,
+                "version": 4,
                 "seed": self.seed,
                 "chapters": self.n,
                 **({"filler": self.filler} if self.filler else {}),
@@ -1379,7 +1394,8 @@ class Generator:
                 for n in self.negatives
             ],
             "facts": facts,
-            "queries": self.queries(facts),
+            # The dye sentence (labelled since v4) is left out so the query set stays as in v3.
+            "queries": self.queries([f for f in facts if f.get("template") != "dyed"]),
             "foreshadowing": [
                 {
                     "id": f["id"],

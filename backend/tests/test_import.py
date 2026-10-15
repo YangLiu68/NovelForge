@@ -69,3 +69,25 @@ def test_every_claim_is_grounded_and_timed(client, sample_novel_id, session):
             assert claim["effective_day"] is None
         else:
             assert isinstance(claim["effective_day"], int)
+
+
+def test_plain_text_novel_imports_with_pronoun_attribution(session):
+    from novelforge.core.plaintext import split_chapters
+    from novelforge.core.sample import text_novel
+    from novelforge.services.importer import import_novel
+
+    text = (
+        "CHAPTER I\n\nMara Venn came in from the rain. She had a sharp\nface and grey eyes.\n\n"
+        "CHAPTER II\n\nMara was in Varrow by nightfall.\n"
+    )
+    chapters = [(c.title, c.body) for c in split_chapters(text)]
+    cast = [{"name": "Mara Venn", "pronouns": "she/her"}]
+    novel = text_novel("test-text", "Test", chapters, cast)
+    result = import_novel(session, novel)
+    session.commit()
+    assert result.created and len(chapters) == 2
+    claims = session.scalars(select(Claim).where(Claim.novel_id == result.novel.id)).all()
+    facts = sorted((c.predicate, c.value, c.time_certainty) for c in claims)
+    # "She had a sharp face and grey eyes" (one line once unwrapped) is attributed to Mara.
+    assert facts == [("eye_color", "grey", "unknown"), ("location", "Varrow", "unknown")]
+    assert import_novel(session, novel).created is False

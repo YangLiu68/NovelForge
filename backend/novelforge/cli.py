@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -139,6 +140,49 @@ def cmd_import_corpus(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_import_text(args: argparse.Namespace) -> int:
+    from novelforge.core.plaintext import DEFAULT_HEADING, split_chapters, strip_gutenberg
+    from novelforge.core.sample import text_novel
+    from novelforge.db import get_sessionmaker
+    from novelforge.services.importer import import_novel
+
+    cast: list[dict] = []
+    if args.book:
+        from novelforge.bench import real_text
+
+        root = BACKEND_DIR.parent / "bench"
+        book = real_text.load_manifest(root / "real" / "books.yaml")[args.book]
+        raw, _ = real_text.fetch(book, root / "corpora" / "real")
+        chapters = [(c.title, c.body) for c in real_text.book_chapters(book, raw)]
+        title, slug = book["title"], args.book
+        cast = [
+            {**c, "pronouns": real_text.PRONOUNS_BY_GENDER.get(c.get("gender", ""))}
+            for c in book["characters"]
+        ]
+    else:
+        if not args.file or not args.title:
+            print("give a FILE and --title, or --book ID", file=sys.stderr)
+            return 2
+        raw = Path(args.file).read_text(encoding="utf-8-sig")
+        heading = args.heading or DEFAULT_HEADING
+        parts = split_chapters(strip_gutenberg(raw), heading, args.title_lines)
+        if not parts:
+            print("no chapter headings found (see --heading)", file=sys.stderr)
+            return 1
+        chapters = [(c.title, c.body) for c in parts]
+        title = args.title
+        slug = args.slug or re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+    novel = text_novel(slug, title, chapters, cast)
+    with get_sessionmaker()() as session:
+        result = import_novel(session, novel)
+        session.commit()
+    state = "imported" if result.created else "already present"
+    words = sum(len(b.split()) for _, b in chapters)
+    print(f"{title}: {state}, {len(chapters)} chapters, {words:,} words")
+    print(f"novel id {result.novel.id}")
+    return 0
+
+
 def cmd_worker(args: argparse.Namespace) -> int:
     import logging
     import signal
@@ -200,10 +244,12 @@ def cmd_bench_extraction(args: argparse.Namespace) -> int:
         args.max_chapters,
         cache,
         check_values=not args.no_value_check,
+        sheet_pronouns=not args.no_sheet_pronouns,
     )
     out.mkdir(parents=True, exist_ok=True)
     safe = report["extractor"].replace("/", "_").replace(":", "-")
     suffix = "" if report["value_check"] else "-no-value-check"
+    suffix += "" if report["sheet_pronouns"] else "-inferred-pronouns"
     path = out / f"extraction-{report['corpus']}-{safe}-{report['chapters']}ch{suffix}.json"
     path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     path.with_suffix(".md").write_text(extraction_eval.to_markdown(report) + "\n", encoding="utf-8")
@@ -238,6 +284,36 @@ def cmd_bench_consistency(args: argparse.Namespace) -> int:
     )
     print(consistency_eval.to_markdown(report))
     print(f"\nsaved {path}")
+    return 0
+
+
+def cmd_bench_real(args: argparse.Namespace) -> int:
+    from novelforge.bench import real_text
+
+    root = BACKEND_DIR.parent / "bench"
+    report, todo = real_text.run(
+        args.book,
+        Path(args.manifest) if args.manifest else root / "real" / "books.yaml",
+        root / "corpora" / "real",
+        root / "real" / "labels",
+        sheet_pronouns=not args.no_sheet_pronouns,
+        claims_file=Path(args.claims) if args.claims else None,
+    )
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    suffix = "" if report["sheet_pronouns"] else "-inferred-pronouns"
+    path = out / f"real-{report['book']}-{report['extractor']}{suffix}.json"
+    path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    path.with_suffix(".md").write_text(real_text.to_markdown(report) + "\n", encoding="utf-8")
+    print(real_text.to_markdown(report))
+    print(f"\nsaved {path}")
+    if todo:
+        default = out / f"real-{report['book']}-unlabelled.jsonl"
+        todo_path = Path(args.todo) if args.todo else default
+        todo_path.write_text(
+            "".join(json.dumps(t, ensure_ascii=False) + "\n" for t in todo), encoding="utf-8"
+        )
+        print(f"{len(todo)} unlabelled items written to {todo_path}")
     return 0
 
 
@@ -330,6 +406,15 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("path")
     p.set_defaults(func=cmd_import_corpus)
 
+    p = sub.add_parser("import-text", help="import a plain-text novel (or a bench/real book)")
+    p.add_argument("file", nargs="?", help="a .txt file with CHAPTER headings")
+    p.add_argument("--title", default=None)
+    p.add_argument("--slug", default=None)
+    p.add_argument("--heading", default=None, help="chapter heading regex (default: CHAPTER ...)")
+    p.add_argument("--title-lines", type=int, default=0, help="title lines after each heading")
+    p.add_argument("--book", default=None, help="a book id from bench/real/books.yaml instead")
+    p.set_defaults(func=cmd_import_text)
+
     p = sub.add_parser("worker", help="run the background job worker")
     p.add_argument("--once", action="store_true", help="drain the queue and exit")
     p.set_defaults(func=cmd_worker)
@@ -357,6 +442,11 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="ablation: keep LLM facts whose value is not in their quote",
     )
+    p.add_argument(
+        "--no-sheet-pronouns",
+        action="store_true",
+        help="ablation: drop pronouns from the character sheets (inferred per chapter)",
+    )
     p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
     p.set_defaults(func=cmd_bench_extraction)
 
@@ -368,6 +458,21 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-chapters", type=int, default=None)
     p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
     p.set_defaults(func=cmd_bench_consistency)
+
+    p = sub.add_parser("bench-real", help="precision on a public-domain novel (hand labels)")
+    p.add_argument("book", help="book id from bench/real/books.yaml")
+    p.add_argument("--manifest", default=None)
+    p.add_argument("--todo", default=None, help="where to write unlabelled items (JSONL)")
+    p.add_argument(
+        "--no-sheet-pronouns",
+        action="store_true",
+        help="ablation: leave pronouns off the character sheets (inferred per chapter)",
+    )
+    p.add_argument(
+        "--claims", default=None, help="score claims from this JSONL instead of extracting"
+    )
+    p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
+    p.set_defaults(func=cmd_bench_real)
 
     p = sub.add_parser("bench-load", help="load test on a generated corpus")
     p.add_argument("corpus")

@@ -69,6 +69,22 @@ class Finding:
     canon_value: str | None = None
 
 
+# Words an author uses for one colour: "golden" and "yellow" hair do not contradict "blond".
+# Auburn stays apart from red (they are told apart in fiction, and in the benchmark).
+COLOUR_FAMILIES = {
+    "hair_color": {
+        "golden": "blond", "yellow": "blond", "fair": "blond", "flaxen": "blond",
+        "silver": "grey", "chestnut": "brown", "copper": "red", "ginger": "red",
+    },
+}  # fmt: skip
+
+
+def same_value_key(predicate: str, value: str) -> str:
+    """The key two values must share to agree."""
+    v = value.casefold()
+    return COLOUR_FAMILIES.get(predicate, {}).get(v, v)
+
+
 def _canon_value(character: CharacterRef, predicate: str) -> str | None:
     raw = character.attributes.get(predicate)
     if raw is None or str(raw).strip() == "":
@@ -242,12 +258,12 @@ def _static_period(character, predicate, group, evidence, order, check_canon) ->
     canon = _canon_value(character, predicate) if check_canon else None
     if not group:
         return []
-    # Values compare case-insensitively ("Harrowgate" == "harrowgate"); the first spelling seen
-    # is the one shown.
+    # Values compare case-insensitively ("Harrowgate" == "harrowgate") and by colour family
+    # ("golden" == "blond"); the first spelling seen is the one shown.
     by_value: dict[str, list[ExtractedClaim]] = defaultdict(list)
     shown: dict[str, str] = {}
     for claim in group:
-        key = claim.value.casefold()
+        key = same_value_key(predicate, claim.value)
         by_value[key].append(claim)
         shown.setdefault(key, claim.value)
 
@@ -255,7 +271,7 @@ def _static_period(character, predicate, group, evidence, order, check_canon) ->
         out = []
         for key, conflicting in by_value.items():
             value = shown[key]
-            if key == canon.casefold():
+            if key == same_value_key(predicate, canon):
                 continue
             chapters = [order(c)[0] for c in conflicting]
             out.append(

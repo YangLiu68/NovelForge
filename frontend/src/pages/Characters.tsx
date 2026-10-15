@@ -7,6 +7,8 @@ import { useWorkspace } from "./workspaceContext";
 
 // Canon attributes the contradiction checks understand. Other keys are stored but not checked.
 const CHECKED_ATTRIBUTES = ["eye_color", "hair_color", "handedness", "birthplace"];
+// Not checked, but read by the extractor to attribute "her grey eyes" to the right character.
+const SHEET_ATTRIBUTES = [...CHECKED_ATTRIBUTES, "pronouns"];
 
 interface Form {
   name: string;
@@ -103,17 +105,17 @@ function CharacterForm({
           <div className="attr-row" key={i}>
             <select
               aria-label="Attribute"
-              value={CHECKED_ATTRIBUTES.includes(k) ? k : "__custom"}
+              value={SHEET_ATTRIBUTES.includes(k) ? k : "__custom"}
               onChange={(e) => setAttr(i, 0, e.target.value === "__custom" ? "" : e.target.value)}
             >
-              {CHECKED_ATTRIBUTES.map((a) => (
+              {SHEET_ATTRIBUTES.map((a) => (
                 <option key={a} value={a}>
                   {predicateLabel(a)}
                 </option>
               ))}
               <option value="__custom">other…</option>
             </select>
-            {!CHECKED_ATTRIBUTES.includes(k) && (
+            {!SHEET_ATTRIBUTES.includes(k) && (
               <input
                 aria-label="Attribute key"
                 placeholder="snake_case_key"
@@ -123,6 +125,7 @@ function CharacterForm({
             )}
             <input
               aria-label="Attribute value"
+              placeholder={k === "pronouns" ? "she/her, he/him, they/them" : undefined}
               value={v}
               onChange={(e) => setAttr(i, 1, e.target.value)}
             />
@@ -209,8 +212,10 @@ export default function Characters() {
     <div className="page">
       <h1>Characters</h1>
       <p className="muted small">
-        Names and aliases decide which text the extractor attributes to whom. Canon facts on
-        the sheet are what the contradiction report checks the text against.
+        Names and aliases decide which text the extractor attributes to whom; pronouns on the
+        sheet let it follow "she" and "his" back to a name (without them it guesses from the
+        chapter, and abstains when unsure). Canon facts on the sheet are what the contradiction
+        report checks the text against.
       </p>
       {error && <p className="error">{error}</p>}
       <ul className="card-list">

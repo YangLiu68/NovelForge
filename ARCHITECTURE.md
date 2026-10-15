@@ -55,12 +55,20 @@ Invariants (enforced by tests and check constraints):
 
 Two extractors produce the same `Claim` shape.
 
-- `rules-v3` (`core/extraction.py`): regular expressions anchored on character names and aliases
+- `rules-v4` (`core/extraction.py`): regular expressions anchored on character names and aliases
   for attributes, age, location, death/alive, abilities (cannot / learned / used) and explicit
   changes ("dyed her hair red"). A time phrase earlier in the sentence ("Three days later", "The
   next morning") shifts the claim's story day. Each match gets a modality: `asserted`, `hedged`
-  (perception, rumour), `reported` (inside dialogue) or `recalled` (memory, habit).
-  Deterministic and fast; misses pronouns and indirect phrasings by design.
+  (perception governing the fact, rumour, a condition), `reported` (inside dialogue) or
+  `recalled` (memory, habit). Deterministic, about 2 s for a 186,000-word novel.
+- Attribution without a name (`core/coref.py`, v4): "her grey eyes", "She had ... gray eyes"
+  and "Brooke was a silent young man, with brown eyes" are attributed when exactly one
+  character fits. Pronouns come from the character sheet (`pronouns: she/her`) or are inferred
+  per chapter from the pronouns that follow a name; the nearest sentence that names someone
+  decides, and two candidates of the same gender, a candidate of unknown gender, a person noun
+  in between ("the girl") or dialogue make it abstain. The claim records the pronoun and the
+  antecedent (`details.resolved`) and is 0.1 less confident. Similes and implications ("eyes the
+  colour of sea glass", "Being left-handed, ...") are left to the LLM.
 - LLM (`extraction/`): a strict JSON schema (16 kinds, including world rules, events,
   foreshadowing, causal links and relationships, plus `day_offset` for "three days later").
   Long chapters are split into paragraph windows. Every returned fact is validated: unknown
@@ -94,7 +102,7 @@ a confidence threshold, with facts from several extractors de-duplicated:
 
 | Category | Check |
 |---|---|
-| identity | `attribute_conflict` (two statements disagree), `canon_conflict` (text vs character sheet); an explicit change starts a new period, so "dyed her hair red" is not an inconsistency |
+| identity | `attribute_conflict` (two statements disagree), `canon_conflict` (text vs character sheet); an explicit change starts a new period, so "dyed her hair red" is not an inconsistency; words for one colour agree ("golden", "yellow", "blond") |
 | timeline | `age_timeline` (ages vs elapsed story days), `dead_character_active` (present after death) |
 | location | `location_conflict` (two places closer in time than the travel time between them) |
 | abilities | `ability_conflict` (a skill used after "cannot" without learning it) |
