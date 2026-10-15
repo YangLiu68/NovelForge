@@ -50,6 +50,7 @@ def contradiction_report(
     novel_id: uuid.UUID,
     min_confidence: float,
     modalities: frozenset[str] = frozenset({"asserted"}),
+    travel: dict[tuple[str, str], int] | None = None,
 ) -> tuple[list[Finding], int]:
     chapters = [
         chapter_ref(c) for c in session.scalars(select(Chapter).where(Chapter.novel_id == novel_id))
@@ -61,5 +62,6 @@ def contradiction_report(
         character_refs(session, novel_id),
         min_confidence=min_confidence,
         modalities=modalities,
+        travel=travel,
     )
     return findings, len(claims)

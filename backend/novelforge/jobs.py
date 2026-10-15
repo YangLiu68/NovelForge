@@ -39,6 +39,7 @@ def load_handlers() -> None:
     """Import the modules that register job handlers."""
     import novelforge.retrieval.index  # noqa: F401
     import novelforge.services.extraction_jobs  # noqa: F401
+    import novelforge.services.rule_judge  # noqa: F401
 
 
 def handler(kind: str) -> Callable[[Handler], Handler]:

@@ -1,13 +1,33 @@
-"""Score a contradiction report against labelled ground truth.
+"""Score contradiction findings against labelled ground truth.
 
-Matching rule: a finding matches a labelled contradiction when kind, subject name and
-predicate agree. Citation accuracy is span-level: a cited span is correct when it overlaps a
-labelled evidence span in the same chapter.
+Matching rule: a finding detects a labelled contradiction when
+- the categories agree (identity, timeline, location, abilities, world_rules),
+- the subject agrees (character name; for world rules any rule finding qualifies), and
+- at least one cited span overlaps one of the labelled evidence spans.
+Kinds are reported but not required to match: a conflict reported against the character sheet
+instead of against an earlier sentence is still the same error.
+
+A second finding for an already-detected contradiction is a duplicate, not a false positive.
+A negative case is violated when a finding cites a span overlapping the negative's evidence
+(or, for labels without evidence, when a finding has the negative's subject and predicate).
+Citation precision: share of cited spans in true-positive findings that overlap labelled
+evidence of the matched contradiction.
 """
 
-from dataclasses import asdict, dataclass
+from __future__ import annotations
 
-from novelforge.core.contradictions import Finding
+from dataclasses import asdict, dataclass
+from typing import Any
+
+KIND_CATEGORY = {
+    "attribute_conflict": "identity",
+    "canon_conflict": "identity",
+    "age_timeline": "timeline",
+    "dead_character_active": "timeline",
+    "location_conflict": "location",
+    "ability_conflict": "abilities",
+    "world_rule_violation": "world_rules",
+}
 
 
 @dataclass
@@ -15,6 +35,7 @@ class EvalResult:
     findings: int
     true_positives: int
     false_positives: int
+    duplicates: int
     false_negatives: int
     precision: float | None
     recall_all: float | None
@@ -27,6 +48,7 @@ class EvalResult:
     labelled_spans_covered: int
     labelled_spans_total: int
     citation_recall: float | None
+    by_category: dict[str, dict[str, Any]]
     matched: list[str]
     missed: list[dict]
     false_positive_findings: list[dict]
@@ -40,68 +62,116 @@ def _ratio(num: int, den: int) -> float | None:
     return None if den == 0 else round(num / den, 4)
 
 
-def _labelled_spans(gt_item: dict, bodies: dict[int, str]) -> list[tuple[int, int, int]]:
+def normalize_finding(f: Any) -> dict[str, Any]:
+    """Accept core Finding objects or stored-finding dicts."""
+    get = f.get if isinstance(f, dict) else lambda k, d=None: getattr(f, k, d)
+    evidence = get("evidence") or []
     spans = []
-    for ev in gt_item.get("evidence", []):
+    for e in evidence:
+        eg = e.get if isinstance(e, dict) else lambda k, d=None, e=e: getattr(e, k, d)
+        spans.append((eg("chapter_number"), eg("start"), eg("end")))
+    kind = get("kind")
+    return {
+        "kind": kind,
+        "category": get("category") or KIND_CATEGORY.get(kind, "identity"),
+        "subject": get("subject_name"),
+        "predicate": get("predicate"),
+        "spans": spans,
+    }
+
+
+def _labelled_spans(item: dict, bodies: dict[int, str]) -> list[tuple[int, int, int]]:
+    spans = []
+    for ev in item.get("evidence", []):
+        if "start" in ev:
+            spans.append((ev["chapter"], ev["start"], ev["end"]))
+            continue
         body = bodies[ev["chapter"]]
         start = body.find(ev["text"])
         if start < 0:
-            raise ValueError(f"{gt_item['id']}: evidence text not found in chapter {ev['chapter']}")
+            raise ValueError(f"{item['id']}: evidence text not found in chapter {ev['chapter']}")
         spans.append((ev["chapter"], start, start + len(ev["text"])))
     return spans
 
 
-def evaluate(findings: list[Finding], ground_truth: dict, bodies: dict[int, str]) -> EvalResult:
+def _overlaps(a: tuple[int, int, int], b: tuple[int, int, int]) -> bool:
+    return a[0] == b[0] and a[1] < b[2] and b[1] < a[2]
+
+
+def evaluate(findings: list[Any], ground_truth: dict, bodies: dict[int, str]) -> EvalResult:
     """`bodies` maps chapter number to chapter body text."""
     gt = ground_truth.get("contradictions", [])
     negatives = ground_truth.get("negatives", [])
+    norm = [normalize_finding(f) for f in findings]
+    labelled = {g["id"]: _labelled_spans(g, bodies) for g in gt}
+    for g in gt:
+        g.setdefault("category", KIND_CATEGORY.get(g.get("kind"), "identity"))
 
-    def key(kind: str, subject: str, predicate: str) -> tuple[str, str, str]:
-        return kind, subject, predicate
-
-    gt_by_key = {key(g["kind"], g["subject"], g["predicate"]): g for g in gt}
-    matched_ids: set[str] = set()
-    fp: list[Finding] = []
+    matched: dict[str, dict] = {}
+    fps: list[dict] = []
+    duplicates = 0
     cited = correct = 0
-    covered = total = 0
-    for f in findings:
-        g = gt_by_key.get(key(f.kind, f.subject_name, f.predicate))
-        if g is None:
-            fp.append(f)
+    for f in norm:
+        target = None
+        for g in gt:
+            if g["category"] != f["category"]:
+                continue
+            if g["category"] != "world_rules" and g["subject"] != f["subject"]:
+                continue
+            if any(_overlaps(s, ls) for s in f["spans"] for ls in labelled[g["id"]]):
+                target = g
+                break
+        if target is None:
+            fps.append(f)
             continue
-        if g["id"] in matched_ids:
-            fp.append(f)  # duplicate finding for an already-matched contradiction
+        if target["id"] in matched:
+            duplicates += 1
             continue
-        matched_ids.add(g["id"])
-        labelled = _labelled_spans(g, bodies)
-        for e in f.evidence:
+        matched[target["id"]] = f
+        for s in f["spans"]:
             cited += 1
-            if any(
-                ch == e.chapter_number and e.start < end and start < e.end
-                for ch, start, end in labelled
-            ):
-                correct += 1
-        for ch, start, end in labelled:
-            total += 1
-            if any(e.chapter_number == ch and e.start < end and start < e.end for e in f.evidence):
-                covered += 1
+            correct += any(_overlaps(s, ls) for ls in labelled[target["id"]])
 
-    violated = [
-        n["id"]
-        for n in negatives
-        if any(f.subject_name == n["subject"] and f.predicate == n["predicate"] for f in findings)
-    ]
-    detectable = [g for g in gt if g.get("m1_detectable", True)]
-    tp = len(matched_ids)
+    covered = total = 0
+    for gid, f in matched.items():
+        for ls in labelled[gid]:
+            total += 1
+            covered += any(_overlaps(s, ls) for s in f["spans"])
+
+    violated = []
+    for n in negatives:
+        n_spans = _labelled_spans(n, bodies) if n.get("evidence") else []
+        if n_spans:
+            hit = any(_overlaps(s, ns) for f in norm for s in f["spans"] for ns in n_spans)
+        else:
+            hit = any(
+                f["subject"] == n["subject"] and f["predicate"] == n["predicate"] for f in norm
+            )
+        if hit:
+            violated.append(n["id"])
+
+    by_category: dict[str, dict[str, Any]] = {}
+    for g in gt:
+        c = by_category.setdefault(g["category"], {"labelled": 0, "detected": 0, "fp": 0})
+        c["labelled"] += 1
+        c["detected"] += g["id"] in matched
+    for f in fps:
+        by_category.setdefault(f["category"], {"labelled": 0, "detected": 0, "fp": 0})["fp"] += 1
+    for c in by_category.values():
+        c["recall"] = _ratio(c["detected"], c["labelled"])
+
+    detectable = [g for g in gt if g.get("m1_detectable", True) is not False]
+    tp = len(matched)
     return EvalResult(
-        findings=len(findings),
+        findings=len(norm),
         true_positives=tp,
-        false_positives=len(fp),
+        false_positives=len(fps),
+        duplicates=duplicates,
         false_negatives=len(gt) - tp,
-        precision=_ratio(tp, tp + len(fp)),
+        precision=_ratio(tp, tp + len(fps)),
         recall_all=_ratio(tp, len(gt)),
         recall_detectable=_ratio(
-            len([g for g in detectable if g["id"] in matched_ids]), len(detectable)
+            len([g for g in detectable if g["id"] in matched]), len(detectable)
         ),
         negatives=len(negatives),
         negatives_violated=len(violated),
@@ -111,14 +181,26 @@ def evaluate(findings: list[Finding], ground_truth: dict, bodies: dict[int, str]
         labelled_spans_covered=covered,
         labelled_spans_total=total,
         citation_recall=_ratio(covered, total),
-        matched=sorted(matched_ids),
+        by_category=dict(sorted(by_category.items())),
+        matched=sorted(matched),
         missed=[
-            {"id": g["id"], "reason": g.get("miss_reason", "")}
+            {
+                "id": g["id"],
+                "category": g["category"],
+                "kind": g.get("kind"),
+                "reason": g.get("miss_reason", ""),
+            }
             for g in gt
-            if g["id"] not in matched_ids
+            if g["id"] not in matched
         ],
         false_positive_findings=[
-            {"kind": f.kind, "subject": f.subject_name, "predicate": f.predicate} for f in fp
+            {
+                "kind": f["kind"],
+                "subject": f["subject"],
+                "predicate": f["predicate"],
+                "spans": f["spans"],
+            }
+            for f in fps[:20]
         ],
         violated_negatives=violated,
     )

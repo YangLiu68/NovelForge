@@ -67,3 +67,54 @@ def test_age_going_down():
 
 def test_age_with_unknown_time_is_not_judged():
     assert run(["Mara was forty.", "Mara was forty-six."], days=[0, None]) == []
+
+
+ILSA = CharacterRef("i", "Ilsa Corr")
+
+
+def test_dead_character_active_after_death_only():
+    cast = (MARA, TOMAS)
+    [f] = run(
+        ["Tomas died of fever in Hollin.", "Tomas was in Varrow that morning."],
+        cast=cast,
+        days=[10, 20],
+    )
+    assert f.kind == "dead_character_active" and f.category == "timeline"
+    assert [e.value for e in f.evidence] == ["dead", "Varrow"]
+    # A flashback set before the death, a memory, and unknown time are not contradictions.
+    assert run(["Tomas died in Hollin.", "Tomas was in Varrow."], cast=cast, days=[10, 5]) == []
+    assert (
+        run(["Tomas died.", "Mara remembered how Tomas was in Varrow."], cast=cast, days=[10, 20])
+        == []
+    )
+    assert run(["Tomas died.", "Tomas was in Varrow."], cast=cast, days=[10, None]) == []
+
+
+def test_location_needs_travel_time():
+    travel = {("Hollin", "Varrow"): 3}
+    texts = ["Mara was in Hollin that morning.", "Mara arrived in Varrow."]
+
+    def go(days, travel=travel):
+        chapters = [
+            ChapterRef(f"c{i}", i, f"Ch {i}", body, 1, day)
+            for i, (body, day) in enumerate(zip(texts, days, strict=True), start=1)
+        ]
+        claims = [c for ch in chapters for c in extract_claims(ch, [MARA])]
+        return detect_contradictions(claims, chapters, [MARA], travel=travel)
+
+    [f] = go([0, 1])
+    assert f.kind == "location_conflict" and "takes 3 days" in f.explanation
+    assert go([0, 3]) == []  # enough time
+    assert go([0, 1], travel={}) == []  # unknown travel time: no judgement
+
+
+def test_ability_used_without_learning():
+    [f] = run(["Mara could not swim.", "Mara swam out to the boat."], days=[0, 9])
+    assert f.kind == "ability_conflict" and f.predicate == "ability:swim"
+    assert (
+        run(
+            ["Mara could not swim.", "Mara learned to swim.", "Mara swam out to the boat."],
+            days=[0, 5, 9],
+        )
+        == []
+    )

@@ -191,7 +191,7 @@ class SearchOut(BaseModel):
 
 
 class EvidenceOut(BaseModel):
-    claim_id: uuid.UUID
+    claim_id: str | None = None
     chapter_id: uuid.UUID
     chapter_number: int
     chapter_title: str
@@ -210,7 +210,7 @@ class FindingOut(BaseModel):
     id: str
     kind: str
     category: str
-    subject_id: uuid.UUID
+    subject_id: str
     subject_name: str
     predicate: str
     severity: str
@@ -218,12 +218,17 @@ class FindingOut(BaseModel):
     suggestion: str
     canon_value: str | None
     evidence: list[EvidenceOut]
+    status: str
+    status_note: str | None = None
+    detector: str = "rules"
+    auto_resolved: bool = False
 
 
 class ReportOut(BaseModel):
     novel_id: uuid.UUID
     min_confidence: float
     claims_considered: int
+    status_counts: dict[str, int]
     findings: list[FindingOut]
     took_ms: float
 

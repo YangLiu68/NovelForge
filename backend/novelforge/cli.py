@@ -197,6 +197,35 @@ def cmd_bench_extraction(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_bench_consistency(args: argparse.Namespace) -> int:
+    from sqlalchemy.engine import make_url
+
+    from novelforge.bench import consistency_eval
+    from novelforge.db import resolve_database_url
+
+    report = consistency_eval.run(
+        Path(args.corpus),
+        make_url(resolve_database_url()),
+        extractor=args.extractor,
+        embedder_spec=args.embedder,
+        k=args.k,
+        max_chapters=args.max_chapters,
+    )
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    safe = (report["extraction"]["extractor"] + "-" + report["embedder"]).replace("/", "_")
+    path = (
+        out / f"consistency-{report['corpus']}-{safe.replace(':', '-')}-{report['chapters']}ch.json"
+    )
+    path.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
+    path.with_suffix(".md").write_text(
+        consistency_eval.to_markdown(report) + "\n", encoding="utf-8"
+    )
+    print(consistency_eval.to_markdown(report))
+    print(f"\nsaved {path}")
+    return 0
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     import uvicorn
 
@@ -285,6 +314,15 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-chapters", type=int, default=None)
     p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
     p.set_defaults(func=cmd_bench_extraction)
+
+    p = sub.add_parser("bench-consistency", help="contradiction benchmark with memory ablation")
+    p.add_argument("corpus")
+    p.add_argument("--extractor", default="rules", help="rules | mock | ollama:<model> | anthropic")
+    p.add_argument("--embedder", default="hash")
+    p.add_argument("--k", type=int, default=5, help="passages retrieved per claim")
+    p.add_argument("--max-chapters", type=int, default=None)
+    p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
+    p.set_defaults(func=cmd_bench_consistency)
 
     p = sub.add_parser("serve", help="run the API server")
     p.add_argument("--host", default="127.0.0.1")

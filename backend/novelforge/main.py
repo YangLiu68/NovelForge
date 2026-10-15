@@ -101,6 +101,7 @@ def create_app() -> FastAPI:
 
     for module in (novels, chapters, characters, analysis, samples, jobs, review):
         app.include_router(module.router)
+    app.include_router(analysis.findings_router)
     return app
 
 
