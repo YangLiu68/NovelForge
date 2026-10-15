@@ -204,3 +204,18 @@ def _build_embedder(spec: str) -> Embedder:
             os.environ.get("OPENAI_API_KEY", ""),
         )
     raise ValueError(f"unknown embedder '{spec}'")
+
+
+def release_models() -> None:
+    """Drop loaded ONNX models before interpreter shutdown.
+
+    ONNX Runtime sessions destroyed during Python's own teardown can abort the process on macOS
+    ("recursive_mutex lock failed"); releasing them while the runtime is alive avoids that.
+    """
+    import gc
+
+    from novelforge.retrieval.rerankers import get_reranker
+
+    _build_embedder.cache_clear()
+    get_reranker.cache_clear()
+    gc.collect()

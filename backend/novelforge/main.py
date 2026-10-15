@@ -62,6 +62,9 @@ def create_app() -> FastAPI:
         yield
         if worker:
             worker.stop()
+        from novelforge.retrieval.embedders import release_models
+
+        release_models()
 
     app = FastAPI(title="NovelForge", version="0.2.0", lifespan=lifespan)
     app.add_middleware(

@@ -33,6 +33,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from novelforge.bench.retrieval_eval import migrate, recreate_database
 from novelforge.core.contradictions import detect_contradictions
 from novelforge.core.evaluation import evaluate
+from novelforge.core.extraction import EXTRACTOR
 from novelforge.models import Chapter, Novel, Passage
 from novelforge.retrieval.embedders import get_embedder
 from novelforge.retrieval.index import embed_passages
@@ -125,7 +126,7 @@ def _scope(gt: dict, numbers: set[int]) -> dict:
 
 def _extract(session: Session, chapters: list[Chapter], extractor: str) -> dict[str, Any]:
     if extractor == "rules":
-        return {"extractor": "rules-v2", "note": "claims extracted during import"}
+        return {"extractor": EXTRACTOR, "note": "claims extracted during import"}
     from novelforge.extraction.runner import extract_with_llm
     from novelforge.llm.registry import get_llm
     from novelforge.services.extraction_jobs import max_words_for
