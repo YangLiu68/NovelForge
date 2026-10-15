@@ -21,7 +21,7 @@ from sqlalchemy import create_engine, func, select, text
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
 
-from novelforge.bench.retrieval_eval import migrate, percentile, recreate_database
+from novelforge.bench.retrieval_eval import _git_commit, migrate, percentile, recreate_database
 from novelforge.models import Chapter, Claim, Passage
 from novelforge.retrieval.embedders import get_embedder
 from novelforge.retrieval.index import embed_passages, ensure_hnsw_index
@@ -163,6 +163,7 @@ def run(
         "machine": platform.machine(),
         "system": platform.platform(),
         "python": platform.python_version(),
+        "commit": _git_commit(),
     }
     return report
 

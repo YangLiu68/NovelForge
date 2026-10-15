@@ -22,6 +22,7 @@ from typing import Any
 
 import yaml
 
+from novelforge.bench.retrieval_eval import _git_commit
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim
 from novelforge.core.extraction import EXTRACTOR, extract_claims
 from novelforge.core.sample import load_folder
@@ -261,7 +262,11 @@ def run(corpus: Path, extractor: str, max_chapters: int | None = None) -> dict[s
         "unscored_claims": dict(unscored),
         "usage": usage,
         "false_positive_examples": fp_examples,
-        "environment": {"machine": platform.machine(), "python": platform.python_version()},
+        "environment": {
+            "machine": platform.machine(),
+            "python": platform.python_version(),
+            "commit": _git_commit(),
+        },
     }
 
 
