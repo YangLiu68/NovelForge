@@ -41,6 +41,8 @@ class Settings(BaseSettings):
     llm: str = "mock"
     llm_effort: str = "medium"  # Claude effort: low | medium | high | xhigh | max
     llm_extraction: bool = False
+    # Run drafting workflow steps synchronously inside the request (tests); default: background.
+    workflow_inline: bool = False
 
 
 @lru_cache

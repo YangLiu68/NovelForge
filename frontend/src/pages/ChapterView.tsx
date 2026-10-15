@@ -230,6 +230,12 @@ export default function ChapterView() {
           <button className="ghost" onClick={toggleHistory}>
             History
           </button>
+          <button
+            className="ghost"
+            onClick={() => navigate(`/novels/${novel.id}/draft?chapter=${chapter.id}`)}
+          >
+            Draft with assistant
+          </button>
           <button className="ghost danger" onClick={remove}>
             Delete
           </button>

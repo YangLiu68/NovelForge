@@ -253,3 +253,38 @@ test("dismiss a finding with a reason; it moves to the dismissed tab", async ({ 
   await page.getByRole("radio", { name: /open/ }).click();
   await expect(page.getByTestId("finding")).toHaveCount(1);
 });
+
+test("draft assistant: plan, approve, stream a draft, check it, apply it", async ({ page, request }) => {
+  const novel = await (await request.post("/api/novels", { data: { title: "Assisted" } })).json();
+  await request.post(`/api/novels/${novel.id}/chapters`, {
+    data: { title: "Opening", body: "The harbour was quiet." },
+  });
+  await page.goto(`/novels/${novel.id}/draft`);
+  await page.getByLabel("Goal").fill("The fog arrives and the lamps are lit early");
+  await page.getByLabel("Target chapter").selectOption("");
+  await page.getByRole("button", { name: "Start" }).click();
+  const status = page.getByTestId("workflow-status");
+  await expect(status).toHaveText("awaiting plan approval", { timeout: 15_000 });
+  await page.getByLabel("Plan").fill("1. Fog.\n2. Lamps.");
+  await page.getByRole("button", { name: "Approve plan and draft" }).click();
+  await expect(status).toHaveText("awaiting decision", { timeout: 15_000 });
+  await expect(page.getByText("Check: no conflicts found")).toBeVisible();
+  await expect(page.getByTestId("draft-text")).toContainText("harbour lamps");
+  await page.getByRole("button", { name: "Apply as new chapter version" }).click();
+  await expect(page.getByText(/Applied as version 1/)).toBeVisible();
+  await expect(page.locator(".chapter-list li")).toHaveCount(2);
+});
+
+test("character graph and timeline show evidence and contradictions", async ({ page, request }) => {
+  const novelId = await importSample(request);
+  await page.goto(`/novels/${novelId}/graph`);
+  await expect(page.getByTestId("graph-node")).toHaveCount(3);
+  await page.getByTestId("graph-node").filter({ hasText: "Mara Venn" }).click();
+  await expect(page.getByTestId("graph-details")).toContainText("Mara Venn");
+  await page.getByRole("radio", { name: "Timeline" }).click();
+  await expect(page.getByTestId("timeline-event").first()).toBeVisible();
+  await expect(page.getByTestId("timeline-conflict").first()).toBeAttached();
+  await page.getByTestId("timeline-event").first().click();
+  await expect(page).toHaveURL(/\/chapters\/.+\?start=\d+&end=\d+/);
+  await expect(page.getByTestId("span-highlight")).toBeVisible();
+});

@@ -1,158 +1,162 @@
 # Architecture
 
-Status: Milestones 1–2. Sections marked *(planned)* describe later milestones.
-
 ## Components
 
 ```
 React + TypeScript (Vite)  ──/api──▶  FastAPI (sync SQLAlchemy 2)  ──▶  PostgreSQL 16 + pgvector
-  pages: novels, chapter editor,        api/        HTTP routes            tables: novel, chapter, revision, passage
-  search, contradictions, facts,        services/   DB operations            (+ embedding), character, claim,
-  characters                            retrieval/  embedders, rerankers,     evidence_span, embedding_cache, job
-                                                    hybrid search, indexing
-                                        jobs.py     Postgres job queue + worker thread (or `novelforge worker`)
-                                        core/       pure logic (no DB): text, extraction, contradictions, evaluation
-                                        bench/      corpus generator, retrieval benchmark
+ novels, chapter editor, search,       api/         HTTP routes, SSE
+ contradictions, review, canon,        services/    DB operations: workspace, review, findings,
+ draft assistant, graph & timeline                  rule judge, graph, extraction jobs
+                                       retrieval/   embedders, rerankers, hybrid search, indexing
+                                       extraction/  LLM prompt, schema, quote verification
+                                       drafting/    plan → draft → critique workflow
+                                       llm/         mock | Anthropic SDK | Ollama behind one interface
+                                       jobs.py      PostgreSQL job queue + worker thread
+                                       core/        pure logic: text, rules extractor, detectors,
+                                                    evaluation (no DB, no web)
+                                       bench/       corpus generator and four benchmarks
 ```
 
-`backend/novelforge/core` has no database or web dependencies. Extraction, contradiction
-detection and evaluation are plain functions over small dataclasses, so the same code runs in the
-API, in the CLI evaluator (`eval-sample`, in-memory), and in unit tests. `services/` loads and
-stores those dataclasses; `api/` is a thin HTTP layer.
+`core/` has no database or web dependencies: extraction, contradiction detection and
+evaluation are plain functions over small dataclasses, so the same code runs in the API, in the
+benchmarks (in memory) and in unit tests.
 
 ## Data model
 
-| Table | Purpose | Key fields |
-|---|---|---|
-| `novel` | A manuscript | `slug` (set for imported samples), `version` |
-| `chapter` | Markdown source of one chapter | `number` (unique per novel), `body`, `story_day` (days since story day 0, nullable = unknown), `story_time_label`, `content_hash`, `version` |
-| `revision` | Snapshot after every save | `(chapter_id, version)` unique, `body`, `content_hash` |
-| `passage` | Paragraph-sized slice of a chapter; the search unit | `start`, `end`, `text`, generated `tsv` + GIN index, `text_hash`, `embedding`, `embedding_model` |
-| `embedding_cache` | Content-addressed embeddings | `(model, text_hash)` primary key |
-| `job` | Background work | unique `key`, `status`, `attempts`, `error`, `result` |
-| `character` | Character sheet | `name`, `aliases` (JSONB), `attributes` (JSONB canon, e.g. `{"eye_color": "grey"}`), `version` |
-| `claim` | An extracted fact (a proposal, never canon) | `subject_character_id`, `predicate`, `value`, `raw_value`, `modality`, `confidence`, `effective_day` / `time_certainty`, `extractor`, `chapter_version` |
-| `evidence_span` | Where a claim came from | `chapter_id`, `chapter_version`, `start`, `end`, `quote` |
+| Table | Role |
+|---|---|
+| `novel`, `chapter`, `revision` | The manuscript. Chapters are markdown with `story_day` (days since day 0, null = unknown) and `version`; every save writes a revision. |
+| `scene`, `passage` | Derived from chapter text: scenes (between `* * *` breaks) and paragraphs (the search unit, with `tsv` and an optional `embedding`). |
+| `character`, `location` | Canon entities. Character sheets hold canon attributes; locations hold travel times to other places. |
+| `claim`, `evidence_span` | Extracted facts (proposals) and the exact text they came from. |
+| `world_rule`, `timeline_event`, `plot_thread`, `relationship` | Canon created only by accepting claims in review. |
+| `canon_change` | Audit log of every canon change (old value, new value, source claim). |
+| `review_decision` | Accept/reject decisions keyed by claim fingerprint, re-applied after re-extraction. |
+| `finding` | Contradiction findings with a lifecycle (open, dismissed, resolved). |
+| `workflow_run`, `workflow_step` | Drafting runs and their LLM steps. |
+| `embedding_cache`, `job` | Infrastructure: content-addressed embeddings, background jobs. |
 
-Invariants (enforced by tests, and partly by check constraints):
+Invariants (enforced by tests and check constraints):
 - `chapter.body[start:end] == evidence_span.quote` for every span of the current version.
-- Every claim has `effective_day` set, or `time_certainty = 'unknown'` and no day
-  (`claim_time_consistent` constraint).
-- Offsets are Unicode code points (Python string indices). The frontend converts them to UTF-16
-  indices (`frontend/src/spans.ts`), so emoji and other astral characters do not shift highlights.
-
-Scene, Relationship, Location, WorldRule, TimelineEvent and PlotThread are deliberately absent
-until the extraction pipeline that fills them exists (M3).
+- Every claim has an `effective_day`, or `time_certainty = 'unknown'` and no day.
+- Offsets are Unicode code points; the frontend converts them to UTF-16 (`frontend/src/spans.ts`).
+- Nothing becomes canon without a review action; drafts change nothing until applied.
 
 ## Write path: saving a chapter
 
-1. Client sends `PATCH /api/chapters/{id}` with the `version` it last saw.
-2. Version mismatch → `409` with `current_version`; nothing is written.
-3. Body is normalised (LF newlines, no trailing spaces, no leading/trailing blank lines) and hashed.
-4. The UPDATE runs as `... WHERE id = :id AND version = :seen` (SQLAlchemy `version_id_col`), so a
-   concurrent writer that passed step 2 at the same time also gets a `409`
-   (`tests/test_concurrency.py`).
-5. In the same transaction: a `revision` row, rebuilt `passage` rows, re-extracted claims for that
-   chapter, and an `embed_chapter` job for the new version.
+1. `PATCH /api/chapters/{id}` carries the version the client saw; a mismatch returns 409.
+2. The UPDATE runs as `... WHERE id = :id AND version = :seen` (SQLAlchemy `version_id_col`), so
+   two writers that both saw version 1 cannot both succeed (`tests/test_concurrency.py`).
+3. In the same transaction: a revision, rebuilt passages and scenes, re-extracted rule-based
+   claims (with earlier review decisions re-applied), an `embed_chapter` job, and, when
+   `LLM_EXTRACTION=true`, an `extract_chapter` job.
 
-Character edits re-run extraction for every chapter of the novel, because names and aliases decide
-attribution. This is cheap with the rule extractor; with an LLM extractor (M3) it becomes a queued,
-idempotent job.
+## Extraction
 
-## Determinism and idempotency
+Two extractors produce the same `Claim` shape.
 
-- Sample import derives novel, chapter and character IDs with `uuid5(slug/kind/key)`. Importing an
-  existing sample is a no-op (`created: false`); delete and re-import gives identical rows.
-- Claim IDs are `uuid5(chapter_id | chapter_version | extractor | predicate | start | end)`; span
-  and passage IDs are derived the same way. Re-running extraction on the same input replaces rows
-  with identical ones.
+- `rules-v2` (`core/extraction.py`): regular expressions anchored on character names and aliases
+  for attributes, age, location, death/alive, and abilities (cannot / learned / used). Each
+  match gets a modality: `asserted`, `hedged` (perception, rumour), `reported` (inside
+  dialogue) or `recalled` (memory, habit). Deterministic and fast; misses pronouns and
+  indirect phrasings by design.
+- LLM (`extraction/`): a strict JSON schema (16 kinds, including world rules, events,
+  foreshadowing, causal links and relationships, plus `day_offset` for "three days later").
+  Long chapters are split into paragraph windows. Every returned fact is validated: unknown
+  kind, unknown character, malformed value, or a quote that cannot be found in the text
+  (exact match, then a normalised match mapped back to exact offsets) gets the fact rejected
+  with a reason. Jobs are idempotent per (chapter version, model, prompt version).
 
-## Extraction: `rules-v1`
+Backends (`llm/`): `mock` (deterministic; for extraction it is backed by the rule extractor so
+the whole LLM path runs offline), `anthropic` (official SDK, `claude-opus-5-5`, JSON-schema
+structured outputs, `fallbacks="default"` for refusals, cost from a price table), and `ollama`
+(native API with schema-constrained output and a hard output cap). Every call reports tokens and
+cost; unknown prices are reported as unknown, never guessed.
 
-Regular expressions over the chapter body, anchored on a character's name, alias, or an implied
-first name (only when no other character shares it). Predicates: `eye_color`, `hair_color`,
-`age`, `handedness`, `birthplace`. Each match gets a modality:
+## Review and canon
 
-- `reported`: inside dialogue quotes (a character speaking) → confidence 0.5
-- `hedged`: perception or rumour in the same clause ("seemed", "almost", "some said") → 0.4
-- `asserted`: otherwise → 0.9
+Claims start as `proposed`. Accepting one applies it to canon: character sheets for
+attributes, a location and a travel event for locations, timeline events for deaths and
+abilities, world rules, plot threads, relationships. If canon already holds a different value,
+the accept is refused (409) unless the reviewer explicitly replaces it. Every change is written
+to `canon_change`. Decisions are stored by fingerprint (subject, predicate, value, normalised
+quote) so that editing a chapter, which re-extracts its claims with new IDs, keeps earlier
+decisions.
 
-Effective time is the chapter's `story_day`; without one, `time_certainty = 'unknown'`.
+## Contradiction detection
 
-Known limits: no pronoun resolution, no paraphrase, English only, a fixed predicate list. It is a
-transparent baseline that the M3 LLM extractor will be measured against.
+Pure functions over claims (`core/contradictions.py`), by default only narrator assertions above
+a confidence threshold, with facts from several extractors de-duplicated:
 
-## Contradiction report
+| Category | Check |
+|---|---|
+| identity | `attribute_conflict` (two statements disagree), `canon_conflict` (text vs character sheet) |
+| timeline | `age_timeline` (ages vs elapsed story days), `dead_character_active` (present after death) |
+| location | `location_conflict` (two places closer in time than the travel time between them) |
+| abilities | `ability_conflict` (a skill used after "cannot" without learning it) |
+| world rules | `world_rule_violation`: hybrid retrieval of candidate passages per rule, then an LLM judge with verified quotes (`services/rule_judge.py`) |
 
-Computed on request from claims with confidence ≥ 0.6 (configurable per request):
+Claims with unknown story time are never used for time-based checks; flashbacks set before a
+death, memories, failed attempts at a forbidden act and dialogue are not contradictions.
 
-- `canon_conflict`: a claim disagrees with the character sheet. Cites only the disagreeing text.
-- `attribute_conflict`: claims disagree on a static attribute and the sheet says nothing. The
-  suggestion picks the most frequent value (ties: the earliest).
-- `age_timeline`: consecutive ages (ordered by story day) must differ by ⌊elapsed years⌋ or one
-  more. Claims with unknown time are never judged.
+Findings are stored (`finding`) with a fingerprint over kind, subject and evidence text (not
+offsets). Each refresh reconciles: new findings open, dismissed ones stay dismissed (a reason is
+required), open ones that are no longer detected resolve automatically, and an auto-resolved
+finding that comes back reopens.
 
-Each finding has an explanation, severity, suggested correction, and evidence spans. Findings are
-not stored yet; dismiss/resolve with persistence arrives in M4.
+## Retrieval
 
-## Search
+Five modes over the same passages (`retrieval/search.py`): `keyword` (web-search syntax, all
+words), `fts` (OR of stemmed lexemes ranked with `ts_rank_cd`), `vector` (cosine on
+`passage.embedding`), `hybrid` (reciprocal rank fusion of fts and vector, k = 60) and
+`hybrid_rerank` (cross-encoder over the top 30). Every hit reports its rank in each stage
+("why this result"), and every call reports per-stage latency. Embeddings are named by a
+canonical spec (`hash:384`, `fastembed:BAAI/bge-small-en-v1.5`, ...), cached by text hash, and
+searched exactly per novel by default; a per-model partial HNSW index is available and its
+agreement with exact search is measured in the load test.
 
-`websearch_to_tsquery('english', q)` over `passage.tsv`, ranked by `ts_rank_cd`. Highlights come
-from `ts_headline(..., HighlightAll=true)` with private-use marker characters, so the highlighted
-words are exactly what PostgreSQL matched after stemming; the markers are parsed back into offsets,
-and if the text does not round-trip exactly, no highlights are returned rather than wrong ones.
+## Drafting workflow
 
-## Retrieval (M2)
+```
+planning → awaiting_plan_approval →(approve)→ drafting → critiquing → awaiting_decision
+                                                   ▲                          │
+                                                   └──(revise, ≤ max_iterations ≤ 3)
+awaiting_decision →(apply)→ applied   (optimistic-locked save; 409 if the chapter changed)
+                  →(discard)→ discarded
+any LLM step → <step>_cancelled / <step>_failed →(retry)→ new attempt of the same step
+```
 
-Five modes over the same passages, one code path (`retrieval/search.py`):
+Steps stream over server-sent events from an in-process stream; partial output is also saved, so
+a reconnecting client sees what was produced. Cancelling closes the model stream and never
+promotes partial output. The critic extracts facts from the draft and runs the same detectors
+against every other chapter, the character sheets and travel times, and returns each issue with
+the draft quote and the evidence it contradicts; a revision prompt carries those issues.
 
-| Mode | First stage | Notes |
-|---|---|---|
-| `keyword` | `websearch_to_tsquery` (all words, phrases, `-exclude`) | Interactive "Exact" search. Questions rarely match: every word must appear. |
-| `fts` | OR of the query's English-stemmed lexemes, `ts_rank_cd` | Lexical baseline (PostgreSQL has no BM25; cover density ranking is the stand-in). |
-| `vector` | cosine distance on `passage.embedding` | Semantic baseline. |
-| `hybrid` | top 50 of `fts` + top 50 of `vector`, reciprocal rank fusion (k = 60) | Default in the UI. |
-| `hybrid_rerank` | hybrid top 30 re-scored by a reranker | Cross-encoder in production, lexical mock in CI. |
+## Graph and timeline
 
-Each hit carries its rank in every stage (`ranks: {fts: 3, vector: 2, rrf: 1}`), shown in the UI as
-"why this result", and each call reports per-stage latency.
+`services/graph.py`: characters co-occurring in the same paragraph (weighted, with example
+paragraphs) plus accepted relationships; and per-character lanes of dated, asserted,
+non-rejected claims with open findings linking their evidence. The frontend lays the graph out
+with a deterministic force-directed algorithm (`frontend/src/layout.ts`) and draws the timeline
+by chapter order or by story day.
 
-**Embeddings.** `passage.embedding` is a dimension-less `vector` plus `embedding_model`, so several
-embedders can coexist. Embedders are named by a canonical spec (`hash:384`,
-`fastembed:BAAI/bge-small-en-v1.5`, `ollama:<model>`, `openai:<model>`), which is also what passages
-store. `embedding_cache(model, text_hash)` makes indexing content-addressed: editing one paragraph
-re-embeds one paragraph.
+## Jobs
 
-**Exact vs. HNSW.** Vector search defaults to an exact scan of the novel's passages (a materialised CTE
-keeps the planner off the global index). A single novel is tens of thousands of passages at most, and
-an approximate index filtered after the fact can silently return fewer than k matches from the
-novel. A per-model partial HNSW index (`(embedding::vector(dim)) vector_cosine_ops WHERE
-embedding_model = …`) is available for cross-novel scale and is compared in the load tests (M6).
-
-**The mock embedder.** `hash` is feature hashing of stemmed words and bigrams: deterministic,
-dependency-free, lexical. It keeps tests and CI reproducible and is labelled as a mock in every
-benchmark table; it is not a semantic model.
-
-## Background jobs
-
-`jobs.py` is a small queue on PostgreSQL: unique `key` per job (enqueueing twice is a no-op),
-claims with `FOR UPDATE SKIP LOCKED` (several workers never run one job twice, see
-`tests/test_jobs.py`), retries with exponential backoff, `failed` after `max_attempts` with the
-error kept, `skipped` when a job no longer applies (the chapter moved to a newer version), and
-re-queueing of jobs left `running` by a dead worker. Jobs are enqueued in the same transaction as the
-edit that needs them. The API runs one worker thread by default (`JOBS_IN_PROCESS`); `novelforge
-worker` runs a separate process.
+`jobs.py`: unique key per job (enqueueing twice is a no-op), claims with `FOR UPDATE SKIP
+LOCKED`, retries with exponential backoff, `failed` with the error after `max_attempts`,
+`skipped` when the job no longer applies, re-queueing of jobs left `running` by a dead worker.
+Jobs are enqueued in the transaction that needs them. Kinds: `embed_chapter`,
+`extract_chapter`, `judge_rules`.
 
 ## Observability and privacy
 
-- Every response carries `X-Request-ID`; one JSON log line per request with method, path, status
-  and duration.
-- Query strings and bodies are never logged, because search queries and edits contain manuscript text.
-- Credentials come only from environment variables; `.env` is git-ignored; no API keys are needed in M1.
+Every response carries `X-Request-ID`; one JSON log line per request (method, path, status,
+duration) and per job (kind, status, attempt, duration). Query strings, bodies and manuscript text
+are never logged. Credentials come only from the environment. The default LLM and embedder are
+local; sending text to a hosted model is an explicit configuration choice.
 
 ## Local database without Docker
 
-The development machine has no container runtime, so `pgserver` (a pip package bundling
-PostgreSQL 16.2 and pgvector 0.6.2) runs a private server in `./.pgdata` on a Unix socket only
-(no TCP port). It is used when `DATABASE_URL` is empty. CI and Docker Compose use the
-`pgvector/pgvector:pg16` image instead, so the same migrations run against a standard server.
+The development machine has no container runtime, so `pgserver` (PostgreSQL 16.2 + pgvector
+0.6.2 as a pip package) runs a private server in `./.pgdata` on a Unix socket. It is used when
+`DATABASE_URL` is empty; CI and Docker Compose use the `pgvector/pgvector:pg16` image.

@@ -387,11 +387,14 @@ class Chapter:
 
 
 class Generator:
-    def __init__(self, seed: int, chapters: int):
+    def __init__(self, seed: int, chapters: int, filler: int = 0):
         if chapters < 3:
             raise ValueError("need at least 3 chapters")
         self.seed = seed
         self.n = chapters
+        # Extra scene paragraphs per chapter (for load tests). Drawn from a separate RNG so that
+        # filler=0 output is byte-identical to corpora generated without the option.
+        self.filler = filler
         self.rng = random.Random(seed)
         self.tag_counter = 0
         self.facts: list[dict] = []  # every mention of a character attribute
@@ -863,6 +866,16 @@ class Generator:
                 # Every flashback that can show a character who dies later in the story does.
                 self.inject_negative(ch, "flashback_alive", chapters)
 
+            if self.filler:
+                frng = random.Random(f"{self.seed}-filler-{ch.number}")
+                for _ in range(self.filler):
+                    p = frng.choice(ch.cast)
+                    sentences = frng.sample(SCENE, k=frng.randint(3, 5))
+                    sentences.insert(
+                        frng.randrange(len(sentences) + 1),
+                        self.fill("{N} " + frng.choice(ACTIONS) + ".", p),
+                    )
+                    t(*sentences)
             t(self.pick(WEATHER), self.fill("{N} " + self.pick(ACTIONS) + ".", ch.cast[0]))
 
         return self.emit(out, chapters)
@@ -1346,6 +1359,7 @@ class Generator:
                 "version": 3,
                 "seed": self.seed,
                 "chapters": self.n,
+                **({"filler": self.filler} if self.filler else {}),
             },
             "contradictions": [
                 {
@@ -1464,6 +1478,6 @@ class Generator:
         return out
 
 
-def generate(out: Path, chapters: int, seed: int) -> dict:
+def generate(out: Path, chapters: int, seed: int, filler: int = 0) -> dict:
     """Write a synthetic corpus to `out` and return its ground truth."""
-    return Generator(seed=seed, chapters=chapters).write(out)
+    return Generator(seed=seed, chapters=chapters, filler=filler).write(out)

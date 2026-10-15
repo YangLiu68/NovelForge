@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session, selectinload
 from novelforge.api.deps import SessionDep, novel_dep
 from novelforge.config import get_settings
 from novelforge.jobs import queue_stats
+from novelforge.llm.registry import allowed_llm
 from novelforge.models import (
     CanonChange,
     Chapter,
@@ -278,7 +279,7 @@ def extract(
     session: Session = SessionDep,
 ):
     """Queue LLM extraction for every chapter (idempotent per chapter version, model, prompt)."""
-    spec = llm or get_settings().llm
+    spec = allowed_llm(llm)
     chapters = session.scalars(select(Chapter).where(Chapter.novel_id == novel.id)).all()
     for chapter in chapters:
         enqueue_llm_extraction(session, chapter, spec)
@@ -295,10 +296,27 @@ def judge_rules(
     """Queue the LLM world-rule judge (idempotent for unchanged chapters and rules)."""
     from novelforge.services.rule_judge import collect_rules, enqueue_judge
 
-    spec = llm or get_settings().llm
+    spec = allowed_llm(llm)
     key = enqueue_judge(session, novel, spec)
     session.commit()
     return {"queued": key, "rules": len(collect_rules(session, novel.id)), "llm": spec}
+
+
+@router.get("/novels/{novel_id}/graph")
+def graph(novel: Novel = Depends(novel_dep), session: Session = SessionDep):
+    from novelforge.services.graph import character_graph
+
+    return character_graph(session, novel.id)
+
+
+@router.get("/novels/{novel_id}/timeline")
+def timeline(novel: Novel = Depends(novel_dep), session: Session = SessionDep):
+    from novelforge.services.findings import refresh_findings
+    from novelforge.services.graph import timeline as build_timeline
+
+    refresh_findings(session, novel.id, get_settings().report_min_confidence)
+    session.commit()
+    return build_timeline(session, novel.id)
 
 
 @router.get("/llm")

@@ -7,6 +7,22 @@ from functools import lru_cache
 from novelforge.llm.base import LLM, LLMError
 
 
+def allowed_llm(requested: str | None) -> str:
+    """The LLM a request may use: the configured one or the offline mock, nothing else.
+
+    API callers must not be able to point the server at a paid hosted model or an arbitrary local
+    one, so a request can only choose between what the operator configured and `mock`.
+    """
+    from novelforge.config import get_settings
+
+    configured = get_settings().llm
+    if requested is None or requested == configured:
+        return configured
+    if requested == "mock":
+        return "mock"
+    raise LLMError("config", f"LLM '{requested}' is not enabled; this server uses '{configured}'")
+
+
 @lru_cache(maxsize=8)
 def get_llm(spec: str) -> LLM:
     from novelforge.config import get_settings

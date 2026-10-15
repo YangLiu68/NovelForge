@@ -446,3 +446,67 @@ class StoredFinding(Base):
     status_changed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     first_seen_at: Mapped[datetime] = _now_column()
     last_seen_at: Mapped[datetime] = _now_column()
+
+
+class WorkflowRun(Base):
+    """A bounded plan -> draft -> critique (-> revise) run with human checkpoints.
+
+    Status: planning | awaiting_plan_approval | drafting | critiquing | awaiting_decision |
+    revising | applied | discarded | cancelled | failed.
+    Nothing a run produces touches the manuscript or canon until the author applies the draft,
+    which goes through the normal optimistic-locked chapter save.
+    """
+
+    __tablename__ = "workflow_run"
+    __table_args__ = (Index("ix_workflow_novel", "novel_id", "created_at"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    chapter_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("chapter.id", ondelete="SET NULL")
+    )
+    base_version: Mapped[int | None] = mapped_column(Integer)  # chapter version when started
+    goal: Mapped[str] = mapped_column(Text)
+    llm: Mapped[str] = mapped_column(String(120))
+    status: Mapped[str] = mapped_column(String(32), default="planning")
+    iteration: Mapped[int] = mapped_column(Integer, default=0)
+    max_iterations: Mapped[int] = mapped_column(Integer, default=2)
+    plan: Mapped[str | None] = mapped_column(Text)
+    draft: Mapped[str | None] = mapped_column(Text)
+    critique: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    applied_chapter_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("chapter.id", ondelete="SET NULL")
+    )
+    applied_version: Mapped[int | None] = mapped_column(Integer)
+    decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    input_tokens: Mapped[int] = mapped_column(Integer, default=0)
+    output_tokens: Mapped[int] = mapped_column(Integer, default=0)
+    cost_usd: Mapped[float | None] = mapped_column(Float, default=0.0)
+    error: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[datetime] = _now_column()
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+
+class WorkflowStep(Base):
+    """One LLM step of a run. (run, kind, iteration, attempt) is unique, so retries are explicit."""
+
+    __tablename__ = "workflow_step"
+    __table_args__ = (UniqueConstraint("run_id", "kind", "iteration", "attempt"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    run_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("workflow_run.id", ondelete="CASCADE"))
+    kind: Mapped[str] = mapped_column(String(16))  # plan | draft | revise | critique
+    iteration: Mapped[int] = mapped_column(Integer)
+    attempt: Mapped[int] = mapped_column(Integer, default=1)
+    status: Mapped[str] = mapped_column(
+        String(16), default="running"
+    )  # running|done|cancelled|failed
+    output: Mapped[str] = mapped_column(Text, default="")
+    input_tokens: Mapped[int] = mapped_column(Integer, default=0)
+    output_tokens: Mapped[int] = mapped_column(Integer, default=0)
+    cost_usd: Mapped[float | None] = mapped_column(Float, default=0.0)
+    error: Mapped[str | None] = mapped_column(Text)
+    started_at: Mapped[datetime] = _now_column()
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

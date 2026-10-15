@@ -80,7 +80,7 @@ Non-goals for M1: any LLM call, embeddings, Scene/Relationship/Location/WorldRul
 PlotThread tables, background jobs, pronoun/coreference resolution, dismiss/resolve of findings,
 WYSIWYG editing, multi-user editing, running Docker Compose locally (no runtime on this machine).
 
-### M2: Hybrid retrieval and retrieval evaluation ← next
+### M2: Hybrid retrieval and retrieval evaluation (done 2026-10-15)
 
 Scope: `Passage.embedding` (pgvector) with a deterministic mock embedder (hashing) for tests and
 optional real embedders (Ollama, OpenAI-compatible, Voyage) by env var. Hybrid retrieval: Postgres
@@ -95,7 +95,7 @@ for mock components rather than imputed.
 
 Non-goals: training embedders, approximate-index tuning beyond HNSW defaults.
 
-### M3: Structured extraction pipeline with human review
+### M3: Structured extraction pipeline with human review (done 2026-10-15)
 
 Scope: LLM backend interface (mock scripted backend for tests; Anthropic/OpenAI-compatible/Ollama by
 env var). Extraction of character facts, events, causal dependencies, and unresolved foreshadowing
@@ -109,7 +109,7 @@ Acceptance criteria: rerunning a job on an unchanged chapter is a no-op; malform
 rejected and logged, not stored; accepted proposals become canon with an audit trail; extraction
 quality is measured against labelled ground truth (precision/recall per fact type).
 
-### M4: Contradiction detection
+### M4: Contradiction detection (done 2026-10-15)
 
 Scope: detectors for timeline, identity, location, abilities, and world rules over canon +
 proposals. Each finding: explanation, evidence spans, severity, suggested correction. Findings are
@@ -119,7 +119,7 @@ evidence changes.
 Acceptance criteria: measured precision/recall/false positives on the seeded benchmark per category;
 citation accuracy (cited spans are among the labelled evidence); dismiss/resolve round-trips.
 
-### M5: Bounded planning/drafting/critic workflow
+### M5: Bounded planning/drafting/critic workflow (done 2026-10-15)
 
 Scope: plan → draft → critic loop with a hard iteration cap and explicit checkpoints where the author
 approves or edits. Drafts are new chapter versions, never silent overwrites. Server-sent-event
@@ -128,7 +128,7 @@ streaming with cancel and retry. Canon and chapter version history are browsable
 Acceptance criteria: iteration cap enforced in tests; cancel stops generation and leaves no partial
 canon writes; retry is idempotent; every applied draft has a Revision and an approval record.
 
-### M6: Scale, evaluation, CI, documentation
+### M6: Scale, evaluation, CI, documentation (done 2026-10-15)
 
 Scope: synthetic 100- and 1,000-chapter corpora with seeded contradictions and negative cases; load
 tests (import, extraction with mock LLM, retrieval, contradiction report) measuring latency, memory,
@@ -137,6 +137,23 @@ interactive character/timeline graph; CI hardening; demo video script.
 
 Acceptance criteria: every number in BENCHMARK.md is produced by a committed command with a recorded
 seed, hardware, and configuration; failure cases are documented next to the metrics.
+
+## What changed from the original plan
+
+- M2: a deterministic synthetic-novel generator was built early (planned for M6) because the
+  retrieval benchmark needs labelled queries; it became the backbone of every benchmark.
+- M2: retrieval uses exact per-novel vector search by default; HNSW is optional and measured
+  (an approximate index filtered by novel can silently drop matches).
+- M3: all extracted facts share one `Claim` table; Location, WorldRule, TimelineEvent,
+  PlotThread and Relationship are canon tables filled only by review. Scenes are derived from
+  scene breaks.
+- M4: world-rule violations need an LLM judge; with the offline mock that detector finds
+  nothing, and the benchmark reports it that way.
+- M5: the critic is deterministic (the contradiction detectors on the draft), not an LLM
+  opinion, so its issues carry evidence on both sides.
+- M6: real-LLM numbers are limited to a small local model on a 15-chapter slice: the shared
+  development machine could not lease the RAM for a 7B model, and no hosted API key was
+  available. The harness runs unchanged with `--extractor anthropic` or a larger Ollama model.
 
 ## Evaluation design (shared by M1–M6)
 

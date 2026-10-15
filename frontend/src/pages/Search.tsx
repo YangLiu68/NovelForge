@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 import { api } from "../api";
@@ -46,6 +46,7 @@ export default function Search() {
   const [result, setResult] = useState<SearchResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const latest = useRef(0);
 
   // Sync the box from the URL only when the query itself changes, so switching modes keeps
   // whatever the user is typing.
@@ -58,13 +59,14 @@ export default function Search() {
       setResult(null);
       return;
     }
+    const id = ++latest.current;
     setLoading(true);
     setError(null);
     api
       .search(novel.id, query, mode)
-      .then(setResult)
-      .catch((e: Error) => setError(e.message))
-      .finally(() => setLoading(false));
+      .then((r) => id === latest.current && setResult(r))
+      .catch((e: Error) => id === latest.current && setError(e.message))
+      .finally(() => id === latest.current && setLoading(false));
   }, [novel.id, query, mode]);
 
   const submit = (e: FormEvent) => {

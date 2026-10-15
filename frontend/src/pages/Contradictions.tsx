@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { api } from "../api";
@@ -154,12 +154,16 @@ export default function Contradictions() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
+  // Only the newest request may update the page: a slow earlier response (e.g. the stored
+  // report) must not overwrite a newer one (e.g. the preview).
+  const latest = useRef(0);
   const load = useCallback(() => {
+    const id = ++latest.current;
     setReport(null);
     api
       .contradictions(novel.id, includeLow, status)
-      .then(setReport)
-      .catch((e: Error) => setError(e.message));
+      .then((r) => id === latest.current && setReport(r))
+      .catch((e: Error) => id === latest.current && setError(e.message));
   }, [novel.id, includeLow, status]);
 
   // Re-run when chapters change (an edit re-extracts facts).

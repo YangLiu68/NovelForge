@@ -16,13 +16,24 @@ from novelforge.llm.base import LLMError, LLMResult, StreamChunk
 class OllamaLLM:
     local = True
 
-    def __init__(self, model: str, url: str, num_ctx: int = 8192, transport=None):
+    def __init__(
+        self,
+        model: str,
+        url: str,
+        num_ctx: int = 8192,
+        transport=None,
+        max_json_tokens: int = 2048,
+        timeout: float = 600,
+    ):
         self.model, self.url, self.num_ctx = model, url.rstrip("/"), num_ctx
         self.name = f"ollama:{model}"
-        self._client = httpx.Client(timeout=600, transport=transport)
+        # Small local models can loop under constrained decoding; a hard output cap and a mild
+        # repetition penalty keep every call bounded.
+        self.max_json_tokens = max_json_tokens
+        self._client = httpx.Client(timeout=timeout, transport=transport)
 
     def _options(self) -> dict[str, Any]:
-        return {"temperature": 0, "seed": 0, "num_ctx": self.num_ctx}
+        return {"temperature": 0, "seed": 0, "num_ctx": self.num_ctx, "repeat_penalty": 1.1}
 
     def generate_json(
         self, system: str, prompt: str, schema: dict[str, Any], max_tokens: int = 16000
@@ -35,7 +46,10 @@ class OllamaLLM:
                     "model": self.model,
                     "stream": False,
                     "format": {k: v for k, v in schema.items() if k != "title"},
-                    "options": {**self._options(), "num_predict": max_tokens},
+                    "options": {
+                        **self._options(),
+                        "num_predict": min(max_tokens, self.max_json_tokens),
+                    },
                     "messages": [
                         {"role": "system", "content": system},
                         {"role": "user", "content": prompt},
@@ -48,7 +62,9 @@ class OllamaLLM:
         body = r.json()
         text = body.get("message", {}).get("content", "")
         if body.get("done_reason") == "length":
-            raise LLMError("max_tokens", f"output hit num_predict={max_tokens}")
+            raise LLMError(
+                "max_tokens", f"output hit num_predict={min(max_tokens, self.max_json_tokens)}"
+            )
         try:
             data = json.loads(text)
         except json.JSONDecodeError as exc:

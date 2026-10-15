@@ -121,7 +121,7 @@ def cmd_eval_sample(args: argparse.Namespace) -> int:
 def cmd_gen_corpus(args: argparse.Namespace) -> int:
     from novelforge.bench.generate import generate
 
-    gt = generate(Path(args.out), args.chapters, args.seed)
+    gt = generate(Path(args.out), args.chapters, args.seed, args.filler)
     counts = {k: len(v) for k, v in gt.items() if isinstance(v, list)}
     print(f"wrote {args.out}: {args.chapters} chapters, seed {args.seed}, {counts}")
     return 0
@@ -226,6 +226,25 @@ def cmd_bench_consistency(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_bench_load(args: argparse.Namespace) -> int:
+    from sqlalchemy.engine import make_url
+
+    from novelforge.bench import load_test
+    from novelforge.db import resolve_database_url
+
+    report = load_test.run(
+        Path(args.corpus), make_url(resolve_database_url()), args.embedder, args.queries
+    )
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    path = out / f"load-{report['corpus']}-{report['embedder'].replace(':', '-')}.json"
+    path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    path.with_suffix(".md").write_text(load_test.to_markdown(report) + "\n", encoding="utf-8")
+    print(load_test.to_markdown(report))
+    print(f"\nsaved {path}")
+    return 0
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     import uvicorn
 
@@ -288,6 +307,7 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("gen-corpus", help="generate a synthetic benchmark corpus")
     p.add_argument("--chapters", type=int, default=100)
     p.add_argument("--seed", type=int, default=7)
+    p.add_argument("--filler", type=int, default=0, help="extra scene paragraphs per chapter")
     p.add_argument("--out", required=True)
     p.set_defaults(func=cmd_gen_corpus)
 
@@ -323,6 +343,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-chapters", type=int, default=None)
     p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
     p.set_defaults(func=cmd_bench_consistency)
+
+    p = sub.add_parser("bench-load", help="load test on a generated corpus")
+    p.add_argument("corpus")
+    p.add_argument("--embedder", default="hash")
+    p.add_argument("--queries", type=int, default=50)
+    p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
+    p.set_defaults(func=cmd_bench_load)
 
     p = sub.add_parser("serve", help="run the API server")
     p.add_argument("--host", default="127.0.0.1")
