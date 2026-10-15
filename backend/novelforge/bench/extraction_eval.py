@@ -59,7 +59,13 @@ def _overlap(a: tuple[int, int], b: tuple[int, int]) -> bool:
     return a[0] < b[1] and b[0] < a[1]
 
 
-def run(corpus: Path, extractor: str, max_chapters: int | None = None) -> dict[str, Any]:
+def run(
+    corpus: Path,
+    extractor: str,
+    max_chapters: int | None = None,
+    cache: Path | None = None,
+    check_values: bool = True,
+) -> dict[str, Any]:
     novel = load_folder(corpus)
     gt = yaml.safe_load((corpus / "ground_truth.yaml").read_text(encoding="utf-8"))
     chapters = novel.chapters[:max_chapters] if max_chapters else novel.chapters
@@ -92,9 +98,15 @@ def run(corpus: Path, extractor: str, max_chapters: int | None = None) -> dict[s
         from novelforge.services.extraction_jobs import max_words_for
 
         llm = get_llm(extractor)
+        if cache is not None:
+            from novelforge.llm.cache import CachingLLM
+
+            llm = CachingLLM(llm, cache)
         name = f"llm:{llm.name}"
         for r in refs:
-            result = extract_with_llm(r, cast, llm, max_words=max_words_for(extractor))
+            result = extract_with_llm(
+                r, cast, llm, max_words=max_words_for(extractor), check_values=check_values
+            )
             claims += result.claims
             usage["calls"] += result.calls
             usage["input_tokens"] += result.input_tokens
@@ -249,6 +261,14 @@ def run(corpus: Path, extractor: str, max_chapters: int | None = None) -> dict[s
         "corpus": corpus.name,
         "generator": gt.get("generator"),
         "extractor": name,
+        "value_check": check_values,
+        "cache": None
+        if cache is None or extractor == "rules"
+        else {
+            "path": str(cache),
+            "hits": getattr(llm, "hits", 0),
+            "misses": getattr(llm, "misses", 0),
+        },
         "chapters": len(refs),
         "seconds": round(elapsed, 2),
         "claims": len(claims),

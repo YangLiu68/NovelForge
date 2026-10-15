@@ -55,11 +55,12 @@ Invariants (enforced by tests and check constraints):
 
 Two extractors produce the same `Claim` shape.
 
-- `rules-v2` (`core/extraction.py`): regular expressions anchored on character names and aliases
-  for attributes, age, location, death/alive, and abilities (cannot / learned / used). Each
-  match gets a modality: `asserted`, `hedged` (perception, rumour), `reported` (inside
-  dialogue) or `recalled` (memory, habit). Deterministic and fast; misses pronouns and
-  indirect phrasings by design.
+- `rules-v3` (`core/extraction.py`): regular expressions anchored on character names and aliases
+  for attributes, age, location, death/alive, abilities (cannot / learned / used) and explicit
+  changes ("dyed her hair red"). A time phrase earlier in the sentence ("Three days later", "The
+  next morning") shifts the claim's story day. Each match gets a modality: `asserted`, `hedged`
+  (perception, rumour), `reported` (inside dialogue) or `recalled` (memory, habit).
+  Deterministic and fast; misses pronouns and indirect phrasings by design.
 - LLM (`extraction/`): a strict JSON schema (16 kinds, including world rules, events,
   foreshadowing, causal links and relationships, plus `day_offset` for "three days later").
   Long chapters are split into paragraph windows. Every returned fact is validated: unknown
@@ -90,7 +91,7 @@ a confidence threshold, with facts from several extractors de-duplicated:
 
 | Category | Check |
 |---|---|
-| identity | `attribute_conflict` (two statements disagree), `canon_conflict` (text vs character sheet) |
+| identity | `attribute_conflict` (two statements disagree), `canon_conflict` (text vs character sheet); an explicit change starts a new period, so "dyed her hair red" is not an inconsistency |
 | timeline | `age_timeline` (ages vs elapsed story days), `dead_character_active` (present after death) |
 | location | `location_conflict` (two places closer in time than the travel time between them) |
 | abilities | `ability_conflict` (a skill used after "cannot" without learning it) |
