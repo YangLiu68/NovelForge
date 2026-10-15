@@ -85,5 +85,28 @@ export function forceLayout(
     }
     temperature *= 0.985;
   }
+  fitToCanvas(pos, width, height);
   return pos;
+}
+
+// Repulsion pushes small graphs against the walls. Centre the drawing and scale it to fit inside
+// margins that leave room for the labels drawn under each node.
+function fitToCanvas(pos: Map<string, { x: number; y: number }>, width: number, height: number) {
+  const mx = 70;
+  const top = 30;
+  const bottom = 45;
+  const ps = [...pos.values()];
+  const minX = Math.min(...ps.map((p) => p.x));
+  const maxX = Math.max(...ps.map((p) => p.x));
+  const minY = Math.min(...ps.map((p) => p.y));
+  const maxY = Math.max(...ps.map((p) => p.y));
+  const availW = Math.max(1, width - 2 * mx);
+  const availH = Math.max(1, height - top - bottom);
+  const scale = Math.min(1, availW / Math.max(maxX - minX, 1), availH / Math.max(maxY - minY, 1));
+  const cx = (minX + maxX) / 2;
+  const cy = (minY + maxY) / 2;
+  for (const p of ps) {
+    p.x = mx + availW / 2 + (p.x - cx) * scale;
+    p.y = top + availH / 2 + (p.y - cy) * scale;
+  }
 }

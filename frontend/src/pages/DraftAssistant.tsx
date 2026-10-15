@@ -334,8 +334,9 @@ export default function DraftAssistant() {
                 <button
                   className={r.id === selected ? "link active" : "link"}
                   onClick={() => setParams({ run: r.id })}
+                  title={r.goal}
                 >
-                  {r.goal.slice(0, 48)}
+                  {r.goal.length > 60 ? `${r.goal.slice(0, 57).trimEnd()}…` : r.goal}
                 </button>
                 <span className="muted small"> {r.status.replaceAll("_", " ")}</span>
               </li>

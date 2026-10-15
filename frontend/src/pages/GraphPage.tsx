@@ -198,6 +198,11 @@ function Timeline({ data }: { data: TimelineData }) {
   const lanes = showAll ? data.lanes : data.lanes.slice(0, 12);
   const left = 130;
   const right = 20;
+  // Dots are plotted inside the lane line with some padding, so facts spread around the first
+  // or last position never cover the character's name or run off the canvas.
+  const pad = 30;
+  const plotLeft = left + pad;
+  const plotWidth = Math.max(1, width - left - right - 2 * pad);
   const laneH = 34;
   const top = 26;
   const height = top + lanes.length * laneH + 20;
@@ -207,8 +212,8 @@ function Timeline({ data }: { data: TimelineData }) {
   const span = Math.max(1, d1 - d0);
   const x = (e: TimelineEvent) =>
     axis === "chapter"
-      ? left + ((chapterIndex.get(e.chapter_number ?? 0) ?? 0) / n) * (width - left - right)
-      : left + ((e.day - d0) / span) * (width - left - right);
+      ? plotLeft + ((chapterIndex.get(e.chapter_number ?? 0) ?? 0) / n) * plotWidth
+      : plotLeft + ((e.day - d0) / span) * plotWidth;
   // Facts that land on the same spot (same lane, same chapter or day) are spread a few pixels
   // apart so every dot stays visible and clickable.
   const point = new Map<string, { x: number; y: number }>();
@@ -273,10 +278,10 @@ function Timeline({ data }: { data: TimelineData }) {
           aria-label="Character timeline"
           data-testid="timeline"
         >
-          <text x={left} y={14} className="axis-label">
+          <text x={plotLeft} y={14} className="axis-label" textAnchor="middle">
             {axis === "chapter" ? `chapter ${data.chapters[0]?.number ?? ""}` : `day ${d0}`}
           </text>
-          <text x={width - right} y={14} className="axis-label" textAnchor="end">
+          <text x={plotLeft + plotWidth} y={14} className="axis-label" textAnchor="middle">
             {axis === "chapter"
               ? `chapter ${data.chapters[data.chapters.length - 1]?.number ?? ""}`
               : `day ${d1}`}
