@@ -1,11 +1,13 @@
 import { Link, Route, Routes } from "react-router-dom";
 
+import CanonPage from "./pages/CanonPage";
 import ChapterView from "./pages/ChapterView";
 import Characters from "./pages/Characters";
 import Contradictions from "./pages/Contradictions";
 import Facts from "./pages/Facts";
 import NovelList from "./pages/NovelList";
 import Overview from "./pages/Overview";
+import Review from "./pages/Review";
 import Search from "./pages/Search";
 import Workspace from "./pages/Workspace";
 
@@ -27,6 +29,8 @@ export default function App() {
           <Route path="search" element={<Search />} />
           <Route path="contradictions" element={<Contradictions />} />
           <Route path="facts" element={<Facts />} />
+          <Route path="review" element={<Review />} />
+          <Route path="canon" element={<CanonPage />} />
         </Route>
         <Route path="*" element={<p className="page">Not found. <Link to="/">Home</Link></p>} />
       </Routes>

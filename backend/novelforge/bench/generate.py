@@ -880,6 +880,23 @@ class Generator:
                 return f
         return None
 
+    def location_fact(
+        self, tag: str, ch: Chapter, p: Person, place: str, kind: str, day_offset: int = 0
+    ) -> None:
+        self.facts.append(
+            {
+                "tag": tag,
+                "chapter": ch.number,
+                "subject": p.name,
+                "predicate": "location",
+                "value": place,
+                "template": "location",
+                "kind": kind,
+                "day": None if ch.day is None else ch.day + day_offset,
+                **({"day_offset": day_offset} if day_offset else {}),
+            }
+        )
+
     def record(
         self,
         category: str,
@@ -1009,6 +1026,7 @@ class Generator:
                     self.fill("{N} was in {P} that morning, alive and arguing.", p, P=ch.place), tag
                 )
             )
+            self.location_fact(tag, ch, p, ch.place, "contradiction")
             self.record(
                 "timeline",
                 "dead_character_active",
@@ -1028,6 +1046,8 @@ class Generator:
                 Sentence(self.fill("{N} was in {P} that morning.", p, P=ch.place), tag1),
                 Sentence(self.fill("By evening {N} was in {Q}.", p, Q=other), tag2),
             )
+            self.location_fact(tag1, ch, p, ch.place, "asserted")
+            self.location_fact(tag2, ch, p, other, "contradiction")
             self.record(
                 "location",
                 "location_conflict",
@@ -1198,6 +1218,7 @@ class Generator:
                     tag,
                 )
             )
+            self.location_fact(tag, ch, p, dest, "asserted", day_offset=d + 1)
             self.negative(
                 kind,
                 p.name,
@@ -1236,6 +1257,18 @@ class Generator:
                 Sentence(self.fill("{N}'s hair was {v} now.", p, v=new), tag2),
             )
             p.hair = new
+            self.facts.append(
+                {
+                    "tag": tag2,
+                    "chapter": ch.number,
+                    "subject": p.name,
+                    "predicate": "hair_color",
+                    "value": new,
+                    "template": "after_change",
+                    "kind": "asserted",
+                    "day": ch.day,
+                }
+            )
             self.negative(
                 kind,
                 p.name,
@@ -1301,7 +1334,7 @@ class Generator:
         gt = {
             "generator": {
                 "name": "novelforge.bench.generate",
-                "version": 1,
+                "version": 2,
                 "seed": self.seed,
                 "chapters": self.n,
             },
@@ -1340,6 +1373,15 @@ class Generator:
                 for c in self.causal
             ],
             "world_rules": [{"id": r["id"], "statement": r["statement"]} for r in RULES],
+            "rule_mentions": [
+                {
+                    "rule": m["rule"],
+                    "kind": m["kind"],
+                    "chapter": m["chapter"],
+                    "evidence": ev([m["tag"]])[0],
+                }
+                for m in self.rule_mentions
+            ],
         }
         (out / "ground_truth.yaml").write_text(
             yaml.safe_dump(gt, sort_keys=False, allow_unicode=True, width=120), encoding="utf-8"

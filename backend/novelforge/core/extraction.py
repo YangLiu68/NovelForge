@@ -1,12 +1,17 @@
-"""Rule-based fact extractor (`rules-v1`): a deterministic, explainable baseline.
+"""Rule-based fact extractor (`rules-v2`): a deterministic, explainable baseline.
 
-It finds a small set of character attributes stated next to a character's name or alias:
-eye colour, hair colour, age, handedness and birthplace. It does not resolve pronouns
-("Her eyes were grey" is missed) or paraphrase; the LLM extractor in M3 is meant to close
-that gap and is measured against this baseline.
+It finds facts stated next to a character's name or alias:
+- attributes: eye colour, hair colour, age, handedness, birthplace
+- location: "X was in P", "X arrived in P", "X had reached P"
+- status: "X died ...", "X was dead", "X was alive"
+- abilities: "X could not swim" (cannot), "X learned to swim" (learned), "X swam ..." (used)
+
+It does not resolve pronouns ("Her eyes were grey" is missed) or paraphrase, and it does not
+read world rules; the LLM extractor is measured against this baseline.
 
 Modality:
 - reported: inside dialogue quotes (a character's words, not the narrator's)
+- recalled: memory or habit ("remembered how X used to ..."), not an event at this time
 - hedged: perception or rumour ("seemed", "almost", "some said")
 - asserted: everything else
 """
@@ -19,10 +24,20 @@ from dataclasses import dataclass
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.text import NUMBER_PATTERN, inside_dialogue, parse_number, sentence_bounds
 
-EXTRACTOR = "rules-v1"
+EXTRACTOR = "rules-v2"
 CLAIM_NAMESPACE = uuid.UUID("6c1f5c1e-2b7a-4c55-9a43-6f0d5e0b7a01")
 
-CONFIDENCE = {"asserted": 0.9, "reported": 0.5, "hedged": 0.4}
+CONFIDENCE = {"asserted": 0.9, "recalled": 0.8, "reported": 0.5, "hedged": 0.4}
+SKILL_VERBS = {
+    "swim": "swam|swims|swimming",
+    "ride": "rode|rides|riding",
+    "read": "read|reads|reading",
+    "sail": "sailed|sails|sailing",
+    "write": "wrote|writes|writing",
+}
+_SKILL = r"(?P<val>swim|ride|read|sail|write)"
+_USED = r"(?P<val>" + "|".join(SKILL_VERBS.values()) + r")"
+_VERB_TO_SKILL = {v: k for k, forms in SKILL_VERBS.items() for v in forms.split("|")}
 
 _EYE = r"(?P<val>grey|gray|green|blue|brown|hazel|amber|black|violet)"
 _HAIR = (
@@ -40,6 +55,10 @@ _HEDGES = re.compile(
     re.IGNORECASE,
 )
 _CLAUSE_BREAK = re.compile(r"[;:—–]| - ")
+_RECALL = re.compile(
+    r"\b(?:remembered|remembers|recalled|recalls|used to|in those days|long ago)\b",
+    re.IGNORECASE,
+)
 
 # (predicate, pattern template). "{who}" becomes the character-name alternation.
 RULES: list[tuple[str, str]] = [
@@ -68,6 +87,16 @@ RULES: list[tuple[str, str]] = [
     ("handedness", r"\b(?:the|a) (?P<val>left|right)-handed {who}"),
     ("birthplace", rf"{{who}} (?:was|had been) born in {_PLACE}"),
     ("birthplace", rf"{{who}}, born in {_PLACE}"),
+    ("location", rf"{{who}} (?:was|were|is|stood|waited) (?:back )?(?:in|at) {_PLACE}"),
+    ("location", rf"{{who}} (?:arrived|landed) (?:in|at) {_PLACE}"),
+    ("location", rf"{{who}} (?:had )?(?:reached|returned to|came to) {_PLACE}"),
+    ("status", r"{who} (?P<val>died|drowned|was killed|had died)\b"),
+    ("status", r"{who} (?:was|lay) (?P<val>dead|alive)\b"),
+    ("ability.cannot", rf"{{who}} (?:could not|couldn't|could never|was unable to) {_SKILL}\b"),
+    ("ability.cannot", rf"{{who}} (?:had )?never learned (?:how )?to {_SKILL}\b"),
+    ("ability.learned", rf"{{who}} (?:finally |had )?(?:learned|learnt) (?:how )?to {_SKILL}\b"),
+    ("ability.learned", rf"{{who}} taught (?:himself|herself|themselves|themself) to {_SKILL}\b"),
+    ("ability.used", rf"{{who}} {_USED}\b"),
 ]
 
 
@@ -118,8 +147,20 @@ def _who_pattern(forms: list[_Surface]) -> str:
     return r"(?<![\w'’])(?P<who>" + "|".join(alts) + r")(?!\w)"
 
 
-def _normalize(predicate: str, raw: str) -> str | None:
+def _normalize(predicate: str, raw: str) -> tuple[str, str] | None:
+    """(final predicate, normalised value), or None to drop the match."""
     raw = raw.strip()
+    if predicate.startswith("ability."):
+        mode = predicate.split(".", 1)[1]
+        skill = _VERB_TO_SKILL.get(raw.lower(), raw.lower()) if mode == "used" else raw.lower()
+        return f"ability:{skill}", mode
+    if predicate == "status":
+        return "status", "alive" if raw.lower() == "alive" else "dead"
+    value = _normalize_value(predicate, raw)
+    return None if value is None else (predicate, value)
+
+
+def _normalize_value(predicate: str, raw: str) -> str | None:
     if predicate in ("eye_color", "hair_color"):
         v = raw.lower()
         return {"gray": "grey", "blonde": "blond"}.get(v, v)
@@ -140,6 +181,8 @@ def _modality(body: str, start: int, end: int) -> str:
         clause_start = m.end()
     nxt = _CLAUSE_BREAK.search(body, end, e)
     clause_end = nxt.start() if nxt else e
+    if _RECALL.search(body, clause_start, clause_end):
+        return "recalled"
     if _HEDGES.search(body, clause_start, clause_end):
         return "hedged"
     return "asserted"
@@ -158,15 +201,16 @@ def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> l
         pattern = re.compile(template.replace("{who}", who))
         for m in pattern.finditer(body):
             character = lookup.get(m.group("who").lower())
-            value = _normalize(predicate, m.group("val"))
-            if character is None or value is None:
+            normalized = _normalize(predicate, m.group("val"))
+            if character is None or normalized is None:
                 continue
+            final_predicate, value = normalized
             start, end = m.start(), m.end()
-            if (predicate, start, end) in seen:
+            if (final_predicate, start, end) in seen:
                 continue
-            seen.add((predicate, start, end))
+            seen.add((final_predicate, start, end))
             modality = _modality(body, start, end)
-            key = f"{chapter.id}|{chapter.version}|{EXTRACTOR}|{predicate}|{start}|{end}"
+            key = f"{chapter.id}|{chapter.version}|{EXTRACTOR}|{final_predicate}|{start}|{end}"
             claims.append(
                 ExtractedClaim(
                     id=str(uuid.uuid5(CLAIM_NAMESPACE, key)),
@@ -174,7 +218,7 @@ def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> l
                     chapter_version=chapter.version,
                     subject_id=character.id,
                     subject_text=m.group("who"),
-                    predicate=predicate,
+                    predicate=final_predicate,
                     value=value,
                     raw_value=m.group("val"),
                     modality=modality,

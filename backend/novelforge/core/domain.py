@@ -1,6 +1,7 @@
 """Plain data types shared by the extraction and contradiction code (no database access)."""
 
 from dataclasses import dataclass, field
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -46,3 +47,4 @@ class ExtractedClaim:
     time_certainty: str  # chapter_day | unknown
     extractor: str
     spans: tuple[Span, ...]
+    details: dict[str, Any] = field(default_factory=dict)

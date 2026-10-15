@@ -182,6 +182,21 @@ def cmd_bench_retrieval(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_bench_extraction(args: argparse.Namespace) -> int:
+    from novelforge.bench import extraction_eval
+
+    report = extraction_eval.run(Path(args.corpus), args.extractor, args.max_chapters)
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    safe = report["extractor"].replace("/", "_").replace(":", "-")
+    path = out / f"extraction-{report['corpus']}-{safe}-{report['chapters']}ch.json"
+    path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    path.with_suffix(".md").write_text(extraction_eval.to_markdown(report) + "\n", encoding="utf-8")
+    print(extraction_eval.to_markdown(report))
+    print(f"\nsaved {path}")
+    return 0
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     import uvicorn
 
@@ -263,6 +278,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-queries", type=int, default=None)
     p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
     p.set_defaults(func=cmd_bench_retrieval)
+
+    p = sub.add_parser("bench-extraction", help="extraction benchmark on a generated corpus")
+    p.add_argument("corpus")
+    p.add_argument("--extractor", default="rules", help="rules | mock | ollama:<model> | anthropic")
+    p.add_argument("--max-chapters", type=int, default=None)
+    p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
+    p.set_defaults(func=cmd_bench_extraction)
 
     p = sub.add_parser("serve", help="run the API server")
     p.add_argument("--host", default="127.0.0.1")

@@ -1,14 +1,18 @@
 # Architecture
 
-Status: Milestone 1. Sections marked *(planned)* describe later milestones.
+Status: Milestones 1–2. Sections marked *(planned)* describe later milestones.
 
 ## Components
 
 ```
-React + TypeScript (Vite)  ──/api──▶  FastAPI (sync SQLAlchemy 2)  ──▶  PostgreSQL 16 (+ pgvector, unused until M2)
-  pages: novels, chapter editor,        api/        HTTP routes            tables: novel, chapter, revision, passage,
-  search, contradictions, facts,        services/   DB operations                  character, claim, evidence_span
-  characters                            core/       pure logic (no DB): text, extraction, contradictions, evaluation
+React + TypeScript (Vite)  ──/api──▶  FastAPI (sync SQLAlchemy 2)  ──▶  PostgreSQL 16 + pgvector
+  pages: novels, chapter editor,        api/        HTTP routes            tables: novel, chapter, revision, passage
+  search, contradictions, facts,        services/   DB operations            (+ embedding), character, claim,
+  characters                            retrieval/  embedders, rerankers,     evidence_span, embedding_cache, job
+                                                    hybrid search, indexing
+                                        jobs.py     Postgres job queue + worker thread (or `novelforge worker`)
+                                        core/       pure logic (no DB): text, extraction, contradictions, evaluation
+                                        bench/      corpus generator, retrieval benchmark
 ```
 
 `backend/novelforge/core` has no database or web dependencies. Extraction, contradiction
@@ -23,7 +27,9 @@ stores those dataclasses; `api/` is a thin HTTP layer.
 | `novel` | A manuscript | `slug` (set for imported samples), `version` |
 | `chapter` | Markdown source of one chapter | `number` (unique per novel), `body`, `story_day` (days since story day 0, nullable = unknown), `story_time_label`, `content_hash`, `version` |
 | `revision` | Snapshot after every save | `(chapter_id, version)` unique, `body`, `content_hash` |
-| `passage` | Paragraph-sized slice of a chapter; search unit (embeddings in M2) | `start`, `end`, `text`, generated `tsv` + GIN index |
+| `passage` | Paragraph-sized slice of a chapter; the search unit | `start`, `end`, `text`, generated `tsv` + GIN index, `text_hash`, `embedding`, `embedding_model` |
+| `embedding_cache` | Content-addressed embeddings | `(model, text_hash)` primary key |
+| `job` | Background work | unique `key`, `status`, `attempts`, `error`, `result` |
 | `character` | Character sheet | `name`, `aliases` (JSONB), `attributes` (JSONB canon, e.g. `{"eye_color": "grey"}`), `version` |
 | `claim` | An extracted fact (a proposal, never canon) | `subject_character_id`, `predicate`, `value`, `raw_value`, `modality`, `confidence`, `effective_day` / `time_certainty`, `extractor`, `chapter_version` |
 | `evidence_span` | Where a claim came from | `chapter_id`, `chapter_version`, `start`, `end`, `quote` |
@@ -46,8 +52,8 @@ until the extraction pipeline that fills them exists (M3).
 4. The UPDATE runs as `... WHERE id = :id AND version = :seen` (SQLAlchemy `version_id_col`), so a
    concurrent writer that passed step 2 at the same time also gets a `409`
    (`tests/test_concurrency.py`).
-5. In the same transaction: a `revision` row, rebuilt `passage` rows, and re-extracted claims for
-   that chapter.
+5. In the same transaction: a `revision` row, rebuilt `passage` rows, re-extracted claims for that
+   chapter, and an `embed_chapter` job for the new version.
 
 Character edits re-run extraction for every chapter of the novel, because names and aliases decide
 attribution. This is cheap with the rule extractor; with an LLM extractor (M3) it becomes a queued,
@@ -96,8 +102,46 @@ from `ts_headline(..., HighlightAll=true)` with private-use marker characters, s
 words are exactly what PostgreSQL matched after stemming; the markers are parsed back into offsets,
 and if the text does not round-trip exactly, no highlights are returned rather than wrong ones.
 
-*(planned, M2)* Hybrid retrieval: FTS + pgvector similarity fused with reciprocal rank fusion, then
-reranked; evaluated against FTS-only and vector-only.
+## Retrieval (M2)
+
+Five modes over the same passages, one code path (`retrieval/search.py`):
+
+| Mode | First stage | Notes |
+|---|---|---|
+| `keyword` | `websearch_to_tsquery` (all words, phrases, `-exclude`) | Interactive "Exact" search. Questions rarely match: every word must appear. |
+| `fts` | OR of the query's English-stemmed lexemes, `ts_rank_cd` | Lexical baseline (PostgreSQL has no BM25; cover density ranking is the stand-in). |
+| `vector` | cosine distance on `passage.embedding` | Semantic baseline. |
+| `hybrid` | top 50 of `fts` + top 50 of `vector`, reciprocal rank fusion (k = 60) | Default in the UI. |
+| `hybrid_rerank` | hybrid top 30 re-scored by a reranker | Cross-encoder in production, lexical mock in CI. |
+
+Each hit carries its rank in every stage (`ranks: {fts: 3, vector: 2, rrf: 1}`), shown in the UI as
+"why this result", and each call reports per-stage latency.
+
+**Embeddings.** `passage.embedding` is a dimension-less `vector` plus `embedding_model`, so several
+embedders can coexist. Embedders are named by a canonical spec (`hash:384`,
+`fastembed:BAAI/bge-small-en-v1.5`, `ollama:<model>`, `openai:<model>`), which is also what passages
+store. `embedding_cache(model, text_hash)` makes indexing content-addressed: editing one paragraph
+re-embeds one paragraph.
+
+**Exact vs. HNSW.** Vector search defaults to an exact scan of the novel's passages (a materialised CTE
+keeps the planner off the global index). A single novel is tens of thousands of passages at most, and
+an approximate index filtered after the fact can silently return fewer than k matches from the
+novel. A per-model partial HNSW index (`(embedding::vector(dim)) vector_cosine_ops WHERE
+embedding_model = …`) is available for cross-novel scale and is compared in the load tests (M6).
+
+**The mock embedder.** `hash` is feature hashing of stemmed words and bigrams: deterministic,
+dependency-free, lexical. It keeps tests and CI reproducible and is labelled as a mock in every
+benchmark table; it is not a semantic model.
+
+## Background jobs
+
+`jobs.py` is a small queue on PostgreSQL: unique `key` per job (enqueueing twice is a no-op),
+claims with `FOR UPDATE SKIP LOCKED` (several workers never run one job twice, see
+`tests/test_jobs.py`), retries with exponential backoff, `failed` after `max_attempts` with the
+error kept, `skipped` when a job no longer applies (the chapter moved to a newer version), and
+re-queueing of jobs left `running` by a dead worker. Jobs are enqueued in the same transaction as the
+edit that needs them. The API runs one worker thread by default (`JOBS_IN_PROCESS`); `novelforge
+worker` runs a separate process.
 
 ## Observability and privacy
 

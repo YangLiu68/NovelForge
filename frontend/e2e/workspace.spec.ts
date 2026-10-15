@@ -198,3 +198,36 @@ test("create, rename and delete a novel; add and delete a chapter", async ({ pag
   await card.getByRole("button", { name: "Delete" }).click();
   await expect(page.locator(".card").filter({ hasText: "Final Title" })).toHaveCount(0);
 });
+
+test("review: accept into canon, refuse silent overwrite, reject out of the report", async ({
+  page,
+  request,
+}) => {
+  await request.post("/api/samples/lanternfall/import");
+  const novelId = (await (await request.get("/api/novels")).json()).find(
+    (n: { slug: string | null }) => n.slug === "lanternfall",
+  ).id;
+  await page.goto(`/novels/${novelId}/review`);
+  const items = page.getByTestId("review-item");
+
+  // Accept Mara's grey eyes: it becomes canon and appears in the change log.
+  const grey = items.filter({ hasText: "Mara's grey eyes" });
+  await grey.getByRole("button", { name: "Accept" }).click();
+  await expect(items.filter({ hasText: "Mara's grey eyes" })).toHaveCount(0);
+
+  // Hollin contradicts the character sheet (Varrow): accepting asks first, and we keep canon.
+  const hollin = items.filter({ hasText: "Tomas was born in Hollin" });
+  await expect(hollin).toContainText("Canon says “Varrow”");
+  await hollin.getByRole("button", { name: "Accept" }).click();
+  await expect(hollin.getByRole("alert")).toContainText("Varrow");
+  await hollin.getByRole("button", { name: "Keep canon" }).click();
+
+  // Reject the right-handed statement: the handedness contradiction disappears.
+  await items.filter({ hasText: "Tomas was right-handed" }).getByRole("button", { name: "Reject" }).click();
+  await page.goto(`/novels/${novelId}/contradictions`);
+  await expect(page.getByTestId("finding").filter({ hasText: "handedness" })).toHaveCount(0);
+
+  await page.goto(`/novels/${novelId}/canon`);
+  await expect(page.getByTestId("canon-changes")).toContainText("attributes.eye_color");
+  await expect(page.getByTestId("canon-changes")).toContainText("grey");
+});

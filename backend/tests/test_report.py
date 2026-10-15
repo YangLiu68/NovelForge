@@ -28,7 +28,7 @@ def test_sample_report_finds_seeded_contradictions(client, sample_novel_id):
 
 
 def test_low_confidence_threshold_surfaces_hedged_and_reported_claims(client, sample_novel_id):
-    data = report(client, sample_novel_id, min_confidence=0.3)
+    data = report(client, sample_novel_id, include_uncertain=True)
     got = {(f["subject_name"], f["predicate"]) for f in data["findings"]}
     assert ("Ilsa Corr", "eye_color") in got  # "seemed almost black" vs canon brown
     assert ("Tomas Hale", "eye_color") in got  # clerk's "blue eyes" vs narration

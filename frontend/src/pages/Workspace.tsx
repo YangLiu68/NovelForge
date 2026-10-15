@@ -70,6 +70,8 @@ export default function Workspace() {
         </NavLink>
         <nav className="tools">
           <NavLink to={`${base}/contradictions`}>Contradictions</NavLink>
+          <NavLink to={`${base}/review`}>Review</NavLink>
+          <NavLink to={`${base}/canon`}>Canon</NavLink>
           <NavLink to={`${base}/search`}>Search</NavLink>
           <NavLink to={`${base}/facts`}>Extracted facts</NavLink>
           <NavLink to={`${base}/characters`}>Characters</NavLink>

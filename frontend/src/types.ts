@@ -137,3 +137,62 @@ export interface Report {
   findings: Finding[];
   took_ms: number;
 }
+
+export interface ReviewItem {
+  id: string;
+  subject_character_id: string | null;
+  subject_name: string;
+  predicate: string;
+  value: string;
+  modality: string;
+  confidence: number;
+  status: "proposed" | "accepted" | "rejected";
+  extractor: string;
+  effective_day: number | null;
+  time_certainty: string;
+  details: Record<string, unknown>;
+  review_note: string | null;
+  canon_value: string | null;
+  evidence: SpanRef[];
+}
+
+export interface ReviewPage {
+  total: number;
+  counts: Record<string, number>;
+  items: ReviewItem[];
+}
+
+export interface Canon {
+  characters: { id: string; name: string; attributes: Record<string, string> }[];
+  locations: { id: string; name: string; travel_days: Record<string, number> }[];
+  world_rules: { id: string; statement: string; status: string; chapter_number: number | null }[];
+  timeline: {
+    id: string;
+    kind: string;
+    description: string;
+    character: string | null;
+    location: string | null;
+    story_day: number | null;
+    chapter_number: number | null;
+  }[];
+  plot_threads: {
+    id: string;
+    title: string;
+    status: string;
+    setup_chapter: number | null;
+    payoff_chapter: number | null;
+  }[];
+  relationships: { id: string; source: string; target: string; kind: string }[];
+}
+
+export interface CanonChange {
+  id: string;
+  entity_type: string;
+  field: string;
+  old_value: unknown;
+  new_value: unknown;
+  source_claim_id: string | null;
+  actor: string;
+  note: string | null;
+  created_at: string;
+}
