@@ -278,6 +278,7 @@ legend { font-size: 0.85rem; color: var(--muted); padding: 0 0.25rem; }
 /* Draft assistant */
 .assistant { display: grid; grid-template-columns: 300px 1fr; gap: 1rem; align-items: start; }
 .runs .run-list { list-style: none; padding: 0; margin: 0.75rem 0 0; display: grid; gap: 0.3rem; }
+.runs .run-list .link { text-align: left; }
 .runs .link.active { font-weight: 700; }
 .stepper { list-style: none; display: flex; gap: 0.25rem; padding: 0; margin: 0 0 0.75rem; flex-wrap: wrap; }
 .stepper li { padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
