@@ -104,14 +104,29 @@ def contradictions(
     session: Session = SessionDep,
 ):
     started = time.perf_counter()
-    if include_uncertain:
+    default_threshold = get_settings().report_min_confidence
+    # A non-default threshold is a what-if view: stored findings always use the default, so one
+    # caller cannot resolve (or reopen) everyone's findings by changing a parameter.
+    preview = include_uncertain or (
+        min_confidence is not None and min_confidence != default_threshold
+    )
+    if preview:
         # A what-if preview: computed on the fly, never stored.
-        threshold = 0.3 if min_confidence is None else min_confidence
+        threshold = (
+            (0.3 if include_uncertain else default_threshold)
+            if min_confidence is None
+            else min_confidence
+        )
+        modalities = (
+            frozenset({"asserted", "hedged", "reported"})
+            if include_uncertain
+            else frozenset({"asserted"})
+        )
         findings, claim_count = contradiction_report(
             session,
             novel.id,
             threshold,
-            frozenset({"asserted", "hedged", "reported"}),
+            modalities,
             travel=travel_matrix(session, novel.id),
         )
         items = [

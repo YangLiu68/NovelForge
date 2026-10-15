@@ -407,6 +407,7 @@ class ReviewDecision(Base):
     fingerprint: Mapped[str] = mapped_column(String(40), primary_key=True)
     decision: Mapped[str] = mapped_column(String(16))  # accepted | rejected
     note: Mapped[str | None] = mapped_column(Text)
+    value: Mapped[str | None] = mapped_column(String(500))  # value edited during review
     decided_at: Mapped[datetime] = _now_column()
 
 

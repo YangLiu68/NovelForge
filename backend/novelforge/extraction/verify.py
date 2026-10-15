@@ -35,7 +35,9 @@ def _normalized(text: str) -> tuple[str, list[int]]:
             index.append(i)
             prev_space = True
         else:
-            out.append(ch.lower())
+            low = ch.lower()
+            # Keep a one-to-one character map: some lowercasings change length ("İ" -> "i̇").
+            out.append(low if len(low) == 1 else ch)
             index.append(i)
             prev_space = False
     return "".join(out), index

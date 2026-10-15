@@ -103,7 +103,13 @@ def extract_with_llm(
             if claim is None:
                 run.rejected.append({"fact": fact, "reason": reason})
                 continue
-            key = (claim.predicate, claim.spans[0].start, claim.spans[0].end, claim.value)
+            key = (
+                claim.subject_id or claim.subject_text,
+                claim.predicate,
+                claim.spans[0].start,
+                claim.spans[0].end,
+                claim.value,
+            )
             if key in seen:
                 continue
             seen.add(key)
@@ -146,7 +152,11 @@ def _to_claim(chapter, fact, lookup, extractor, window) -> tuple[ExtractedClaim 
         confidence = max(0.0, min(1.0, float(fact.get("confidence", 0.5))))
     except (TypeError, ValueError):
         confidence = 0.5
-    key = f"{chapter.id}|{chapter.version}|{extractor}|{predicate}|{start}|{end}|{value}"
+    subject_key = character.id if character else subject_text.lower()
+    key = (
+        f"{chapter.id}|{chapter.version}|{extractor}|{subject_key}|{predicate}|{start}|{end}|"
+        f"{value}"
+    )
     details: dict[str, Any] = {"quote_match": method}
     try:
         offset = max(0, min(36500, int(fact.get("day_offset") or 0)))

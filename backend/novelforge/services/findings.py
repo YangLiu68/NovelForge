@@ -15,7 +15,7 @@ import uuid
 from dataclasses import asdict
 from datetime import UTC, datetime
 
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 from novelforge.core.contradictions import Finding
@@ -43,6 +43,11 @@ def travel_matrix(session: Session, novel_id: uuid.UUID) -> dict[tuple[str, str]
 
 
 def refresh_findings(session: Session, novel_id: uuid.UUID, min_confidence: float) -> dict:
+    # One refresh per novel at a time (released at commit): concurrent requests would otherwise
+    # both insert the same new fingerprint and one would fail on the unique constraint.
+    session.execute(
+        text("SELECT pg_advisory_xact_lock(hashtext(:key))"), {"key": f"findings:{novel_id}"}
+    )
     now = datetime.now(UTC)
     findings, claim_count = contradiction_report(
         session, novel_id, min_confidence, travel=travel_matrix(session, novel_id)

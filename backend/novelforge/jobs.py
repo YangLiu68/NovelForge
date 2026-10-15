@@ -63,7 +63,19 @@ def enqueue(
             attempts=0,
             max_attempts=max_attempts,
         )
-        .on_conflict_do_nothing(index_elements=["key"])
+        # Same key again is a no-op, except that a job which already failed for good is
+        # re-armed: asking again (e.g. /extract after a provider outage) must be able to retry.
+        .on_conflict_do_update(
+            index_elements=["key"],
+            set_={
+                "status": "queued",
+                "attempts": 0,
+                "error": None,
+                "run_after": func.now(),
+                "payload": payload,
+            },
+            where=Job.status == "failed",
+        )
     )
 
 
@@ -167,7 +179,17 @@ class Worker:
         self._thread.join(timeout)
 
     def _loop(self) -> None:
+        last_reap = time.monotonic()
         while not self._stop.is_set():
+            if time.monotonic() - last_reap > 60:
+                # Periodically, not only at start: a job whose worker died (process crash,
+                # restart within the lease window) is re-queued once its lease expires.
+                last_reap = time.monotonic()
+                try:
+                    with self.maker() as session:
+                        requeue_stale(session)
+                except Exception:  # noqa: BLE001
+                    log.exception("requeue_stale failed")
             try:
                 ran = run_one(self.maker)
             except Exception:  # noqa: BLE001 - keep polling after DB hiccups

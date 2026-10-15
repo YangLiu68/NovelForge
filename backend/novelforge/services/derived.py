@@ -72,10 +72,11 @@ def rebuild_passages(session: Session, chapter: Chapter) -> None:
     enqueue_chapter_embedding(session, chapter, get_settings().embedder)
 
 
-def claim_fingerprint(subject: str, predicate: str, value: str, quote: str) -> str:
-    """Identity of a statement independent of its position: survives edits elsewhere."""
+def claim_fingerprint(chapter_id: str, subject: str, predicate: str, value: str, quote: str) -> str:
+    """Identity of a statement independent of its offsets: survives edits elsewhere in the
+    chapter. Scoped to the chapter, so the same sentence in another chapter is its own fact."""
     norm_quote = " ".join(quote.lower().split())
-    key = f"{subject}|{predicate}|{value.lower()}|{norm_quote}"
+    key = f"{chapter_id}|{subject}|{predicate}|{value.lower()}|{norm_quote}"
     return hashlib.sha1(key.encode()).hexdigest()
 
 
@@ -94,7 +95,7 @@ def persist_claims(
     session.execute(delete(Claim).where(Claim.chapter_id == chapter.id, same_extractor))
     fingerprints = {
         c.id: claim_fingerprint(
-            c.subject_id or c.subject_text, c.predicate, c.value, c.spans[0].quote
+            str(chapter.id), c.subject_id or c.subject_text, c.predicate, c.value, c.spans[0].quote
         )
         for c in extracted
     }
@@ -122,7 +123,7 @@ def persist_claims(
             subject_character_id=uuid.UUID(c.subject_id) if c.subject_id else None,
             subject_text=c.subject_text,
             predicate=c.predicate,
-            value=c.value,
+            value=(decision.value if decision and decision.value else c.value),
             raw_value=c.raw_value,
             modality=c.modality,
             confidence=c.confidence,
@@ -178,6 +179,13 @@ def rebuild_scenes(session: Session, chapter: Chapter) -> None:
 
 
 def rebuild_chapter(session: Session, chapter: Chapter) -> None:
+    # Claims from any extractor that point at an older version of this chapter describe text
+    # that may no longer exist; drop them (the LLM job re-extracts the new version if enabled).
+    session.execute(
+        delete(Claim).where(
+            Claim.chapter_id == chapter.id, Claim.chapter_version != chapter.version
+        )
+    )
     rebuild_passages(session, chapter)
     rebuild_scenes(session, chapter)
     rebuild_claims(session, chapter)

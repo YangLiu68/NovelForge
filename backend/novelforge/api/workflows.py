@@ -97,15 +97,11 @@ def start(payload: StartIn, novel: Novel = Depends(novel_dep), session: Session 
     if payload.chapter_id and chapter is None:
         raise NotFound("Chapter", payload.chapter_id)
     run = engine.create_run(
-        session,
-        novel,
-        payload.goal,
-        chapter,
-        allowed_llm(payload.llm),
-        payload.max_iterations,
+        session, novel, payload.goal, chapter, allowed_llm(payload.llm), payload.max_iterations
     )
+    ticket = engine.begin_step(session, run, "plan")
     session.commit()
-    engine.start_step(get_sessionmaker(), run.id, "plan", background=_background())
+    engine.launch(get_sessionmaker(), ticket, background=_background())
     session.expire_all()
     return _out(session, _run(session, run.id))
 
@@ -159,21 +155,23 @@ def stream(
 
 @router.post("/workflows/{run_id}/approve-plan")
 def approve_plan(run_id: uuid.UUID, payload: PlanIn, session: Session = SessionDep):
-    run = _run(session, run_id)
+    run = engine.lock_run(session, run_id)
     engine.approve_plan(session, run, payload.plan)
+    ticket = engine.begin_step(session, run, "draft")
     session.commit()
-    engine.start_step(get_sessionmaker(), run.id, "draft", background=_background())
+    engine.launch(get_sessionmaker(), ticket, background=_background())
     session.expire_all()
     return _out(session, _run(session, run_id))
 
 
 @router.post("/workflows/{run_id}/decide")
 def decide(run_id: uuid.UUID, payload: DecideIn, session: Session = SessionDep):
-    run = _run(session, run_id)
+    run = engine.lock_run(session, run_id)
     result = engine.decide(session, run, payload.action, payload.force)
+    ticket = engine.begin_step(session, run, "revise") if payload.action == "revise" else None
     session.commit()
-    if payload.action == "revise":
-        engine.start_step(get_sessionmaker(), run.id, "revise", background=_background())
+    if ticket is not None:
+        engine.launch(get_sessionmaker(), ticket, background=_background())
     session.expire_all()
     return {**result, "run": _out(session, _run(session, run_id))}
 
@@ -186,8 +184,9 @@ def cancel(run_id: uuid.UUID, session: Session = SessionDep):
 
 @router.post("/workflows/{run_id}/retry")
 def retry(run_id: uuid.UUID, session: Session = SessionDep):
-    run = _run(session, run_id)
-    kind = engine.retry_kind(run)
-    engine.start_step(get_sessionmaker(), run.id, kind, background=_background())
+    run = engine.lock_run(session, run_id)
+    ticket = engine.begin_step(session, run, engine.retry_kind(run))
+    session.commit()
+    engine.launch(get_sessionmaker(), ticket, background=_background())
     session.expire_all()
     return _out(session, _run(session, run_id))
