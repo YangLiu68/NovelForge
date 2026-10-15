@@ -81,6 +81,9 @@ number. Headline results, details, failure cases and caveats are in [BENCHMARK.m
 
 ## Commands
 
+`make help` lists the common tasks (`make setup`, `make api`, `make web`, `make check`,
+`make bench`). The API's OpenAPI docs are at http://127.0.0.1:8000/docs.
+
 | Command (from `backend/`) | What it does |
 |---|---|
 | `uv run novelforge migrate [head\|base]` | Apply or roll back migrations |
@@ -104,6 +107,7 @@ From `frontend/`: `npm run dev`, `npm run typecheck`, `npm test`, `npm run build
 - [TESTING.md](TESTING.md): test suites and the latest real results
 - [PLAN.md](PLAN.md) and [PROGRESS.md](PROGRESS.md): milestones, acceptance criteria, log
 - [LICENSE_NOTES.md](LICENSE_NOTES.md): dependency and model licenses
+- [CONTRIBUTING.md](CONTRIBUTING.md): setup, checks, and rules for changes that move numbers
 - [docs/demo-walkthrough.md](docs/demo-walkthrough.md) and
   [docs/demo-video-script.md](docs/demo-video-script.md)
 

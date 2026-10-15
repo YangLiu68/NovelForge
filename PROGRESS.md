@@ -28,6 +28,13 @@ optimistic-locked save.
 **M6 Scale and polish.** Character graph and timeline; load tests up to 1,000 chapters; one
 script that regenerates every benchmark; docs and demo video script.
 
+**Independent code review.** A fresh-eyes review of the backend found nine defects and four
+minor ones (stale LLM claims after edits, facts dropped when two characters share a quote,
+review decisions leaking across chapters and losing edited values, a findings-refresh race,
+duplicate canon on double submit, drafting runs that could get stuck, job-queue gaps, an age
+check that only compared neighbours, greedy benchmark matching). All were fixed with 16
+regression tests before the benchmarks were run.
+
 **Bugs found by tests and review along the way** (all fixed, with tests):
 - switching search mode cleared the query being typed;
 - a slow earlier response could overwrite a newer one on the Contradictions and Search pages;
