@@ -16,7 +16,7 @@ Tests never call a hosted model and never need an API key: the LLM is the determ
 the embedder is the hash mock. Database tests create a fresh `novelforge_test` database per
 session and truncate tables before each test.
 
-## Backend tests (116)
+## Backend tests (132)
 
 | File | Covers |
 |---|---|
@@ -33,6 +33,7 @@ session and truncate tables before each test.
 | `test_workflows.py` | plan → approve → draft → apply, critic citing both sides, bounded revisions, refusal to overwrite newer edits, new-chapter runs, discard, cancel mid-stream then retry, SSE replay, retryable failures, LLM allow-list |
 | `test_graph.py` | co-occurrence graph with evidence, timeline lanes and findings |
 | `test_generate.py` | byte-identical corpora per seed, every labelled span exact, category coverage, import, consistency benchmark end to end |
+| `test_review_fixes.py` | regressions for the independent code review: stale LLM claims after edits, shared quotes, chapter-scoped decisions and edited values, concurrent report refreshes, preview thresholds, double accept, re-arming failed jobs, double step start and restart recovery, finalisation failures, non-adjacent ages, one-to-one benchmark matching, nulls in PATCH, case-insensitive places, length-changing lowercase |
 | `test_report.py`, `test_migrations.py` | sample report, threshold preview, edits clearing findings, character-sheet changes, CLI evaluation in memory vs database; migrations up and down |
 
 ## Frontend unit tests (8)
@@ -59,12 +60,12 @@ jobs (timings are not benchmarks).
 | Check | Result |
 |---|---|
 | ruff check / ruff format --check | clean / 90 files formatted |
-| pytest | 116 passed in 14.45 s |
+| pytest | 132 passed in 47.9 s (machine under load) |
 | tsc | no errors |
 | Node unit tests | 8 / 8 passed |
 | vite build | succeeded (406 kB JS, 128 kB gzip) |
 | npm audit | 0 vulnerabilities |
-| Playwright | 13 passed in 17.3 s |
+| Playwright | 13 passed in 17.5 s |
 
 ## Not executed
 
