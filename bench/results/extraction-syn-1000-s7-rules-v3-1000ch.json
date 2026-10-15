@@ -1,0 +1,331 @@
+{
+  "corpus": "syn-1000-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 3,
+    "seed": 7,
+    "chapters": 1000
+  },
+  "extractor": "rules-v3",
+  "value_check": true,
+  "cache": null,
+  "chapters": 1000,
+  "seconds": 5.45,
+  "claims": 2580,
+  "scored": {
+    "overall": {
+      "tp": 2031,
+      "fp": 16,
+      "fn": 471,
+      "precision": 0.9922,
+      "recall": 0.8118,
+      "f1": 0.8929
+    },
+    "ability": {
+      "tp": 82,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "age": {
+      "tp": 275,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "birthplace": {
+      "tp": 180,
+      "fp": 0,
+      "fn": 88,
+      "precision": 1.0,
+      "recall": 0.6716,
+      "f1": 0.8036
+    },
+    "eye_color": {
+      "tp": 163,
+      "fp": 0,
+      "fn": 115,
+      "precision": 1.0,
+      "recall": 0.5863,
+      "f1": 0.7392
+    },
+    "hair_color": {
+      "tp": 215,
+      "fp": 16,
+      "fn": 90,
+      "precision": 0.9307,
+      "recall": 0.7049,
+      "f1": 0.8022
+    },
+    "handedness": {
+      "tp": 79,
+      "fp": 0,
+      "fn": 178,
+      "precision": 1.0,
+      "recall": 0.3074,
+      "f1": 0.4702
+    },
+    "location": {
+      "tp": 1027,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "status": {
+      "tp": 10,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "recall_by_template": {
+    "ability/cannot": {
+      "found": 41,
+      "total": 41
+    },
+    "ability/learned": {
+      "found": 41,
+      "total": 41
+    },
+    "age/apposition": {
+      "found": 70,
+      "total": 70
+    },
+    "age/at_n": {
+      "found": 69,
+      "total": 69
+    },
+    "age/was_n": {
+      "found": 68,
+      "total": 68
+    },
+    "age/year_old": {
+      "found": 68,
+      "total": 68
+    },
+    "birthplace/apposition": {
+      "found": 84,
+      "total": 84
+    },
+    "birthplace/born_in": {
+      "found": 96,
+      "total": 96
+    },
+    "birthplace/grew_up": {
+      "found": 0,
+      "total": 88
+    },
+    "eye_color/colour_of": {
+      "found": 0,
+      "total": 67
+    },
+    "eye_color/name_had": {
+      "found": 54,
+      "total": 54
+    },
+    "eye_color/name_were": {
+      "found": 55,
+      "total": 55
+    },
+    "eye_color/no_mistaking": {
+      "found": 54,
+      "total": 54
+    },
+    "eye_color/pronoun": {
+      "found": 0,
+      "total": 48
+    },
+    "hair_color/after_change": {
+      "found": 16,
+      "total": 16
+    },
+    "hair_color/name_had": {
+      "found": 108,
+      "total": 108
+    },
+    "hair_color/name_was": {
+      "found": 91,
+      "total": 91
+    },
+    "hair_color/pronoun": {
+      "found": 0,
+      "total": 90
+    },
+    "handedness/being": {
+      "found": 0,
+      "total": 86
+    },
+    "handedness/name_was": {
+      "found": 79,
+      "total": 79
+    },
+    "handedness/wrote_with": {
+      "found": 0,
+      "total": 92
+    },
+    "location/location": {
+      "found": 1027,
+      "total": 1027
+    },
+    "status/death": {
+      "found": 10,
+      "total": 10
+    }
+  },
+  "location_day_accuracy": {
+    "correct": 1027,
+    "total": 1027
+  },
+  "negative_modality": {
+    "asserted": 0,
+    "not_asserted": 42
+  },
+  "world_rule_statements": {
+    "found": 0,
+    "total": 4,
+    "recall": 0.0
+  },
+  "foreshadowing_setups": {
+    "found": 0,
+    "total": 128,
+    "recall": 0.0
+  },
+  "causal_links": {
+    "found": 0,
+    "total": 117,
+    "recall": 0.0
+  },
+  "unscored_claims": {
+    "ability:used": 468,
+    "status": 23
+  },
+  "usage": {
+    "calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_usd": 0.0,
+    "rejected": 0,
+    "rejected_by_reason": {},
+    "errors": []
+  },
+  "false_positive_examples": [
+    {
+      "chapter": 58,
+      "predicate": "hair_color",
+      "value": "red",
+      "subject": "Damo Corwell",
+      "quote": "Damo dyed her hair red"
+    },
+    {
+      "chapter": 89,
+      "predicate": "hair_color",
+      "value": "grey",
+      "subject": "Calis Marrow",
+      "quote": "Calis dyed her hair grey"
+    },
+    {
+      "chapter": 124,
+      "predicate": "hair_color",
+      "value": "red",
+      "subject": "Nibel Wexley",
+      "quote": "Nibel dyed her hair red"
+    },
+    {
+      "chapter": 175,
+      "predicate": "hair_color",
+      "value": "brown",
+      "subject": "Cadra Garrow",
+      "quote": "Cadra dyed his hair brown"
+    },
+    {
+      "chapter": 253,
+      "predicate": "hair_color",
+      "value": "black",
+      "subject": "Brasa Halton",
+      "quote": "Brasa dyed his hair black"
+    },
+    {
+      "chapter": 320,
+      "predicate": "hair_color",
+      "value": "red",
+      "subject": "Camo Ashwick",
+      "quote": "Camo dyed her hair red"
+    },
+    {
+      "chapter": 373,
+      "predicate": "hair_color",
+      "value": "brown",
+      "subject": "Ariko Lonshaw",
+      "quote": "Ariko dyed his hair brown"
+    },
+    {
+      "chapter": 438,
+      "predicate": "hair_color",
+      "value": "red",
+      "subject": "Dara Dunford",
+      "quote": "Dara dyed her hair red"
+    },
+    {
+      "chapter": 489,
+      "predicate": "hair_color",
+      "value": "black",
+      "subject": "Nibel Wexley",
+      "quote": "Nibel dyed her hair black"
+    },
+    {
+      "chapter": 620,
+      "predicate": "hair_color",
+      "value": "red",
+      "subject": "Wytha Talmere",
+      "quote": "Wytha dyed his hair red"
+    },
+    {
+      "chapter": 675,
+      "predicate": "hair_color",
+      "value": "black",
+      "subject": "Vena Garton",
+      "quote": "Vena dyed his hair black"
+    },
+    {
+      "chapter": 716,
+      "predicate": "hair_color",
+      "value": "red",
+      "subject": "Nidra Falford",
+      "quote": "Nidra dyed her hair red"
+    },
+    {
+      "chapter": 744,
+      "predicate": "hair_color",
+      "value": "grey",
+      "subject": "Vena Garton",
+      "quote": "Vena dyed his hair grey"
+    },
+    {
+      "chapter": 791,
+      "predicate": "hair_color",
+      "value": "blond",
+      "subject": "Isalis Ashby",
+      "quote": "Isalis dyed his hair blond"
+    },
+    {
+      "chapter": 840,
+      "predicate": "hair_color",
+      "value": "red",
+      "subject": "Brasa Halton",
+      "quote": "Brasa dyed his hair red"
+    }
+  ],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "d7830ba"
+  }
+}

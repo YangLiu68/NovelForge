@@ -35,6 +35,17 @@ extraction and contradiction detection, including how much each kind of memory h
 - **See**: an interactive character co-occurrence graph and a per-character timeline with
   contradictions drawn between the facts that clash.
 
+## Screens
+
+| | |
+|---|---|
+| ![Clicking a citation opens the chapter with the exact span highlighted](docs/images/cited-span.png) | ![Hybrid search with the rank from each stage](docs/images/search.png) |
+| Every citation opens the chapter at the exact quoted span. | Hybrid search shows each hit's rank by words, meaning, fusion and reranking. |
+| ![Review queue of extracted facts](docs/images/review.png) | ![Character co-occurrence graph](docs/images/graph.png) |
+| Extracted facts wait for review before they become canon. | Who appears with whom, with the paragraphs behind each link. |
+| ![Per-character timeline by story day](docs/images/timeline.png) | ![Draft assistant at the decision checkpoint](docs/images/draft.png) |
+| Facts by story day; red rings are facts in an open contradiction. | Plan, draft, check, then apply, revise or discard (mock model shown). |
+
 ## Quick start (no Docker needed)
 
 Requirements: Python 3.12 with [uv](https://docs.astral.sh/uv/), Node 22.
@@ -77,7 +88,22 @@ Written and validated in CI; not run on the development machine (no container ru
 ## Benchmarks
 
 Everything is reproducible from seeds: `bench/run_all.sh` regenerates the corpora and every
-number. Headline results, details, failure cases and caveats are in [BENCHMARK.md](BENCHMARK.md).
+number. Details, failure cases and caveats are in [BENCHMARK.md](BENCHMARK.md). Headline results
+on a generated 1,000-chapter novel (125 planted contradictions, 148 look-alike negatives), all
+local on an M4 laptop:
+
+| What | Result |
+|---|---|
+| Retrieval, 800 questions (half paraphrased) | hybrid + cross-encoder R@1 **0.909**, R@10 0.999; full-text alone 0.584, vectors alone 0.614 |
+| Contradiction recall by memory type (same claims, same detectors) | chapter alone 0.224 · vector memory 0.496 · hybrid memory 0.424 · **structured claim store 0.576** |
+| False alarms (structured) | **0** findings wrong, 0 of 148 negatives flagged; whole-novel check in 0.8 s |
+| Rule extractor | precision 0.992, recall 0.812; 0% on pronouns and implications (the LLM's job) |
+| Scale, 1.25 M words / 33,277 paragraphs | chapter save p50 213 ms, hybrid search p50 136 ms, report refresh 524 ms, 257 MB database |
+
+The corpus is synthetic and templated, so these numbers measure the pipeline against known
+answers, not literary understanding. The recall figures use the rule extractor only, so they
+count all 28 world-rule violations (which need the LLM judge) and every pronoun-stated fact as
+misses.
 
 ## Commands
 

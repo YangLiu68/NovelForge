@@ -1,0 +1,196 @@
+{
+  "corpus": "syn-40-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 3,
+    "seed": 7,
+    "chapters": 40
+  },
+  "extractor": "rules-v3",
+  "value_check": true,
+  "cache": null,
+  "chapters": 15,
+  "seconds": 0.21,
+  "claims": 56,
+  "scored": {
+    "overall": {
+      "tp": 50,
+      "fp": 0,
+      "fn": 5,
+      "precision": 1.0,
+      "recall": 0.9091,
+      "f1": 0.9524
+    },
+    "ability": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "age": {
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "birthplace": {
+      "tp": 4,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8889
+    },
+    "eye_color": {
+      "tp": 4,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8889
+    },
+    "hair_color": {
+      "tp": 6,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.8571,
+      "f1": 0.9231
+    },
+    "handedness": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 2,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5
+    },
+    "location": {
+      "tp": 16,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "recall_by_template": {
+    "ability/cannot": {
+      "found": 9,
+      "total": 9
+    },
+    "ability/learned": {
+      "found": 6,
+      "total": 6
+    },
+    "age/at_n": {
+      "found": 1,
+      "total": 1
+    },
+    "age/was_n": {
+      "found": 1,
+      "total": 1
+    },
+    "age/year_old": {
+      "found": 2,
+      "total": 2
+    },
+    "birthplace/apposition": {
+      "found": 2,
+      "total": 2
+    },
+    "birthplace/born_in": {
+      "found": 2,
+      "total": 2
+    },
+    "birthplace/grew_up": {
+      "found": 0,
+      "total": 1
+    },
+    "eye_color/name_had": {
+      "found": 3,
+      "total": 3
+    },
+    "eye_color/name_were": {
+      "found": 1,
+      "total": 1
+    },
+    "eye_color/pronoun": {
+      "found": 0,
+      "total": 1
+    },
+    "hair_color/name_had": {
+      "found": 4,
+      "total": 4
+    },
+    "hair_color/name_was": {
+      "found": 2,
+      "total": 2
+    },
+    "hair_color/pronoun": {
+      "found": 0,
+      "total": 1
+    },
+    "handedness/being": {
+      "found": 0,
+      "total": 1
+    },
+    "handedness/name_was": {
+      "found": 1,
+      "total": 1
+    },
+    "handedness/wrote_with": {
+      "found": 0,
+      "total": 1
+    },
+    "location/location": {
+      "found": 16,
+      "total": 16
+    }
+  },
+  "location_day_accuracy": {
+    "correct": 16,
+    "total": 16
+  },
+  "negative_modality": {
+    "asserted": 0,
+    "not_asserted": 2
+  },
+  "world_rule_statements": {
+    "found": 0,
+    "total": 4,
+    "recall": 0.0
+  },
+  "foreshadowing_setups": {
+    "found": 0,
+    "total": 1,
+    "recall": 0.0
+  },
+  "causal_links": {
+    "found": 0,
+    "total": 2,
+    "recall": 0.0
+  },
+  "unscored_claims": {
+    "ability:used": 4
+  },
+  "usage": {
+    "calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_usd": 0.0,
+    "rejected": 0,
+    "rejected_by_reason": {},
+    "errors": []
+  },
+  "false_positive_examples": [],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "3ddf013"
+  }
+}

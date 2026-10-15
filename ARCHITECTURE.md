@@ -64,9 +64,12 @@ Two extractors produce the same `Claim` shape.
 - LLM (`extraction/`): a strict JSON schema (16 kinds, including world rules, events,
   foreshadowing, causal links and relationships, plus `day_offset` for "three days later").
   Long chapters are split into paragraph windows. Every returned fact is validated: unknown
-  kind, unknown character, malformed value, or a quote that cannot be found in the text
-  (exact match, then a normalised match mapped back to exact offsets) gets the fact rejected
-  with a reason. Jobs are idempotent per (chapter version, model, prompt version).
+  kind, unknown character, malformed value, a quote that cannot be found in the text
+  (exact match, then a normalised match mapped back to exact offsets), or a literal value
+  (colour, place, age, hand) that the quote does not contain gets the fact rejected with a
+  reason. The last check was added after a small local model paired real sentences with
+  unrelated values; it also rejects values inferred from similes, trading that recall for
+  precision. Jobs are idempotent per (chapter version, model, prompt version).
 
 Backends (`llm/`): `mock` (deterministic; for extraction it is backed by the rule extractor so
 the whole LLM path runs offline), `anthropic` (official SDK, `claude-opus-5-5`, JSON-schema

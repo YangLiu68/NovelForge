@@ -22,6 +22,7 @@ frontend/playwright-report/
 # OS / editors
 .DS_Store
 .idea/
+.claude/
 .vscode/
 *.log
 

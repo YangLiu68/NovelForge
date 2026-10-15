@@ -1,5 +1,28 @@
 # Progress log
 
+## 2026-10-15 (later): benchmarks, failure analysis, rules-v3
+
+All benchmarks were run for real on this machine (BENCHMARK.md, raw output in `bench/results/`).
+What the runs changed:
+
+- **Generator fix.** At 1,000 chapters the multi-year time skips made ages implausible; skips now
+  scale with novel length (generator version 3, `2572c56`).
+- **rules-v3** (`42317f2`). The 1,000-chapter failure analysis found four phrasings the rules
+  missed or misread ("At fifty, …", "dove from the pier and swam", "dyed her hair red",
+  "Three days later …"). Fixing them removed every false alarm in the contradiction benchmark
+  (15 → 0) and raised rule recall from 0.784 to 0.812. The phrasings came from this generator's
+  templates, so BENCHMARK.md flags the gain as corpus-specific.
+- **Stricter scoring** (`6fbc369`, `38f62fd`). A finding now counts only if it cites the planted
+  statement itself, matching is one-to-one, and negatives are violated only by false alarms. This
+  lowered every system's recall; the tables use the strict scorer for both extractor versions.
+- **Local LLM run** (qwen2.5:3b through Ollama). Its first run produced facts whose quotes were
+  real but unrelated to the value ("Jorin could not swim." as evidence of a location), which
+  quote verification alone accepted. Extraction now also rejects a fact whose value is not in its
+  quote (`d7830ba`), and LLM benchmarks record and replay responses so validation changes can be
+  re-scored without the model.
+- **Provenance.** Reports record the git commit (`bc2ddf6`); results name the extractor version
+  that produced them (`eb34a16`).
+
 ## 2026-10-15: Milestones 2–6
 
 The user asked for the whole plan to be carried through autonomously, to a high standard, with

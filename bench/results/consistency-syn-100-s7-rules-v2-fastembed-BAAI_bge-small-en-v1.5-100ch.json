@@ -122,7 +122,7 @@
       ],
       "false_positive_findings": [],
       "violated_negatives": [],
-      "seconds": 0.1,
+      "seconds": 0.42,
       "avg_context_claims": 2.7
     },
     "vector-only": {
@@ -212,7 +212,7 @@
       ],
       "false_positive_findings": [],
       "violated_negatives": [],
-      "seconds": 3.53,
+      "seconds": 10.68,
       "avg_context_claims": 10.5
     },
     "hybrid": {
@@ -307,7 +307,7 @@
       ],
       "false_positive_findings": [],
       "violated_negatives": [],
-      "seconds": 5.17,
+      "seconds": 10.19,
       "avg_context_claims": 11.3
     },
     "structured": {
@@ -392,7 +392,7 @@
       ],
       "false_positive_findings": [],
       "violated_negatives": [],
-      "seconds": 0.03,
+      "seconds": 0.05,
       "avg_context_claims": 271
     }
   },
@@ -401,7 +401,7 @@
     "note": "claims extracted during import",
     "seconds": 0.0
   },
-  "index_seconds": 14.17,
+  "index_seconds": 51.65,
   "labelled_contradictions": 12,
   "labelled_negatives": 13,
   "chapters": 100,
