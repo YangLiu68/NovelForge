@@ -2,13 +2,35 @@
 
 import uuid
 from datetime import datetime
-from typing import Annotated
+from typing import Annotated, ClassVar
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
 
 Title = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=300)]
 Name = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=200)]
 ATTRIBUTE_KEY_CHARS = set("abcdefghijklmnopqrstuvwxyz0123456789_")
+
+
+class Patch(BaseModel):
+    """Partial update: omitted fields are left alone; explicit null only where it means 'clear'."""
+
+    nullable: ClassVar[frozenset[str]] = frozenset()
+
+    @model_validator(mode="after")
+    def _no_nulls(self):
+        bad = sorted(
+            f for f in self.model_fields_set if getattr(self, f) is None and f not in self.nullable
+        )
+        if bad:
+            raise ValueError(f"{', '.join(bad)} cannot be null; omit the field to keep it")
+        return self
 
 
 class ORM(BaseModel):
@@ -23,7 +45,7 @@ class NovelCreate(BaseModel):
     synopsis: str = Field("", max_length=20_000)
 
 
-class NovelUpdate(BaseModel):
+class NovelUpdate(Patch):
     version: int
     title: Title | None = None
     synopsis: str | None = Field(None, max_length=20_000)
@@ -52,7 +74,9 @@ class ChapterCreate(BaseModel):
     story_time_label: str | None = Field(None, max_length=200)
 
 
-class ChapterUpdate(BaseModel):
+class ChapterUpdate(Patch):
+    nullable: ClassVar[frozenset[str]] = frozenset({"story_day", "story_time_label"})
+
     version: int
     title: Title | None = None
     body: str | None = Field(None, max_length=2_000_000)
@@ -105,7 +129,7 @@ class CharacterCreate(BaseModel):
         return _validate_attributes(v)
 
 
-class CharacterUpdate(BaseModel):
+class CharacterUpdate(Patch):
     version: int
     name: Name | None = None
     aliases: list[str] | None = Field(None, max_length=50)

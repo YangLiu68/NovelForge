@@ -2,77 +2,74 @@
 
 ## Suites
 
-| Suite | Command | Needs | Covers |
-|---|---|---|---|
-| Lint | `cd backend && uv run ruff check .` | — | pyflakes, import order, bugbear, pyupgrade, simplify |
-| Backend unit + integration | `cd backend && uv run pytest` | PostgreSQL (embedded or `DATABASE_URL`) | see below |
-| Sample evaluation | `cd backend && uv run novelforge eval-sample [--db]` | `--db` needs PostgreSQL | contradiction report vs. labelled ground truth |
-| Frontend types | `cd frontend && npm run typecheck` | — | `tsc` strict mode, app + e2e code |
-| Frontend unit | `cd frontend && npm test` | Node 22 | code-point ↔ UTF-16 offsets, highlight segmentation, span links |
-| Frontend build | `cd frontend && npm run build` | — | production bundle |
-| End-to-end | `cd frontend && npm run e2e` | Playwright Chromium (`npx playwright install chromium`), uv | real browser against a real API and database |
+| Suite | Command | Needs |
+|---|---|---|
+| Lint + format | `cd backend && uv run ruff check . && uv run ruff format --check .` | — |
+| Backend unit + integration | `cd backend && uv run pytest` | PostgreSQL (embedded `pgserver` or `DATABASE_URL`) |
+| Frontend types | `cd frontend && npm run typecheck` | — |
+| Frontend unit | `cd frontend && npm test` | Node 22 |
+| Frontend build | `cd frontend && npm run build` | — |
+| End-to-end | `cd frontend && npm run e2e` | Playwright Chromium, uv |
+| Benchmarks | `bench/run_all.sh` | ~30 min on CPU, downloads ~150 MB of models |
 
-### Backend tests (50)
+Tests never call a hosted model and never need an API key: the LLM is the deterministic mock,
+the embedder is the hash mock. Database tests create a fresh `novelforge_test` database per
+session and truncate tables before each test.
 
-- `test_text.py`: body normalisation, paragraph offsets, number words, dialogue detection, sentence bounds.
-- `test_extraction.py`: every rule, alias handling (case, ambiguity, explicit vs. implied first name),
-  modality (hedged, reported, hedge confined to its clause), traps ("ten minutes late", "Marabel",
-  negation, pronouns), effective time vs. unknown, deterministic version-scoped claim IDs.
-- `test_contradictions.py`: static conflicts, majority suggestion, canon conflicts, confidence
-  threshold, age vs. elapsed days (time skip, birthday, decrease, unknown time).
-- `test_api_crud.py`: CRUD for novels/chapters/characters, 404/409/422, revisions, no-op saves,
-  stale saves rejected without changes, cascading deletes.
-- `test_concurrency.py`: two sessions both read version 1; the second write gets a conflict.
-- `test_import.py`: import → delete → import gives identical IDs, hashes, claims, spans, passages;
-  second import is a no-op; every claim's span slices the chapter body to its quote; time fields
-  are consistent.
-- `test_search.py`: highlight offsets slice the body to the stemmed match, phrase queries, ranking
-  order, no-match and stop-word queries, per-novel scoping, edits reflected immediately.
-- `test_report.py`: the sample report finds the four seeded contradictions; evidence offsets are
-  exact; lowering the threshold surfaces the hedged/dialogue cases; fixing the text clears a
-  finding; character-sheet edits re-extract; DB and in-memory evaluations agree.
-- `test_migrations.py`: `upgrade head` then `downgrade base` on an empty database.
+## Backend tests (116)
 
-Database handling: tests use `TEST_DATABASE_URL` or `DATABASE_URL` when set, otherwise the
-embedded pgserver. A fresh `novelforge_test` database is created per session and tables are
-truncated before each test.
+| File | Covers |
+|---|---|
+| `test_text.py` | normalisation, paragraph offsets, number words, dialogue detection, sentence bounds |
+| `test_extraction.py` | every rule, aliases (case, ambiguity, implied first names), modality, traps (negation, "ten minutes late", word boundaries), effective time, deterministic IDs |
+| `test_contradictions.py` | attribute and canon conflicts, thresholds, ages vs elapsed days, dead characters (flashback, memory, unknown time), travel times, abilities |
+| `test_api_crud.py`, `test_concurrency.py` | CRUD, 404/409/422, revisions, stale saves rejected without changes, two concurrent writers |
+| `test_import.py` | deterministic and idempotent import; every claim's span slices the text to its quote |
+| `test_search.py`, `test_retrieval.py` | highlights, phrases, scoping, edits; hash embedder; every retrieval mode returns grounded hits; OR semantics for questions; stage ranks; HNSW agrees with exact search |
+| `test_jobs.py` | idempotent enqueue, success/skip/retry/fail, four concurrent workers run each job once, stale-job recovery, cache-aware embedding, stale versions skipped |
+| `test_llm_extraction.py` | quote locator, windows, validation and rejection reasons, day offsets, rule-backed mock, strict schema, cost table, Anthropic request shape (structured output, fallbacks, effort) and stop reasons, Ollama JSON and streaming, cancellation |
+| `test_review.py` | review queue, accept into canon with audit, refusal to overwrite canon, explicit replace, reject, decisions surviving re-extraction, batch accept, idempotent LLM extraction jobs, scenes |
+| `test_findings.py` | stored findings, dismiss needs a reason and survives edits, auto-resolve and reopen, manual resolve, uncertain preview not stored, LLM rule judge with verified quotes |
+| `test_workflows.py` | plan → approve → draft → apply, critic citing both sides, bounded revisions, refusal to overwrite newer edits, new-chapter runs, discard, cancel mid-stream then retry, SSE replay, retryable failures, LLM allow-list |
+| `test_graph.py` | co-occurrence graph with evidence, timeline lanes and findings |
+| `test_generate.py` | byte-identical corpora per seed, every labelled span exact, category coverage, import, consistency benchmark end to end |
+| `test_report.py`, `test_migrations.py` | sample report, threshold preview, edits clearing findings, character-sheet changes, CLI evaluation in memory vs database; migrations up and down |
 
-### End-to-end tests (8)
+## Frontend unit tests (8)
 
-`frontend/e2e/workspace.spec.ts`. Playwright starts `novelforge e2e-server` (drops and recreates a
-`novelforge_e2e` database, migrates, serves on port 18765) and a Vite dev server on 15199. Ports can
-be changed with `E2E_API_PORT` / `E2E_WEB_PORT`.
+`src/spans.test.ts` (code points ↔ UTF-16, highlight segments, span links) and
+`src/layout.test.ts` (force layout is deterministic, stays on canvas, pulls connected nodes
+together). Run with Node's built-in test runner.
 
-1. Import the sample from the home page.
-2. Every contradiction citation (all 7) opens its chapter with that exact span highlighted and in view.
-3. Hedged and dialogue statements appear only when the checkbox is on.
-4. A search result opens its passage highlighted.
-5. Edits persist across reload; markdown preview renders; a stale save shows a conflict and does not
-   overwrite; "Save mine anyway" saves on top and history shows versions 4, 3, 2, 1.
-6. Fixing the text in the editor clears the contradiction.
-7. A canon fact added on the character sheet is checked against the text.
-8. Create, rename and delete a novel; add and delete a chapter.
+## End-to-end tests (13)
+
+`frontend/e2e/workspace.spec.ts`, real browser, real API, real PostgreSQL, mock LLM:
+import; every contradiction citation highlights its exact span; uncertain-statement preview;
+exact search; hybrid search with stage ranks; editing with conflicts and history; fixing text
+clears a finding; character-sheet canon; novel and chapter CRUD; review (accept, canon conflict,
+reject); dismissing a finding with a reason; the draft assistant from plan to applied chapter;
+the character graph and timeline with click-through to evidence.
 
 ## Latest results
 
-Run on 2026-10-14, Apple M4 / 16 GB / macOS 15.3, Python 3.12.10, Node 22.14.0, embedded
-PostgreSQL 16.2 (pgserver 0.1.4), Chromium headless shell 140 (Playwright 1.55.1). Timings were
-taken while other jobs were running on the same machine.
+Run on 2026-10-15, Apple M4 / 16 GB / macOS 15.3, Python 3.12.10, Node 22.14, embedded PostgreSQL
+16.2 (pgserver), Chromium headless 140 (Playwright 1.55.1), on a machine shared with several other
+jobs (timings are not benchmarks).
 
 | Check | Result |
 |---|---|
-| ruff | All checks passed |
-| pytest | 50 passed in 14.70 s |
-| eval-sample (in-memory and `--db`) | 4 TP, 0 FP, 1 FN (known miss), 0/4 negatives violated, citation precision 7/7 |
+| ruff check / ruff format --check | clean / 90 files formatted |
+| pytest | 116 passed in 14.45 s |
 | tsc | no errors |
-| Node unit tests | 6/6 passed |
-| vite build | succeeded (373 kB JS, 118 kB gzip) |
+| Node unit tests | 8 / 8 passed |
+| vite build | succeeded (406 kB JS, 128 kB gzip) |
 | npm audit | 0 vulnerabilities |
-| Playwright | 8 passed in 23.6 s |
+| Playwright | 13 passed in 17.3 s |
 
-## Not yet executed
+## Not executed
 
-- **GitHub Actions** (`.github/workflows/ci.yml`: backend, frontend, e2e, compose jobs). The workflow
-  is written and its YAML parses, but it has never run: the repository has not been pushed.
-- **Docker Compose.** No container runtime on the development machine, so `docker compose up` has
-  not been run. The CI `compose` job only validates the file and builds the images.
+- **GitHub Actions**: the workflow (backend, frontend, e2e, compose jobs) parses but has not run,
+  because the repository has not been pushed.
+- **Docker Compose**: no container runtime on the development machine; CI validates and builds it.
+- **Claude**: the Anthropic backend is tested against a fake client (request shape, structured
+  output, fallbacks, stop reasons, cost) but has not called the real API (no key was available).

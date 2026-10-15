@@ -18,6 +18,7 @@ nothing rather than guessing chronology from chapter order (flashbacks would bre
 """
 
 import hashlib
+import math
 from collections import defaultdict
 from dataclasses import dataclass, field
 
@@ -210,14 +211,20 @@ def _static_findings(character, predicate, group, evidence, order) -> list[Findi
     category = PREDICATES[predicate]["category"]
     name = character.name
     canon = _canon_value(character, predicate)
+    # Values compare case-insensitively ("Harrowgate" == "harrowgate"); the first spelling seen
+    # is the one shown.
     by_value: dict[str, list[ExtractedClaim]] = defaultdict(list)
+    shown: dict[str, str] = {}
     for claim in group:
-        by_value[claim.value].append(claim)
+        key = claim.value.casefold()
+        by_value[key].append(claim)
+        shown.setdefault(key, claim.value)
 
     if canon is not None:
         out = []
-        for value, conflicting in by_value.items():
-            if value == canon:
+        for key, conflicting in by_value.items():
+            value = shown[key]
+            if key == canon.casefold():
                 continue
             chapters = [order(c)[0] for c in conflicting]
             out.append(
@@ -247,7 +254,10 @@ def _static_findings(character, predicate, group, evidence, order) -> list[Findi
     if len(by_value) < 2:
         return []
     # Majority value wins the suggestion; ties go to the value stated first.
-    ranked = sorted(by_value.items(), key=lambda kv: (-len(kv[1]), order(kv[1][0])))
+    ranked = sorted(
+        ((shown[k], cs) for k, cs in by_value.items()),
+        key=lambda kv: (-len(kv[1]), order(kv[1][0])),
+    )
     keep_value = ranked[0][0]
     others = [c for v, cs in ranked[1:] for c in cs]
     all_claims = [c for _, cs in ranked for c in cs]
@@ -274,23 +284,53 @@ def _static_findings(character, predicate, group, evidence, order) -> list[Findi
     ]
 
 
+def _birth_window(c: ExtractedClaim) -> tuple[float, float]:
+    """Being `age` on day d means birth day B with d-(age+1)*Y < B <= d-age*Y."""
+    age, day = int(c.value), c.effective_day
+    return day - (age + 1) * DAYS_PER_YEAR, day - age * DAYS_PER_YEAR
+
+
+def _ages_possible(anchor: ExtractedClaim, day: int) -> tuple[int, int]:
+    """The ages consistent with `anchor` on `day` (usually two: before/after a birthday)."""
+    lo, hi = _birth_window(anchor)
+    youngest = math.floor((day - hi) / DAYS_PER_YEAR)
+    oldest = math.ceil((day - lo) / DAYS_PER_YEAR) - 1
+    return youngest, oldest
+
+
 def _age_findings(character, group, evidence, chapter_by_id) -> list[Finding]:
+    """Every stated age narrows the window of possible birth days. A statement whose window no
+    longer overlaps the window built from the earlier statements contradicts the statement that
+    set the violated bound, even when its neighbours look fine (30, 31, 32 within 300 days)."""
     name = character.name
     timed = [c for c in group if c.effective_day is not None]
     timed.sort(
         key=lambda c: (c.effective_day, chapter_by_id[c.chapter_id].number, c.spans[0].start)
     )
     out = []
-    for a, b in zip(timed, timed[1:], strict=False):
-        elapsed_days = b.effective_day - a.effective_day
-        elapsed_years = elapsed_days / DAYS_PER_YEAR
-        low = int(elapsed_years)
-        delta = int(b.value) - int(a.value)
-        if low <= delta <= low + 1:
+    lo = hi = None  # current birth window (lo, hi] and the claims that set each bound
+    lo_src = hi_src = None
+    for b in timed:
+        b_lo, b_hi = _birth_window(b)
+        if lo is None:
+            lo, hi, lo_src, hi_src = b_lo, b_hi, b, b
             continue
+        new_lo, new_hi = max(lo, b_lo), min(hi, b_hi)
+        if new_lo < new_hi:
+            if b_lo > lo:
+                lo, lo_src = b_lo, b
+            if b_hi < hi:
+                hi, hi_src = b_hi, b
+            continue
+        # Too young for the window: conflicts with whoever set the upper birth bound... and
+        # vice versa. The conflicting statement does not narrow the window further.
+        a = lo_src if b_hi <= lo else hi_src
+        youngest, oldest = _ages_possible(a, b.effective_day)
+        elapsed_days = b.effective_day - a.effective_day
         ch_a = chapter_by_id[a.chapter_id].number
         ch_b = chapter_by_id[b.chapter_id].number
-        allowed = f"{int(a.value) + low} or {int(a.value) + low + 1}"
+        allowed = f"{youngest}" if youngest == oldest else f"{youngest} or {oldest}"
+        delta_years = int(b.value) - int(a.value)
         out.append(
             Finding(
                 id=_finding_id("age_timeline", character.id, "age", [a, b]),
@@ -307,8 +347,8 @@ def _age_findings(character, group, evidence, chapter_by_id) -> list[Finding]:
                 ),
                 suggestion=(
                     f"Change the age in chapter {ch_b} to {allowed}, or move chapter {ch_b} "
-                    f"to about {delta} years after chapter {ch_a} on the timeline."
-                    if delta > 0
+                    f"to about {delta_years} years after chapter {ch_a} on the timeline."
+                    if int(b.value) > int(a.value) and elapsed_days >= 0
                     else f"Change the age in chapter {ch_b} to {allowed}; an age cannot go down "
                     f"as story time moves forward."
                 ),

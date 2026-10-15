@@ -49,6 +49,11 @@ def create_app() -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(_: FastAPI):
+        from novelforge.drafting.engine import recover_interrupted
+
+        recovered = recover_interrupted(get_sessionmaker())
+        if recovered:
+            log.warning('{"event": "workflow_recovery", "runs_marked_failed": %d}', recovered)
         worker = Worker(get_sessionmaker()) if settings.jobs_in_process else None
         if worker:
             worker.start()

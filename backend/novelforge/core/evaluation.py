@@ -112,21 +112,23 @@ def evaluate(findings: list[Any], ground_truth: dict, bodies: dict[int, str]) ->
     duplicates = 0
     cited = correct = 0
     for f in norm:
-        target = None
-        for g in gt:
-            if g["category"] != f["category"]:
-                continue
-            if g["category"] != "world_rules" and g["subject"] != f["subject"]:
-                continue
-            if any(_overlaps(s, ls) for s in f["spans"] for ls in labelled[g["id"]]):
-                target = g
-                break
-        if target is None:
+        candidates = [
+            g
+            for g in gt
+            if g["category"] == f["category"]
+            and (g["category"] == "world_rules" or g["subject"] == f["subject"])
+            and any(_overlaps(s, ls) for s in f["spans"] for ls in labelled[g["id"]])
+        ]
+        if not candidates:
             fps.append(f)
             continue
-        if target["id"] in matched:
+        # Prefer a contradiction nobody has matched yet (two labels can share a sentence, e.g.
+        # the death sentence behind two "dead character active" labels).
+        open_ = [g for g in candidates if g["id"] not in matched]
+        if not open_:
             duplicates += 1
             continue
+        target = open_[0]
         matched[target["id"]] = f
         for s in f["spans"]:
             cited += 1

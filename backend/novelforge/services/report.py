@@ -15,7 +15,13 @@ def load_claims(session: Session, novel_id: uuid.UUID) -> list[Claim]:
     return list(
         session.scalars(
             select(Claim)
-            .where(Claim.novel_id == novel_id, Claim.status != "rejected")
+            .join(Chapter, Chapter.id == Claim.chapter_id)
+            .where(
+                Claim.novel_id == novel_id,
+                Claim.status != "rejected",
+                # Only claims about the current text of each chapter.
+                Claim.chapter_version == Chapter.version,
+            )
             .options(selectinload(Claim.evidence))
             .order_by(Claim.chapter_id, Claim.predicate)
         )

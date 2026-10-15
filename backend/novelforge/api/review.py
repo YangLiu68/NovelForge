@@ -132,7 +132,8 @@ def review_queue(
 
 
 def _get_claim(session: Session, claim_id: uuid.UUID) -> Claim:
-    claim = session.get(Claim, claim_id)
+    # Row lock: a double-submitted accept waits, then sees "accepted" and does nothing.
+    claim = session.get(Claim, claim_id, with_for_update=True)
     if claim is None:
         raise NotFound("Claim", claim_id)
     return claim

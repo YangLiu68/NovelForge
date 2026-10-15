@@ -20,6 +20,7 @@ from __future__ import annotations
 import threading
 import uuid
 from collections.abc import Iterator
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Any
 
@@ -119,7 +120,7 @@ def create_run(
         base_version=chapter.version if chapter else None,
         goal=goal.strip(),
         llm=llm,
-        status="planning",
+        status="created",
         iteration=0,
         max_iterations=max_iterations,
     )
@@ -138,69 +139,134 @@ def _prompt(session: Session, run: WorkflowRun, kind: str) -> tuple[str, str]:
     return REVISE_SYSTEM, f"{context}\n\nDRAFT:\n{run.draft}\n\nISSUES:\n{issues}"
 
 
-def start_step(
-    maker: sessionmaker[Session], run_id: uuid.UUID, kind: str, background: bool = True
-) -> uuid.UUID:
-    """Create the step row and run it (in a thread unless background=False)."""
-    with maker() as session:
-        run = _get(session, run_id)
-        attempt = (
-            session.scalar(
-                select(func.max(WorkflowStep.attempt)).where(
-                    WorkflowStep.run_id == run.id,
-                    WorkflowStep.kind == kind,
-                    WorkflowStep.iteration == run.iteration,
-                )
+RUNNING_STATUSES = frozenset({*STEP_STATUS.values(), "critiquing"})
+
+
+@dataclass
+class StepTicket:
+    run_id: uuid.UUID
+    step_id: uuid.UUID
+    kind: str
+    attempt: int
+    system: str
+    prompt: str
+    llm: str
+
+
+def lock_run(session: Session, run_id: uuid.UUID) -> WorkflowRun:
+    """Load the run with a row lock; every state transition happens under it."""
+    run = session.get(WorkflowRun, run_id, with_for_update=True)
+    if run is None:
+        raise NotFound("Workflow", run_id)
+    return run
+
+
+def begin_step(session: Session, run: WorkflowRun, kind: str) -> StepTicket:
+    """Within the caller's transaction (run locked): create the step and mark the run busy.
+
+    Two requests racing to start a step serialise on the row lock; the second sees a busy run
+    and is refused, so a run never has two steps writing to it.
+    """
+    if run.status in RUNNING_STATUSES:
+        raise Conflict(f"A {run.status} step is already running for this workflow.")
+    attempt = (
+        session.scalar(
+            select(func.max(WorkflowStep.attempt)).where(
+                WorkflowStep.run_id == run.id,
+                WorkflowStep.kind == kind,
+                WorkflowStep.iteration == run.iteration,
             )
-            or 0
-        ) + 1
-        step = WorkflowStep(run_id=run.id, kind=kind, iteration=run.iteration, attempt=attempt)
-        session.add(step)
-        run.status = STEP_STATUS[kind]
-        run.error = None
-        system, prompt = _prompt(session, run, kind)
-        session.commit()
-        step_id, llm_spec = step.id, run.llm
-    stream = StepStream(step_id, kind)
+        )
+        or 0
+    ) + 1
+    step = WorkflowStep(run_id=run.id, kind=kind, iteration=run.iteration, attempt=attempt)
+    session.add(step)
+    run.status = STEP_STATUS[kind]
+    run.error = None
+    system, prompt = _prompt(session, run, kind)
+    session.flush()
+    return StepTicket(run.id, step.id, kind, attempt, system, prompt, run.llm)
+
+
+def launch(maker: sessionmaker[Session], ticket: StepTicket, background: bool = True) -> None:
+    """After the transaction that began the step has committed: stream it."""
+    stream = StepStream(ticket.step_id, ticket.kind)
     with _STREAMS_LOCK:
-        STREAMS[run_id] = stream
-    stream.push({"type": "status", "status": STEP_STATUS[kind], "step": kind, "attempt": attempt})
+        STREAMS[ticket.run_id] = stream
+    stream.push(
+        {
+            "type": "status",
+            "status": STEP_STATUS[ticket.kind],
+            "step": ticket.kind,
+            "attempt": ticket.attempt,
+        }
+    )
     if background:
         threading.Thread(
             target=_execute,
-            args=(maker, run_id, step_id, kind, system, prompt, llm_spec, stream),
+            args=(maker, ticket, stream),
             daemon=True,
-            name=f"workflow-{kind}",
+            name=f"workflow-{ticket.kind}",
         ).start()
     else:
-        _execute(maker, run_id, step_id, kind, system, prompt, llm_spec, stream)
-    return step_id
+        _execute(maker, ticket, stream)
 
 
-def _execute(maker, run_id, step_id, kind, system, prompt, llm_spec, stream: StepStream) -> None:
+def start_step(
+    maker: sessionmaker[Session], run_id: uuid.UUID, kind: str, background: bool = True
+) -> uuid.UUID:
+    """Lock, begin, commit, launch: for callers with no other change to make in the same step."""
+    with maker() as session:
+        ticket = begin_step(session, lock_run(session, run_id), kind)
+        session.commit()
+    launch(maker, ticket, background)
+    return ticket.step_id
+
+
+def _execute(maker, ticket: StepTicket, stream: StepStream) -> None:
     parts: list[str] = []
     result = None
     cancelled = False
     error: str | None = None
+    final: dict[str, Any] = {
+        "type": "done",
+        "status": f"{ticket.kind}_failed",
+        "step": ticket.kind,
+        "error": "internal error",
+        "critique": None,
+    }
     try:
-        llm = get_llm(llm_spec)
-        for i, chunk in enumerate(llm.stream_text(system, prompt, cancel=stream.cancel)):
-            if chunk.text:
-                parts.append(chunk.text)
-                stream.push({"type": "token", "text": chunk.text})
-                if i % 40 == 0:
-                    _save_partial(maker, step_id, "".join(parts))
-            if chunk.done:
-                result, cancelled = chunk.result, chunk.cancelled
-    except LLMError as exc:
-        error = str(exc)
-    except Exception as exc:  # noqa: BLE001 - surfaced to the user as a failed step
-        error = f"{type(exc).__name__}: {exc}"
-    text = "".join(parts).strip()
+        try:
+            llm = get_llm(ticket.llm)
+            stream_iter = llm.stream_text(ticket.system, ticket.prompt, cancel=stream.cancel)
+            for i, chunk in enumerate(stream_iter):
+                if chunk.text:
+                    parts.append(chunk.text)
+                    stream.push({"type": "token", "text": chunk.text})
+                    if i % 40 == 0:
+                        _save_partial(maker, ticket.step_id, "".join(parts))
+                if chunk.done:
+                    result, cancelled = chunk.result, chunk.cancelled
+        except LLMError as exc:
+            error = str(exc)
+        except Exception as exc:  # noqa: BLE001 - surfaced to the user as a failed step
+            error = f"{type(exc).__name__}: {exc}"
+        final = _finalize(maker, ticket, "".join(parts).strip(), result, cancelled, error)
+    except Exception as exc:  # noqa: BLE001 - finalisation itself failed (DB, critic, ...)
+        final["error"] = f"{type(exc).__name__}: {exc}"
+        _mark_failed(maker, ticket, final["error"])
+    finally:
+        # Always end the stream, so live SSE clients never wait forever.
+        stream.finish(final)
 
+
+def _finalize(
+    maker, ticket: StepTicket, text: str, result, cancelled: bool, error: str | None
+) -> dict[str, Any]:
+    kind = ticket.kind
     with maker() as session:
-        run = _get(session, run_id)
-        step = session.get(WorkflowStep, step_id)
+        run = lock_run(session, ticket.run_id)
+        step = session.get(WorkflowStep, ticket.step_id)
         step.output = text
         step.finished_at = _now()
         if result is not None:
@@ -228,14 +294,47 @@ def _execute(maker, run_id, step_id, kind, system, prompt, llm_spec, stream: Ste
                 run.critique = critique(session, run, text)
                 run.status = "awaiting_decision"
         session.commit()
-        final = {
+        return {
             "type": "done",
             "status": run.status,
             "step": kind,
             "error": run.error,
             "critique": run.critique if kind != "plan" else None,
         }
-    stream.finish(final)
+
+
+def _mark_failed(maker, ticket: StepTicket, message: str) -> None:
+    try:
+        with maker() as session:
+            run = lock_run(session, ticket.run_id)
+            step = session.get(WorkflowStep, ticket.step_id)
+            if step is not None and step.status == "running":
+                step.status, step.error, step.finished_at = "failed", message, _now()
+            if run.status in RUNNING_STATUSES:
+                run.status, run.error = f"{ticket.kind}_failed", message
+            session.commit()
+    except Exception:  # noqa: BLE001 - nothing more we can do; recover_interrupted cleans up
+        pass
+
+
+def recover_interrupted(maker: sessionmaker[Session]) -> int:
+    """At startup: runs left mid-step by a previous process become retryable failures.
+
+    Steps run inside the API process, so after a restart nothing is executing them. (Assumes
+    one API process per database, which is how NovelForge is deployed.)
+    """
+    kind_of = {v: k for k, v in STEP_STATUS.items()} | {"critiquing": "draft"}
+    with maker() as session:
+        runs = session.scalars(
+            select(WorkflowRun).where(WorkflowRun.status.in_(RUNNING_STATUSES)).with_for_update()
+        ).all()
+        for run in runs:
+            run.status = f"{kind_of[run.status]}_failed"
+            run.error = "Interrupted: the server restarted during this step. Retry it."
+        for step in session.scalars(select(WorkflowStep).where(WorkflowStep.status == "running")):
+            step.status, step.error, step.finished_at = "failed", "interrupted", _now()
+        session.commit()
+        return len(runs)
 
 
 def _save_partial(maker, step_id: uuid.UUID, text: str) -> None:

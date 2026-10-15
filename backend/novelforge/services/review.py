@@ -14,7 +14,7 @@ import uuid
 from datetime import UTC, datetime
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
@@ -65,15 +65,27 @@ def _audit(
     )
 
 
-def _remember(session: Session, claim: Claim, decision: str, note: str | None) -> None:
+def _remember(
+    session: Session, claim: Claim, decision: str, note: str | None, value: str | None = None
+) -> None:
+    """Store the decision (and any value the reviewer typed) for re-extraction to re-apply."""
     session.execute(
         insert(ReviewDecision)
         .values(
-            novel_id=claim.novel_id, fingerprint=claim.fingerprint, decision=decision, note=note
+            novel_id=claim.novel_id,
+            fingerprint=claim.fingerprint,
+            decision=decision,
+            note=note,
+            value=value,
         )
         .on_conflict_do_update(
             index_elements=["novel_id", "fingerprint"],
-            set_={"decision": decision, "note": note, "decided_at": datetime.now(UTC)},
+            set_={
+                "decision": decision,
+                "note": note,
+                "value": value,
+                "decided_at": datetime.now(UTC),
+            },
         )
     )
 
@@ -95,7 +107,9 @@ def accept(
 ) -> dict[str, Any]:
     if claim.status == "accepted":
         return {"status": "accepted", "changed": []}
+    edited = None
     if value is not None and value.strip() and value.strip() != claim.value:
+        edited = value.strip()
         _audit(
             session,
             claim,
@@ -227,7 +241,7 @@ def accept(
     claim.status = "accepted"
     claim.reviewed_at = datetime.now(UTC)
     claim.review_note = note
-    _remember(session, claim, "accepted", note)
+    _remember(session, claim, "accepted", note, edited)
     return {"status": "accepted", "changed": changed}
 
 
@@ -270,7 +284,8 @@ def _relationship(session: Session, claim: Claim, note: str | None) -> list[str]
     other = (
         session.scalar(
             select(Character).where(
-                Character.novel_id == claim.novel_id, Character.name.ilike(other_name)
+                Character.novel_id == claim.novel_id,
+                func.lower(Character.name) == other_name.lower(),
             )
         )
         if other_name
