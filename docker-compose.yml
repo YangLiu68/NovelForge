@@ -1,0 +1,44 @@
+# Full local stack: PostgreSQL 16 + pgvector, API, and the built frontend behind nginx.
+# NOTE: written for Docker Compose v2 but not run on the development machine (no container
+# runtime there). CI validates and builds it; see TESTING.md.
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: novelforge
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-novelforge}
+      POSTGRES_DB: novelforge
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U novelforge -d novelforge"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg://novelforge:${POSTGRES_PASSWORD:-novelforge}@db:5432/novelforge
+      LOG_LEVEL: INFO
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "127.0.0.1:8080:80"
+
+volumes:
+  pgdata:

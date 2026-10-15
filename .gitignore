@@ -1,0 +1,26 @@
+# Secrets and local data
+.env
+.env.*
+!.env.example
+.pgdata/
+*.sqlite
+
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+*.tsbuildinfo
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.log

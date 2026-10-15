@@ -1,0 +1,28 @@
+{
+  "name": "novelforge-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json && vite build",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --experimental-strip-types --no-warnings --test \"src/**/*.test.ts\"",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "react": "19.1.10",
+    "react-dom": "19.1.10",
+    "react-markdown": "9.1.0",
+    "react-router-dom": "7.18.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.1",
+    "@types/node": "22.15.3",
+    "@types/react": "19.1.10",
+    "@types/react-dom": "19.1.7",
+    "@vitejs/plugin-react": "4.7.0",
+    "typescript": "5.9.3",
+    "vite": "6.4.4"
+  }
+}

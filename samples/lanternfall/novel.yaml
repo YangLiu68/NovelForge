@@ -1,0 +1,26 @@
+# Original sample text written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+slug: lanternfall
+title: The Lanternfall Ledger
+synopsis: >-
+  After the sea wall of Saltmere breaks, the city's only cartographer, a harbour courier and
+  the lighthouse Warden try to redraw a drowned town, and find that the old survey was wrong
+  long before the flood.
+characters:
+  - name: Mara Venn
+    aliases: [the cartographer]
+    description: Saltmere's licensed cartographer. Counts everything.
+    attributes: {}
+  - name: Tomas Hale
+    aliases: []
+    description: Courier for the harbour office. Strong swimmer.
+    attributes:
+      birthplace: Varrow
+  - name: Ilsa Corr
+    aliases: [the Warden]
+    description: Warden of the Saltmere lighthouse.
+    attributes:
+      eye_color: brown
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md

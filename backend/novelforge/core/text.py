@@ -1,0 +1,95 @@
+"""Text utilities. All offsets are Python string (code-point) offsets into the chapter body."""
+
+import hashlib
+import re
+from dataclasses import dataclass
+
+_PARAGRAPH_BREAK = re.compile(r"\n[ \t]*\n\s*")
+_SENTENCE_END = re.compile(r"[.!?…][\"'”’)]*\s+|\n")
+
+
+@dataclass(frozen=True)
+class TextSpan:
+    start: int
+    end: int
+    text: str
+
+
+def content_hash(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def normalize_body(text: str) -> str:
+    """Canonical chapter body: LF newlines, no trailing spaces, no leading/trailing blank lines."""
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    lines = [line.rstrip() for line in text.split("\n")]
+    return "\n".join(lines).strip("\n")
+
+
+def split_passages(body: str) -> list[TextSpan]:
+    """Paragraph-level spans (blank-line separated), trimmed of surrounding whitespace."""
+    blocks: list[tuple[int, int]] = []
+    pos = 0
+    for brk in _PARAGRAPH_BREAK.finditer(body):
+        blocks.append((pos, brk.start()))
+        pos = brk.end()
+    blocks.append((pos, len(body)))
+    spans = []
+    for start, end in blocks:
+        chunk = body[start:end]
+        lead = len(chunk) - len(chunk.lstrip())
+        trail = len(chunk) - len(chunk.rstrip())
+        s, e = start + lead, end - trail
+        if e > s:
+            spans.append(TextSpan(s, e, body[s:e]))
+    return spans
+
+
+def sentence_bounds(text: str, start: int, end: int) -> tuple[int, int]:
+    """Bounds of the sentence(s) containing text[start:end]."""
+    s = 0
+    for m in _SENTENCE_END.finditer(text, 0, start):
+        s = m.end()
+    m = _SENTENCE_END.search(text, end)
+    e = m.start() + len(m.group(0).rstrip()) if m else len(text)
+    return s, e
+
+
+def inside_dialogue(text: str, pos: int) -> bool:
+    """True if `pos` falls inside a quotation in its paragraph (straight or curly quotes)."""
+    para_start = text.rfind("\n\n", 0, pos)
+    para_start = 0 if para_start < 0 else para_start + 2
+    segment = text[para_start:pos]
+    if segment.count("“") > segment.count("”"):
+        return True
+    return segment.count('"') % 2 == 1
+
+
+_UNITS = [
+    "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+    "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+    "nineteen",
+]
+_TENS = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+
+# Matches 1-3 digit numbers and English number words from zero to ninety-nine.
+NUMBER_PATTERN = (
+    r"(?:\d{1,3}|(?:" + "|".join(_TENS) + r")(?:[- ](?:" + "|".join(_UNITS[1:10]) + r"))?|"
+    + "|".join(sorted(_UNITS, key=len, reverse=True)) + r")"
+)
+
+
+def parse_number(token: str) -> int | None:
+    token = token.strip().lower()
+    if token.isdigit():
+        return int(token)
+    if token in _UNITS:
+        return _UNITS.index(token)
+    parts = re.split(r"[- ]", token)
+    if parts[0] in _TENS:
+        value = 20 + 10 * _TENS.index(parts[0])
+        if len(parts) == 2 and parts[1] in _UNITS[1:10]:
+            return value + _UNITS.index(parts[1])
+        if len(parts) == 1:
+            return value
+    return None

@@ -1,0 +1,72 @@
+# Labelled ground truth for the Lanternfall sample.
+# `evidence[].text` must be an exact substring of that chapter's body.
+# A finding matches a contradiction when kind, subject and predicate all agree.
+contradictions:
+  - id: GT1
+    kind: attribute_conflict
+    subject: Mara Venn
+    predicate: eye_color
+    note: Grey in chapter 1, green in chapter 3; the text even says they had not changed.
+    m1_detectable: true
+    evidence:
+      - {chapter: 1, text: "Mara's grey eyes"}
+      - {chapter: 3, text: "Mara's eyes were green"}
+  - id: GT2
+    kind: attribute_conflict
+    subject: Tomas Hale
+    predicate: handedness
+    note: Left-handed in chapter 1, right-handed three days later.
+    m1_detectable: true
+    evidence:
+      - {chapter: 1, text: "Tomas was left-handed"}
+      - {chapter: 2, text: "Tomas was right-handed"}
+  - id: GT3
+    kind: age_timeline
+    subject: Ilsa Corr
+    predicate: age
+    note: Forty on day 0, forty-six on day 3.
+    m1_detectable: true
+    evidence:
+      - {chapter: 1, text: "Ilsa Corr was forty"}
+      - {chapter: 2, text: "Ilsa, forty-six"}
+  - id: GT4
+    kind: canon_conflict
+    subject: Tomas Hale
+    predicate: birthplace
+    note: Character sheet and chapter 1 say Varrow; chapter 2 narration says Hollin.
+    m1_detectable: true
+    evidence:
+      - {chapter: 2, text: "Tomas was born in Hollin"}
+  - id: GT5
+    kind: attribute_conflict
+    subject: Mara Venn
+    predicate: hair_color
+    note: Black in chapter 1; red in chapter 3, but chapter 3 refers to Mara only by pronoun.
+    m1_detectable: false
+    miss_reason: needs pronoun resolution, which rules-v1 does not do
+    evidence:
+      - {chapter: 1, text: "Mara's hair was black"}
+      - {chapter: 3, text: "Her hair, cropped short since the year of the fever, had gone the red of rust"}
+
+# Things that look like contradictions but are not. Any finding on the same subject and
+# predicate counts as a false positive.
+negatives:
+  - id: N1
+    subject: Mara Venn
+    predicate: age
+    note: 31 on day 0 and 36 on day 1827 fits the five-year gap.
+  - id: N2
+    subject: Ilsa Corr
+    predicate: eye_color
+    note: >-
+      "Seemed almost black" in fog is a hedged perception, not a fact. The alias statement
+      ("the Warden's eyes were a deep brown") agrees with the character sheet.
+  - id: N3
+    subject: Tomas Hale
+    predicate: eye_color
+    note: The clerk's "blue eyes" is a character's (wrong) words inside dialogue; narration says hazel.
+  - id: N4
+    subject: Tomas Hale
+    predicate: age
+    note: >-
+      "Tomas was ten minutes late" is not an age; 26 on day 0 and 31 on day 1827 fits the gap.
