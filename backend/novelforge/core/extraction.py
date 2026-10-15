@@ -1,10 +1,16 @@
-"""Rule-based fact extractor (`rules-v2`): a deterministic, explainable baseline.
+"""Rule-based fact extractor (`rules-v3`): a deterministic, explainable baseline.
 
 It finds facts stated next to a character's name or alias:
 - attributes: eye colour, hair colour, age, handedness, birthplace
 - location: "X was in P", "X arrived in P", "X had reached P"
 - status: "X died ...", "X was dead", "X was alive"
 - abilities: "X could not swim" (cannot), "X learned to swim" (learned), "X swam ..." (used)
+- changes: "X dyed her hair red" (a hair_color claim marked as a change, see contradictions)
+- time offsets inside a chapter: "Three days later X was in P" shifts that claim's story day
+
+v3 over v2 (from the 1,000-chapter failure analysis in BENCHMARK.md): "At thirty, X ...",
+coordinated verbs ("X dove from the pier and swam"), explicit hair-colour changes, and in-chapter
+day offsets.
 
 It does not resolve pronouns ("Her eyes were grey" is missed) or paraphrase, and it does not
 read world rules; the LLM extractor is measured against this baseline.
@@ -24,7 +30,7 @@ from dataclasses import dataclass
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.text import NUMBER_PATTERN, inside_dialogue, parse_number, sentence_bounds
 
-EXTRACTOR = "rules-v2"
+EXTRACTOR = "rules-v3"
 CLAIM_NAMESPACE = uuid.UUID("6c1f5c1e-2b7a-4c55-9a43-6f0d5e0b7a01")
 
 CONFIDENCE = {"asserted": 0.9, "recalled": 0.8, "reported": 0.5, "hedged": 0.4}
@@ -76,6 +82,7 @@ RULES: list[tuple[str, str]] = [
         rf"{_ADJ}{_HAIR}\b",
     ),
     ("hair_color", rf"{{who}} (?:had|has) {_ADJ}{_HAIR} hair\b"),
+    ("hair_color.change", rf"{{who}} (?:dyed|coloured|colored) (?:her|his|their) hair {_HAIR}\b"),
     (
         "age",
         rf"{{who}} (?:was|is|had turned|turned|was now|is now) {_NUM}"
@@ -83,6 +90,7 @@ RULES: list[tuple[str, str]] = [
     ),
     ("age", rf"{{who}}, (?:now |then |aged )?{_NUM}(?=,)"),
     ("age", rf"\b{_NUM}-year-old {{who}}"),
+    ("age", rf"\b[Aa]t {_NUM}, {{who}}\b"),
     ("handedness", r"{who} (?:was|is|had always been) (?P<val>left|right)-handed\b"),
     ("handedness", r"\b(?:the|a) (?P<val>left|right)-handed {who}"),
     ("birthplace", rf"{{who}} (?:was|had been) born in {_PLACE}"),
@@ -97,6 +105,8 @@ RULES: list[tuple[str, str]] = [
     ("ability.learned", rf"{{who}} (?:finally |had )?(?:learned|learnt) (?:how )?to {_SKILL}\b"),
     ("ability.learned", rf"{{who}} taught (?:himself|herself|themselves|themself) to {_SKILL}\b"),
     ("ability.used", rf"{{who}} {_USED}\b"),
+    # "X dove from the pier and swam ...": a second verb in the same clause.
+    ("ability.used", rf"{{who}} [a-z]+(?: [a-z']+){{0,6}} and {_USED}\b"),
 ]
 
 
@@ -154,6 +164,9 @@ def _normalize(predicate: str, raw: str) -> tuple[str, str] | None:
         mode = predicate.split(".", 1)[1]
         skill = _VERB_TO_SKILL.get(raw.lower(), raw.lower()) if mode == "used" else raw.lower()
         return f"ability:{skill}", mode
+    if predicate == "hair_color.change":
+        v = raw.lower()
+        return "hair_color", {"gray": "grey", "blonde": "blond"}.get(v, v)
     if predicate == "status":
         return "status", "alive" if raw.lower() == "alive" else "dead"
     value = _normalize_value(predicate, raw)
@@ -170,6 +183,27 @@ def _normalize_value(predicate: str, raw: str) -> str | None:
     if predicate == "handedness":
         return raw.lower()
     return raw
+
+
+_OFFSET = re.compile(
+    rf"\b(?:(?P<n>{NUMBER_PATTERN}|a|an) (?P<unit>days?|weeks?) later|"
+    r"the (?:next|following) (?:day|morning|evening))\b",
+    re.IGNORECASE,
+)
+
+
+def day_offset(body: str, start: int) -> int:
+    """Days after the chapter's start, from a time phrase earlier in the same sentence."""
+    s, _ = sentence_bounds(body, start, start + 1)
+    found = list(_OFFSET.finditer(body, s, start))
+    m = found[-1] if found else None
+    if m is None:
+        return 0
+    if m.group("unit") is None:
+        return 1
+    raw = m.group("n").lower()
+    n = 1 if raw in ("a", "an") else parse_number(raw) or 0
+    return n * (7 if m.group("unit").lower().startswith("week") else 1)
 
 
 def _modality(body: str, start: int, end: int) -> str:
@@ -210,6 +244,10 @@ def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> l
                 continue
             seen.add((final_predicate, start, end))
             modality = _modality(body, start, end)
+            offset = day_offset(body, start)
+            details = {"change": True} if predicate.endswith(".change") else {}
+            if offset:
+                details["day_offset"] = offset
             key = f"{chapter.id}|{chapter.version}|{EXTRACTOR}|{final_predicate}|{start}|{end}"
             claims.append(
                 ExtractedClaim(
@@ -223,10 +261,11 @@ def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> l
                     raw_value=m.group("val"),
                     modality=modality,
                     confidence=CONFIDENCE[modality],
-                    effective_day=chapter.story_day,
+                    effective_day=None if chapter.story_day is None else chapter.story_day + offset,
                     time_certainty="unknown" if chapter.story_day is None else "chapter_day",
                     extractor=EXTRACTOR,
                     spans=(Span(chapter.id, chapter.version, start, end, body[start:end]),),
+                    details=details,
                 )
             )
     claims.sort(key=lambda c: (c.spans[0].start, c.predicate))

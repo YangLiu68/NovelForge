@@ -1,0 +1,412 @@
+{
+  "corpus": "syn-100-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 3,
+    "seed": 7,
+    "chapters": 100
+  },
+  "extractor": "rules",
+  "embedder": "fastembed:BAAI/bge-small-en-v1.5",
+  "k": 5,
+  "systems": {
+    "no-memory": {
+      "findings": 3,
+      "true_positives": 3,
+      "false_positives": 0,
+      "duplicates": 0,
+      "false_negatives": 9,
+      "precision": 1.0,
+      "recall_all": 0.25,
+      "recall_detectable": 0.25,
+      "negatives": 13,
+      "negatives_violated": 0,
+      "cited_spans": 5,
+      "cited_spans_correct": 5,
+      "citation_precision": 1.0,
+      "labelled_spans_covered": 5,
+      "labelled_spans_total": 5,
+      "citation_recall": 1.0,
+      "by_category": {
+        "abilities": {
+          "labelled": 2,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        },
+        "identity": {
+          "labelled": 4,
+          "detected": 1,
+          "fp": 0,
+          "recall": 0.25
+        },
+        "location": {
+          "labelled": 2,
+          "detected": 2,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 3,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        },
+        "world_rules": {
+          "labelled": 1,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT12",
+        "GT2",
+        "GT5"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT3",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT6",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT8",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT9",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT10",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [],
+      "violated_negatives": [],
+      "seconds": 0.1,
+      "avg_context_claims": 2.7
+    },
+    "vector-only": {
+      "findings": 9,
+      "true_positives": 8,
+      "false_positives": 0,
+      "duplicates": 1,
+      "false_negatives": 4,
+      "precision": 1.0,
+      "recall_all": 0.6667,
+      "recall_detectable": 0.6667,
+      "negatives": 13,
+      "negatives_violated": 0,
+      "cited_spans": 15,
+      "cited_spans_correct": 15,
+      "citation_precision": 1.0,
+      "labelled_spans_covered": 15,
+      "labelled_spans_total": 15,
+      "citation_recall": 1.0,
+      "by_category": {
+        "abilities": {
+          "labelled": 2,
+          "detected": 2,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "identity": {
+          "labelled": 4,
+          "detected": 2,
+          "fp": 0,
+          "recall": 0.5
+        },
+        "location": {
+          "labelled": 2,
+          "detected": 2,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 3,
+          "detected": 2,
+          "fp": 0,
+          "recall": 0.6667
+        },
+        "world_rules": {
+          "labelled": 1,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT1",
+        "GT10",
+        "GT12",
+        "GT2",
+        "GT3",
+        "GT4",
+        "GT5",
+        "GT6"
+      ],
+      "missed": [
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT8",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT9",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [],
+      "violated_negatives": [],
+      "seconds": 3.53,
+      "avg_context_claims": 10.5
+    },
+    "hybrid": {
+      "findings": 8,
+      "true_positives": 7,
+      "false_positives": 0,
+      "duplicates": 1,
+      "false_negatives": 5,
+      "precision": 1.0,
+      "recall_all": 0.5833,
+      "recall_detectable": 0.5833,
+      "negatives": 13,
+      "negatives_violated": 0,
+      "cited_spans": 13,
+      "cited_spans_correct": 13,
+      "citation_precision": 1.0,
+      "labelled_spans_covered": 13,
+      "labelled_spans_total": 13,
+      "citation_recall": 1.0,
+      "by_category": {
+        "abilities": {
+          "labelled": 2,
+          "detected": 2,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "identity": {
+          "labelled": 4,
+          "detected": 2,
+          "fp": 0,
+          "recall": 0.5
+        },
+        "location": {
+          "labelled": 2,
+          "detected": 2,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 3,
+          "detected": 1,
+          "fp": 0,
+          "recall": 0.3333
+        },
+        "world_rules": {
+          "labelled": 1,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT1",
+        "GT12",
+        "GT2",
+        "GT3",
+        "GT4",
+        "GT5",
+        "GT6"
+      ],
+      "missed": [
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT8",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT9",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT10",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [],
+      "violated_negatives": [],
+      "seconds": 5.17,
+      "avg_context_claims": 11.3
+    },
+    "structured": {
+      "findings": 9,
+      "true_positives": 9,
+      "false_positives": 0,
+      "duplicates": 0,
+      "false_negatives": 3,
+      "precision": 1.0,
+      "recall_all": 0.75,
+      "recall_detectable": 0.75,
+      "negatives": 13,
+      "negatives_violated": 0,
+      "cited_spans": 18,
+      "cited_spans_correct": 17,
+      "citation_precision": 0.9444,
+      "labelled_spans_covered": 17,
+      "labelled_spans_total": 17,
+      "citation_recall": 1.0,
+      "by_category": {
+        "abilities": {
+          "labelled": 2,
+          "detected": 2,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "identity": {
+          "labelled": 4,
+          "detected": 2,
+          "fp": 0,
+          "recall": 0.5
+        },
+        "location": {
+          "labelled": 2,
+          "detected": 2,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 3,
+          "detected": 3,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "world_rules": {
+          "labelled": 1,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT1",
+        "GT10",
+        "GT11",
+        "GT12",
+        "GT2",
+        "GT3",
+        "GT4",
+        "GT5",
+        "GT6"
+      ],
+      "missed": [
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT8",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT9",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [],
+      "violated_negatives": [],
+      "seconds": 0.03,
+      "avg_context_claims": 271
+    }
+  },
+  "extraction": {
+    "extractor": "rules-v2",
+    "note": "claims extracted during import",
+    "seconds": 0.0
+  },
+  "index_seconds": 14.17,
+  "labelled_contradictions": 12,
+  "labelled_negatives": 13,
+  "chapters": 100,
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10"
+  }
+}

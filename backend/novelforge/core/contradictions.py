@@ -207,10 +207,36 @@ def detect_contradictions(
 
 
 def _static_findings(character, predicate, group, evidence, order) -> list[Finding]:
+    """Conflicts on an attribute that should not change, unless the text says it changed.
+
+    An explicit change ("X dyed her hair red", a claim with details.change) starts a new period:
+    statements are compared only within a period, and the character sheet only with the period
+    before the first change.
+    """
+
+    def when(c: ExtractedClaim) -> tuple[float, int, int]:
+        day = c.effective_day if c.effective_day is not None else math.inf
+        return (day, *order(c))
+
+    changes = sorted((c for c in group if (c.details or {}).get("change")), key=when)
+    if not changes:
+        return _static_period(character, predicate, group, evidence, order, check_canon=True)
+    periods: list[list[ExtractedClaim]] = [[] for _ in range(len(changes) + 1)]
+    for c in group:
+        periods[sum(1 for ch in changes if when(ch) <= when(c))].append(c)
+    out: list[Finding] = []
+    for i, period in enumerate(periods):
+        out += _static_period(character, predicate, period, evidence, order, check_canon=i == 0)
+    return out
+
+
+def _static_period(character, predicate, group, evidence, order, check_canon) -> list[Finding]:
     label = PREDICATES[predicate]["label"]
     category = PREDICATES[predicate]["category"]
     name = character.name
-    canon = _canon_value(character, predicate)
+    canon = _canon_value(character, predicate) if check_canon else None
+    if not group:
+        return []
     # Values compare case-insensitively ("Harrowgate" == "harrowgate"); the first spelling seen
     # is the one shown.
     by_value: dict[str, list[ExtractedClaim]] = defaultdict(list)
