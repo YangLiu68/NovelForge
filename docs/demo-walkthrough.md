@@ -23,8 +23,10 @@ Setup: follow the README quick start (API on :8000, UI on :5173). Start from an 
    appear. "In the fog, Ilsa's eyes seemed almost black" is a perception, and the clerk's "blue
    eyes" is a character's (wrong) words in dialogue. By default these stay out of the report.
    Then mention the case it misses: chapter 3 changes Mara's hair colour, but only through "Her
-   hair", and the rule extractor does not resolve pronouns. That gap is labelled in the ground truth
-   and is what the LLM extractor in Milestone 3 has to close.
+   hair, cropped short since the year of the fever, had gone the red of rust". The rule extractor
+   follows "her" back to a name only in its fixed phrasings ("her red hair", "Her hair was red"),
+   and this is not one of them. That gap is labelled in the ground truth and is what the LLM
+   extractor has to close.
 
 5. **Fix it in the editor.** Switch to **Write**, change "green" to "grey", save. Back on
    **Contradictions** there are three findings. Open **History** on the chapter to show both

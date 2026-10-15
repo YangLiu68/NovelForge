@@ -5,7 +5,11 @@ import re
 from dataclasses import dataclass
 
 _PARAGRAPH_BREAK = re.compile(r"\n[ \t]*\n\s*")
-_SENTENCE_END = re.compile(r"[.!?…][\"'”’)]*\s+|\n")
+# A full stop after a title ("Mrs. March", "Dr. Venn") does not end a sentence.
+_TITLES = ("Mr", "Mrs", "Ms", "Dr", "St", "Mme", "Mlle", "Prof", "Rev", "Capt", "Col", "Gen", "Lt")
+_SENTENCE_END = re.compile(
+    r"(?:" + "".join(rf"(?<!\b{t})" for t in _TITLES) + r"\.|[!?…])[\"'”’)]*\s+|\n"
+)
 
 
 @dataclass(frozen=True)
@@ -47,8 +51,9 @@ def split_passages(body: str) -> list[TextSpan]:
 
 def sentence_bounds(text: str, start: int, end: int) -> tuple[int, int]:
     """Bounds of the sentence(s) containing text[start:end]."""
-    s = 0
-    for m in _SENTENCE_END.finditer(text, 0, start):
+    # A newline ends a sentence, so the search can start at the line: linear, not quadratic.
+    s = text.rfind("\n", 0, start) + 1
+    for m in _SENTENCE_END.finditer(text, s, start):
         s = m.end()
     m = _SENTENCE_END.search(text, end)
     e = m.start() + len(m.group(0).rstrip()) if m else len(text)

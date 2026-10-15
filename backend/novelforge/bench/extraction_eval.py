@@ -65,6 +65,7 @@ def run(
     max_chapters: int | None = None,
     cache: Path | None = None,
     check_values: bool = True,
+    sheet_pronouns: bool = True,
 ) -> dict[str, Any]:
     novel = load_folder(corpus)
     gt = yaml.safe_load((corpus / "ground_truth.yaml").read_text(encoding="utf-8"))
@@ -73,7 +74,15 @@ def run(
     refs = [ChapterRef(str(c.id), c.number, c.title, c.body, 1, c.story_day) for c in chapters]
     by_id = {r.id: r for r in refs}
     cast = [
-        CharacterRef(str(c.id), c.name, tuple(c.aliases), c.attributes) for c in novel.characters
+        CharacterRef(
+            str(c.id),
+            c.name,
+            tuple(c.aliases),
+            c.attributes
+            if sheet_pronouns
+            else {k: v for k, v in c.attributes.items() if k != "pronouns"},
+        )
+        for c in novel.characters
     ]
     names = {str(c.id): c.name for c in novel.characters}
 
@@ -262,6 +271,7 @@ def run(
         "generator": gt.get("generator"),
         "extractor": name,
         "value_check": check_values,
+        "sheet_pronouns": sheet_pronouns,
         "cache": None
         if cache is None or extractor == "rules"
         else {

@@ -1,4 +1,4 @@
-"""Rule-based fact extractor (`rules-v3`): a deterministic, explainable baseline.
+"""Rule-based fact extractor (`rules-v4`): a deterministic, explainable baseline.
 
 It finds facts stated next to a character's name or alias:
 - attributes: eye colour, hair colour, age, handedness, birthplace
@@ -8,17 +8,28 @@ It finds facts stated next to a character's name or alias:
 - changes: "X dyed her hair red" (a hair_color claim marked as a change, see contradictions)
 - time offsets inside a chapter: "Three days later X was in P" shifts that claim's story day
 
-v3 over v2 (from the 1,000-chapter failure analysis in BENCHMARK.md): "At thirty, X ...",
-coordinated verbs ("X dove from the pier and swam"), explicit hair-colour changes, and in-chapter
-day offsets.
+and, for attributes, two indirect forms (v4), each attributed only when unambiguous
+(`core/coref.py`):
+- a pronoun: "Mara looked up, her grey eyes narrowing", "She had ... gray eyes", "Ashford,
+  where she was born"; the claim records the pronoun and its antecedent in `details.resolved`
+- a "with" phrase on the sentence's subject: "Brooke was a grave, silent young man, with
+  handsome brown eyes"
 
-It does not resolve pronouns ("Her eyes were grey" is missed) or paraphrase, and it does not
-read world rules; the LLM extractor is measured against this baseline.
+v4 over v3 (from reading real novels, `bench/real/`): the two indirect forms; ages in
+apposition ("Margaret, the eldest of the four, was sixteen") and capitalised number words
+("Fifteen-year-old Jo"); "yellow" hair and "curls"/"locks"; "sailed" counts as the skill only
+with a vessel ("Amy sailed away" is travel); "wrote no more" is not a use; perception words hedge
+only the words they govern ("Jo read as if alone" is still reading); conditionals hedge; titles
+are never implicit aliases ("Miss" in "Miss Stacy" is not a name).
+
+It does not read world rules, similes ("eyes the colour of sea glass") or implications
+("Being left-handed, ..."); the LLM extractor is measured against this baseline.
 
 Modality:
 - reported: inside dialogue quotes (a character's words, not the narrator's)
 - recalled: memory or habit ("remembered how X used to ..."), not an event at this time
-- hedged: perception or rumour ("seemed", "almost", "some said")
+- hedged: perception governing the fact ("X's eyes seemed grey"), rumour or doubt anywhere in
+  the clause ("some said", "perhaps"), or a condition before it ("if X was in P")
 - asserted: everything else
 """
 
@@ -27,13 +38,22 @@ import uuid
 from collections.abc import Iterable
 from dataclasses import dataclass
 
+from novelforge.core.coref import (
+    KIND,
+    Mention,
+    declared_pronouns,
+    infer_pronouns,
+    narrator_mentions,
+    resolve,
+)
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.text import NUMBER_PATTERN, inside_dialogue, parse_number, sentence_bounds
 
-EXTRACTOR = "rules-v3"
+EXTRACTOR = "rules-v4"
 CLAIM_NAMESPACE = uuid.UUID("6c1f5c1e-2b7a-4c55-9a43-6f0d5e0b7a01")
 
 CONFIDENCE = {"asserted": 0.9, "recalled": 0.8, "reported": 0.5, "hedged": 0.4}
+RESOLVED_PENALTY = 0.1  # a fact reached through a pronoun or a "with" phrase is less certain
 SKILL_VERBS = {
     "swim": "swam|swims|swimming",
     "ride": "rode|rides|riding",
@@ -42,22 +62,40 @@ SKILL_VERBS = {
     "write": "wrote|writes|writing",
 }
 _SKILL = r"(?P<val>swim|ride|read|sail|write)"
-_USED = r"(?P<val>" + "|".join(SKILL_VERBS.values()) + r")"
+# "Amy sailed away" is travel, not the skill: bare "sailed" is not a use (see the vessel rule).
+_USED = r"(?P<val>" + "|".join(f for k, f in SKILL_VERBS.items() if k != "sail") + r")"
+_NOT_A_USE = r"(?! no more\b| nothing\b| never\b)"
+_VESSEL = r"(?:boat|skiff|dinghy|yacht|sloop|ketch|cutter|schooner|ship)"
 _VERB_TO_SKILL = {v: k for k, forms in SKILL_VERBS.items() for v in forms.split("|")}
 
 _EYE = r"(?P<val>grey|gray|green|blue|brown|hazel|amber|black|violet)"
 _HAIR = (
     r"(?P<val>black|brown|blond|blonde|red|auburn|grey|gray|white|silver|copper|chestnut|"
-    r"golden|fair)"
+    r"golden|fair|yellow)"
 )
+_HAIR_NOUN = r"(?:hair|curls|locks|ringlets|tresses|braids|plaits)"
 _ADJ = r"(?:[a-z]+(?:-[a-z]+)?,? ){0,2}?"
 _POSS = r"(?:['’]s|['’])"
 _PLACE = r"(?P<val>[A-Z][a-z'’-]+(?: [A-Z][a-z'’-]+){0,3})"
-_NUM = rf"(?P<val>{NUMBER_PATTERN})"
+_NUM = rf"(?P<val>(?i:{NUMBER_PATTERN}))"
+# Commas-and-"and" lists inside one clause: "a decided mouth, a comical nose, and sharp, "
+_LIST = r"(?:[a-z-]+,? (?:and )?){0,10}?"
+# Parenthetical phrases after a name: "Margaret, the eldest of the four, was ..."
+_APPOS = r"(?:, [^,.;:!?“”\"]{1,40}){1,3},"
+_PERSON_OF = r"(?:girl|boy|man|woman|lad|lass|child|youth|maiden|fellow|creature)"
+# Perception hedges only the words it governs (inside the match): "X's eyes seemed grey" is
+# hedged, "X read as if alone" and "X looked up, her grey eyes ..." are not.
+_PERCEPTION = re.compile(r"\b(?:seemed|seem|seems|looked|appeared|almost|nearly)\b", re.I)
+# A condition or supposition before the fact, in the same clause: "If X was in P".
+_CONDITION = re.compile(
+    r"\b(?:if|unless|whether|suppose|supposing|imagine|imagined|wish|wished|as if|as though|"
+    r"seemed that|it seemed|it appeared)\b",
+    re.IGNORECASE,
+)
+# Doubt or rumour anywhere in the clause.
 _HEDGES = re.compile(
-    r"\b(?:seemed|seem|seems|looked|appeared|almost|nearly|perhaps|maybe|might|probably|"
-    r"supposedly|apparently|rumou?red|rumou?rs?|as if|as though|some said|it was said|"
-    r"they said|people said|or so)\b",
+    r"\b(?:perhaps|maybe|might|probably|supposedly|apparently|rumou?red|rumou?rs?|some said|"
+    r"it was said|they said|people said|or so)\b",
     re.IGNORECASE,
 )
 _CLAUSE_BREAK = re.compile(r"[;:—–]| - ")
@@ -75,7 +113,7 @@ RULES: list[tuple[str, str]] = [
         rf"(?: almost| nearly| a| an)* {_ADJ}{_EYE}\b",
     ),
     ("eye_color", rf"{{who}} (?:had|has) {_ADJ}{_EYE} eyes\b"),
-    ("hair_color", rf"{{who}}{_POSS} {_ADJ}{_HAIR} hair\b"),
+    ("hair_color", rf"{{who}}{_POSS} {_ADJ}{_HAIR} {_HAIR_NOUN}\b"),
     (
         "hair_color",
         rf"{{who}}{_POSS} hair (?:was|is|had been|seemed|looked)(?: almost| a| an)* "
@@ -89,6 +127,15 @@ RULES: list[tuple[str, str]] = [
         r"(?= years? old| years of age|\s*[,.;:!?—])",
     ),
     ("age", rf"{{who}}, (?:now |then |aged )?{_NUM}(?=,)"),
+    (
+        "age",
+        rf"{{who}}{_APPOS} (?:was|is) {_NUM}(?= years? old| years of age|\s*[,.;:!?—])",
+    ),
+    ("age", rf"{{who}}, who (?:was|is) (?:now |then )?{_NUM}(?= years? old|\s*[,.;:!?—])"),
+    (
+        "age",
+        rf"{{who}}(?:{_APPOS})? (?:was|is) an? (?:[a-z-]+,? ){{0,4}}{_PERSON_OF} of {_NUM}\b",
+    ),
     ("age", rf"\b{_NUM}-year-old {{who}}"),
     ("age", rf"\b[Aa]t {_NUM}, {{who}}\b"),
     ("handedness", r"{who} (?:was|is|had always been) (?P<val>left|right)-handed\b"),
@@ -104,10 +151,74 @@ RULES: list[tuple[str, str]] = [
     ("ability.cannot", rf"{{who}} (?:had )?never learned (?:how )?to {_SKILL}\b"),
     ("ability.learned", rf"{{who}} (?:finally |had )?(?:learned|learnt) (?:how )?to {_SKILL}\b"),
     ("ability.learned", rf"{{who}} taught (?:himself|herself|themselves|themself) to {_SKILL}\b"),
-    ("ability.used", rf"{{who}} {_USED}\b"),
+    ("ability.used", rf"{{who}} {_USED}\b{_NOT_A_USE}"),
     # "X dove from the pier and swam ...": a second verb in the same clause.
-    ("ability.used", rf"{{who}} [a-z]+(?: [a-z']+){{0,6}} and {_USED}\b"),
+    ("ability.used", rf"{{who}} [a-z]+(?: [a-z']+){{0,6}} and {_USED}\b{_NOT_A_USE}"),
+    (
+        "ability.used",
+        rf"{{who}} (?P<val>sailed|sails) (?:the|a|an|her|his|their) (?:[a-z]+ )?{_VESSEL}\b",
+    ),
 ]
+
+# Attribute statements through a pronoun; "{pro}" is resolved by core/coref.py.
+_PRO_POSS = r"(?P<pro>[Hh]is|[Hh]er|[Tt]heir)"
+_PRO_SUBJ = r"(?P<pro>[Hh]e|[Ss]he|[Tt]hey)"
+# "her wonderfully fair complexion, keen blue eyes": a list of features after one possessive,
+# as long as no other owner ("his", "the", "of ...") starts inside it.
+_OTHER_OWNER = r"(?!(?:his|her|their|its|my|your|our|the|a|an|of|with)\b)"
+_POSS_LIST = rf"(?:{_OTHER_OWNER}[a-z-]+,? (?:and )?){{0,6}}?"
+PRONOUN_RULES: list[tuple[str, str]] = [
+    ("eye_color", rf"\b{_PRO_POSS} {_POSS_LIST}{_EYE} eyes\b"),
+    (
+        "eye_color",
+        rf"\b{_PRO_POSS} eyes (?:were|was|are|is|had been|had always been|seemed|looked|appeared)"
+        rf"(?: almost| nearly| a| an)* {_ADJ}{_EYE}\b",
+    ),
+    ("eye_color", rf"\b{_PRO_SUBJ} (?:had|has) {_LIST}{_ADJ}{_EYE} eyes\b"),
+    ("hair_color", rf"\b{_PRO_POSS} {_POSS_LIST}{_HAIR} {_HAIR_NOUN}\b"),
+    (
+        "hair_color",
+        rf"\b{_PRO_POSS} hair (?:was|is|had been|seemed|looked)(?: almost| a| an)* {_ADJ}{_HAIR}\b",
+    ),
+    ("hair_color", rf"\b{_PRO_SUBJ} (?:had|has) {_LIST}{_ADJ}{_HAIR} {_HAIR_NOUN}\b"),
+    (
+        "hair_color.change",
+        rf"\b{_PRO_SUBJ} (?:dyed|coloured|colored) (?:her|his|their) hair {_HAIR}\b",
+    ),
+    ("handedness", rf"\b{_PRO_SUBJ} (?:was|is|had always been) (?P<val>left|right)-handed\b"),
+    ("birthplace", rf"\b{_PRO_SUBJ} (?:was|had been) born in {_PLACE}"),
+    ("birthplace", rf"\b{_PLACE}, where {_PRO_SUBJ} (?:was|had been) born\b"),
+    (
+        "age",
+        rf"\b{_PRO_SUBJ} (?:was|is|had turned|turned|was now|is now) {_NUM}"
+        r"(?= years? old| years of age|\s*[,.;:!?—])",
+    ),
+]
+
+# "with ... grey eyes" belongs to the sentence's subject (a name or a resolvable pronoun).
+_ITEMS = r"(?:[a-z-]+(?: [a-z-]+){0,4}, (?:and )?){0,4}"
+WITH_RULES: list[tuple[str, str]] = [
+    ("eye_color", rf"\bwith {_ITEMS}(?:[a-z-]+,? ){{0,3}}?{_EYE} eyes\b"),
+    ("hair_color", rf"\bwith {_ITEMS}(?:[a-z-]+,? ){{0,3}}?{_HAIR} {_HAIR_NOUN}\b"),
+]
+_SENTENCE_LEAD = re.compile(r"[\s“”\"‘’'(—–-]*(?:(?:And|But|Then|So|Now|Yet),? )?")
+_PREDICATE_NOMINAL = re.compile(
+    r"\b(?:was|is|became|remained|seemed|looked)\s+(?:an?|the)\s+(?:[a-z-]+,?\s+){0,4}$"
+)
+_PERSON_WORD = re.compile(
+    r"\b(?:girl|boy|woman|man|lady|gentleman|child|baby|stranger|person|figure|youth|lad|"
+    r"lass|maid|maiden|fellow|sister|brother|mother|father|aunt|uncle|wife|husband|daughter|son|"
+    r"friend|cousin|nurse|servant|people|children|women|men|girls|boys|whose|who)\b",
+    re.IGNORECASE,
+)
+_CLAUSE_STOP = re.compile(r"[;:—–]| - ")
+_TITLES = frozenset(
+    {
+        "mr", "mrs", "ms", "miss", "dr", "sir", "lady", "lord", "aunt", "uncle", "colonel",
+        "captain", "professor", "old", "young", "little", "madame", "mme", "mademoiselle",
+        "father", "mother", "saint", "st", "master", "mistress", "dame",
+    }
+)  # fmt: skip
 
 
 @dataclass(frozen=True)
@@ -119,8 +230,9 @@ class _Surface:
 def surface_forms(characters: Iterable[CharacterRef]) -> list[_Surface]:
     """Names and aliases that unambiguously refer to one character.
 
-    A character's first name counts as an implicit alias when no other character shares it.
-    Any surface form claimed by two characters is dropped rather than guessed.
+    A character's first name counts as an implicit alias when no other character shares it
+    and it is not a title ("Miss Stacy" does not make "Miss" a name). Any surface form claimed
+    by two characters is dropped rather than guessed.
     """
     chars = list(characters)
     owners: dict[str, set[str]] = {}
@@ -128,7 +240,7 @@ def surface_forms(characters: Iterable[CharacterRef]) -> list[_Surface]:
     for c in chars:
         forms = {c.name.strip(), *(a.strip() for a in c.aliases)}
         first = c.name.split()[0] if c.name.split() else ""
-        if len(first) >= 3:
+        if len(first) >= 3 and first.rstrip(".").lower() not in _TITLES:
             forms.add(first)
         for f in forms:
             if f:
@@ -217,56 +329,204 @@ def _modality(body: str, start: int, end: int) -> str:
     clause_end = nxt.start() if nxt else e
     if _RECALL.search(body, clause_start, clause_end):
         return "recalled"
-    if _HEDGES.search(body, clause_start, clause_end):
+    if (
+        _HEDGES.search(body, clause_start, clause_end)
+        or _CONDITION.search(body, clause_start, end)
+        or _PERCEPTION.search(body, start, end)
+    ):
         return "hedged"
     return "asserted"
 
 
+@dataclass(frozen=True)
+class _Match:
+    predicate: str
+    raw: str
+    character: CharacterRef
+    subject_text: str
+    start: int  # span start (the name, or the antecedent when it is in the same sentence)
+    end: int
+    resolved: dict | None = None
+    phrase_start: int | None = None  # where the attribute words begin, for modality
+
+
+def _sentence_subject(
+    body: str,
+    pos: int,
+    end: int,
+    mentions: list[Mention],
+    all_mentions: list[Mention],
+    pronouns: dict,
+) -> tuple[Mention, dict] | None:
+    """The character a "with ..." phrase at body[pos:end] describes: the sentence's subject, if
+    it is a name or a resolvable pronoun and no other person comes between ("Mara sat with the
+    girl with blue eyes" is not about Mara)."""
+    s, _ = sentence_bounds(body, pos, pos + 1)
+    lead = _SENTENCE_LEAD.match(body, s)
+    first = lead.end() if lead else s
+    owner = next((m for m in mentions if m.start == first), None)
+    if owner is None:
+        # After an introductory phrase: "Lying on the grass ..., Mr. Brooke began ..."
+        lead_in = next((m for m in all_mentions if first <= m.start < pos), None)
+        if (
+            lead_in is not None
+            and lead_in in mentions
+            and body[lead_in.start - 2 : lead_in.start] == ", "
+            and re.match(r" [a-z]", body[lead_in.end : lead_in.end + 2])
+            and not _PERSON_WORD.search(body, first, lead_in.start)
+            and not _CLAUSE_STOP.search(body, first, lead_in.start)
+            and not inside_dialogue(body, first)
+        ):
+            owner = lead_in
+    via: dict = {"via": "sentence_subject"}
+    if owner is None:
+        pro = re.compile(r"(?:He|She|They)\b").match(body, first)
+        if pro is None:
+            return None
+        owner = resolve(body, first, pro.group(0), mentions, pronouns)
+        if owner is None:
+            return None
+        via = {"via": "sentence_subject", "pronoun": pro.group(0), "pronoun_start": first}
+        after = first + len(pro.group(0))
+    else:
+        after = owner.end
+    between = body[after:end]
+    if _CLAUSE_STOP.search(between) or inside_dialogue(body, pos):
+        return None
+    if any(after <= m.start < end for m in all_mentions):
+        return None
+    for w in _PERSON_WORD.finditer(between):
+        if not _PREDICATE_NOMINAL.search(between[: w.start()]):
+            return None
+    return owner, via
+
+
 def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> list[ExtractedClaim]:
+    characters = list(characters)
     forms = surface_forms(characters)
     if not forms or not chapter.body:
         return []
-    who = who_pattern(forms)
+    who_src = who_pattern(forms)
+    who = re.compile(who_src)
     lookup = {f.text.lower(): f.character for f in forms}
     body = chapter.body
-    seen: set[tuple[str, int, int]] = set()
-    claims: list[ExtractedClaim] = []
+
+    all_mentions = [
+        Mention(m.start(), m.end(), lookup[m.group("who").lower()])
+        for m in who.finditer(body)
+        if m.group("who").lower() in lookup
+    ]
+    matches: list[_Match] = []
     for predicate, template in RULES:
-        pattern = re.compile(template.replace("{who}", who))
-        for m in pattern.finditer(body):
+        pattern = re.compile(template.replace("{who}", who_src))
+        if template.startswith("{who}"):
+            # Anchored at each mention: far cheaper than scanning every position.
+            found = (pattern.match(body, m.start) for m in all_mentions)
+        else:
+            found = pattern.finditer(body)
+        for m in found:
+            if m is None:
+                continue
             character = lookup.get(m.group("who").lower())
-            normalized = _normalize(predicate, m.group("val"))
-            if character is None or normalized is None:
+            if character is not None:
+                matches.append(
+                    _Match(predicate, m.group("val"), character, m.group("who"), m.start(), m.end())
+                )
+
+    narrator = narrator_mentions(body, who, lookup)
+    pronouns = infer_pronouns(body, narrator)
+    for c in characters:
+        declared = declared_pronouns(c)
+        if declared:
+            pronouns[c.id] = declared
+    for predicate, template in PRONOUN_RULES:
+        for m in re.finditer(template, body):
+            word = m.group("pro")
+            if KIND.get(word.lower()) is None:
                 continue
-            final_predicate, value = normalized
-            start, end = m.start(), m.end()
-            if (final_predicate, start, end) in seen:
+            ante = resolve(body, m.start("pro"), word, narrator, pronouns)
+            if ante is None:
                 continue
-            seen.add((final_predicate, start, end))
-            modality = _modality(body, start, end)
-            offset = day_offset(body, start)
-            details = {"change": True} if predicate.endswith(".change") else {}
-            if offset:
-                details["day_offset"] = offset
-            key = f"{chapter.id}|{chapter.version}|{EXTRACTOR}|{final_predicate}|{start}|{end}"
-            claims.append(
-                ExtractedClaim(
-                    id=str(uuid.uuid5(CLAIM_NAMESPACE, key)),
-                    chapter_id=chapter.id,
-                    chapter_version=chapter.version,
-                    subject_id=character.id,
-                    subject_text=m.group("who"),
-                    predicate=final_predicate,
-                    value=value,
-                    raw_value=m.group("val"),
-                    modality=modality,
-                    confidence=CONFIDENCE[modality],
-                    effective_day=None if chapter.story_day is None else chapter.story_day + offset,
-                    time_certainty="unknown" if chapter.story_day is None else "chapter_day",
-                    extractor=EXTRACTOR,
-                    spans=(Span(chapter.id, chapter.version, start, end, body[start:end]),),
-                    details=details,
+            s, _ = sentence_bounds(body, m.start(), m.end())
+            start = ante.start if ante.start >= s else m.start()
+            matches.append(
+                _Match(
+                    predicate,
+                    m.group("val"),
+                    ante.character,
+                    body[ante.start : ante.end],
+                    start,
+                    m.end(),
+                    {
+                        "via": "pronoun",
+                        "pronoun": word,
+                        "pronoun_start": m.start("pro"),
+                        "antecedent_start": ante.start,
+                    },
+                    m.start(),
                 )
             )
+    for predicate, template in WITH_RULES:
+        for m in re.finditer(template, body):
+            found = _sentence_subject(body, m.start(), m.end(), narrator, all_mentions, pronouns)
+            if found is None:
+                continue
+            owner, via = found
+            matches.append(
+                _Match(
+                    predicate,
+                    m.group("val"),
+                    owner.character,
+                    body[owner.start : owner.end],
+                    min(owner.start, via.get("pronoun_start", owner.start)),
+                    m.end(),
+                    {**via, "antecedent_start": owner.start},
+                    m.start(),
+                )
+            )
+
+    seen: set[tuple[str, int, int]] = set()
+    phrase_ends: set[tuple[str, int]] = set()
+    claims: list[ExtractedClaim] = []
+    for mt in matches:
+        normalized = _normalize(mt.predicate, mt.raw)
+        if normalized is None:
+            continue
+        final_predicate, value = normalized
+        start, end = mt.start, mt.end
+        if (final_predicate, start, end) in seen or (final_predicate, end) in phrase_ends:
+            continue  # the same words already gave this fact (name rules come first)
+        seen.add((final_predicate, start, end))
+        phrase_ends.add((final_predicate, end))
+        # "Mara looked up, her grey eyes": the perception check reads only the attribute words.
+        modality = _modality(body, start if mt.phrase_start is None else mt.phrase_start, end)
+        offset = day_offset(body, start)
+        details: dict = {"change": True} if mt.predicate.endswith(".change") else {}
+        if offset:
+            details["day_offset"] = offset
+        confidence = CONFIDENCE[modality]
+        if mt.resolved is not None:
+            details["resolved"] = mt.resolved
+            confidence = round(confidence - RESOLVED_PENALTY, 2)
+        key = f"{chapter.id}|{chapter.version}|{EXTRACTOR}|{final_predicate}|{start}|{end}"
+        claims.append(
+            ExtractedClaim(
+                id=str(uuid.uuid5(CLAIM_NAMESPACE, key)),
+                chapter_id=chapter.id,
+                chapter_version=chapter.version,
+                subject_id=mt.character.id,
+                subject_text=mt.subject_text,
+                predicate=final_predicate,
+                value=value,
+                raw_value=mt.raw,
+                modality=modality,
+                confidence=confidence,
+                effective_day=None if chapter.story_day is None else chapter.story_day + offset,
+                time_certainty="unknown" if chapter.story_day is None else "chapter_day",
+                extractor=EXTRACTOR,
+                spans=(Span(chapter.id, chapter.version, start, end, body[start:end]),),
+                details=details,
+            )
+        )
     claims.sort(key=lambda c: (c.spans[0].start, c.predicate))
     return claims

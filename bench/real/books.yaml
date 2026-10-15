@@ -1,0 +1,101 @@
+# Public-domain novels for the real-prose evaluation (bench/real/README.md).
+# Texts are downloaded from Project Gutenberg at run time, never committed. The checksum is the
+# file the labels were made against; Gutenberg revises files, so a mismatch is reported.
+# Character lists were written by hand from the books: names and aliases only, no attributes.
+books:
+  - id: little-women
+    title: Little Women
+    author: Louisa May Alcott
+    role: dev            # failure analysis and rule fixes were allowed to look at this book
+    url: https://www.gutenberg.org/cache/epub/514/pg514.txt
+    sha256: 36831477b339dbcd7e7206119d77e9e58b9727ef3c299d1a1dc4446e1db97850
+    title_lines: 1       # "CHAPTER ONE" is followed by its title on the next line
+    characters:
+      - {name: Margaret March, aliases: [Meg], gender: f}
+      - {name: Josephine March, aliases: [Jo], gender: f}
+      - {name: Elizabeth March, aliases: [Beth], gender: f}
+      - {name: Amy March, aliases: [Amy], gender: f}
+      - {name: Mrs. March, aliases: [Marmee], gender: f}
+      - {name: Mr. March, aliases: [], gender: m}
+      - {name: Aunt March, aliases: [], gender: f}
+      - {name: Theodore Laurence, aliases: [Laurie, Teddy], gender: m}
+      - {name: Mr. Laurence, aliases: [Old Mr. Laurence], gender: m}
+      - {name: John Brooke, aliases: [Mr. Brooke, Brooke], gender: m}
+      - {name: Hannah, aliases: [], gender: f}
+      - {name: Friedrich Bhaer, aliases: [Professor Bhaer, Mr. Bhaer, Bhaer, Fritz], gender: m}
+      - {name: Sallie Gardiner, aliases: [Sallie], gender: f}
+      - {name: Annie Moffat, aliases: [], gender: f}
+      - {name: Ned Moffat, aliases: [], gender: m}
+      - {name: Fred Vaughn, aliases: [], gender: m}
+      - {name: Kate Vaughn, aliases: [], gender: f}
+      - {name: Aunt Carrol, aliases: [], gender: f}
+      - {name: Florence Carrol, aliases: [Flo], gender: f}
+      - {name: Mrs. Kirke, aliases: [], gender: f}
+      - {name: Daisy, aliases: [], gender: f}
+      - {name: Demi, aliases: [], gender: m}
+      - {name: Esther, aliases: [], gender: f}
+  - id: anne-of-green-gables
+    title: Anne of Green Gables
+    author: L. M. Montgomery
+    role: held-out       # scored once, after the rule fixes were frozen
+    url: https://www.gutenberg.org/cache/epub/45/pg45.txt
+    sha256: 89a5e9fb2e0bb44562a969785385366f94e1da736aebee7d9cdf459eb0b5f9f6
+    title_lines: 0
+    characters:
+      - {name: Anne Shirley, aliases: [], gender: f}
+      - {name: Marilla Cuthbert, aliases: [], gender: f}
+      - {name: Matthew Cuthbert, aliases: [], gender: m}
+      - {name: Rachel Lynde, aliases: [Mrs. Lynde, Mrs. Rachel Lynde, Mrs. Rachel], gender: f}
+      - {name: Diana Barry, aliases: [], gender: f}
+      - {name: Mrs. Barry, aliases: [], gender: f}
+      - {name: Mr. Barry, aliases: [], gender: m}
+      - {name: Minnie May Barry, aliases: [Minnie May], gender: f}
+      - {name: Josephine Barry, aliases: [Miss Barry, Aunt Josephine], gender: f}
+      - {name: Gilbert Blythe, aliases: [], gender: m}
+      - {name: Josie Pye, aliases: [], gender: f}
+      - {name: Jane Andrews, aliases: [], gender: f}
+      - {name: Ruby Gillis, aliases: [], gender: f}
+      - {name: Charlie Sloane, aliases: [], gender: m}
+      - {name: Moody Spurgeon MacPherson, aliases: [Moody Spurgeon], gender: m}
+      - {name: Miss Stacy, aliases: [], gender: f}
+      - {name: Mr. Phillips, aliases: [], gender: m}
+      - {name: Mrs. Allan, aliases: [], gender: f}
+      - {name: Mr. Allan, aliases: [], gender: m}
+      - {name: Mrs. Spencer, aliases: [], gender: f}
+      - {name: Mrs. Blewett, aliases: [], gender: f}
+      - {name: Mrs. Hammond, aliases: [], gender: f}
+      - {name: Mrs. Thomas, aliases: [], gender: f}
+  - id: pride-and-prejudice
+    title: Pride and Prejudice
+    author: Jane Austen
+    role: held-out
+    url: https://www.gutenberg.org/cache/epub/42671/pg42671.txt
+    sha256: 3d2d320092e4b501cd0075bbc4fccac2c322d925710a9df05172e9cef86b5863
+    title_lines: 0
+    stop_at: "^Transcriber's note:"
+    characters:
+      - {name: Elizabeth Bennet, aliases: [Lizzy, Eliza, Miss Elizabeth Bennet, Miss Elizabeth], gender: f}
+      - {name: Jane Bennet, aliases: [Miss Bennet], gender: f}
+      - {name: Mary Bennet, aliases: [], gender: f}
+      - {name: Catherine Bennet, aliases: [Kitty], gender: f}
+      - {name: Lydia Bennet, aliases: [], gender: f}
+      - {name: Mr. Bennet, aliases: [], gender: m}
+      - {name: Mrs. Bennet, aliases: [], gender: f}
+      - {name: Fitzwilliam Darcy, aliases: [Mr. Darcy, Darcy], gender: m}
+      - {name: Charles Bingley, aliases: [Mr. Bingley, Bingley], gender: m}
+      - {name: Caroline Bingley, aliases: [Miss Bingley], gender: f}
+      - {name: Mrs. Hurst, aliases: [], gender: f}
+      - {name: Mr. Hurst, aliases: [], gender: m}
+      - {name: George Wickham, aliases: [Mr. Wickham, Wickham], gender: m}
+      - {name: William Collins, aliases: [Mr. Collins, Collins], gender: m}
+      - {name: Charlotte Lucas, aliases: [Charlotte, Mrs. Collins], gender: f}
+      - {name: Sir William Lucas, aliases: [Sir William], gender: m}
+      - {name: Maria Lucas, aliases: [], gender: f}
+      - {name: Lady Catherine de Bourgh, aliases: [Lady Catherine], gender: f}
+      - {name: Anne de Bourgh, aliases: [Miss de Bourgh], gender: f}
+      - {name: Georgiana Darcy, aliases: [Miss Darcy, Georgiana], gender: f}
+      - {name: Colonel Fitzwilliam, aliases: [], gender: m}
+      - {name: Mr. Gardiner, aliases: [], gender: m}
+      - {name: Mrs. Gardiner, aliases: [], gender: f}
+      - {name: Mrs. Phillips, aliases: [], gender: f}
+      - {name: Mr. Denny, aliases: [Denny], gender: m}

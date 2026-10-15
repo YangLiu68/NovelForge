@@ -126,3 +126,39 @@ def load_folder(folder: Path) -> SampleNovel:
         chapters=sorted(chapters, key=lambda c: c.number),
         ground_truth=ground_truth,
     )
+
+
+def text_novel(
+    slug: str,
+    title: str,
+    chapters: list[tuple[str, str]],
+    characters: list[dict] | None = None,
+    synopsis: str = "",
+) -> SampleNovel:
+    """A novel from plain-text chapters (title, body) and an optional cast list
+    (name, aliases, pronouns). Story days are unknown: time checks stay off until set."""
+
+    def sid(kind: str, key: str) -> uuid.UUID:
+        return uuid.uuid5(SAMPLE_NAMESPACE, f"{slug}/{kind}/{key}")
+
+    cast = [
+        SampleCharacter(
+            id=sid("character", c["name"]),
+            name=c["name"],
+            aliases=list(c.get("aliases") or []),
+            description=c.get("description", ""),
+            attributes={"pronouns": c["pronouns"]} if c.get("pronouns") else {},
+        )
+        for c in characters or []
+    ]
+    return SampleNovel(
+        id=sid("novel", slug),
+        slug=slug,
+        title=title,
+        synopsis=synopsis,
+        characters=cast,
+        chapters=[
+            SampleChapter(sid("chapter", str(n)), n, t, normalize_body(b), None, None)
+            for n, (t, b) in enumerate(chapters, start=1)
+        ],
+    )

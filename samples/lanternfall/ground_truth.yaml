@@ -43,7 +43,9 @@ contradictions:
     predicate: hair_color
     note: Black in chapter 1; red in chapter 3, but chapter 3 refers to Mara only by pronoun.
     m1_detectable: false
-    miss_reason: needs pronoun resolution, which the rule extractor does not do
+    miss_reason: >-
+      a pronoun plus an indirect phrasing ("had gone the red of rust"); the rule extractor
+      resolves pronouns only for its fixed phrasings, and this is not one of them
     evidence:
       - {chapter: 1, text: "Mara's hair was black"}
       - {chapter: 3, text: "Her hair, cropped short since the year of the fever, had gone the red of rust"}

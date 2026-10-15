@@ -7,8 +7,16 @@ NovelForge is released under the MIT License ([LICENSE](LICENSE)).
 ## Sample and benchmark text
 
 `samples/lanternfall/` (novel.yaml, three chapters, ground truth) was written originally for this
-project. It contains no third-party text. Future benchmark corpora will be synthetic
-(generator-produced) for the same reason; no copyrighted novels will be committed.
+project. It contains no third-party text. The synthetic benchmark corpora are generator-produced
+and not committed (they regenerate from a seed). No copyrighted novel is committed.
+
+The real-prose evaluation (`bench/real/`) uses three novels that are in the public domain in
+the United States: *Little Women* (1868–69), *Anne of Green Gables* (1908) and *Pride and
+Prejudice* (1813). Their Project Gutenberg files are downloaded at run time into the ignored
+`bench/corpora/real/` and are not redistributed, so the Project Gutenberg License and trademark
+terms do not attach to this repository. The committed labels (`bench/real/labels/`) quote short
+sentences of the public-domain text, without Gutenberg headers. Readers outside the US should
+check the status of these works where they are (all three authors died more than 70 years ago).
 
 ## Runtime dependencies
 
