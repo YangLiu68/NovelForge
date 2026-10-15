@@ -214,16 +214,21 @@ def _static_findings(character, predicate, group, evidence, order) -> list[Findi
     before the first change.
     """
 
-    def when(c: ExtractedClaim) -> tuple[float, int, int]:
-        day = c.effective_day if c.effective_day is not None else math.inf
-        return (day, *order(c))
+    def at_or_after(c: ExtractedClaim, change: ExtractedClaim) -> bool:
+        # Story days decide when both are known (flashbacks); otherwise chapter order does.
+        if c.effective_day is not None and change.effective_day is not None:
+            return (c.effective_day, *order(c)) >= (change.effective_day, *order(change))
+        return order(c) >= order(change)
 
-    changes = sorted((c for c in group if (c.details or {}).get("change")), key=when)
+    changes = sorted(
+        (c for c in group if (c.details or {}).get("change")),
+        key=lambda c: (c.effective_day if c.effective_day is not None else math.inf, *order(c)),
+    )
     if not changes:
         return _static_period(character, predicate, group, evidence, order, check_canon=True)
     periods: list[list[ExtractedClaim]] = [[] for _ in range(len(changes) + 1)]
     for c in group:
-        periods[sum(1 for ch in changes if when(ch) <= when(c))].append(c)
+        periods[sum(1 for ch in changes if at_or_after(c, ch))].append(c)
     out: list[Finding] = []
     for i, period in enumerate(periods):
         out += _static_period(character, predicate, period, evidence, order, check_canon=i == 0)

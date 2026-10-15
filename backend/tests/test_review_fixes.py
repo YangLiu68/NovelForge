@@ -327,3 +327,42 @@ def test_locate_keeps_offsets_with_length_changing_lowercase():
     body = "İstanbul was far. Mara's eyes were grey."
     found = locate(body, "mara's EYES were grey")
     assert found and body[found.start : found.end] == "Mara's eyes were grey"
+
+
+def test_correct_findings_do_not_violate_negatives_that_share_a_sentence():
+    gt = {
+        "contradictions": [
+            {
+                "id": "A",
+                "category": "identity",
+                "subject": "K",
+                "evidence": [
+                    {"chapter": 1, "start": 10, "end": 20},
+                    {"chapter": 2, "start": 0, "end": 5},
+                ],
+            }
+        ],
+        "negatives": [
+            {
+                "id": "N",
+                "subject": "K",
+                "predicate": "hair_color",
+                "evidence": [
+                    {"chapter": 1, "start": 0, "end": 9},
+                    {"chapter": 1, "start": 10, "end": 20},
+                ],
+            }
+        ],
+    }
+    finding = {
+        "kind": "attribute_conflict",
+        "category": "identity",
+        "subject_name": "K",
+        "predicate": "hair_color",
+        "evidence": [
+            {"chapter_number": 1, "start": 10, "end": 20},
+            {"chapter_number": 2, "start": 0, "end": 5},
+        ],
+    }
+    r = evaluate([finding], gt, {1: "x" * 30, 2: "x" * 10})
+    assert r.true_positives == 1 and r.negatives_violated == 0
