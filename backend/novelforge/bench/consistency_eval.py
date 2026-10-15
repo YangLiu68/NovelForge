@@ -30,7 +30,7 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import Session, sessionmaker
 
-from novelforge.bench.retrieval_eval import migrate, recreate_database
+from novelforge.bench.retrieval_eval import _git_commit, migrate, recreate_database
 from novelforge.core.contradictions import detect_contradictions
 from novelforge.core.evaluation import evaluate
 from novelforge.core.extraction import EXTRACTOR
@@ -108,7 +108,11 @@ def run(
     report["labelled_contradictions"] = len(gt_scoped["contradictions"])
     report["labelled_negatives"] = len(gt_scoped["negatives"])
     report["chapters"] = len(numbers)
-    report["environment"] = {"machine": platform.machine(), "python": platform.python_version()}
+    report["environment"] = {
+        "machine": platform.machine(),
+        "python": platform.python_version(),
+        "commit": _git_commit(),
+    }
     return report
 
 
