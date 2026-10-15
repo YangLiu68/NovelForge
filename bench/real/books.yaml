@@ -37,7 +37,7 @@ books:
   - id: anne-of-green-gables
     title: Anne of Green Gables
     author: L. M. Montgomery
-    role: held-out       # scored once, after the rule fixes were frozen
+    role: v4 held-out    # scored once with rules-v4 frozen; its errors then shaped rules-v5
     url: https://www.gutenberg.org/cache/epub/45/pg45.txt
     sha256: 89a5e9fb2e0bb44562a969785385366f94e1da736aebee7d9cdf459eb0b5f9f6
     title_lines: 0
@@ -68,7 +68,7 @@ books:
   - id: pride-and-prejudice
     title: Pride and Prejudice
     author: Jane Austen
-    role: held-out
+    role: v4 held-out
     url: https://www.gutenberg.org/cache/epub/42671/pg42671.txt
     sha256: 3d2d320092e4b501cd0075bbc4fccac2c322d925710a9df05172e9cef86b5863
     title_lines: 0

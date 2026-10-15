@@ -1,4 +1,4 @@
-"""Rule-based fact extractor (`rules-v4`): a deterministic, explainable baseline.
+"""Rule-based fact extractor (`rules-v5`): a deterministic, explainable baseline.
 
 It finds facts stated next to a character's name or alias:
 - attributes: eye colour, hair colour, age, handedness, birthplace
@@ -22,12 +22,18 @@ with a vessel ("Amy sailed away" is travel); "wrote no more" is not a use; perce
 only the words they govern ("Jo read as if alone" is still reading); conditionals hedge; titles
 are never implicit aliases ("Miss" in "Miss Stacy" is not a name).
 
+v5 over v4 (from the held-out books, so v5 is scored on a fresh held-out book): an age, place or
+death inside a time clause ("ever since he was twenty", "before Anne came to Green Gables") is
+`recalled`, not a statement about this point of the story; a "with" phrase whose owner is in the
+previous sentence quotes from the pronoun, not across the sentence break.
+
 It does not read world rules, similes ("eyes the colour of sea glass") or implications
 ("Being left-handed, ..."); the LLM extractor is measured against this baseline.
 
 Modality:
 - reported: inside dialogue quotes (a character's words, not the narrator's)
-- recalled: memory or habit ("remembered how X used to ..."), not an event at this time
+- recalled: memory, habit or a time clause ("remembered how X used to ...", "since X was
+  twenty"), not an event at this time
 - hedged: perception governing the fact ("X's eyes seemed grey"), rumour or doubt anywhere in
   the clause ("some said", "perhaps"), or a condition before it ("if X was in P")
 - asserted: everything else
@@ -49,7 +55,7 @@ from novelforge.core.coref import (
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.text import NUMBER_PATTERN, inside_dialogue, parse_number, sentence_bounds
 
-EXTRACTOR = "rules-v4"
+EXTRACTOR = "rules-v5"
 CLAIM_NAMESPACE = uuid.UUID("6c1f5c1e-2b7a-4c55-9a43-6f0d5e0b7a01")
 
 CONFIDENCE = {"asserted": 0.9, "recalled": 0.8, "reported": 0.5, "hedged": 0.4}
@@ -318,9 +324,20 @@ def day_offset(body: str, start: int) -> int:
     return n * (7 if m.group("unit").lower().startswith("week") else 1)
 
 
-def _modality(body: str, start: int, end: int) -> str:
+# A state in a time clause belongs to another time: "ever since he was twenty", "since Jane
+# was sixteen", "before Anne came to Green Gables" (found on the held-out books, see v5).
+_PAST_CLAUSE = re.compile(r"\b(?:ever since|since|before|until|till|after)\s+$", re.IGNORECASE)
+_PAST_AGE_CLAUSE = re.compile(r"\b(?:when|once)\s+$", re.IGNORECASE)
+_TIMED = ("age", "location", "status")
+
+
+def _modality(body: str, start: int, end: int, predicate: str | None = None) -> str:
     if inside_dialogue(body, start):
         return "reported"
+    if predicate in _TIMED:
+        before = body[max(0, start - 12) : start]
+        if _PAST_CLAUSE.search(before) or (predicate == "age" and _PAST_AGE_CLAUSE.search(before)):
+            return "recalled"
     s, e = sentence_bounds(body, start, end)
     clause_start = s
     for m in _CLAUSE_BREAK.finditer(body, s, start):
@@ -472,13 +489,16 @@ def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> l
             if found is None:
                 continue
             owner, via = found
+            s, _ = sentence_bounds(body, m.start(), m.end())
+            # The quote starts at the owner when it is in this sentence, else at the pronoun.
+            start = owner.start if owner.start >= s else via.get("pronoun_start", m.start())
             matches.append(
                 _Match(
                     predicate,
                     m.group("val"),
                     owner.character,
                     body[owner.start : owner.end],
-                    min(owner.start, via.get("pronoun_start", owner.start)),
+                    start,
                     m.end(),
                     {**via, "antecedent_start": owner.start},
                     m.start(),
@@ -499,7 +519,9 @@ def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> l
         seen.add((final_predicate, start, end))
         phrase_ends.add((final_predicate, end))
         # "Mara looked up, her grey eyes": the perception check reads only the attribute words.
-        modality = _modality(body, start if mt.phrase_start is None else mt.phrase_start, end)
+        modality = _modality(
+            body, start if mt.phrase_start is None else mt.phrase_start, end, final_predicate
+        )
         offset = day_offset(body, start)
         details: dict = {"change": True} if mt.predicate.endswith(".change") else {}
         if offset:
