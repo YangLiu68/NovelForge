@@ -306,6 +306,8 @@ TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eight
 
 
 def number_words(n: int) -> str:
+    if n >= 100:
+        return str(n)
     if n < 20:
         return NUM_WORDS[n]
     tens, ones = divmod(n, 10)
@@ -487,14 +489,17 @@ class Generator:
         rng = self.rng
         chapters: list[Chapter] = []
         day = 0
+        skip_rate = min(0.03, 3 / self.n)
         for number in range(1, self.n + 1):
             r = rng.random()
             flashback = number > 3 and r < 0.04
             unknown = number > 3 and 0.04 <= r < 0.08
             if number > 1 and not flashback:
+                # Multi-year time skips: about three per novel whatever its length (the rate is
+                # 3% for novels up to 100 chapters), so long corpora do not span centuries.
                 day += (
                     rng.choice([1, 1, 2, 3, 5, 8, 13])
-                    if rng.random() > 0.03
+                    if rng.random() > skip_rate
                     else int(DAYS_PER_YEAR * rng.choice([2, 3, 5]))
                 )
             if flashback:

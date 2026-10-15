@@ -94,3 +94,10 @@ def test_consistency_benchmark_runs_and_structured_memory_wins(tmp_path, databas
     assert systems["structured"]["recall_all"] >= systems["no-memory"]["recall_all"]
     assert systems["structured"]["negatives_violated"] == 0
     assert consistency_eval.to_markdown(report).count("|") > 20
+
+
+def test_long_corpora_stay_plausible(tmp_path):
+    gt = generate(tmp_path / "long", 1000, seed=7)
+    ages = [int(f["value"]) for f in gt["facts"] if f["predicate"] == "age"]
+    assert ages and max(ages) < 100
+    assert len(gt["contradictions"]) >= 100 and len(gt["negatives"]) >= 100
