@@ -126,3 +126,9 @@ def test_explicit_change_starts_a_new_period():
     texts[2] = "Mara's hair was black."
     [f] = run(texts, days=[0, 5, 9])
     assert f.kind == "attribute_conflict" and [e.value for e in f.evidence] == ["red", "black"]
+
+
+def test_undated_statements_are_ordered_by_chapter_around_a_change():
+    # Chapter 1 has no story day; the dye happens in chapter 2. Chapter 1 belongs before it.
+    texts = ["Mara's hair was black.", "That week Mara dyed her hair red.", "Mara's hair was red."]
+    assert run(texts, days=[None, 5, 9]) == []

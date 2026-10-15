@@ -8,8 +8,8 @@ Kinds are reported but not required to match: a conflict reported against the ch
 instead of against an earlier sentence is still the same error.
 
 A second finding for an already-detected contradiction is a duplicate, not a false positive.
-A negative case is violated when a finding cites a span overlapping the negative's evidence
-(or, for labels without evidence, when a finding has the negative's subject and predicate).
+A negative case is violated when a false-positive finding cites a span overlapping the
+negative's evidence (or, for labels without evidence, has the negative's subject and predicate).
 Citation precision: share of cited spans in true-positive findings that overlap labelled
 evidence of the matched contradiction.
 """
@@ -140,14 +140,17 @@ def evaluate(findings: list[Any], ground_truth: dict, bodies: dict[int, str]) ->
             total += 1
             covered += any(_overlaps(s, ls) for s in f["spans"])
 
+    # A negative is violated by a false alarm about it. A correct finding for a labelled
+    # contradiction may legitimately cite the same sentence (e.g. "her hair was red now", followed
+    # later by a planted "grey"), so only unmatched findings count here.
     violated = []
     for n in negatives:
         n_spans = _labelled_spans(n, bodies) if n.get("evidence") else []
         if n_spans:
-            hit = any(_overlaps(s, ns) for f in norm for s in f["spans"] for ns in n_spans)
+            hit = any(_overlaps(s, ns) for f in fps for s in f["spans"] for ns in n_spans)
         else:
             hit = any(
-                f["subject"] == n["subject"] and f["predicate"] == n["predicate"] for f in norm
+                f["subject"] == n["subject"] and f["predicate"] == n["predicate"] for f in fps
             )
         if hit:
             violated.append(n["id"])
