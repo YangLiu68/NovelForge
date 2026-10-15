@@ -1,4 +1,4 @@
-"""Rule-based fact extractor (`rules-v5`): a deterministic, explainable baseline.
+"""Rule-based fact extractor (`rules-v6`): a deterministic, explainable baseline.
 
 It finds facts stated next to a character's name or alias:
 - attributes: eye colour, hair colour, age, handedness, birthplace
@@ -26,6 +26,10 @@ v5 over v4 (from the held-out books, so v5 is scored on a fresh held-out book): 
 death inside a time clause ("ever since he was twenty", "before Anne came to Green Gables") is
 `recalled`, not a statement about this point of the story; a "with" phrase whose owner is in the
 previous sentence quotes from the pronoun, not across the sentence break.
+
+v6 over v5 (one wrong attribution on the v5 held-out book): a sentence that opens with its
+subject pronoun never takes a later name as the owner of a "with" phrase, and a sentence that
+names only people of the other gender no longer stops a pronoun from reaching back further.
 
 It does not read world rules, similes ("eyes the colour of sea glass") or implications
 ("Being left-handed, ..."); the LLM extractor is measured against this baseline.
@@ -55,7 +59,7 @@ from novelforge.core.coref import (
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.text import NUMBER_PATTERN, inside_dialogue, parse_number, sentence_bounds
 
-EXTRACTOR = "rules-v5"
+EXTRACTOR = "rules-v6"
 CLAIM_NAMESPACE = uuid.UUID("6c1f5c1e-2b7a-4c55-9a43-6f0d5e0b7a01")
 
 CONFIDENCE = {"asserted": 0.9, "recalled": 0.8, "reported": 0.5, "hedged": 0.4}
@@ -382,8 +386,11 @@ def _sentence_subject(
     lead = _SENTENCE_LEAD.match(body, s)
     first = lead.end() if lead else s
     owner = next((m for m in mentions if m.start == first), None)
-    if owner is None:
-        # After an introductory phrase: "Lying on the grass ..., Mr. Brooke began ..."
+    starts_with_pronoun = re.compile(r"(?:He|She|They)\b").match(body, first) is not None
+    if owner is None and not starts_with_pronoun:
+        # After an introductory phrase: "Lying on the grass ..., Mr. Brooke began ...". Not
+        # when the sentence opens with its subject pronoun: in "He did look funny, Mary
+        # thought, with his round blue eyes" the eyes are his, not Mary's (v6).
         lead_in = next((m for m in all_mentions if first <= m.start < pos), None)
         if (
             lead_in is not None

@@ -2,7 +2,7 @@
   "book": "anne-of-green-gables",
   "title": "Anne of Green Gables",
   "author": "L. M. Montgomery",
-  "role": "held-out",
+  "role": "v4 held-out",
   "source": {
     "url": "https://www.gutenberg.org/cache/epub/45/pg45.txt",
     "sha256": "89a5e9fb2e0bb44562a969785385366f94e1da736aebee7d9cdf459eb0b5f9f6",
@@ -14,7 +14,7 @@
   "chapters": 38,
   "words": 101964,
   "characters": 23,
-  "seconds": 0.01,
+  "seconds": 0.0,
   "claims": 11,
   "precision": {
     "overall": {
@@ -471,6 +471,6 @@
   "environment": {
     "machine": "arm64",
     "python": "3.12.10",
-    "commit": "ef1f062"
+    "commit": "f29b4d3"
   }
 }

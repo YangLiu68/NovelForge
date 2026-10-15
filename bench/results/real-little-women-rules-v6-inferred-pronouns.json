@@ -1,0 +1,333 @@
+{
+  "book": "little-women",
+  "title": "Little Women",
+  "author": "Louisa May Alcott",
+  "role": "dev",
+  "source": {
+    "url": "https://www.gutenberg.org/cache/epub/514/pg514.txt",
+    "sha256": "36831477b339dbcd7e7206119d77e9e58b9727ef3c299d1a1dc4446e1db97850",
+    "matches_manifest": true
+  },
+  "extractor": "rules-v6",
+  "claims_from": null,
+  "sheet_pronouns": false,
+  "chapters": 47,
+  "words": 185677,
+  "characters": 23,
+  "seconds": 4.4,
+  "claims": 32,
+  "precision": {
+    "overall": {
+      "correct": 31,
+      "modality": 1,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 0.9688
+    },
+    "asserted_only": {
+      "correct": 28,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "ability": {
+      "correct": 18,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "age": {
+      "correct": 4,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "eye_color": {
+      "correct": 7,
+      "modality": 1,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 0.875
+    },
+    "hair_color": {
+      "correct": 1,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "status": {
+      "correct": 1,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    }
+  },
+  "by_modality": {
+    "asserted": {
+      "correct": 28
+    },
+    "hedged": {
+      "modality": 1
+    },
+    "reported": {
+      "correct": 3
+    }
+  },
+  "errors": {
+    "modality": 1
+  },
+  "recall": {
+    "candidate_sentences": 133,
+    "unlabelled_sentences": 0,
+    "all": {
+      "facts": 36,
+      "found": 14,
+      "recall": 0.3889
+    },
+    "age": {
+      "facts": 5,
+      "found": 4,
+      "recall": 0.8
+    },
+    "asserted": {
+      "facts": 30,
+      "found": 14,
+      "recall": 0.4667
+    },
+    "hair_color": {
+      "facts": 9,
+      "found": 1,
+      "recall": 0.1111
+    },
+    "eye_color": {
+      "facts": 19,
+      "found": 8,
+      "recall": 0.4211
+    },
+    "birthplace": {
+      "facts": 1,
+      "found": 0,
+      "recall": 0.0
+    },
+    "status": {
+      "facts": 2,
+      "found": 1,
+      "recall": 0.5
+    }
+  },
+  "missed_examples": [
+    {
+      "chapter": 1,
+      "sentence": "A regular snow maiden, with blue eyes, and yellow hair curling on her shoulders, pale and slender, and always carrying herself like a young lady mindful of her manners.",
+      "subject": "Amy March",
+      "predicate": "eye_color",
+      "value": "blue",
+      "asserted": true
+    },
+    {
+      "chapter": 1,
+      "sentence": "A regular snow maiden, with blue eyes, and yellow hair curling on her shoulders, pale and slender, and always carrying herself like a young lady mindful of her manners.",
+      "subject": "Amy March",
+      "predicate": "hair_color",
+      "value": "yellow",
+      "asserted": true
+    },
+    {
+      "chapter": 1,
+      "sentence": "If I wasn’t too old for such things, I’d rather like to play it over again,” said Amy, who began to talk of renouncing childish things at the mature age of twelve.",
+      "subject": "Amy March",
+      "predicate": "age",
+      "value": "12",
+      "asserted": true
+    },
+    {
+      "chapter": 3,
+      "sentence": "asked the boy, trying to look sober while his black eyes shone with fun.",
+      "subject": "Theodore Laurence",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": true
+    },
+    {
+      "chapter": 3,
+      "sentence": "“Curly black hair, brown skin, big black eyes, handsome nose, fine teeth, small hands and feet, taller than I am, very polite, for a boy, and altogether jolly.",
+      "subject": "Theodore Laurence",
+      "predicate": "hair_color",
+      "value": "black",
+      "asserted": false
+    },
+    {
+      "chapter": 3,
+      "sentence": "“Curly black hair, brown skin, big black eyes, handsome nose, fine teeth, small hands and feet, taller than I am, very polite, for a boy, and altogether jolly.",
+      "subject": "Theodore Laurence",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": false
+    },
+    {
+      "chapter": 5,
+      "sentence": "I fancy the boy, who was born in Italy, is not very strong, and the old man is afraid of losing him, which makes him so careful.",
+      "subject": "Theodore Laurence",
+      "predicate": "birthplace",
+      "value": "Italy",
+      "asserted": false
+    },
+    {
+      "chapter": 5,
+      "sentence": "“That’s why he has such handsome black eyes and pretty manners, I suppose.",
+      "subject": "Theodore Laurence",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": false
+    },
+    {
+      "chapter": 6,
+      "sentence": "That comes of having big blue eyes and loving music,” said Jo, trying to soothe Beth, who trembled and looked more excited than she had ever been before.",
+      "subject": "Elizabeth March",
+      "predicate": "eye_color",
+      "value": "blue",
+      "asserted": false
+    },
+    {
+      "chapter": 12,
+      "sentence": "If she had seen the brown eyes then, she would have stopped short, but she never looked up, and the lesson was not spoiled for her.",
+      "subject": "John Brooke",
+      "predicate": "eye_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 13,
+      "sentence": "That night, when Beth played to Mr. Laurence in the twilight, Laurie, standing in the shadow of the curtain, listened to the little David, whose simple music always quieted his moody spirit, and watched the old man, who sat with his gray head on his hand, thinking tender thoughts of the dead child he had loved so much.",
+      "subject": "Mr. Laurence",
+      "predicate": "hair_color",
+      "value": "grey",
+      "asserted": true
+    },
+    {
+      "chapter": 15,
+      "sentence": "Meg spoke earnestly, and forgot herself entirely till something in the brown eyes looking down at her made her remember the cooling tea, and lead the way into the parlor, saying she would call her mother.",
+      "subject": "John Brooke",
+      "predicate": "eye_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 18,
+      "sentence": "A dreadful fear passed coldly over Jo, as she thought, “Beth is dead, and Meg is afraid to tell me.”",
+      "subject": "Elizabeth March",
+      "predicate": "status",
+      "value": "dead",
+      "asserted": false
+    },
+    {
+      "chapter": 23,
+      "sentence": "asked Mr. Brooke, holding the small hand fast in both his own, and looking down at Meg with so much love in the brown eyes that her heart began to flutter, and she both longed to run away and to stop and listen.",
+      "subject": "John Brooke",
+      "predicate": "eye_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 25,
+      "sentence": "These offending features gave character to her whole face, but she never could see it, and consoled herself with her wonderfully fair complexion, keen blue eyes, and curls more golden and abundant than ever.",
+      "subject": "Amy March",
+      "predicate": "hair_color",
+      "value": "golden",
+      "asserted": true
+    },
+    {
+      "chapter": 25,
+      "sentence": "Jo did not cry, though she was very near it once, and was only saved from a demonstration by the consciousness that Laurie was staring fixedly at her, with a comical mixture of merriment and emotion in his wicked black eyes.",
+      "subject": "Theodore Laurence",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": true
+    },
+    {
+      "chapter": 28,
+      "sentence": "The kind, brown eyes looked as if they could be stern, and though he was unusually merry, she fancied he had found her out, but didn’t mean to let her know it.",
+      "subject": "John Brooke",
+      "predicate": "eye_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 29,
+      "sentence": "“You are a thing of beauty and a joy forever,” said Jo, looking through her hand with the air of a connoisseur at the blue feather against the golden hair.",
+      "subject": "Amy March",
+      "predicate": "hair_color",
+      "value": "golden",
+      "asserted": true
+    },
+    {
+      "chapter": 31,
+      "sentence": "I wish Fred was dark, for I don’t fancy light men, however, the Vaughns are very rich and come of an excellent family, so I won’t find fault with their yellow hair, as my own is yellower.",
+      "subject": "Amy March",
+      "predicate": "hair_color",
+      "value": "yellow",
+      "asserted": true
+    },
+    {
+      "chapter": 31,
+      "sentence": "I wish Fred was dark, for I don’t fancy light men, however, the Vaughns are very rich and come of an excellent family, so I won’t find fault with their yellow hair, as my own is yellower.",
+      "subject": "Fred Vaughn",
+      "predicate": "hair_color",
+      "value": "yellow",
+      "asserted": true
+    },
+    {
+      "chapter": 33,
+      "sentence": "A regular German—rather stout, with brown hair tumbled all over his head, a bushy beard, good nose, the kindest eyes I ever saw, and a splendid big voice that does one’s ears good, after our sharp or slipshod American gabble.",
+      "subject": "Friedrich Bhaer",
+      "predicate": "hair_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 39,
+      "sentence": "It cost him no effort to be generous, and he would have given Amy all the trinkets in Nice if she would have taken them, but at the same time he felt that he could not change the opinion she was forming of him, and he rather dreaded the keen blue eyes that seemed to watch him with such half-sorrowful, half-scornful surprise.",
+      "subject": "Amy March",
+      "predicate": "eye_color",
+      "value": "blue",
+      "asserted": true
+    }
+  ],
+  "findings": {
+    "total": 0,
+    "true": 0,
+    "false": 0,
+    "unlabelled": 0,
+    "rows": []
+  },
+  "wrong_examples": [
+    {
+      "chapter": 31,
+      "subject": "Fred Vaughn",
+      "predicate": "eye_color",
+      "value": "blue",
+      "modality": "hedged",
+      "quote": "his bonnie blue eyes",
+      "verdict": "modality",
+      "error": "modality: should be asserted",
+      "note": "in Amy's letter about Fred; 'as one might guess' is about his temper, not his eyes"
+    }
+  ],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "f29b4d3"
+  }
+}
