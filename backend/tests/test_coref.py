@@ -164,3 +164,9 @@ def test_with_phrase_quote_does_not_cross_a_sentence_break():
     body = "Tomas waited at the gate. He was a tall boy, with hazel eyes."
     claims = extract_claims(ChapterRef("c1", 1, "T", body, 1, 0), CAST)
     assert [c.spans[0].quote for c in claims] == ["He was a tall boy, with hazel eyes"]
+
+
+def test_sentence_opening_pronoun_owns_the_with_phrase():
+    # v6, from the v5 held-out book: "Mary thought" is an aside, not the subject.
+    body = "Tomas sat up. He did look funny, Mara thought, with his round blue eyes."
+    assert facts(body) == [("t", "eye_color", "blue", "asserted")]

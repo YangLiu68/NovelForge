@@ -2,14 +2,15 @@
 
 The synthetic benchmarks know every answer, but their prose comes from the generator's
 templates, and the rule extractor was improved against those templates. This evaluation runs
-the extractor and the contradiction report on three public-domain novels that nobody wrote for
+the extractor and the contradiction report on four public-domain novels that nobody wrote for
 NovelForge:
 
 | Book | Role | Gutenberg file |
 |---|---|---|
 | *Little Women* (Alcott) | **dev**: failure analysis and rule changes were allowed to look at it | [#514](https://www.gutenberg.org/ebooks/514) |
-| *Anne of Green Gables* (Montgomery) | **held-out**: scored only after rules-v4 was frozen | [#45](https://www.gutenberg.org/ebooks/45) |
-| *Pride and Prejudice* (Austen) | **held-out** | [#42671](https://www.gutenberg.org/ebooks/42671) |
+| *Anne of Green Gables* (Montgomery) | **v4 held-out**: scored only after rules-v4 was frozen; its errors then shaped v5 | [#45](https://www.gutenberg.org/ebooks/45) |
+| *Pride and Prejudice* (Austen) | **v4 held-out**, as above | [#42671](https://www.gutenberg.org/ebooks/42671) |
+| *The Secret Garden* (Burnett) | **v5 held-out**: added after rules-v5 was frozen, scored once | [#113](https://www.gutenberg.org/ebooks/113) |
 
 ```bash
 cd backend
@@ -57,9 +58,14 @@ held-out protocol below limits, but does not remove, that bias.
 2. The dev failures drove rules-v4 (pronoun and "with"-phrase attribution, ages in apposition,
    word-sense and negation guards, hedge scope, title handling). Each change was checked
    against the synthetic benchmarks as well.
-3. rules-v4 was frozen (committed) before either held-out book was run.
-4. Both versions were then run on the held-out books, and all their claims, findings and
-   candidate sentences were labelled. Nothing was changed after that.
+3. rules-v4 was frozen (commit `ef1f062`) before either held-out book was run.
+4. Both versions were then run on the two held-out books, and all their claims, findings and
+   candidate sentences were labelled.
+5. Four of the six held-out errors were one kind, a past state in a time clause ("ever since
+   he was twenty"); rules-v5 handles it, so those two books stopped being unseen for v5. The
+   other two ("might" hedging a different part of the sentence) are left as they are.
+6. rules-v5 was frozen (commit `f29b4d3`), a fourth book was added, and it was run and
+   labelled once. The cast list was written before its text was read.
 
 Results and their discussion are in [BENCHMARK.md](../../BENCHMARK.md#6-real-prose);
 raw reports are `bench/results/real-*.json`.

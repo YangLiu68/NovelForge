@@ -2,19 +2,19 @@
   "book": "pride-and-prejudice",
   "title": "Pride and Prejudice",
   "author": "Jane Austen",
-  "role": "held-out",
+  "role": "v4 held-out",
   "source": {
     "url": "https://www.gutenberg.org/cache/epub/42671/pg42671.txt",
     "sha256": "3d2d320092e4b501cd0075bbc4fccac2c322d925710a9df05172e9cef86b5863",
     "matches_manifest": true
   },
   "extractor": "rules-v5",
-  "claims_from": null,
+  "claims_from": "claims-pride-and-prejudice-rules-v5.jsonl",
   "sheet_pronouns": true,
   "chapters": 61,
   "words": 121681,
   "characters": 25,
-  "seconds": 3.59,
+  "seconds": 0.0,
   "claims": 8,
   "precision": {
     "overall": {
@@ -135,6 +135,6 @@
   "environment": {
     "machine": "arm64",
     "python": "3.12.10",
-    "commit": "ef1f062"
+    "commit": "f29b4d3"
   }
 }

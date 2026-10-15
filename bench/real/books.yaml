@@ -99,3 +99,27 @@ books:
       - {name: Mrs. Gardiner, aliases: [], gender: f}
       - {name: Mrs. Phillips, aliases: [], gender: f}
       - {name: Mr. Denny, aliases: [Denny], gender: m}
+  - id: the-secret-garden
+    title: The Secret Garden
+    author: Frances Hodgson Burnett
+    role: v5 held-out    # added after rules-v5 was frozen (f29b4d3), scored once
+    url: https://www.gutenberg.org/cache/epub/113/pg113.txt
+    sha256: 6b0bb5fbd0c4e873d2d22028da9d753cf3977d5f70ac58221556b28060badbf5
+    title_lines: 1
+    characters:
+      - {name: Mary Lennox, aliases: [Mistress Mary, Miss Mary], gender: f}
+      - {name: Colin Craven, aliases: [Master Colin], gender: m}
+      - {name: Dickon Sowerby, aliases: [Dickon], gender: m}
+      - {name: Martha Sowerby, aliases: [Martha], gender: f}
+      - {name: Susan Sowerby, aliases: [Mrs. Sowerby], gender: f}
+      - {name: Ben Weatherstaff, aliases: [Weatherstaff], gender: m}
+      - {name: Mrs. Medlock, aliases: [Medlock], gender: f}
+      - {name: Archibald Craven, aliases: [Mr. Craven, Mr. Archibald Craven], gender: m}
+      - {name: Dr. Craven, aliases: [], gender: m}
+      - {name: Lilias Craven, aliases: [], gender: f}
+      - {name: Mrs. Lennox, aliases: [], gender: f}
+      - {name: Captain Lennox, aliases: [], gender: m}
+      - {name: Mrs. Crawford, aliases: [], gender: f}
+      - {name: Mr. Crawford, aliases: [], gender: m}
+      - {name: Basil, aliases: [], gender: m}
+      - {name: Pitcher, aliases: [], gender: m}

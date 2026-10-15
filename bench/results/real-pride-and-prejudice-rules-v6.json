@@ -2,28 +2,28 @@
   "book": "pride-and-prejudice",
   "title": "Pride and Prejudice",
   "author": "Jane Austen",
-  "role": "held-out",
+  "role": "v4 held-out",
   "source": {
     "url": "https://www.gutenberg.org/cache/epub/42671/pg42671.txt",
     "sha256": "3d2d320092e4b501cd0075bbc4fccac2c322d925710a9df05172e9cef86b5863",
     "matches_manifest": true
   },
-  "extractor": "rules-v5",
+  "extractor": "rules-v6",
   "claims_from": null,
-  "sheet_pronouns": false,
+  "sheet_pronouns": true,
   "chapters": 61,
   "words": 121681,
   "characters": 25,
-  "seconds": 3.51,
-  "claims": 7,
+  "seconds": 3.72,
+  "claims": 8,
   "precision": {
     "overall": {
-      "correct": 6,
+      "correct": 7,
       "modality": 1,
       "wrong": 0,
       "unlabelled": 0,
       "fact_precision": 1.0,
-      "strict_precision": 0.8571
+      "strict_precision": 0.875
     },
     "asserted_only": {
       "correct": 3,
@@ -42,7 +42,7 @@
       "strict_precision": 0.8
     },
     "age": {
-      "correct": 2,
+      "correct": 3,
       "modality": 0,
       "wrong": 0,
       "unlabelled": 0,
@@ -58,7 +58,7 @@
       "modality": 1
     },
     "recalled": {
-      "correct": 1
+      "correct": 2
     },
     "reported": {
       "correct": 2
@@ -135,6 +135,6 @@
   "environment": {
     "machine": "arm64",
     "python": "3.12.10",
-    "commit": "ef1f062"
+    "commit": "f29b4d3"
   }
 }

@@ -5,7 +5,8 @@ and produces a false contradiction. So a pronoun is resolved only when the text 
 one candidate, and otherwise the fact is left to the LLM extractor:
 
 - candidates are narrator mentions (outside dialogue) of listed characters in the same
-  paragraph, in the pronoun's sentence or the `SENTENCES_BACK` sentences before it;
+  paragraph, in the pronoun's sentence or the `SENTENCES_BACK` sentences before it; the
+  nearest sentence naming someone of the right (or unknown) gender decides;
 - a candidate must have the pronoun's gender, either declared on the character sheet
   (`pronouns: she/her`) or inferred from the chapter (`infer_pronouns`);
 - nothing is resolved when two different characters fit, when a candidate's pronouns are
@@ -137,10 +138,12 @@ def resolve(
 ) -> Mention | None:
     """The one mention a pronoun at `pos` can refer to, or None.
 
-    The nearest sentence that mentions a character decides: the pronoun's own sentence (before
-    it), else the previous one, else the one before that. That sentence must hold exactly one
-    character of the pronoun's gender and none of unknown gender; otherwise nothing is resolved
-    (earlier sentences are not consulted, since the nearer ambiguity already makes it unsafe).
+    The nearest sentence that mentions a possible referent decides: the pronoun's own sentence
+    (before it), else the previous one, else the one before that. A sentence that names only
+    people of the other gender is skipped ("his" cannot be Mara). The deciding sentence must
+    hold exactly one character of the pronoun's gender and none of unknown gender; otherwise
+    nothing is resolved (earlier sentences are not consulted, since the nearer ambiguity
+    already makes it unsafe).
     """
     kind = KIND.get(pronoun.lower())
     if kind is None or inside_dialogue(body, pos):
@@ -162,6 +165,8 @@ def resolve(
         if any(pronouns.get(m.character.id) is None for m in level):
             return None
         fits = [m for m in level if pronouns[m.character.id] == kind]
+        if not fits:
+            continue  # only people of the other gender here: look one sentence further back
         if len({m.character.id for m in fits}) != 1:
             return None
         last = fits[-1]

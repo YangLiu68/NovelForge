@@ -16,10 +16,12 @@ extraction and contradiction detection, including how much each kind of memory h
 
 - **Write**: markdown chapters with preview, revision history and optimistic locking (a save
   based on a stale version is refused, never silently merged).
-- **Extract**: a deterministic rule extractor runs on every save; an LLM extractor (Claude,
-  a local Ollama model, or an offline mock) runs as an idempotent background job with a strict
-  JSON schema. Every quote is verified against the text, and every literal value against its
-  quote; facts that fail are rejected with a reason.
+- **Extract**: a deterministic rule extractor runs on every save (a 186,000-word novel in about
+  2 s). It follows "her grey eyes" back to a name only when exactly one character fits, and
+  abstains otherwise. An LLM extractor (Claude, a local Ollama model, or an offline mock) runs
+  as an idempotent background job with a strict JSON schema. Every quote is verified against
+  the text, and every literal value against its quote; facts that fail are rejected with a
+  reason.
 - **Review**: extracted facts are proposals. Accepting one updates canon (character sheets,
   locations, world rules, timeline, plot threads, relationships) with an audit log; accepting a
   fact that contradicts canon requires explicit confirmation. Decisions survive later edits.
@@ -98,14 +100,16 @@ local on an M4 laptop:
 | Retrieval, 800 questions (half paraphrased) | hybrid + cross-encoder R@1 **0.909**, R@10 0.999; full-text alone 0.584, vectors alone 0.614 |
 | Contradiction recall by memory type (same claims, same detectors) | chapter alone 0.224 · vector memory 0.496 · hybrid memory 0.424 · **structured claim store 0.576** |
 | False alarms (structured) | **0** findings wrong, 0 of 148 negatives flagged; whole-novel check in 0.8 s |
-| Rule extractor | precision 0.992, recall 0.812; 0% on facts stated through pronouns or implication |
+| Rule extractor (synthetic) | precision 1.0, recall 0.903 (rules-v6; v3 was 0.812); similes and implications are left to the LLM |
+| **Real prose**: 4 public-domain novels, 490,000 words, every claim hand-judged | on books held out from rule development: strict precision 0.78, recall of explicit identity facts 0.20 to 0.34 (v3: 0.04 to 0.09); **0 contradiction findings, so 0 false alarms** |
 | Local LLM extractor (qwen2.5:3b, 15 chapters) | precision 0.667, recall 0.036: too weak to help; validation cut its false positives from 14 to 1. Claude is wired in but has not been run (no API key) |
 | Scale, 1.25 M words / 33,277 paragraphs | chapter save p50 213 ms, hybrid search p50 136 ms, report refresh 524 ms, 257 MB database |
 
-The corpus is synthetic and templated, so these numbers measure the pipeline against known
-answers, not literary understanding. The recall figures use the rule extractor only, so they
-count all 28 world-rule violations (which need the LLM judge) and every pronoun-stated fact as
-misses.
+The synthetic corpus is templated, so its numbers measure the pipeline against known answers,
+not literary understanding; the real-prose rows show how far they fall on prose nobody wrote
+for the benchmark ([bench/real/](bench/real/README.md)). The contradiction recall figures use
+the rule extractor only, so they count all 28 world-rule violations (which need the LLM judge)
+as misses.
 
 ## Commands
 
@@ -118,12 +122,14 @@ misses.
 | `uv run novelforge serve [--reload]` | Run the API (with an in-process job worker) |
 | `uv run novelforge worker [--once]` | Run background jobs in a separate process |
 | `uv run novelforge import-sample` / `import-corpus DIR` | Import the sample or a generated corpus |
+| `uv run novelforge import-text FILE --title T` / `--book little-women` | Import a plain-text novel (CHAPTER headings) or a public-domain test book |
 | `uv run novelforge gen-corpus --chapters N --seed S [--filler F] --out DIR` | Generate a benchmark novel |
 | `uv run novelforge eval-sample` | Score the sample's contradiction report |
 | `uv run novelforge bench-retrieval DIR` | Retrieval: recall@k, MRR, nDCG, latency, tokens |
 | `uv run novelforge bench-extraction DIR --extractor rules\|mock\|ollama:M\|anthropic` | Extraction precision/recall per fact type |
 | `uv run novelforge bench-consistency DIR` | Contradiction detection with a memory ablation |
 | `uv run novelforge bench-load DIR` | Throughput, latency, memory, storage |
+| `uv run novelforge bench-real BOOK` | Precision and estimated recall on a public-domain novel (hand labels) |
 | `uv run pytest` | Backend tests |
 
 From `frontend/`: `npm run dev`, `npm run typecheck`, `npm test`, `npm run build`, `npm run e2e`.

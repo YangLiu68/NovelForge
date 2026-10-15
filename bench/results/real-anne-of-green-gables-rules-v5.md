@@ -1,4 +1,4 @@
-*Anne of Green Gables* (L. M. Montgomery; held-out book): 38 chapters, 101,964 words, 23 characters listed. Extractor `rules-v5`, 2.45 s, 19 claims.
+*Anne of Green Gables* (L. M. Montgomery; v4 held-out book): 38 chapters, 101,964 words, 23 characters listed. Extractor `rules-v5`, 0.0 s, 19 claims.
 
 Source https://www.gutenberg.org/cache/epub/45/pg45.txt (sha256 matches the labelled file).
 
