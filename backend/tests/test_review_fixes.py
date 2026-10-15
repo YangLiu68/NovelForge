@@ -366,3 +366,37 @@ def test_correct_findings_do_not_violate_negatives_that_share_a_sentence():
     }
     r = evaluate([finding], gt, {1: "x" * 30, 2: "x" * 10})
     assert r.true_positives == 1 and r.negatives_violated == 0
+
+
+def test_a_finding_must_cite_the_planted_statement():
+    gt = {
+        "contradictions": [
+            {
+                "id": "A",
+                "category": "identity",
+                "subject": "K",
+                "evidence": [
+                    {"chapter": 1, "start": 0, "end": 10},
+                    {"chapter": 5, "start": 0, "end": 10},
+                ],
+            }
+        ],
+        "negatives": [],
+    }
+
+    def finding(*spans):
+        return {
+            "kind": "attribute_conflict",
+            "category": "identity",
+            "subject_name": "K",
+            "predicate": "hair_color",
+            "evidence": [{"chapter_number": c, "start": s, "end": e} for c, s, e in spans],
+        }
+
+    # Cites only the earlier, correct statement (a coincidental false alarm): no credit.
+    accidental = evaluate(
+        [finding((1, 0, 10), (3, 0, 10))], gt, {1: "x" * 20, 3: "x" * 20, 5: "x" * 20}
+    )
+    assert accidental.true_positives == 0 and accidental.false_positives == 1
+    real = evaluate([finding((1, 0, 10), (5, 0, 10))], gt, {1: "x" * 20, 5: "x" * 20})
+    assert real.true_positives == 1

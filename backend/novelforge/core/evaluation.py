@@ -3,7 +3,9 @@
 Matching rule: a finding detects a labelled contradiction when
 - the categories agree (identity, timeline, location, abilities, world_rules),
 - the subject agrees (character name; for world rules any rule finding qualifies), and
-- at least one cited span overlaps one of the labelled evidence spans.
+- a cited span overlaps the planted statement itself (the last labelled evidence span). Citing
+  only the earlier, correct statement is not enough: a false alarm about the same character can
+  cite it by accident.
 Kinds are reported but not required to match: a conflict reported against the character sheet
 instead of against an earlier sentence is still the same error.
 
@@ -117,7 +119,7 @@ def evaluate(findings: list[Any], ground_truth: dict, bodies: dict[int, str]) ->
             for g in gt
             if g["category"] == f["category"]
             and (g["category"] == "world_rules" or g["subject"] == f["subject"])
-            and any(_overlaps(s, ls) for s in f["spans"] for ls in labelled[g["id"]])
+            and any(_overlaps(s, labelled[g["id"]][-1]) for s in f["spans"])
         ]
         if not candidates:
             fps.append(f)
