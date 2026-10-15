@@ -1,0 +1,218 @@
+{
+  "corpus": "syn-40-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 3,
+    "seed": 7,
+    "chapters": 40
+  },
+  "extractor": "llm:ollama:qwen2.5:3b",
+  "value_check": true,
+  "cache": {
+    "file": "syn-40-s7-ollama-qwen2.5-3b.jsonl",
+    "hits": 13,
+    "misses": 2
+  },
+  "chapters": 15,
+  "seconds": 280.96,
+  "claims": 25,
+  "scored": {
+    "overall": {
+      "tp": 2,
+      "fp": 1,
+      "fn": 53,
+      "precision": 0.6667,
+      "recall": 0.0364,
+      "f1": 0.069
+    },
+    "ability": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 15,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null
+    },
+    "age": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 4,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null
+    },
+    "birthplace": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 5,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null
+    },
+    "eye_color": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 5,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null
+    },
+    "hair_color": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 5,
+      "precision": 1.0,
+      "recall": 0.2857,
+      "f1": 0.4444
+    },
+    "handedness": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 3,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null
+    },
+    "location": {
+      "tp": 0,
+      "fp": 1,
+      "fn": 16,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": null
+    }
+  },
+  "recall_by_template": {
+    "ability/cannot": {
+      "found": 0,
+      "total": 9
+    },
+    "ability/learned": {
+      "found": 0,
+      "total": 6
+    },
+    "age/at_n": {
+      "found": 0,
+      "total": 1
+    },
+    "age/was_n": {
+      "found": 0,
+      "total": 1
+    },
+    "age/year_old": {
+      "found": 0,
+      "total": 2
+    },
+    "birthplace/apposition": {
+      "found": 0,
+      "total": 2
+    },
+    "birthplace/born_in": {
+      "found": 0,
+      "total": 2
+    },
+    "birthplace/grew_up": {
+      "found": 0,
+      "total": 1
+    },
+    "eye_color/name_had": {
+      "found": 0,
+      "total": 3
+    },
+    "eye_color/name_were": {
+      "found": 0,
+      "total": 1
+    },
+    "eye_color/pronoun": {
+      "found": 0,
+      "total": 1
+    },
+    "hair_color/name_had": {
+      "found": 2,
+      "total": 4
+    },
+    "hair_color/name_was": {
+      "found": 0,
+      "total": 2
+    },
+    "hair_color/pronoun": {
+      "found": 0,
+      "total": 1
+    },
+    "handedness/being": {
+      "found": 0,
+      "total": 1
+    },
+    "handedness/name_was": {
+      "found": 0,
+      "total": 1
+    },
+    "handedness/wrote_with": {
+      "found": 0,
+      "total": 1
+    },
+    "location/location": {
+      "found": 0,
+      "total": 16
+    }
+  },
+  "location_day_accuracy": {
+    "correct": 0,
+    "total": 0
+  },
+  "negative_modality": {
+    "asserted": 0,
+    "not_asserted": 1
+  },
+  "world_rule_statements": {
+    "found": 1,
+    "total": 4,
+    "recall": 0.25
+  },
+  "foreshadowing_setups": {
+    "found": 0,
+    "total": 1,
+    "recall": 0.0
+  },
+  "causal_links": {
+    "found": 0,
+    "total": 2,
+    "recall": 0.0
+  },
+  "unscored_claims": {
+    "event": 6,
+    "relationship": 2,
+    "ability:used": 1,
+    "world_rule": 1
+  },
+  "usage": {
+    "calls": 15,
+    "input_tokens": 11591,
+    "output_tokens": 6360,
+    "cost_usd": 0.0,
+    "rejected": 53,
+    "rejected_by_reason": {
+      "value not in quote": 18,
+      "quote not found": 19,
+      "malformed value": 16
+    },
+    "errors": [
+      "ch5: window 1: max_tokens: output hit num_predict=2048",
+      "ch7: window 1: max_tokens: output hit num_predict=2048"
+    ]
+  },
+  "false_positive_examples": [
+    {
+      "chapter": 15,
+      "predicate": "location",
+      "value": "Wrengate",
+      "subject": "Braric Talwell",
+      "quote": "Day 83, in Wrengate. Snow fell on the roofs and melted on the cobbles."
+    }
+  ],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "51fa460"
+  }
+}
