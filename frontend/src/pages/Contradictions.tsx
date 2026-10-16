@@ -25,6 +25,7 @@ const PREDICATE_LABEL: Record<string, string> = {
   birthplace: "birthplace",
   age: "age",
   location: "location",
+  presence: "on stage",
   status: "alive / dead",
   world_rule: "world rule",
 };

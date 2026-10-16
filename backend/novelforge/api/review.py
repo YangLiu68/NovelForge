@@ -29,7 +29,7 @@ router = APIRouter(prefix="/api", tags=["review"])
 
 FAMILIES = {
     "attributes": ["eye_color", "hair_color", "handedness", "birthplace", "age"],
-    "presence": ["location", "status"],
+    "presence": ["location", "presence", "status"],
     "abilities": ["ability:%"],
     "world": ["world_rule", "foreshadowing", "event", "causal", "relationship"],
 }

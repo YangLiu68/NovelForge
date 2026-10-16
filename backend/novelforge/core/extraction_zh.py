@@ -1,4 +1,4 @@
-"""Chinese rule-based fact extractor (`rules-zh-v2`), the Chinese twin of `core/extraction.py`.
+"""Chinese rule-based fact extractor (`rules-zh-v3`), the Chinese twin of `core/extraction.py`.
 
 It reads the same predicates, so the contradiction detectors work unchanged: eye and hair
 colour, age, handedness, birthplace, location, status (dead/alive), abilities (cannot /
@@ -33,6 +33,12 @@ without 岁 after 今年/已经 (“今年五十三了”); 不识字, 不会水
 骑马”); pronouns filter by gender, reach the previous sentence across a paragraph break, carry
 over a resolved 她 to the next sentence, and abstain on a person noun in between (这姑娘).
 
+v3 over v2 (from the second held-out sample, 雾岭茶事, so v3 is scored on a third one): a
+`presence` claim when the narrator puts a character on stage (坐在, 站着, 走进 …), so a dead
+character who sits in a chair is caught; perception words hedge only what follows them; 右撇子;
+享年; 栗红 is auburn; the old colour in “把一头黑发染成了银白色” is recalled; a name after 跟着 is
+never the subject, for attributes too (“跟着苏怀山上了雾岭，今年三十六岁”).
+
 Not covered: similes, euphemisms for death (走了), and places
 without a place suffix (上海) unless they are on a character sheet.
 """
@@ -47,7 +53,7 @@ from dataclasses import dataclass
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.text import inside_dialogue, sentence_bounds
 
-EXTRACTOR_ZH = "rules-zh-v2"
+EXTRACTOR_ZH = "rules-zh-v3"
 CLAIM_NAMESPACE = uuid.UUID("6c1f5c1e-2b7a-4c55-9a43-6f0d5e0b7a01")
 CONFIDENCE = {"asserted": 0.9, "recalled": 0.8, "reported": 0.5, "hedged": 0.4}
 
@@ -107,6 +113,7 @@ _HAIR_COLOURS = {
     "花白": "grey", "灰白": "grey", "银灰": "grey", "灰": "grey",
     "雪白": "white", "银白": "silver", "银": "silver", "白": "white",
     "金黄": "blond", "淡金": "blond", "金": "blond", "亚麻": "blond",
+    "栗红": "auburn", "赤褐": "auburn", "红棕": "auburn",
     "火红": "red", "赤红": "red", "红": "red", "赤": "red",
     "栗": "brown", "棕": "brown", "褐": "brown", "咖啡": "brown",
 }  # fmt: skip
@@ -224,13 +231,13 @@ _RULES: list[_Rule] = [
     # 林雪棠今年十七岁 / 周铁山五十六岁了 / 苏婉十岁那年 / 苏婉是林家的丫头，今年二十岁
     _Rule("age", rf"(?:今年|已经|已|才|刚|刚刚|正|都|也|当时|时年|那年)?(?:满|过了|到了)?(?P<val>{CN_NUM})(?:周)?岁{_NOT_BIRTHDAY}",
           0, "attribute"),
-    _Rule("age", rf"(?<=，)(?:今年|已经|才|刚|刚满|年方|年仅)?(?P<val>{CN_NUM})(?:周)?岁{_NOT_BIRTHDAY}", 20, "attribute",
+    _Rule("age", rf"(?<=，)(?:今年|已经|才|刚|刚满|年方|年仅|享年)?(?P<val>{CN_NUM})(?:周)?岁{_NOT_BIRTHDAY}", 20, "attribute",
           True),
     _Rule("age", rf"(?:年方|芳龄|年纪|年届|年仅|刚满)(?P<val>{CN_NUM})(?:周)?岁?", 2, "attribute"),
     # 林照雪今年十七 / 周铁山今年五十三了 (v2)
     _Rule("age", rf"(?:今年|已经|已|都|才|也)(?P<val>{CN_NUM})(?=了?(?:[，。！？；”」\s]|$))", 0, "attribute"),
     # 陈砚是左撇子 / 陈砚惯用右手
-    _Rule("handedness", r"(?:是个|是|天生是个|天生|一向是|从小就是)?(?P<val>左)撇子", 6, "attribute"),
+    _Rule("handedness", r"(?:是个|是|天生是个|天生|一向是|从小就是)?(?P<val>左|右)撇子", 6, "attribute"),
     _Rule("handedness", r"(?:惯用|习惯用|惯使|一向用|只惯用)(?P<val>左|右)手", 6, "attribute"),
     # 林守拙一辈子使的都是右手刀 (v2)
     _Rule("handedness", r"使(?:的)?(?:都是|是|惯了)?(?P<val>左|右)手(?:刀|剑|枪|鞭)", 8, "attribute"),
@@ -244,6 +251,9 @@ _RULES: list[_Rule] = [
           12, "action", True),
     _Rule("location", r"(?<!生)(?:人在|正在|还在|仍在|已在|住在|待在|呆在|留在|在)(?P<val>{PLACE})(?!外|以外|之外|附近|一带|周围)",
           4, "action"),
+    # 苏怀山坐在上首的竹椅里: on stage, so alive (v3; used only to catch a dead character acting)
+    _Rule("presence", r"(?P<val>坐在|坐着|站在|站着|蹲在|蹲着|躺在|躺着|跪在|靠在|倚在|走进|走出|走了进来|"
+          r"走了出来|走过来|走到|推门进来|推开门)", 3, "action"),
     # 顾明远死了 / 顾明远已经去世了
     _Rule("status", r"(?P<val>死了)(?![" + _CJK + r"])", 4, "action"),
     # 老周死了快两年了 (v2)
@@ -290,10 +300,12 @@ _RECALL = re.compile(
 _COMPARE = re.compile(r"[像和跟同如比]$")  # “像从前一样”: a comparison, not a memory
 _AFTER_PAST = re.compile(r"那年|那会|的时候|时候|时(?![间刻])|之前|以前|起|以后|开始")
 _PAST_TIME = re.compile(r"那年|那天|那晚|那夜|那时|当年|的时候")
+# Rumour or doubt hedges the whole clause; perception only what follows it (v3: “蓝眼睛显得格外亮”
+# is still blue eyes, “眼睛看上去几乎是黑的” is not black).
 _HEDGE = re.compile(
-    r"好像|似乎|仿佛|像是|也许|或许|大概|大约|恐怕|怕是|兴许|据说|听说|传说|传言|有人说|都说|人说|"
-    r"谣传|以为|看上去|看起来|显得|隐约|依稀|几乎"
+    r"也许|或许|大概|大约|恐怕|怕是|兴许|据说|听说|传说|传言|有人说|都说|人说|谣传|以为"
 )
+_PERCEPTION = re.compile(r"好像|似乎|仿佛|像是|看上去|看起来|显得|隐约|依稀|几乎")
 _CONDITION = re.compile(
     r"如果|要是|假如|倘若|若是|万一|假使|假设|即使|哪怕|但愿|希望|巴不得|想象|设想|梦见|梦里|梦中"
 )
@@ -451,7 +463,11 @@ def _modality(body: str, start: int, end: int, predicate: str, val_end: int) -> 
     if predicate == "location" and re.search(rf"{CN_NUM}岁", clause):
         return "recalled"
     s, _ = sentence_bounds(body, start, end)
-    if _HEDGE.search(clause) or _CONDITION.search(body, s, end):
+    if (
+        _HEDGE.search(clause)
+        or _PERCEPTION.search(body, cs, end)
+        or _CONDITION.search(body, s, end)
+    ):
         return "hedged"
     return "asserted"
 
@@ -470,6 +486,8 @@ def _normalize(predicate: str, raw: str, tail: str) -> tuple[str, str] | None:
     if predicate in ("birthplace", "location"):
         bad = _NOT_PLACE.search(raw) or raw in _GENERIC_PLACES or raw in _TIME_WORDS
         return None if bad else (predicate, raw)
+    if predicate == "presence":
+        return "presence", "present"
     if predicate == "status":
         alive = raw in (
             "还活着",
@@ -537,10 +555,8 @@ def extract_claims_zh(
             rf"(?P<gap>[^。！？；\n]{{0,{rule.gap}}}?)(?:{rule.tail.replace('{PLACE}', place)})"
         )
         for m in anchors:
-            if rule.kind != "attribute" and _PREPOSITION.search(
-                body[max(0, m.start - 2) : m.start]
-            ):
-                continue
+            if _PREPOSITION.search(body[max(0, m.start - 2) : m.start]):
+                continue  # 跟着苏怀山上了雾岭，今年三十六岁: not 苏怀山's age (v3: every kind)
             t = tail.match(body, m.end)
             if t is None or not _gap_ok(
                 body, m.end, t.start() + len(t.group("gap")), rule, mentions
@@ -581,6 +597,8 @@ def extract_claims_zh(
                  t.end("val"), t.group(0), None, t.start())
             )  # fmt: skip
 
+    # The colour before 染成 is the old one: “把一头黑发染成了银白色” (v3).
+    dyes = [(f[4], f[5]) for f in found if f[0] == "hair_color.change"]
     seen: set[tuple[str, str, int]] = set()
     claims: list[ExtractedClaim] = []
     for (
@@ -604,6 +622,8 @@ def extract_claims_zh(
             continue  # the same words already gave this fact (骑在一匹马上: two rules, one fact)
         seen |= keys
         modality = _modality(body, anchor, end, final, val_end)
+        if predicate == "hair_color" and any(s <= val_end - len(raw) < e for s, e in dyes):
+            modality = "recalled"
         offset = day_offset_zh(body, start)
         details: dict = {"change": True} if predicate.endswith(".change") else {}
         if offset:

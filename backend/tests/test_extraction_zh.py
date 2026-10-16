@@ -19,10 +19,12 @@ def chapter(body: str, number: int = 1, day: int | None = 0) -> ChapterRef:
     return ChapterRef(f"c{number}", number, "T", body, 1, day)
 
 
-def facts(body: str, **kw):
+def facts(body: str, presence: bool = False, **kw):
+    """(subject, predicate, value, modality); `presence` claims (on stage) only when asked."""
     return [
         (c.subject_id, c.predicate, c.value, c.modality)
         for c in extract_claims(chapter(body, **kw), CAST)
+        if presence or c.predicate != "presence"
     ]
 
 
@@ -117,6 +119,7 @@ def test_modality(body, modality):
 def test_pronouns_resolve_only_when_unambiguous():
     # One woman named in the sentence: 她 is 苏婉.
     found = extract_claims(chapter("苏婉推门进来，她的头发还像从前一样，是栗色的。"), CAST)
+    found = [c for c in found if c.predicate != "presence"]
     assert [(c.subject_id, c.predicate, c.value) for c in found] == [("s", "hair_color", "brown")]
     assert found[0].details["resolved"]["pronoun"] == "她"
     assert found[0].confidence == 0.8
@@ -232,3 +235,38 @@ def test_v2_pronouns():
     ]
     # A person noun in between: 她 could be 这姑娘.
     assert facts("林雪棠以为这姑娘娇气，后来才知道，她骑马很稳。") == []
+
+
+@pytest.mark.parametrize(
+    "body, expected",
+    [
+        # A dead character on stage: a presence claim (v3).
+        ("顾明远坐在上首的竹椅里。", [("g", "presence", "present", "asserted")]),
+        ("顾明远想走进去。", []),
+        # Perception hedges only what follows it.
+        ("没了镜片挡着，陈砚那双蓝眼睛显得格外亮。", [("c", "eye_color", "blue", "asserted")]),
+        ("陈砚是个右撇子。", [("c", "handedness", "right", "asserted")]),
+        (
+            "顾明远咽了气，享年八十二岁。",
+            [("g", "age", "82", "asserted"), ("g", "status", "dead", "asserted")],
+        ),
+        ("苏婉的头发是栗红色的。", [("s", "hair_color", "auburn", "asserted")]),
+        # The old colour before 染成 is recalled; the new one is a change.
+        (
+            "陈砚把一头黑发染成了银白色。",
+            [("c", "hair_color", "black", "recalled"), ("c", "hair_color", "silver", "asserted")],
+        ),
+        # A name after 跟着 is not the subject, for attributes too.
+        ("苏婉很早就跟着陈砚上了山，今年三十六岁。", []),
+    ],
+)
+def test_v3_phrasings(body, expected):
+    """Phrasings added in rules-zh-v3, after the second held-out sample (BENCHMARK.md section 9)."""
+    assert facts(body, presence=True) == expected
+
+
+def test_dead_character_on_stage_is_reported():
+    chapters = [chapter("顾明远咽了气。", 1, 0), chapter("顾明远坐在上首的竹椅里。", 2, 30)]
+    claims = [c for ch in chapters for c in extract_claims(ch, CAST)]
+    found = detect_contradictions(claims, chapters, CAST)
+    assert [(f.kind, f.subject_name) for f in found] == [("dead_character_active", "顾明远")]
