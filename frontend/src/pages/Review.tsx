@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { ApiError, api } from "../api";
+import { resolvedNote } from "../resolved";
 import { spanHref } from "../spans";
 import type { ReviewItem, ReviewPage } from "../types";
 import { predicateLabel, timeLabel } from "./Contradictions";
@@ -96,6 +97,7 @@ function ReviewCard({
           Ch {e.chapter_number}: <span className="quote">“{e.quote}”</span>
         </Link>
       ))}
+      {resolvedNote(item) && <p className="small muted resolved-note">{resolvedNote(item)}</p>}
       {differs && !conflict && (
         <p className="small warn-text">
           Canon says “{item.canon_value}”. Accepting will ask before replacing it.

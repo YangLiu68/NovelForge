@@ -1,5 +1,33 @@
 # Progress log
 
+## 2026-10-15 (evening): real prose, rules-v4 to v6
+
+The user asked for the project to keep being improved. The biggest open caveat was that every
+quality number came from the generator's own templates, so this round measured the extractor on
+real novels and improved it under a held-out protocol (BENCHMARK.md section 6,
+`bench/real/README.md`).
+
+- **Real-prose benchmark.** `bench-real` runs on four public-domain novels (490,000 words),
+  downloaded at run time. Every claim and every keyword-candidate sentence was judged; labels are
+  keyed by content, so they survive extractor versions. The labeller was the assistant that wrote
+  the rules, which the docs state.
+- **What it showed.** rules-v3 (P 0.99 / R 0.81 on synthetic text) found 3 of 30 explicit
+  identity facts in *Little Women*. Pronouns, "with" phrases and ages in apposition were the
+  main gaps; "sailed away", "wrote no more" and hedge scope the main errors.
+- **rules-v4** (frozen `ef1f062`): precision-first pronoun and "with"-phrase attribution
+  (`core/coref.py`) that abstains on any ambiguity, plus the dev-book fixes. On its held-out
+  books (*Anne of Green Gables*, *Pride and Prejudice*) recall went from 3/32 to 11/32 with no
+  wrong fact.
+- **rules-v5** (frozen `f29b4d3`): past states in time clauses ("ever since he was twenty") are
+  `recalled`. On a fresh held-out book (*The Secret Garden*, cast written before reading it)
+  recall went from 1/25 to 5/25, with one wrong attribution.
+- **rules-v6** (`9cc3b88`): that attribution fixed; measured only on books it has seen.
+- **Synthetic side effects.** Generator v4 labels the dye sentence and puts pronouns on the
+  sheets, text byte-identical to v3; extraction recall 0.813 -> 0.903 at precision 1.0.
+- **Also:** `novelforge import-text` for any `.txt` novel; pronouns on the character sheet in the
+  UI; "golden"/"yellow"/"blond" no longer contradict each other; sentence splitting no longer
+  breaks after "Mrs."; extraction of a 186,000-word novel takes about 2 s (was 20 s).
+
 ## 2026-10-15 (later): benchmarks, failure analysis, rules-v3
 
 All benchmarks were run for real on this machine (BENCHMARK.md, raw output in `bench/results/`).

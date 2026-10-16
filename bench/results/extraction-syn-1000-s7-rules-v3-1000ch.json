@@ -2,7 +2,7 @@
   "corpus": "syn-1000-s7",
   "generator": {
     "name": "novelforge.bench.generate",
-    "version": 3,
+    "version": 4,
     "seed": 7,
     "chapters": 1000
   },
@@ -10,16 +10,16 @@
   "value_check": true,
   "cache": null,
   "chapters": 1000,
-  "seconds": 5.45,
+  "seconds": 9.11,
   "claims": 2580,
   "scored": {
     "overall": {
-      "tp": 2031,
-      "fp": 16,
+      "tp": 2047,
+      "fp": 0,
       "fn": 471,
-      "precision": 0.9922,
-      "recall": 0.8118,
-      "f1": 0.8929
+      "precision": 1.0,
+      "recall": 0.8129,
+      "f1": 0.8968
     },
     "ability": {
       "tp": 82,
@@ -54,12 +54,12 @@
       "f1": 0.7392
     },
     "hair_color": {
-      "tp": 215,
-      "fp": 16,
+      "tp": 231,
+      "fp": 0,
       "fn": 90,
-      "precision": 0.9307,
-      "recall": 0.7049,
-      "f1": 0.8022
+      "precision": 1.0,
+      "recall": 0.7196,
+      "f1": 0.837
     },
     "handedness": {
       "tp": 79,
@@ -147,6 +147,10 @@
       "found": 16,
       "total": 16
     },
+    "hair_color/dyed": {
+      "found": 16,
+      "total": 16
+    },
     "hair_color/name_had": {
       "found": 108,
       "total": 108
@@ -216,116 +220,10 @@
     "rejected_by_reason": {},
     "errors": []
   },
-  "false_positive_examples": [
-    {
-      "chapter": 58,
-      "predicate": "hair_color",
-      "value": "red",
-      "subject": "Damo Corwell",
-      "quote": "Damo dyed her hair red"
-    },
-    {
-      "chapter": 89,
-      "predicate": "hair_color",
-      "value": "grey",
-      "subject": "Calis Marrow",
-      "quote": "Calis dyed her hair grey"
-    },
-    {
-      "chapter": 124,
-      "predicate": "hair_color",
-      "value": "red",
-      "subject": "Nibel Wexley",
-      "quote": "Nibel dyed her hair red"
-    },
-    {
-      "chapter": 175,
-      "predicate": "hair_color",
-      "value": "brown",
-      "subject": "Cadra Garrow",
-      "quote": "Cadra dyed his hair brown"
-    },
-    {
-      "chapter": 253,
-      "predicate": "hair_color",
-      "value": "black",
-      "subject": "Brasa Halton",
-      "quote": "Brasa dyed his hair black"
-    },
-    {
-      "chapter": 320,
-      "predicate": "hair_color",
-      "value": "red",
-      "subject": "Camo Ashwick",
-      "quote": "Camo dyed her hair red"
-    },
-    {
-      "chapter": 373,
-      "predicate": "hair_color",
-      "value": "brown",
-      "subject": "Ariko Lonshaw",
-      "quote": "Ariko dyed his hair brown"
-    },
-    {
-      "chapter": 438,
-      "predicate": "hair_color",
-      "value": "red",
-      "subject": "Dara Dunford",
-      "quote": "Dara dyed her hair red"
-    },
-    {
-      "chapter": 489,
-      "predicate": "hair_color",
-      "value": "black",
-      "subject": "Nibel Wexley",
-      "quote": "Nibel dyed her hair black"
-    },
-    {
-      "chapter": 620,
-      "predicate": "hair_color",
-      "value": "red",
-      "subject": "Wytha Talmere",
-      "quote": "Wytha dyed his hair red"
-    },
-    {
-      "chapter": 675,
-      "predicate": "hair_color",
-      "value": "black",
-      "subject": "Vena Garton",
-      "quote": "Vena dyed his hair black"
-    },
-    {
-      "chapter": 716,
-      "predicate": "hair_color",
-      "value": "red",
-      "subject": "Nidra Falford",
-      "quote": "Nidra dyed her hair red"
-    },
-    {
-      "chapter": 744,
-      "predicate": "hair_color",
-      "value": "grey",
-      "subject": "Vena Garton",
-      "quote": "Vena dyed his hair grey"
-    },
-    {
-      "chapter": 791,
-      "predicate": "hair_color",
-      "value": "blond",
-      "subject": "Isalis Ashby",
-      "quote": "Isalis dyed his hair blond"
-    },
-    {
-      "chapter": 840,
-      "predicate": "hair_color",
-      "value": "red",
-      "subject": "Brasa Halton",
-      "quote": "Brasa dyed his hair red"
-    }
-  ],
+  "false_positive_examples": [],
   "environment": {
     "machine": "arm64",
     "python": "3.12.10",
-    "commit": "d7830ba"
+    "commit": "e709488"
   }
 }

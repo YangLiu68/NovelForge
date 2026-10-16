@@ -1,0 +1,230 @@
+{
+  "corpus": "syn-1000-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 4,
+    "seed": 7,
+    "chapters": 1000
+  },
+  "extractor": "rules-v6",
+  "value_check": true,
+  "sheet_pronouns": false,
+  "cache": null,
+  "chapters": 1000,
+  "seconds": 10.55,
+  "claims": 2657,
+  "scored": {
+    "overall": {
+      "tp": 2124,
+      "fp": 0,
+      "fn": 394,
+      "precision": 1.0,
+      "recall": 0.8435,
+      "f1": 0.9151
+    },
+    "ability": {
+      "tp": 82,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "age": {
+      "tp": 275,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "birthplace": {
+      "tp": 210,
+      "fp": 0,
+      "fn": 58,
+      "precision": 1.0,
+      "recall": 0.7836,
+      "f1": 0.8787
+    },
+    "eye_color": {
+      "tp": 181,
+      "fp": 0,
+      "fn": 97,
+      "precision": 1.0,
+      "recall": 0.6511,
+      "f1": 0.7887
+    },
+    "hair_color": {
+      "tp": 260,
+      "fp": 0,
+      "fn": 61,
+      "precision": 1.0,
+      "recall": 0.81,
+      "f1": 0.895
+    },
+    "handedness": {
+      "tp": 79,
+      "fp": 0,
+      "fn": 178,
+      "precision": 1.0,
+      "recall": 0.3074,
+      "f1": 0.4702
+    },
+    "location": {
+      "tp": 1027,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "status": {
+      "tp": 10,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "recall_by_template": {
+    "ability/cannot": {
+      "found": 41,
+      "total": 41
+    },
+    "ability/learned": {
+      "found": 41,
+      "total": 41
+    },
+    "age/apposition": {
+      "found": 70,
+      "total": 70
+    },
+    "age/at_n": {
+      "found": 69,
+      "total": 69
+    },
+    "age/was_n": {
+      "found": 68,
+      "total": 68
+    },
+    "age/year_old": {
+      "found": 68,
+      "total": 68
+    },
+    "birthplace/apposition": {
+      "found": 84,
+      "total": 84
+    },
+    "birthplace/born_in": {
+      "found": 96,
+      "total": 96
+    },
+    "birthplace/grew_up": {
+      "found": 30,
+      "total": 88
+    },
+    "eye_color/colour_of": {
+      "found": 0,
+      "total": 67
+    },
+    "eye_color/name_had": {
+      "found": 54,
+      "total": 54
+    },
+    "eye_color/name_were": {
+      "found": 55,
+      "total": 55
+    },
+    "eye_color/no_mistaking": {
+      "found": 54,
+      "total": 54
+    },
+    "eye_color/pronoun": {
+      "found": 18,
+      "total": 48
+    },
+    "hair_color/after_change": {
+      "found": 16,
+      "total": 16
+    },
+    "hair_color/dyed": {
+      "found": 16,
+      "total": 16
+    },
+    "hair_color/name_had": {
+      "found": 108,
+      "total": 108
+    },
+    "hair_color/name_was": {
+      "found": 91,
+      "total": 91
+    },
+    "hair_color/pronoun": {
+      "found": 29,
+      "total": 90
+    },
+    "handedness/being": {
+      "found": 0,
+      "total": 86
+    },
+    "handedness/name_was": {
+      "found": 79,
+      "total": 79
+    },
+    "handedness/wrote_with": {
+      "found": 0,
+      "total": 92
+    },
+    "location/location": {
+      "found": 1027,
+      "total": 1027
+    },
+    "status/death": {
+      "found": 10,
+      "total": 10
+    }
+  },
+  "location_day_accuracy": {
+    "correct": 1027,
+    "total": 1027
+  },
+  "negative_modality": {
+    "asserted": 0,
+    "not_asserted": 42
+  },
+  "world_rule_statements": {
+    "found": 0,
+    "total": 4,
+    "recall": 0.0
+  },
+  "foreshadowing_setups": {
+    "found": 0,
+    "total": 128,
+    "recall": 0.0
+  },
+  "causal_links": {
+    "found": 0,
+    "total": 117,
+    "recall": 0.0
+  },
+  "unscored_claims": {
+    "ability:used": 468,
+    "status": 23
+  },
+  "usage": {
+    "calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_usd": 0.0,
+    "rejected": 0,
+    "rejected_by_reason": {},
+    "errors": []
+  },
+  "false_positive_examples": [],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "9cc3b88"
+  }
+}

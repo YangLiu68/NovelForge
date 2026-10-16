@@ -17,7 +17,7 @@ from sqlalchemy.orm import Session
 
 from novelforge.core.contradictions import detect_contradictions
 from novelforge.core.domain import ChapterRef
-from novelforge.core.extraction import extract_claims
+from novelforge.core.extraction import EXTRACTOR, extract_claims
 from novelforge.models import Chapter, WorkflowRun
 from novelforge.services.derived import chapter_ref, character_refs
 from novelforge.services.findings import travel_matrix
@@ -77,7 +77,7 @@ def critique(session: Session, run: WorkflowRun, draft: str) -> dict[str, Any]:
         "draft_facts": len(draft_claims),
         "checked_against_facts": len(others),
         "words": len(draft.split()),
-        "method": "rules-v2 extraction + NovelForge contradiction detectors",
+        "method": f"{EXTRACTOR} extraction + NovelForge contradiction detectors",
     }
 
 

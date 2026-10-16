@@ -1,4 +1,4 @@
-*Pride and Prejudice* (Jane Austen; v4 held-out book): 61 chapters, 121,681 words, 25 characters listed. Extractor `rules-v6` (pronouns inferred, none on the sheets), 3.35 s, 7 claims.
+*Pride and Prejudice* (Jane Austen; v4 held-out book): 61 chapters, 121,681 words, 25 characters listed. Extractor `rules-v6` (pronouns inferred, none on the sheets), 3.91 s, 7 claims.
 
 Source https://www.gutenberg.org/cache/epub/42671/pg42671.txt (sha256 matches the labelled file).
 

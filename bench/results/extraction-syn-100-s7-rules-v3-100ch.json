@@ -2,7 +2,7 @@
   "corpus": "syn-100-s7",
   "generator": {
     "name": "novelforge.bench.generate",
-    "version": 3,
+    "version": 4,
     "seed": 7,
     "chapters": 100
   },
@@ -10,16 +10,16 @@
   "value_check": true,
   "cache": null,
   "chapters": 100,
-  "seconds": 0.32,
+  "seconds": 1.12,
   "claims": 279,
   "scored": {
     "overall": {
-      "tp": 226,
-      "fp": 1,
+      "tp": 227,
+      "fp": 0,
       "fn": 57,
-      "precision": 0.9956,
-      "recall": 0.7986,
-      "f1": 0.8863
+      "precision": 1.0,
+      "recall": 0.7993,
+      "f1": 0.8885
     },
     "ability": {
       "tp": 28,
@@ -54,12 +54,12 @@
       "f1": 0.7347
     },
     "hair_color": {
-      "tp": 17,
-      "fp": 1,
+      "tp": 18,
+      "fp": 0,
       "fn": 6,
-      "precision": 0.9444,
-      "recall": 0.7391,
-      "f1": 0.8293
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571
     },
     "handedness": {
       "tp": 8,
@@ -147,6 +147,10 @@
       "found": 1,
       "total": 1
     },
+    "hair_color/dyed": {
+      "found": 1,
+      "total": 1
+    },
     "hair_color/name_had": {
       "found": 8,
       "total": 8
@@ -216,18 +220,10 @@
     "rejected_by_reason": {},
     "errors": []
   },
-  "false_positive_examples": [
-    {
-      "chapter": 52,
-      "predicate": "hair_color",
-      "value": "blond",
-      "subject": "Jorin Ashley",
-      "quote": "Jorin dyed his hair blond"
-    }
-  ],
+  "false_positive_examples": [],
   "environment": {
     "machine": "arm64",
     "python": "3.12.10",
-    "commit": "d7830ba"
+    "commit": "e709488"
   }
 }

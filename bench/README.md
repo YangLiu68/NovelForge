@@ -10,6 +10,10 @@
   chapter count, filler and generator version produce byte-identical files.
 - `results/` holds the JSON and markdown output of each benchmark run, with the git commit,
   machine and settings recorded inside the JSON.
+- `real/` is the real-prose benchmark: four public-domain novels (downloaded into
+  `corpora/real/` at run time), their cast lists and the hand labels; see
+  [real/README.md](real/README.md). `results/real-claims/` keeps the claims of each frozen
+  extractor version so old versions can be rescored without checking them out.
 
 | Corpus | Command | Used for |
 |---|---|---|
@@ -17,3 +21,4 @@
 | `syn-1000-s7` | `novelforge gen-corpus --chapters 1000 --seed 7` | retrieval and consistency at scale |
 | `syn-40-s7` | `novelforge gen-corpus --chapters 40 --seed 7` | local-LLM extraction slice |
 | `load-100-s7`, `load-1000-s7` | `... --filler 25` (about 1,250 words per chapter) | load tests |
+| `corpora/real/*.txt` | downloaded by `novelforge bench-real BOOK` | real-prose precision and recall |

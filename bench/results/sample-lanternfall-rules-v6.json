@@ -1,0 +1,52 @@
+{
+  "findings": 4,
+  "true_positives": 4,
+  "false_positives": 0,
+  "duplicates": 0,
+  "false_negatives": 1,
+  "precision": 1.0,
+  "recall_all": 0.8,
+  "recall_detectable": 1.0,
+  "negatives": 4,
+  "negatives_violated": 0,
+  "cited_spans": 7,
+  "cited_spans_correct": 7,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 7,
+  "labelled_spans_total": 7,
+  "citation_recall": 1.0,
+  "by_category": {
+    "identity": {
+      "labelled": 4,
+      "detected": 3,
+      "fp": 0,
+      "recall": 0.75
+    },
+    "timeline": {
+      "labelled": 1,
+      "detected": 1,
+      "fp": 0,
+      "recall": 1.0
+    }
+  },
+  "matched": [
+    "GT1",
+    "GT2",
+    "GT3",
+    "GT4"
+  ],
+  "missed": [
+    {
+      "id": "GT5",
+      "category": "identity",
+      "kind": "attribute_conflict",
+      "reason": "a pronoun plus an indirect phrasing (\"had gone the red of rust\"); the rule extractor resolves pronouns only for its fixed phrasings, and this is not one of them"
+    }
+  ],
+  "false_positive_findings": [],
+  "violated_negatives": [],
+  "sample": "lanternfall",
+  "extractor": "rules-v6",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}

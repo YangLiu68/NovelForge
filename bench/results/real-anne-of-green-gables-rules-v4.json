@@ -14,7 +14,7 @@
   "chapters": 38,
   "words": 101964,
   "characters": 23,
-  "seconds": 0.0,
+  "seconds": 0.02,
   "claims": 19,
   "precision": {
     "overall": {
@@ -466,6 +466,6 @@
   "environment": {
     "machine": "arm64",
     "python": "3.12.10",
-    "commit": "f29b4d3"
+    "commit": "9cc3b88"
   }
 }

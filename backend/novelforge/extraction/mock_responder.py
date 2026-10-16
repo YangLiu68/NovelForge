@@ -1,6 +1,6 @@
 """A mock LLM that answers extraction prompts using the rule extractor.
 
-It reads the character list and text back out of the prompt, runs `rules-v2` on the text and
+It reads the character list and text back out of the prompt, runs the rule extractor on the text and
 returns the facts in the LLM schema. This exercises the whole LLM path (windows, schema
 validation, quote verification, persistence, review) offline and deterministically. Benchmarks
 label it `mock`; its quality is, by construction, the rule extractor's.

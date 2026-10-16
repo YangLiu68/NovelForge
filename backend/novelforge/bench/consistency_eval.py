@@ -13,7 +13,7 @@ it checks chapter c:
 
 Findings are kept only if they involve chapter c, then de-duplicated across chapters and scored
 against the labelled ground truth (core/evaluation.py). The extractor is a separate axis:
-rules-v2, the rule-backed mock, or a real LLM.
+the rule extractor, the rule-backed mock, or a real LLM.
 """
 
 from __future__ import annotations

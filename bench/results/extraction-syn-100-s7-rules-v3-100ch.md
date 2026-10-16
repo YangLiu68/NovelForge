@@ -1,13 +1,13 @@
-Corpus `syn-100-s7` (100 chapters), extractor `rules-v3`, 0.32 s.
+Corpus `syn-100-s7` (100 chapters), extractor `rules-v3`, 1.12 s.
 
 | Predicate | TP | FP | FN | Precision | Recall | F1 |
 |---|---|---|---|---|---|---|
-| overall | 226 | 1 | 57 | 0.9956 | 0.7986 | 0.8863 |
+| overall | 227 | 0 | 57 | 1.0 | 0.7993 | 0.8885 |
 | ability | 28 | 0 | 0 | 1.0 | 1.0 | 1.0 |
 | age | 32 | 0 | 0 | 1.0 | 1.0 | 1.0 |
 | birthplace | 14 | 0 | 13 | 1.0 | 0.5185 | 0.6829 |
 | eye_color | 18 | 0 | 13 | 1.0 | 0.5806 | 0.7347 |
-| hair_color | 17 | 1 | 6 | 0.9444 | 0.7391 | 0.8293 |
+| hair_color | 18 | 0 | 6 | 1.0 | 0.75 | 0.8571 |
 | handedness | 8 | 0 | 25 | 1.0 | 0.2424 | 0.3902 |
 | location | 105 | 0 | 0 | 1.0 | 1.0 | 1.0 |
 | status | 4 | 0 | 0 | 1.0 | 1.0 | 1.0 |

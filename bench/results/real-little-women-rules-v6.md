@@ -1,4 +1,4 @@
-*Little Women* (Louisa May Alcott; dev book): 47 chapters, 185,677 words, 23 characters listed. Extractor `rules-v6`, 6.67 s, 33 claims.
+*Little Women* (Louisa May Alcott; dev book): 47 chapters, 185,677 words, 23 characters listed. Extractor `rules-v6`, 6.45 s, 33 claims.
 
 Source https://www.gutenberg.org/cache/epub/514/pg514.txt (sha256 matches the labelled file).
 
