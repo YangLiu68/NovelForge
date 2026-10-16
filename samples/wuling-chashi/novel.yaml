@@ -1,0 +1,51 @@
+# Original Chinese held-out sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+# Written by a separate agent that did not see the extractor or the other Chinese samples; scored once
+# against rules-zh-v2 after it was frozen (commit 397ad1f), see BENCHMARK.md section 9.
+# Planted continuity contradictions and look-alike traps are labelled in ground_truth.yaml.
+slug: wuling-chashi
+title: 雾岭茶事
+language: zh
+synopsis: >-
+  八十二岁的茶山主人苏怀山在清明前把家人叫上雾岭：管公司的孙女苏晚棠、想把山卖给度假村的孙子苏明澈、
+  头一回回国的混血外孙女叶芙、苏家的律师何景行，还有替他守了二十年茶山的布朗族汉子岩温。
+  老人当众念完遗嘱的那天夜里离世，一场雨季塌方和一年的春茶，把这几个人重新拴在了同一座山上。
+characters:
+  - name: 苏晚棠
+    aliases: [晚棠, 苏总]
+    description: 苏怀山的孙女，在昆明打理苏家茶叶公司，精明能干，外号“铁算盘”。
+    attributes:
+      pronouns: she/her
+      birthplace: 昆明
+      eye_color: brown
+  - name: 苏怀山
+    aliases: [老爷子, 爷爷, 外公]
+    description: 雾岭茶山的主人，十六岁挑担进山，一手种出满山茶树，账全记在脑子里。
+    attributes:
+      pronouns: he/him
+  - name: 苏明澈
+    aliases: [阿澈, 明澈]
+    description: 苏怀山唯一的孙子，在昆明长大，一心想把雾岭卖给度假村。
+    attributes:
+      pronouns: he/him
+  - name: 叶芙
+    aliases: [小芙]
+    description: 苏怀山的外孙女，母亲是苏家小女儿、父亲是法国人，在波尔多长大，第一次回雾岭。
+    attributes:
+      pronouns: she/her
+      eye_color: green
+  - name: 何景行
+    aliases: [景行, 何律师]
+    description: 苏家的律师，外婆是俄罗斯人，说话不紧不慢，遗嘱执行人。
+    attributes:
+      pronouns: he/him
+      hair_color: black
+  - name: 岩温
+    aliases: [岩温哥]
+    description: 布朗族茶农，跟着苏怀山守了二十年茶山，雾岭上说话最管用的人之一。
+    attributes:
+      pronouns: he/him
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md
+  - ch04.md

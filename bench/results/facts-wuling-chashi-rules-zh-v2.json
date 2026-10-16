@@ -1,0 +1,310 @@
+{
+  "sample": "wuling-chashi",
+  "extractor": "rules-zh-v2",
+  "facts": 61,
+  "claims": 38,
+  "matched": 36,
+  "precision": 0.947,
+  "strict_precision": 0.868,
+  "recall": 0.59,
+  "recall_asserted": 0.625,
+  "modality_accuracy": 0.917,
+  "by_predicate": {
+    "ability": {
+      "facts": 19,
+      "found": 6,
+      "claims": 6
+    },
+    "age": {
+      "facts": 12,
+      "found": 10,
+      "claims": 11
+    },
+    "birthplace": {
+      "facts": 4,
+      "found": 2,
+      "claims": 2
+    },
+    "eye_color": {
+      "facts": 6,
+      "found": 6,
+      "claims": 6
+    },
+    "hair_color": {
+      "facts": 12,
+      "found": 8,
+      "claims": 9
+    },
+    "handedness": {
+      "facts": 2,
+      "found": 1,
+      "claims": 1
+    },
+    "status": {
+      "facts": 6,
+      "found": 3,
+      "claims": 3
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 1,
+      "subject": "苏怀山",
+      "predicate": "age",
+      "value": "36",
+      "modality": "asserted",
+      "quote": "苏怀山上了雾岭，今年三十六岁",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 3,
+      "subject": "叶芙",
+      "predicate": "hair_color",
+      "value": "red",
+      "modality": "asserted",
+      "quote": "叶芙骑上那匹白马冲进了雨里，栗红色的头发",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [
+    {
+      "chapter": 3,
+      "subject": "苏明澈",
+      "predicate": "hair_color",
+      "value": "black",
+      "modality": "asserted",
+      "quote": "苏明澈把一头黑发",
+      "resolved": null,
+      "fact": 34,
+      "gold_modality": "recalled"
+    },
+    {
+      "chapter": 3,
+      "subject": "何景行",
+      "predicate": "eye_color",
+      "value": "blue",
+      "modality": "hedged",
+      "quote": "何景行那双蓝眼睛",
+      "resolved": null,
+      "fact": 49,
+      "gold_modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "苏明澈",
+      "predicate": "hair_color",
+      "value": "silver",
+      "modality": "asserted",
+      "quote": "他那头银发",
+      "resolved": "他",
+      "fact": 55,
+      "gold_modality": "recalled"
+    }
+  ],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "何景行",
+      "predicate": "hair_color",
+      "value": "black",
+      "text": "他一头黑发",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "叶芙",
+      "predicate": "hair_color",
+      "value": "auburn",
+      "text": "她的眼睛是绿的，浅浅的一汪，像刚冒头的茶芽；头发是栗红色的",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "岩温",
+      "predicate": "birthplace",
+      "value": "景迈山",
+      "text": "岩温是布朗族人，生在景迈山",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "岩温",
+      "predicate": "age",
+      "value": 36,
+      "text": "岩温是布朗族人，生在景迈山，很早就跟着苏怀山上了雾岭，今年三十六岁",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "叶芙",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "叶芙往后退了半步：“我不会骑马",
+      "modality": "reported"
+    },
+    {
+      "chapter": 1,
+      "subject": "叶芙",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "她确实不会",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "苏晚棠",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "苏晚棠踩着马镫翻身上了白马",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "苏晚棠",
+      "predicate": "ability:ride",
+      "value": "learned",
+      "text": "她小时候每年暑假都在山上过，骑马是爷爷手把手教会的",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "何景行",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "何景行犹豫了一下，把公文包挂到鞍子上，也上了马",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "岩温",
+      "predicate": "ability:swim",
+      "value": "cannot",
+      "text": "他说，“我不会水",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "叶芙",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "叶芙骑着白马",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "苏怀山",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "他从上衣口袋里摸出老花镜戴上，把信纸凑到窗前的亮处，一行一行地往下看",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "苏怀山",
+      "predicate": "status",
+      "value": "alive",
+      "text": "趁我还活着",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "何景行",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "何景行没再多问，拆开随身带来的牛皮纸袋，抽出几页纸，清了清嗓子，一条一条地念下去",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "苏怀山",
+      "predicate": "age",
+      "value": 82,
+      "text": "苏怀山咽了气，享年八十二岁",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "何景行",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "何律师亲口念的",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "苏晚棠",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "苏晚棠没吭声，把合同拿过去，一页一页翻着看",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "何景行",
+      "predicate": "status",
+      "value": "dead",
+      "text": "是何律师的车，”那人在电话里喊，“埋了大半截，人怕是没了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "叶芙",
+      "predicate": "hair_color",
+      "value": "auburn",
+      "text": "叶芙骑上那匹白马冲进了雨里，栗红色的头发",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "叶芙",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "她是伏在马背上",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "苏怀山",
+      "predicate": "status",
+      "value": "dead",
+      "text": "老爷子走了一年多了",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "苏明澈",
+      "predicate": "hair_color",
+      "value": "black",
+      "text": "他那头银发早剪了，如今又是一头黑发",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "岩温",
+      "predicate": "handedness",
+      "value": "right",
+      "text": "他是个右撇子",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "岩温",
+      "predicate": "birthplace",
+      "value": "勐海",
+      "text": "岩温哥是勐海人",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "苏明澈",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "苏明澈翻了翻本子，报了个数",
+      "modality": "asserted"
+    }
+  ]
+}

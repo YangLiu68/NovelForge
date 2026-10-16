@@ -1,0 +1,230 @@
+# Labelled ground truth for the 雾岭茶事 held-out sample.
+# Written independently of the extractor; `evidence[].text` and `facts[].text` are exact
+# substrings of that chapter's body (after the front matter).
+# A finding matches a contradiction when kind, subject and predicate all agree.
+contradictions:
+  - id: G1
+    kind: attribute_conflict
+    subject: 何景行
+    predicate: eye_color
+    note: 第1章旁白说何景行的眼睛是灰色的，第3章卫生院里又写成蓝眼睛；人物设定没有写眼睛颜色。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "何景行的眼睛是灰色的"}
+      - {chapter: 3, text: "何景行那双蓝眼睛"}
+  - id: G2
+    kind: attribute_conflict
+    subject: 岩温
+    predicate: handedness
+    note: 第1章明说岩温是左撇子，第4章炒茶时只用代词“他”，却说他从小就是右撇子。
+    phrasing: pronoun
+    evidence:
+      - {chapter: 1, text: "岩温是个左撇子"}
+      - {chapter: 4, text: "他是个右撇子"}
+  - id: G3
+    kind: canon_conflict
+    subject: 苏晚棠
+    predicate: birthplace
+    note: 人物设定写苏晚棠出生在昆明，第3章旁白却说她生在大理、三岁才搬去昆明。
+    phrasing: direct
+    evidence:
+      - {chapter: 3, text: "苏晚棠生在大理"}
+  - id: G4
+    kind: canon_conflict
+    subject: 何景行
+    predicate: hair_color
+    note: 人物设定和第1章都是黑发，第4章旁白写成棕色的头发，中间没有染发。
+    phrasing: direct
+    evidence:
+      - {chapter: 4, text: "何景行那头棕色的头发"}
+  - id: G5
+    kind: age_timeline
+    subject: 苏明澈
+    predicate: age
+    note: 第0天二十四岁，第410天（一年零一个多月后）却是二十八岁，最多应为二十五或二十六岁。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "苏明澈今年二十四岁"}
+      - {chapter: 4, text: "苏明澈今年二十八岁"}
+  - id: G6
+    kind: dead_character_active
+    subject: 苏怀山
+    predicate: status
+    note: 苏怀山在第2章清明夜里咽气，第4章同章也说老爷子走了一年多，旁白却让他坐在上首转紫砂杯、听报价、点头，并非回忆或幻觉。
+    phrasing: direct
+    evidence:
+      - {chapter: 2, text: "苏怀山咽了气，享年八十二岁"}
+      - {chapter: 4, text: "苏怀山坐在上首的竹椅里，手里慢慢转着那只用了几十年的紫砂杯"}
+  - id: G7
+    kind: ability_conflict
+    subject: 岩温
+    predicate: ability:swim
+    note: 第1章岩温自己说、旁白也确认他不会水；第3章却游得又快又稳横渡涨水的河，其间没有学过游泳。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "岩温不会水"}
+      - {chapter: 3, text: "岩温游得又快又稳"}
+  - id: G8
+    kind: ability_conflict
+    subject: 苏怀山
+    predicate: ability:read
+    note: 第1章旁白说苏怀山不识字，第2章他却戴上老花镜自己一行一行看完女儿的信；“读”只是由动作暗示，没有出现“读/识字”等词。
+    phrasing: indirect
+    evidence:
+      - {chapter: 1, text: "苏怀山不识字"}
+      - {chapter: 2, text: "他从上衣口袋里摸出老花镜戴上，把信纸凑到窗前的亮处，一行一行地往下看"}
+  - id: G9
+    kind: canon_conflict
+    subject: 叶芙
+    predicate: eye_color
+    note: 人物设定（以及第1、3章）是绿眼睛，第2章只用代词“她”写成琥珀色的眼睛。
+    phrasing: pronoun
+    evidence:
+      - {chapter: 2, text: "她的眼睛是琥珀色的"}
+
+# Look-alikes that are NOT contradictions. Any finding on the same subject and predicate
+# counts as a false positive.
+negatives:
+  - id: N1
+    subject: 苏晚棠
+    predicate: eye_color
+    note: 苏晚棠自己的眼睛是深褐色，与设定一致；第3章同一句里的“绿眼睛”属于叶芙，不是苏晚棠的。
+    evidence:
+      - {chapter: 1, text: "苏晚棠的眼睛是深褐色的"}
+      - {chapter: 3, text: "苏晚棠终于抬起头，对上叶芙那双绿眼睛"}
+  - id: N2
+    subject: 苏明澈
+    predicate: hair_color
+    note: >-
+      第1章黑发；第3章书面上明写他把黑发染成了银白色（同句的“灰蒙蒙”是雨）；第4章银发剪掉、
+      又是黑发；“够他再白一回头”是比喻。每次变化都写在页面上，不是矛盾。
+    evidence:
+      - {chapter: 1, text: "苏明澈今年二十四岁，一头黑发"}
+      - {chapter: 3, text: "苏明澈把一头黑发染成了银白色"}
+      - {chapter: 3, text: "苏明澈站在门口，那头银白的头发"}
+      - {chapter: 4, text: "他那头银发早剪了，如今又是一头黑发"}
+      - {chapter: 4, text: "够他再白一回头"}
+  - id: N3
+    subject: 苏晚棠
+    predicate: age
+    note: 第0天二十九岁、第410天三十岁，中间过了生日，符合时间差；“三岁那年”是回忆中的年龄。
+    evidence:
+      - {chapter: 1, text: "苏晚棠今年二十九岁"}
+      - {chapter: 3, text: "苏晚棠生在大理，三岁那年"}
+      - {chapter: 4, text: "苏晚棠今年三十岁"}
+  - id: N4
+    subject: 叶芙
+    predicate: hair_color
+    note: 叶芙是栗红色头发；第3章探照灯下“看上去几乎是黑的”是光线下的含糊观感，不是事实。
+    evidence:
+      - {chapter: 1, text: "头发是栗红色的"}
+      - {chapter: 3, text: "叶芙的头发看上去几乎是黑的"}
+  - id: N5
+    subject: 叶芙
+    predicate: ability:ride
+    note: 第1章叶芙不会骑马；第2章写明岩温教了三天、她已经学会了骑马；之后第2、3章骑马都在学会之后。
+    evidence:
+      - {chapter: 1, text: "叶芙往后退了半步：“我不会骑马"}
+      - {chapter: 2, text: "叶芙已经学会了骑马"}
+      - {chapter: 3, text: "叶芙骑上那匹白马"}
+  - id: N6
+    subject: 何景行
+    predicate: status
+    note: 塌方后寨子里的人在电话里说“人怕是没了”，众人也“以为”他死了，但挖出来时他还活着，是濒死而非死亡；第4章照常出场。
+    evidence:
+      - {chapter: 3, text: "人怕是没了"}
+      - {chapter: 3, text: "都以为何景行已经死"}
+      - {chapter: 3, text: "何景行还活着"}
+  - id: N7
+    subject: 苏怀山
+    predicate: age
+    note: 第1章八十二岁，第2章（三天后）享年八十二岁，一致；“十六岁那年”是回忆中的年龄。
+    evidence:
+      - {chapter: 1, text: "苏怀山今年八十二岁"}
+      - {chapter: 1, text: "他十六岁那年"}
+      - {chapter: 2, text: "苏怀山咽了气，享年八十二岁"}
+  - id: N8
+    subject: 岩温
+    predicate: birthplace
+    note: 旁白说岩温生在景迈山；第4章“岩温哥是勐海人”是苏明澈在对白里说错的话，岩温没纠正。
+    evidence:
+      - {chapter: 1, text: "岩温是布朗族人，生在景迈山"}
+      - {chapter: 4, text: "岩温哥是勐海人"}
+  - id: N9
+    subject: 叶芙
+    predicate: status
+    note: >-
+      与叶芙同句的“走了”“人就没了”“走的时候”说的是她母亲（第1章的“走了”还是私奔离家的意思），
+      叶芙本人一直活着并在各章出场。
+    evidence:
+      - {chapter: 1, text: "母亲是苏家最小的女儿，二十多年前跟一个法国人走了"}
+      - {chapter: 2, text: "信是她母亲去年冬天在医院里写的，写完不到半个月，人就没了"}
+      - {chapter: 2, text: "你妈妈走的时候，疼吗"}
+
+# Every statement of a tracked predicate about a listed character, asserted or not.
+facts:
+  # ---- chapter 1 ----
+  - {chapter: 1, subject: 苏晚棠, predicate: age, value: 29, text: "苏晚棠今年二十九岁", modality: asserted}
+  - {chapter: 1, subject: 何景行, predicate: age, value: 33, text: "他给苏家当了七年律师，今年三十三岁", modality: asserted}
+  - {chapter: 1, subject: 何景行, predicate: eye_color, value: grey, text: "何景行的眼睛是灰色的", modality: asserted}
+  - {chapter: 1, subject: 何景行, predicate: hair_color, value: black, text: "他一头黑发", modality: asserted}
+  - {chapter: 1, subject: 叶芙, predicate: birthplace, value: 波尔多, text: "叶芙生在波尔多", modality: asserted}
+  - {chapter: 1, subject: 叶芙, predicate: age, value: 26, text: "叶芙今年二十六岁", modality: asserted}
+  - {chapter: 1, subject: 叶芙, predicate: eye_color, value: green, text: "她的眼睛是绿的", modality: asserted}
+  - {chapter: 1, subject: 叶芙, predicate: hair_color, value: auburn, text: "她的眼睛是绿的，浅浅的一汪，像刚冒头的茶芽；头发是栗红色的", modality: asserted}
+  - {chapter: 1, subject: 岩温, predicate: birthplace, value: 景迈山, text: "岩温是布朗族人，生在景迈山", modality: asserted}
+  - {chapter: 1, subject: 岩温, predicate: age, value: 36, text: "岩温是布朗族人，生在景迈山，很早就跟着苏怀山上了雾岭，今年三十六岁", modality: asserted}
+  - {chapter: 1, subject: 岩温, predicate: handedness, value: left, text: "岩温是个左撇子", modality: asserted}
+  - {chapter: 1, subject: 叶芙, predicate: "ability:ride", value: cannot, text: "叶芙往后退了半步：“我不会骑马", modality: reported}
+  - {chapter: 1, subject: 叶芙, predicate: "ability:ride", value: cannot, text: "她确实不会", modality: asserted}
+  - {chapter: 1, subject: 苏晚棠, predicate: "ability:ride", value: used, text: "苏晚棠踩着马镫翻身上了白马", modality: asserted}
+  - {chapter: 1, subject: 苏晚棠, predicate: "ability:ride", value: learned, text: "她小时候每年暑假都在山上过，骑马是爷爷手把手教会的", modality: recalled}
+  - {chapter: 1, subject: 何景行, predicate: "ability:ride", value: used, text: "何景行犹豫了一下，把公文包挂到鞍子上，也上了马", modality: asserted}
+  - {chapter: 1, subject: 岩温, predicate: "ability:swim", value: cannot, text: "他说，“我不会水", modality: reported}
+  - {chapter: 1, subject: 岩温, predicate: "ability:swim", value: cannot, text: "岩温不会水", modality: asserted}
+  - {chapter: 1, subject: 苏怀山, predicate: age, value: 82, text: "苏怀山今年八十二岁", modality: asserted}
+  - {chapter: 1, subject: 苏怀山, predicate: hair_color, value: white, text: "苏怀山今年八十二岁，满头白发", modality: asserted}
+  - {chapter: 1, subject: 苏怀山, predicate: age, value: 16, text: "他十六岁那年", modality: recalled}
+  - {chapter: 1, subject: 苏怀山, predicate: "ability:read", value: cannot, text: "苏怀山不识字", modality: asserted}
+  - {chapter: 1, subject: 苏明澈, predicate: age, value: 24, text: "苏明澈今年二十四岁", modality: asserted}
+  - {chapter: 1, subject: 苏明澈, predicate: hair_color, value: black, text: "苏明澈今年二十四岁，一头黑发", modality: asserted}
+  - {chapter: 1, subject: 苏晚棠, predicate: eye_color, value: brown, text: "苏晚棠的眼睛是深褐色的", modality: asserted}
+  # ---- chapter 2 ----
+  - {chapter: 2, subject: 叶芙, predicate: "ability:ride", value: learned, text: "叶芙已经学会了骑马", modality: asserted}
+  - {chapter: 2, subject: 岩温, predicate: "ability:ride", value: used, text: "岩温骑着那匹黑马", modality: asserted}
+  - {chapter: 2, subject: 叶芙, predicate: "ability:ride", value: used, text: "叶芙骑着白马", modality: asserted}
+  - {chapter: 2, subject: 苏怀山, predicate: "ability:read", value: used, text: "他从上衣口袋里摸出老花镜戴上，把信纸凑到窗前的亮处，一行一行地往下看", modality: asserted}
+  - {chapter: 2, subject: 叶芙, predicate: eye_color, value: amber, text: "她的眼睛是琥珀色的", modality: asserted}
+  - {chapter: 2, subject: 苏怀山, predicate: status, value: alive, text: "趁我还活着", modality: reported}
+  - {chapter: 2, subject: 何景行, predicate: "ability:read", value: used, text: "何景行没再多问，拆开随身带来的牛皮纸袋，抽出几页纸，清了清嗓子，一条一条地念下去", modality: asserted}
+  - {chapter: 2, subject: 苏怀山, predicate: status, value: dead, text: "苏怀山咽了气", modality: asserted}
+  - {chapter: 2, subject: 苏怀山, predicate: age, value: 82, text: "苏怀山咽了气，享年八十二岁", modality: asserted}
+  # ---- chapter 3 ----
+  - {chapter: 3, subject: 苏明澈, predicate: hair_color, value: black, text: "苏明澈把一头黑发", modality: recalled}
+  - {chapter: 3, subject: 苏明澈, predicate: hair_color, value: silver, text: "苏明澈把一头黑发染成了银白色", modality: asserted}
+  - {chapter: 3, subject: 何景行, predicate: "ability:read", value: used, text: "何律师亲口念的", modality: reported}
+  - {chapter: 3, subject: 苏晚棠, predicate: "ability:read", value: used, text: "苏晚棠没吭声，把合同拿过去，一页一页翻着看", modality: asserted}
+  - {chapter: 3, subject: 叶芙, predicate: eye_color, value: green, text: "叶芙那双绿眼睛", modality: asserted}
+  - {chapter: 3, subject: 苏晚棠, predicate: birthplace, value: 大理, text: "苏晚棠生在大理", modality: asserted}
+  - {chapter: 3, subject: 苏晚棠, predicate: age, value: 3, text: "苏晚棠生在大理，三岁那年", modality: recalled}
+  - {chapter: 3, subject: 何景行, predicate: status, value: dead, text: "是何律师的车，”那人在电话里喊，“埋了大半截，人怕是没了", modality: reported}
+  - {chapter: 3, subject: 何景行, predicate: status, value: dead, text: "都以为何景行已经死", modality: hedged}
+  - {chapter: 3, subject: 叶芙, predicate: "ability:ride", value: used, text: "叶芙骑上那匹白马", modality: asserted}
+  - {chapter: 3, subject: 叶芙, predicate: hair_color, value: auburn, text: "叶芙骑上那匹白马冲进了雨里，栗红色的头发", modality: asserted}
+  - {chapter: 3, subject: 岩温, predicate: "ability:swim", value: used, text: "岩温游得又快又稳", modality: asserted}
+  - {chapter: 3, subject: 叶芙, predicate: "ability:ride", value: used, text: "她是伏在马背上", modality: asserted}
+  - {chapter: 3, subject: 何景行, predicate: status, value: alive, text: "何景行还活着", modality: asserted}
+  - {chapter: 3, subject: 叶芙, predicate: hair_color, value: black, text: "叶芙的头发看上去几乎是黑的", modality: hedged}
+  - {chapter: 3, subject: 何景行, predicate: eye_color, value: blue, text: "何景行那双蓝眼睛", modality: asserted}
+  - {chapter: 3, subject: 苏明澈, predicate: hair_color, value: silver, text: "苏明澈站在门口，那头银白的头发", modality: asserted}
+  # ---- chapter 4 ----
+  - {chapter: 4, subject: 苏怀山, predicate: status, value: dead, text: "老爷子走了一年多了", modality: asserted}
+  - {chapter: 4, subject: 苏晚棠, predicate: age, value: 30, text: "苏晚棠今年三十岁", modality: asserted}
+  - {chapter: 4, subject: 叶芙, predicate: age, value: 27, text: "叶芙也二十七岁了", modality: asserted}
+  - {chapter: 4, subject: 苏明澈, predicate: age, value: 28, text: "苏明澈今年二十八岁", modality: asserted}
+  - {chapter: 4, subject: 苏明澈, predicate: hair_color, value: silver, text: "他那头银发早剪了", modality: recalled}
+  - {chapter: 4, subject: 苏明澈, predicate: hair_color, value: black, text: "他那头银发早剪了，如今又是一头黑发", modality: asserted}
+  - {chapter: 4, subject: 岩温, predicate: handedness, value: right, text: "他是个右撇子", modality: asserted}
+  - {chapter: 4, subject: 岩温, predicate: birthplace, value: 勐海, text: "岩温哥是勐海人", modality: reported}
+  - {chapter: 4, subject: 何景行, predicate: hair_color, value: brown, text: "何景行那头棕色的头发", modality: asserted}
+  - {chapter: 4, subject: 苏明澈, predicate: "ability:read", value: used, text: "苏明澈翻了翻本子，报了个数", modality: asserted}

@@ -60,6 +60,7 @@ def test_unknown_sample(client):
         "linjiang-biaoqi",
         "qingshi-du",
         "wugang-xinzha",
+        "wuling-chashi",
         "xueye-dangpu",
         "xueye-dangpu-revised",
     ]
