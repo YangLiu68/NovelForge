@@ -16,12 +16,13 @@ Tests never call a hosted model and never need an API key: the LLM is the determ
 the embedder is the hash mock. Database tests create a fresh `novelforge_test` database per
 session and truncate tables before each test.
 
-## Backend tests (193)
+## Backend tests (259)
 
 | File | Covers |
 |---|---|
 | `test_text.py` | normalisation, paragraph offsets, number words, dialogue detection, sentence bounds; Chinese sentences, 「」 dialogue, bigram tokens, language detection, 第一章 headings |
 | `test_extraction.py` | every rule, aliases (case, ambiguity, implied first names), modality, traps (negation, "ten minutes late", word boundaries), effective time, deterministic IDs, rules-v3 patterns ("At fifty", chained verbs, "dyed her hair", in-chapter day offsets) |
+| `test_extraction_zh.py` | Chinese numerals (ranges refused); every predicate next to a name; one subject across clauses; look-alikes (another person's eyes or hair, 七八岁, a birthday, 红了眼睛, 差点冻死, 死了丈夫, 她过世的母亲, intention, generic places); modality (dialogue, perception and rumour scope, conditions, dreams, 那年, an age as a time adverbial, 像从前一样); pronouns only when unambiguous (gender, previous sentence across a paragraph, chains, a person noun in between); dyeing as a change; presence; Chinese finding wording; the v2 and v3 phrasings; the dev sample's scores |
 | `test_coref.py` | pronoun and "with"-phrase attribution and every abstention (two candidates, unknown pronouns, person noun, dialogue, plural "they"), nearest-sentence rule, feature lists, ages in apposition, word sense and negation, hedge scope, time clauses, titles, sentence breaks after "Mrs.", pronoun inference, colour families |
 | `test_real_text.py` | Gutenberg stripping, unwrapping, chapter split; the real-prose scorer end to end offline (labels, to-do list, precision, recall) |
 | `test_contradictions.py` | attribute and canon conflicts, thresholds, ages vs elapsed days, dead characters (flashback, memory, unknown time), travel times, abilities |
@@ -70,14 +71,15 @@ jobs (timings are not benchmarks).
 | Check | Result |
 |---|---|
 | `audit-story --replay` on the three Chinese samples | dev 4/6 problems, 1/8 traps; held-out 2/6, 1/4; revised 0/14 traps |
+| `eval-sample` / `eval-facts` on the Chinese samples (rules-zh-v3) | dev 7/7, 0 false; held out (blind, one version each) v1 3/9, v2 5/9, v3 5/9 with 2, 2, 3 false findings; claim precision 0.95 to 1.0 |
 | `eval-sample` (in memory and through the database, rules-v6) | 4 TP, 0 FP, 1 FN (pronoun plus indirect phrasing), 0 / 4 negatives flagged, citation precision 1.0 |
-| ruff check / ruff format --check | clean / 111 files formatted |
-| pytest | 193 passed in 54.2 s (machine under load) |
+| ruff check / ruff format --check | clean / 106 files formatted |
+| pytest | 259 passed (machine under load) |
 | tsc | no errors |
 | Node unit tests | 16 / 16 passed |
 | vite build | succeeded (425 kB JS, 134 kB gzip) |
 | npm audit | 0 vulnerabilities |
-| Playwright | 14 passed in 19.9 s |
+| Playwright | 14 passed in 22.9 s |
 
 ## Not executed
 

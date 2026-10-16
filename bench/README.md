@@ -20,6 +20,11 @@
   version; `novelforge audit-story SAMPLE --llm ollama:qwen2.5:7b --replay` re-scores the recorded
   responses with the current code.
 
+- Chinese continuity facts (BENCHMARK.md section 9) run on `../samples/wugang-xinzha` (dev) and
+  the held-out `linjiang-biaoqi`, `wuling-chashi`, `taiye-qiushen`, labelled in each sample's
+  `ground_truth.yaml` (`contradictions`, `negatives`, `facts`). `results/findings-*-rules-zh-vN`
+  and `results/facts-*-rules-zh-vN` are the scores per extractor version.
+
 | Corpus | Command | Used for |
 |---|---|---|
 | `syn-100-s7` | `novelforge gen-corpus --chapters 100 --seed 7` | retrieval, extraction, consistency |

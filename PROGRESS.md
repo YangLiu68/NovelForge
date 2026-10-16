@@ -1,5 +1,32 @@
 # Progress log
 
+## 2026-10-16 (later): Chinese continuity facts (rules-zh)
+
+The contradiction checks (eye and hair colour, age against elapsed time, the dead reappearing,
+skills used before they are learned, the character sheet) only read English. They now read
+Chinese as well.
+
+- **Extractor** (`core/extraction_zh.py`): rules anchored on names and aliases with checks on
+  the words between the name and the fact; Chinese numerals; Chinese modality; 她/他 resolved
+  only when unambiguous; dyeing as a change; `presence` (on stage) for the dead-character check.
+  Findings on a Chinese novel are worded in Chinese (`core/findings_zh.py`), and the draft
+  critic counts Chinese characters and reports the right extractor.
+- **Evaluation.** `novelforge eval-facts` scores claims against a sample's hand-labelled `facts`.
+  Dev sample 雾港信札 (written with v1): 7/7 contradictions, 0 false, claim precision 1.0,
+  recall 0.90. Three held-out novels, each written by a separate agent session that did not see
+  the extractor and scored once with the version frozen before it: v1 3/9 (2 false findings),
+  v2 5/9 (2), v3 5/9 (3). For v3, two correct findings were first scored as false: the labels put
+  the agreeing sentence last. The label order was fixed and the as-labelled score kept. Blind
+  claim precision 0.83 to 1.0, recall 0.39 to 0.62. The remaining misses and false findings are
+  phrasings outside the rules (being taught a skill, a dye revealed later, roundabout births);
+  BENCHMARK.md section 9.
+- **Not done.** The motive and plot rules proposed after the story-logic held-out run were
+  checked against the recorded answers and not applied. The simplest one (a note cited as both
+  reason and conflict cannot be the reason) would not have found H1 on 青石渡 by itself, since a
+  second cited note restates the conflict. It would also have added a false alarm on the
+  revision, where the model cites the cousin's real motive both ways. The LLM extraction prompt
+  is still English-only.
+
 ## 2026-10-16: story logic and Chinese
 
 The user asked for more than surface contradictions: check whether each character's actions
@@ -12,7 +39,7 @@ suspense), for Chinese web novels.
 - **Chinese text.** Sentences, dialogue (“”「」『』), 第X章 headings and line-per-paragraph
   plain text, character counts, bigram tokens, and full-text search that indexes Chinese bigrams
   as ASCII tokens (PostgreSQL's parser drops Chinese characters under the C locale; migration
-  0008). The rule extractor stays English-only.
+  0008). (The rule extractor became bilingual later the same day, see above.)
 - **Story-logic audit** (`backend/novelforge/narrative/`): character notes, beats and chapter
   shape per chapter; per beat, grounded sub-questions with the verdict computed by rule; later
   reveals; knowledge-source checks for secrets set down earlier; a rescue check for helpers never

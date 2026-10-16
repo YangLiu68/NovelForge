@@ -44,7 +44,9 @@ extraction and contradiction detection, including how much each kind of memory h
   hooks, and a revision plan (plant a setup, a setback that opens an opportunity, a reversal,
   past-life memory, a cliffhanger) whose items open the draft assistant.
 - **Chinese**: sentence and dialogue handling (“”「」), 第X章 headings, character counts, bigram
-  search that works under any database locale, Chinese prompts and UI for the story-logic page.
+  search that works under any database locale, a Chinese rule extractor (琥珀色的眼睛, 今年五十三了,
+  不会水, 她 resolved only when unambiguous) feeding the same contradiction checks with findings
+  explained in Chinese, and Chinese prompts and UI for the story-logic page.
 - **Draft**: a bounded plan → draft → check → revise workflow with human approval at each
   checkpoint, streamed over SSE with cancel and retry. The checker runs the contradiction
   detectors on the draft against the rest of the book and cites both sides.
@@ -65,6 +67,8 @@ extraction and contradiction detection, including how much each kind of memory h
 | *Little Women* imported with `import-text --book little-women`: facts reached through "She" or a sentence's subject say why. | "She had … sharp, gray eyes" is Jo's. Later in the paragraph, "A regular snow maiden, with blue eyes" (Amy) is a miss: the sentence has no subject to attach it to. |
 | ![Story logic: problems with the code's rationale, the model's words and the evidence](docs/images/story-problems.png) | ![Story logic: tension curve, hooks and setups](docs/images/story-pacing.png) |
 | Story logic on 雪夜当铺, replaying the recorded qwen2.5:7b run: each problem states how the verdict was reached and quotes the text. | The tension curve (flat chapters ringed), ending hooks, and whether each setup's key word comes back. |
+| ![A Chinese novel's contradiction report, explained in Chinese](docs/images/contradictions-zh.png) | |
+| A Chinese novel: the same checks, explained in Chinese, each quote linked to its sentence. | |
 
 ## Quick start (no Docker needed)
 
@@ -119,6 +123,7 @@ local on an M4 laptop:
 | False alarms (structured) | **0** findings wrong, 0 of 148 negatives flagged; whole-novel check in 0.5 s |
 | Rule extractor (synthetic) | precision 1.0, recall 0.903 (rules-v6; v3 was 0.812); similes and implications are left to the LLM |
 | **Real prose**: 4 public-domain novels, 490,000 words, every claim hand-judged | on books held out from rule development: strict precision 0.78, recall of explicit identity facts 0.20 to 0.34 (v3: 0.04 to 0.09); **0 contradiction findings, so 0 false alarms** |
+| **Chinese continuity checks** (rules-zh; 3 held-out novels written by separate agent sessions, each scored once with the version frozen before it) | planted contradictions found on unseen novels: v1 **3 / 9**, v2 **5 / 9**, v3 **5 / 9**, with 2 to 3 false findings per novel; extracted facts 95 to 100% correct, about 60% of stated facts found |
 | **Story logic** (qwen2.5:7b local, Chinese samples, prompts frozen before the held-out run) | held-out novel: **2 of 6** planted problems found (+1 at the right place with another diagnosis), **1 of 4** look-alike traps set off, about 5 noisy issues; after revising the dev novel from the audit, **0 of 14** fixed places flagged again. Claude not run |
 | Local LLM extractor (qwen2.5:3b, 15 chapters) | precision 0.667, recall 0.036: too weak to help; validation cut its false positives from 14 to 1. Claude is wired in but has not been run (no API key) |
 | Scale, 1.25 M words / 33,277 paragraphs | import 44 s, chapter save p50 247 ms, hybrid search p50 173 ms, report refresh 774 ms, 258 MB database (on a saturated shared machine) |
