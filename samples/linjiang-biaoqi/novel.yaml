@@ -1,0 +1,41 @@
+# Original Chinese held-out sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+# Written by a separate agent that did not see the Chinese extractor or the dev sample; scored once
+# against rules-zh-v1 after it was frozen (commit 0f089c6), see BENCHMARK.md section 9.
+# Planted continuity contradictions, look-alike traps and the full fact list are in ground_truth.yaml.
+slug: linjiang-biaoqi
+title: 临江镖旗
+language: zh
+synopsis: >-
+  临江城的长风镖局日渐败落。中秋前夜，一个来历不明的姑娘冒雨托镖，要把一只匣子送到云州渡口。
+  镖队翻过韩七盘踞的黑松岭，赔上了一条人命；两年后，托镖的姑娘带着伤回来，
+  长风镖局要把那笔没算完的账算清。
+characters:
+  - name: 林照雪
+    aliases: [照雪, 三小姐]
+    description: 长风镖局总镖头最小的女儿，一心想走镖。
+    attributes: {hair_color: black, eye_color: brown, pronouns: she/her}
+  - name: 苏砚
+    aliases: [苏师兄, 师兄]
+    description: 林守拙的大弟子，话少剑快，后来做了长风镖局的二镖头。
+    attributes: {birthplace: 云州, pronouns: he/him}
+  - name: 楚青萝
+    aliases: [青萝, 楚姑娘]
+    description: 雨夜上门托镖的姑娘，在大漠边上长大，手里握着一本要命的账。
+    attributes: {pronouns: she/her}
+  - name: 周铁山
+    aliases: [老周, 周镖头]
+    description: 长风镖局的老镖师，林守拙几十年的老搭档。
+    attributes: {pronouns: he/him}
+  - name: 林守拙
+    aliases: [林总镖头, 师父]
+    description: 长风镖局总镖头，林照雪的父亲，苏砚的师父。
+    attributes: {pronouns: he/him}
+  - name: 韩七
+    aliases: [韩老七, 七爷]
+    description: 盘踞黑松岭的马帮首领。
+    attributes: {eye_color: amber, pronouns: he/him}
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md
+  - ch04.md

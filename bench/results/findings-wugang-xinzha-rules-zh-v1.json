@@ -1,0 +1,54 @@
+{
+  "findings": 7,
+  "true_positives": 7,
+  "false_positives": 0,
+  "duplicates": 0,
+  "false_negatives": 0,
+  "precision": 1.0,
+  "recall_all": 1.0,
+  "recall_detectable": 1.0,
+  "negatives": 6,
+  "negatives_violated": 0,
+  "cited_spans": 13,
+  "cited_spans_correct": 13,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 13,
+  "labelled_spans_total": 13,
+  "citation_recall": 1.0,
+  "by_category": {
+    "abilities": {
+      "labelled": 1,
+      "detected": 1,
+      "fp": 0,
+      "recall": 1.0
+    },
+    "identity": {
+      "labelled": 4,
+      "detected": 4,
+      "fp": 0,
+      "recall": 1.0
+    },
+    "timeline": {
+      "labelled": 2,
+      "detected": 2,
+      "fp": 0,
+      "recall": 1.0
+    }
+  },
+  "matched": [
+    "GT1",
+    "GT2",
+    "GT3",
+    "GT4",
+    "GT5",
+    "GT6",
+    "GT7"
+  ],
+  "missed": [],
+  "false_positive_findings": [],
+  "violated_negatives": [],
+  "sample": "wugang-xinzha",
+  "extractor": "rules-zh-v1",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}

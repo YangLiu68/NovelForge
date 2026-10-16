@@ -1,0 +1,359 @@
+{
+  "sample": "linjiang-biaoqi",
+  "extractor": "rules-zh-v1",
+  "facts": 52,
+  "claims": 24,
+  "matched": 20,
+  "precision": 0.833,
+  "strict_precision": 0.833,
+  "recall": 0.385,
+  "recall_asserted": 0.405,
+  "modality_accuracy": 1.0,
+  "by_predicate": {
+    "ability": {
+      "facts": 19,
+      "found": 4,
+      "claims": 6
+    },
+    "age": {
+      "facts": 9,
+      "found": 4,
+      "claims": 4
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 1,
+      "claims": 1
+    },
+    "eye_color": {
+      "facts": 5,
+      "found": 3,
+      "claims": 3
+    },
+    "hair_color": {
+      "facts": 4,
+      "found": 3,
+      "claims": 4
+    },
+    "handedness": {
+      "facts": 5,
+      "found": 4,
+      "claims": 4
+    },
+    "location": {
+      "facts": 0,
+      "found": 0,
+      "claims": 1
+    },
+    "status": {
+      "facts": 5,
+      "found": 1,
+      "claims": 1
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 2,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "used",
+      "modality": "asserted",
+      "quote": "照雪起初以为这姑娘娇气，后来才知道，她骑马",
+      "resolved": "她",
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 3,
+      "subject": "苏砚",
+      "predicate": "ability:ride",
+      "value": "learned",
+      "modality": "asserted",
+      "quote": "苏砚学会了骑马",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 3,
+      "subject": "楚青萝",
+      "predicate": "location",
+      "value": "云州",
+      "modality": "asserted",
+      "quote": "青萝垂下头，\"那本账送到了云州",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 3,
+      "subject": "林照雪",
+      "predicate": "hair_color",
+      "value": "black",
+      "modality": "asserted",
+      "quote": "照雪把乌发",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "林照雪",
+      "predicate": "age",
+      "value": 17,
+      "text": "林照雪今年十七",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "林守拙",
+      "predicate": "handedness",
+      "value": "right",
+      "text": "林守拙一辈子使的都是右手刀",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "周铁山",
+      "predicate": "age",
+      "value": 53,
+      "text": "周铁山今年五十三了",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "林守拙",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "林守拙展开文书，凑在灯下看了许久",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "韩七",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "韩老七那厮，斗大的字不识一箩筐",
+      "modality": "reported"
+    },
+    {
+      "chapter": 1,
+      "subject": "楚青萝",
+      "predicate": "ability:swim",
+      "value": "cannot",
+      "text": "楚青萝不会水",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "楚青萝",
+      "predicate": "birthplace",
+      "value": "疏勒",
+      "text": "她生在疏勒",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "楚青萝",
+      "predicate": "age",
+      "value": 7,
+      "text": "她生在疏勒，七岁那年",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "你连马都不会骑",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "周铁山",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "老周骑着他那匹老青骢",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "楚青萝",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "她骑马比镖局里谁都稳",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "林照雪",
+      "predicate": "eye_color",
+      "value": "amber",
+      "text": "三小姐的眸子看上去竟像两粒琥珀",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "韩七",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "他骑在一匹通身乌黑的高头大马上",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "韩七",
+      "predicate": "birthplace",
+      "value": "漠北",
+      "text": "有人说韩七生在漠北",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "韩七",
+      "predicate": "birthplace",
+      "value": "陇西",
+      "text": "也有人说他生在陇西",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "韩七",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "韩七不识字",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "韩七",
+      "predicate": "eye_color",
+      "value": "black",
+      "text": "韩七才抬起眼来。那是一双墨一样的眼睛，黑沉沉的",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "周铁山",
+      "predicate": "status",
+      "value": "dead",
+      "text": "老周死了快两年了",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "林守拙",
+      "predicate": "status",
+      "value": "alive",
+      "text": "林守拙差点没熬过那个冬天",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 3,
+      "subject": "林照雪",
+      "predicate": "age",
+      "value": 22,
+      "text": "照雪今年二十二了",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "learned",
+      "text": "照雪跟着苏砚学会了骑马",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "如今她骑着那匹白蹄乌",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "苏砚",
+      "predicate": "age",
+      "value": 26,
+      "text": "苏砚今年二十六",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "韩七",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "韩七不识字，账上写的是什么",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "楚青萝",
+      "predicate": "hair_color",
+      "value": "black",
+      "text": "青萝的头发已经染得乌黑",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "楚青萝",
+      "predicate": "ability:swim",
+      "value": "cannot",
+      "text": "我到现在还是不会水",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "林守拙",
+      "predicate": "status",
+      "value": "alive",
+      "text": "我这把老骨头还没死呢",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "苏砚",
+      "predicate": "birthplace",
+      "value": "江陵",
+      "text": "苏砚生在江陵",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "韩七",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "韩七把那封信抖开，借着火把的光一行一行看下去",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "楚青萝",
+      "predicate": "ability:swim",
+      "value": "used",
+      "text": "她游得极快",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "她从拴马桩上扯下一匹马，翻身上去，打马冲上了江堤",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "周铁山",
+      "predicate": "status",
+      "value": "alive",
+      "text": "周镖头蹲在门槛上抽旱烟",
+      "modality": "asserted"
+    }
+  ]
+}
