@@ -57,6 +57,8 @@ from novelforge.core.coref import (
     resolve,
 )
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
+from novelforge.core.extraction_zh import EXTRACTOR_ZH, extract_claims_zh
+from novelforge.core.lang import is_chinese
 from novelforge.core.text import NUMBER_PATTERN, inside_dialogue, parse_number, sentence_bounds
 
 EXTRACTOR = "rules-v6"
@@ -425,7 +427,14 @@ def _sentence_subject(
     return owner, via
 
 
+def extractor_for(text: str) -> str:
+    """The rule extractor's name for a text: `rules-zh-*` for Chinese, `rules-v6` otherwise."""
+    return EXTRACTOR_ZH if is_chinese(text) else EXTRACTOR
+
+
 def extract_claims(chapter: ChapterRef, characters: Iterable[CharacterRef]) -> list[ExtractedClaim]:
+    if chapter.body and is_chinese(chapter.body):
+        return extract_claims_zh(chapter, characters)
     characters = list(characters)
     forms = surface_forms(characters)
     if not forms or not chapter.body:

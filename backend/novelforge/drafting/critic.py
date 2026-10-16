@@ -17,7 +17,8 @@ from sqlalchemy.orm import Session
 
 from novelforge.core.contradictions import detect_contradictions
 from novelforge.core.domain import ChapterRef
-from novelforge.core.extraction import EXTRACTOR, extract_claims
+from novelforge.core.extraction import extract_claims, extractor_for
+from novelforge.core.lang import text_length
 from novelforge.models import Chapter, WorkflowRun
 from novelforge.services.derived import chapter_ref, character_refs
 from novelforge.services.findings import travel_matrix
@@ -65,7 +66,9 @@ def critique(session: Session, run: WorkflowRun, draft: str) -> dict[str, Any]:
                 "category": f.category,
                 "severity": f.severity,
                 "subject": f.subject_name,
-                "explanation": f.explanation.replace(f"chapter {number}", "the draft"),
+                "explanation": f.explanation.replace(f"chapter {number}", "the draft").replace(
+                    f"第 {number} 章", "草稿"
+                ),
                 "suggestion": f.suggestion,
                 "draft_evidence": [asdict(e) for e in f.evidence if e.chapter_id == DRAFT_ID],
                 "established_evidence": [asdict(e) for e in f.evidence if e.chapter_id != DRAFT_ID],
@@ -77,7 +80,8 @@ def critique(session: Session, run: WorkflowRun, draft: str) -> dict[str, Any]:
         "draft_facts": len(draft_claims),
         "checked_against_facts": len(others),
         "words": len(draft.split()),
-        "method": f"{EXTRACTOR} extraction + NovelForge contradiction detectors",
+        "length": dict(zip(("count", "unit"), text_length(draft), strict=True)),
+        "method": f"{extractor_for(draft)} extraction + NovelForge contradiction detectors",
     }
 
 

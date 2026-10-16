@@ -1,0 +1,129 @@
+# Labelled ground truth for 雾港信札 (development sample for the Chinese rule extractor).
+# `evidence[].text` and `facts[].text` must be exact substrings of that chapter's body.
+# A finding matches a contradiction when kind, subject and predicate all agree.
+contradictions:
+  - id: GT1
+    kind: attribute_conflict
+    subject: 林雪棠
+    predicate: eye_color
+    note: 第 1 章琥珀色，第 3 章灰色；眼睛颜色不会变。
+    m1_detectable: true
+    evidence:
+      - {chapter: 1, text: "林雪棠穿着一件灰色的呢大衣，眼睛却是琥珀色的"}
+      - {chapter: 3, text: "林雪棠的眼睛是灰色的"}
+  - id: GT2
+    kind: attribute_conflict
+    subject: 陈砚
+    predicate: handedness
+    note: 第 1 章是左撇子，三天后“惯用右手”。
+    m1_detectable: true
+    evidence:
+      - {chapter: 1, text: "陈砚是左撇子"}
+      - {chapter: 2, text: "陈砚惯用右手"}
+  - id: GT3
+    kind: age_timeline
+    subject: 周铁山
+    predicate: age
+    note: 第 0 天五十岁，第 3 天五十六岁。
+    m1_detectable: true
+    evidence:
+      - {chapter: 1, text: "周铁山五十岁"}
+      - {chapter: 2, text: "周铁山五十六岁了"}
+  - id: GT4
+    kind: canon_conflict
+    subject: 陈砚
+    predicate: birthplace
+    note: 人物卡写的出生地是青州，第 2 章叙述说他生在临江县。
+    m1_detectable: true
+    evidence:
+      - {chapter: 2, text: "陈砚生在临江县"}
+  - id: GT5
+    kind: dead_character_active
+    subject: 顾明远
+    predicate: status
+    note: 第 2 章（第 3 天）顾明远死了，第 3 章（五年后）叙述里他坐船回到雾港。
+    m1_detectable: true
+    evidence:
+      - {chapter: 2, text: "顾明远死了"}
+      - {chapter: 3, text: "顾明远回到了雾港"}
+  - id: GT6
+    kind: ability_conflict
+    subject: 苏婉
+    predicate: ability:swim
+    note: 第 1 章说苏婉不会游泳，第 3 章她跳下水游到孩子身边，中间没写她学会。
+    m1_detectable: true
+    evidence:
+      - {chapter: 1, text: "苏婉不会游泳"}
+      - {chapter: 3, text: "苏婉第一个跳了下去，游到孩子身边"}
+  - id: GT7
+    kind: attribute_conflict
+    subject: 苏婉
+    predicate: hair_color
+    note: 第 1 章乌黑的头发，第 3 章“还像从前一样”是栗色；第 3 章只用代词“她”。
+    m1_detectable: true
+    evidence:
+      - {chapter: 1, text: "苏婉是林家的丫头，今年二十岁，一头乌黑的头发"}
+      - {chapter: 3, text: "她的头发还像从前一样，是浅浅的栗色"}
+
+# Things that look like contradictions but are not. Any finding on the same subject and
+# predicate counts as a false positive.
+negatives:
+  - id: N1
+    subject: 林雪棠
+    predicate: hair_color
+    note: 第 1 章黑发，第 2 章“染成了栗色”，第 3 章栗色：这是改变，不是矛盾。
+  - id: N2
+    subject: 陈砚
+    predicate: eye_color
+    note: 叙述说黑眼睛；“蓝眼睛”是钱伯在对话里说的（说错了的话），不是叙述事实。
+  - id: N3
+    subject: 林雪棠
+    predicate: age
+    note: 第 0 天十七岁，第 1830 天二十二岁，正好五年。
+  - id: N4
+    subject: 周铁山
+    predicate: status
+    note: “听说十几岁就死过一回”是传闻和往事；“差点淹死”不是死亡。
+  - id: N5
+    subject: 苏婉
+    predicate: age
+    note: 第 1 章二十岁；第 3 章“十岁那年”是回忆。
+  - id: N6
+    subject: 陈砚
+    predicate: ability:ride
+    note: 第 2 章不会骑马，随后学会，第 3 章骑马：先学后用。
+
+# Every statement of a checked predicate about a listed character, asserted or not (recall
+# ground truth for the extractor). modality: asserted | reported | hedged | recalled.
+facts:
+  - {chapter: 1, subject: 林雪棠, predicate: age, value: "17", modality: asserted, text: "林雪棠今年十七岁"}
+  - {chapter: 1, subject: 林雪棠, predicate: eye_color, value: amber, modality: asserted, text: "林雪棠穿着一件灰色的呢大衣，眼睛却是琥珀色的"}
+  - {chapter: 1, subject: 林雪棠, predicate: hair_color, value: black, modality: asserted, text: "林雪棠一头黑发"}
+  - {chapter: 1, subject: 苏婉, predicate: age, value: "20", modality: asserted, text: "苏婉是林家的丫头，今年二十岁"}
+  - {chapter: 1, subject: 苏婉, predicate: hair_color, value: black, modality: asserted, text: "苏婉是林家的丫头，今年二十岁，一头乌黑的头发"}
+  - {chapter: 1, subject: 苏婉, predicate: "ability:swim", value: cannot, modality: asserted, text: "苏婉不会游泳"}
+  - {chapter: 1, subject: 陈砚, predicate: handedness, value: left, modality: asserted, text: "陈砚是左撇子"}
+  - {chapter: 1, subject: 周铁山, predicate: age, value: "50", modality: asserted, text: "周铁山五十岁"}
+  - {chapter: 1, subject: 周铁山, predicate: status, value: dead, modality: hedged, text: "他年轻时在南洋跑过船，听说十几岁就死过一回"}
+  - {chapter: 2, subject: 林雪棠, predicate: hair_color, value: brown, modality: asserted, text: "林雪棠把头发染成了栗色"}
+  - {chapter: 2, subject: 林雪棠, predicate: hair_color, value: black, modality: recalled, text: "林家三小姐那一头黑发"}
+  - {chapter: 2, subject: 陈砚, predicate: birthplace, value: 临江县, modality: asserted, text: "陈砚生在临江县"}
+  - {chapter: 2, subject: 陈砚, predicate: age, value: "12", modality: recalled, text: "陈砚生在临江县，十二岁"}
+  - {chapter: 2, subject: 陈砚, predicate: location, value: 雾港, modality: recalled, text: "陈砚生在临江县，十二岁跟着叔叔来到雾港"}
+  - {chapter: 2, subject: 陈砚, predicate: eye_color, value: black, modality: asserted, text: "陈砚有一双黑眼睛"}
+  - {chapter: 2, subject: 陈砚, predicate: handedness, value: right, modality: asserted, text: "陈砚惯用右手"}
+  - {chapter: 2, subject: 陈砚, predicate: eye_color, value: blue, modality: reported, text: "陈砚那双蓝眼睛"}
+  - {chapter: 2, subject: 周铁山, predicate: age, value: "56", modality: asserted, text: "周铁山五十六岁了"}
+  - {chapter: 2, subject: 顾明远, predicate: status, value: dead, modality: asserted, text: "顾明远死了"}
+  - {chapter: 2, subject: 林雪棠, predicate: eye_color, value: black, modality: hedged, text: "林雪棠的眼睛看上去几乎是黑的"}
+  - {chapter: 2, subject: 陈砚, predicate: "ability:ride", value: cannot, modality: asserted, text: "陈砚不会骑马"}
+  - {chapter: 2, subject: 陈砚, predicate: "ability:ride", value: learned, modality: asserted, text: "陈砚跟着马夫学会了骑马"}
+  - {chapter: 3, subject: 林雪棠, predicate: age, value: "22", modality: asserted, text: "林雪棠二十二岁了"}
+  - {chapter: 3, subject: 林雪棠, predicate: hair_color, value: brown, modality: asserted, text: "林雪棠栗色的头发"}
+  - {chapter: 3, subject: 林雪棠, predicate: eye_color, value: grey, modality: asserted, text: "林雪棠的眼睛是灰色的"}
+  - {chapter: 3, subject: 苏婉, predicate: age, value: "10", modality: recalled, text: "苏婉十岁那年"}
+  - {chapter: 3, subject: 苏婉, predicate: hair_color, value: brown, modality: asserted, text: "她的头发还像从前一样，是浅浅的栗色"}
+  - {chapter: 3, subject: 陈砚, predicate: "ability:ride", value: used, modality: asserted, text: "陈砚骑着马"}
+  - {chapter: 3, subject: 顾明远, predicate: location, value: 雾港, modality: asserted, text: "顾明远回到了雾港"}
+  - {chapter: 3, subject: 苏婉, predicate: "ability:swim", value: used, modality: asserted, text: "苏婉第一个跳了下去，游到孩子身边"}
+  - {chapter: 3, subject: 周铁山, predicate: status, value: dead, modality: asserted, text: "周铁山是去年冬天走的"}
