@@ -1,4 +1,4 @@
-"""Chinese rule-based fact extractor (`rules-zh-v1`), the Chinese twin of `core/extraction.py`.
+"""Chinese rule-based fact extractor (`rules-zh-v2`), the Chinese twin of `core/extraction.py`.
 
 It reads the same predicates, so the contradiction detectors work unchanged: eye and hair
 colour, age, handedness, birthplace, location, status (dead/alive), abilities (cannot /
@@ -26,7 +26,14 @@ A pronoun (她/他) counts only when one listed character with that sheet pronou
 its sentence or the one before (`resolve_pronouns`); the claim records the resolution and is
 0.1 less confident.
 
-Not covered (v1): similes, euphemisms for death (走了), and places
+v2 over v1 (from the first held-out sample, 临江镖旗, so v2 is scored on a second one): ages
+without 岁 after 今年/已经 (“今年五十三了”); 不识字, 不会水, 斗大的字不识; 死了 followed by a duration
+(“死了快两年了”); 生在 + a place without a suffix (江陵); dyeing written as 染得; 骑在…马上, 骑着…匹,
+游得; reading a letter with 看; 使右手刀; a name after 跟着/和/向 is not the subject (“跟着苏砚学会了
+骑马”); pronouns filter by gender, reach the previous sentence across a paragraph break, carry
+over a resolved 她 to the next sentence, and abstain on a person noun in between (这姑娘).
+
+Not covered: similes, euphemisms for death (走了), and places
 without a place suffix (上海) unless they are on a character sheet.
 """
 
@@ -40,7 +47,7 @@ from dataclasses import dataclass
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.text import inside_dialogue, sentence_bounds
 
-EXTRACTOR_ZH = "rules-zh-v1"
+EXTRACTOR_ZH = "rules-zh-v2"
 CLAIM_NAMESPACE = uuid.UUID("6c1f5c1e-2b7a-4c55-9a43-6f0d5e0b7a01")
 CONFIDENCE = {"asserted": 0.9, "recalled": 0.8, "reported": 0.5, "hedged": 0.4}
 
@@ -114,7 +121,7 @@ _HAIR_C = rf"(?P<val>{_alt(w for w in _HAIR_COLOURS if w != '青丝')})"
 _EYES = r"(?:眼睛|眼眸|眸子|双眸|眼珠子|眼珠|眼仁|瞳仁|瞳孔|眼瞳|瞳|眸)"
 _HAIRS = r"(?:头发|长发|短发|卷发|鬈发|发丝|秀发|发辫|辫子|鬓发)"
 # A bare 发 after a colour (黑发, 银发) but not 发亮, 发白, 发抖 ...
-_BARE_HAIR = r"发(?![亮光白黑红青紫抖颤烫麻愣呆怔酸胀涩苦干硬软凉冷热毛疯狠怒火现觉出生])"
+_BARE_HAIR = r"发(?![亮光白黑红青紫抖颤烫麻愣呆怔酸胀涩苦干硬软凉冷热毛疯狠怒火现觉出生膏剂油药水])"
 _COPULA = r"(?:是|呈|成了|泛着|透着|带着|还是|仍是|仍然是|依旧是|一直是|都是|已经是|也是|却是|则是)"
 _PLACE_SUFFIX = r"(?:省|府|州|县|城|镇|乡|村|寨|庄|港|湾|岛|渡|堡|京|津|浦|埠|屯)"
 # Common nouns that end like a place name but name no place.
@@ -126,7 +133,7 @@ _GENERIC_PLACES = frozenset({
     "米庄", "粮庄", "银庄", "当庄",
 })  # fmt: skip
 # A place value never contains these (生在穷人家, 回到了家里).
-_NOT_PLACE = re.compile(r"[家户人个一些年月日天时候夜晚早里屋房门院边上下中前后这那哪么]")
+_NOT_PLACE = re.compile(r"[家户人个一些年月日天时候夜晚早里屋房门院边上下中前后这那哪么外内旁郊]")
 SKILLS_ZH = {"游泳": "swim", "凫水": "swim", "泅水": "swim", "水性": "swim", "骑马": "ride",
              "识字": "read", "认字": "read", "读书": "read", "写字": "write"}  # fmt: skip
 _SKILL = rf"(?P<val>{_alt(SKILLS_ZH)})"
@@ -147,7 +154,31 @@ _PERSON = re.compile(
 _OWNED_BY_OTHER = re.compile(r"的人|(?:的)?(?:" + _PERSON.pattern + r")")
 # A person noun inside a 是… predicate describes the subject: 苏婉是林家的丫头.
 _PREDICATE_NOUN = re.compile(r"是[^，。！？；]{0,10}")
-_GAP_STOP = re.compile(r"[。！？；：“”「」『』\n]")
+_GAP_STOP = re.compile(r"[。！？；：“”「」『』\"\n]")
+# A name after one of these is not the subject of the action: “照雪跟着苏砚学会了骑马”.
+_PREPOSITION = re.compile(r"(?:跟着|跟|和|与|同|向|随着|随|陪着)$")
+# Times of day or year that follow 生在 like a place would (生在寒冬).
+_TIME_WORDS = frozenset(
+    [
+        "寒冬",
+        "深秋",
+        "初春",
+        "盛夏",
+        "隆冬",
+        "清晨",
+        "黄昏",
+        "半夜",
+        "深夜",
+        "午夜",
+        "凌晨",
+        "傍晚",
+        "夜里",
+        "冬天",
+        "春天",
+        "夏天",
+        "秋天",
+    ]
+)
 # Adverbs and perception words that may sit between 眼睛/头发 and the colour.
 _ADV = (
     r"(?:看上去|看起来|似乎|好像|仿佛|显得|还|仍然|仍|依旧|都|也|却|则|倒|本来|原本|一直|向来|几乎|"
@@ -187,17 +218,26 @@ _RULES: list[_Rule] = [
     _Rule("hair_color.change", rf"(?:把|将)(?:头发|一头[^，。]{{0,4}}发)(?:染|漂)成了?[^，。]{{0,3}}?{_HAIR_C}(?:色的|色)?",
           6, "action"),
     _Rule("hair_color.change", rf"(?:染|漂)了一头{_HAIR_C}(?:色|颜色)?的?(?:{_HAIRS}|发)", 6, "action"),
+    # 青萝的头发已经染得乌黑 (v2)
+    _Rule("hair_color.change", rf"的?{_HAIRS}(?:已经|早已|早就|又|也)?(?:染|漂)(?:得|成了|成)[^，。]{{0,3}}?{_HAIR_C}(?:色的|色)?",
+          4, "action"),
     # 林雪棠今年十七岁 / 周铁山五十六岁了 / 苏婉十岁那年 / 苏婉是林家的丫头，今年二十岁
     _Rule("age", rf"(?:今年|已经|已|才|刚|刚刚|正|都|也|当时|时年|那年)?(?:满|过了|到了)?(?P<val>{CN_NUM})(?:周)?岁{_NOT_BIRTHDAY}",
           0, "attribute"),
     _Rule("age", rf"(?<=，)(?:今年|已经|才|刚|刚满|年方|年仅)?(?P<val>{CN_NUM})(?:周)?岁{_NOT_BIRTHDAY}", 20, "attribute",
           True),
     _Rule("age", rf"(?:年方|芳龄|年纪|年届|年仅|刚满)(?P<val>{CN_NUM})(?:周)?岁?", 2, "attribute"),
+    # 林照雪今年十七 / 周铁山今年五十三了 (v2)
+    _Rule("age", rf"(?:今年|已经|已|都|才|也)(?P<val>{CN_NUM})(?=了?(?:[，。！？；”」\s]|$))", 0, "attribute"),
     # 陈砚是左撇子 / 陈砚惯用右手
     _Rule("handedness", r"(?:是个|是|天生是个|天生|一向是|从小就是)?(?P<val>左)撇子", 6, "attribute"),
     _Rule("handedness", r"(?:惯用|习惯用|惯使|一向用|只惯用)(?P<val>左|右)手", 6, "attribute"),
+    # 林守拙一辈子使的都是右手刀 (v2)
+    _Rule("handedness", r"使(?:的)?(?:都是|是|惯了)?(?P<val>左|右)手(?:刀|剑|枪|鞭)", 8, "attribute"),
     # 陈砚生在临江县 / 陈砚是青州人
     _Rule("birthplace", r"(?:生在|出生在|出生于|生于|降生在|落地在)(?P<val>{PLACE})", 6, "state"),
+    # 苏砚生在江陵 / 她生在疏勒，: a place without a suffix, right before a clause end (v2)
+    _Rule("birthplace", rf"(?:生在|出生在|出生于|生于)(?P<val>[{_CJK}]{{2,4}}?)(?=[，。！？；、”」]|的)", 6, "state"),
     _Rule("birthplace", rf"是(?P<val>[{_CJK}]{{1,5}}?{_PLACE_SUFFIX})人", 4, "state"),
     # 顾明远回到了雾港 / 林雪棠在雾港
     _Rule("location", r"(?:到了|来到|回到了|回到|抵达|到达|赶到|进了|返回|回了|去了)(?P<val>{PLACE})",
@@ -206,6 +246,8 @@ _RULES: list[_Rule] = [
           4, "action"),
     # 顾明远死了 / 顾明远已经去世了
     _Rule("status", r"(?P<val>死了)(?![" + _CJK + r"])", 4, "action"),
+    # 老周死了快两年了 (v2)
+    _Rule("status", r"(?P<val>死了)(?=[快已有整好几多]|[零一二两三四五六七八九十]+(?:年|个月|天))", 4, "action"),
     _Rule("status", r"(?P<val>去世|过世|病逝|病故|逝世|身亡|丧命|毙命|咽了气|断了气|遇害|被杀|被人杀了|"
           r"淹死|吊死|饿死|冻死|战死|病死|死在|死于)", 4, "action"),
     _Rule("status", r"(?P<val>还活着|活着|没死|没有死|活了下来|活下来了|尚在人世|还在人世)", 4, "state"),
@@ -213,18 +255,27 @@ _RULES: list[_Rule] = [
     _Rule("ability.cannot", rf"(?:不会|不懂|不识|从没学过|从来没学过|没学过|学不会|一直不会|根本不会|并不会){_SKILL}",
           4, "state"),
     _Rule("ability.cannot", r"(?:是个|是)?旱鸭子(?P<val>)", 4, "state"),
-    _Rule("ability.cannot", r"(?P<val>大字不识|一字不识|目不识丁|不识得字)", 4, "state"),
+    _Rule("ability.cannot", r"(?P<val>大字不识|一字不识|目不识丁|不识得字|不识字|不认字|斗大的字不识)", 4, "state"),
+    _Rule("ability.cannot", r"(?P<val>不会水)(?=[，。！？；、了的啊”」\s]|$)", 4, "state"),
     _Rule("ability.learned", rf"(?:学会了|学会|终于会了|学了){_SKILL}", 10, "state"),
-    _Rule("ability.used", r"(?P<val>游到|游向|游回|游过|游了过去|游了回来|游上|游出|游进|游近|泅过|泅到|凫到|凫过)",
+    _Rule("ability.used", r"(?P<val>游到|游向|游回|游过|游了过去|游了回来|游上|游出|游进|游近|游得|泅过|泅到|凫到|凫过)",
           14, "action", True),
     _Rule("ability.used", r"(?P<val>骑着马|骑马|骑上马|骑了马|策马|纵马|打马|跨上马|翻身上马|骑着一匹|骑了一匹)",
           8, "action", True),
+    # 骑着他那匹老青骢 / 骑在一匹黑马上 (v2)
+    _Rule("ability.used", r"(?P<val>骑着|骑上|骑了|骑)(?=[^，。]{0,4}?匹)", 8, "action", True),
+    _Rule("ability.used", r"(?P<val>骑在)[^，。]{0,10}?马(?:背)?上", 8, "action", True),
+    # 看了那封信 / 把那封信抖开，……一行一行看下去 (v2)
+    _Rule("ability.used", r"(?P<val>看)(?:了|完|着)?(?:一遍|两遍)?[这那]?[封张份本页]?(?=信|文书|账本|账册|告示|字条|纸条|契约)",
+          6, "action"),
+    _Rule("ability.used", r"把(?:那|这|一)?[封张份本页]?(?:信|文书|账本|账册|告示|字条|纸条|契约)[^。！？]{0,16}?"
+          r"(?P<val>看|读|念)(?:下去|完|了|着|起来)", 6, "action"),
     _Rule("ability.used", r"(?P<val>念了|念着|念完|读了|读着|读完|默读|朗读)(?:一遍|两遍|几遍)?[这那]?[封张份本行]?"
           r"(?=信|告示|账本|字条|纸条|书|报|文书|契约|帖子|诗)", 6, "action"),
 ]  # fmt: skip
 _USED_VERB = {"游": "swim", "泅": "swim", "凫": "swim", "骑": "ride", "策": "ride", "纵": "ride",
               "打": "ride", "跨": "ride", "翻": "ride", "念": "read", "读": "read", "默": "read",
-              "朗": "read"}  # fmt: skip
+              "朗": "read", "看": "read"}  # fmt: skip
 
 # 十七岁的林雪棠 / 生在青石镇的程歌
 _BEFORE_RULES: list[tuple[str, str]] = [
@@ -270,32 +321,49 @@ def _pronoun_of(c: CharacterRef) -> str | None:
 
 
 def resolve_pronouns(body: str, mentions: list[_Mention]) -> list[_Mention]:
-    """她/他 in narration, resolved only when unambiguous: the nearest sentence (the pronoun's
-    own, before it; else the previous one in the same paragraph) that names a listed character
-    names exactly one, in narration, and its sheet pronoun matches. 他们/其他/他人 are not
-    pronouns for one person."""
-    out = []
+    """她/他 in narration, resolved only when unambiguous. The nearest sentence that names a listed
+    character decides: the pronoun's own sentence (before it), else the previous sentence, even
+    across a paragraph break (v2). Among the names there, exactly one may fit the pronoun (its
+    sheet pronoun matches, or is unknown), and that one must have the matching sheet pronoun and
+    be named in narration (v2: a man named next to a woman no longer blocks 她). When neither
+    sentence names anyone, a resolved 她/他 of the same form in the previous sentence carries
+    over (v2: 她是……。她生在疏勒). A person noun between the name and the pronoun (这姑娘)
+    makes it abstain. 他们/其他/他人 are not pronouns for one person."""
+    out: list[_Mention] = []
     for m in re.finditer(r"(?<!其)[他她](?![们人乡])", body):
-        p = m.start()
+        p, form = m.start(), m.group(0)
         if inside_dialogue(body, p):
             continue
-        para = body.rfind("\n\n", 0, p)
-        para = 0 if para < 0 else para + 2
         s, _ = sentence_bounds(body, p, p + 1)
-        named = [x for x in mentions if s <= x.start < p]
-        if not named and s - 2 >= para:
-            prev = max(sentence_bounds(body, s - 2, s - 1)[0], para)
-            named = [x for x in mentions if prev <= x.start < s]
-        if len({x.character.id for x in named}) != 1:
-            continue
-        narrated = [x for x in named if not inside_dialogue(body, x.start)]
-        if not narrated or _pronoun_of(narrated[-1].character) != m.group(0):
-            continue
-        ante = narrated[-1]
+        last = len(body[:s].rstrip()) - 1  # the previous sentence's final mark
+        prev = sentence_bounds(body, last, last)[0] if last > 0 else s
+        named = [x for x in mentions if s <= x.start < p] or [
+            x for x in mentions if prev <= x.start < s
+        ]
+        if named:
+            fits = {x.character.id for x in named if _pronoun_of(x.character) in (form, None)}
+            narrated = [
+                x for x in named if x.character.id in fits and not inside_dialogue(body, x.start)
+            ]
+            if len(fits) != 1 or not narrated or _pronoun_of(narrated[-1].character) != form:
+                continue
+            ante_start, ante_end, character = (
+                narrated[-1].start,
+                narrated[-1].end,
+                narrated[-1].character,
+            )
+        else:
+            chain = [r for r in out if r.resolved["pronoun"] == form and prev <= r.start < p]
+            if not chain:
+                continue
+            ante_start = chain[-1].resolved["antecedent_start"]
+            ante_end, character = chain[-1].end, chain[-1].character
+        if _PERSON.search(_PREDICATE_NOUN.sub("", body[ante_end:p])):
+            continue  # “照雪以为这姑娘娇气，后来才知道，她骑马”: 这姑娘 could be 她 (v2)
         out.append(
-            _Mention(p, p + 1, ante.character,
-                     {"via": "pronoun", "pronoun": m.group(0), "pronoun_start": p,
-                      "antecedent_start": ante.start})
+            _Mention(p, p + 1, character,
+                     {"via": "pronoun", "pronoun": form, "pronoun_start": p,
+                      "antecedent_start": ante_start})
         )  # fmt: skip
     return out
 
@@ -322,7 +390,7 @@ def _gap_ok(body: str, start: int, end: int, rule: _Rule, mentions: list[_Mentio
     gap = body[start:end]
     if _GAP_STOP.search(gap) or (not rule.commas and "，" in gap):
         return False
-    if any(start <= m.start < end for m in mentions):
+    if not _others_ok(body, start, end, rule, mentions):
         return False
     if _PRONOUN.search(gap):
         return False
@@ -337,6 +405,17 @@ def _gap_ok(body: str, start: int, end: int, rule: _Rule, mentions: list[_Mentio
     # 差点冻死 is not a death; 几乎不会游泳 is not “cannot”.
     near = re.search(r"差点|险些|几乎|差一点|快要", gap)
     return not (near and rule.predicate in ("status", "ability.cannot"))
+
+
+def _others_ok(body: str, start: int, end: int, rule: _Rule, mentions: list[_Mention]) -> bool:
+    """Another name between the subject and the fact: never for an attribute (the eyes or hair
+    may be theirs); for an action or state only after a preposition (跟着苏砚学会了骑马)."""
+    others = [m for m in mentions if start <= m.start < end]
+    if not others:
+        return True
+    if rule.kind == "attribute":
+        return False
+    return all(_PREPOSITION.search(body[start : m.start]) for m in others)
 
 
 def _clause(body: str, start: int, end: int) -> tuple[int, int]:
@@ -389,7 +468,7 @@ def _normalize(predicate: str, raw: str, tail: str) -> tuple[str, str] | None:
     if predicate == "handedness":
         return predicate, "left" if raw == "左" else "right"
     if predicate in ("birthplace", "location"):
-        bad = _NOT_PLACE.search(raw) or raw in _GENERIC_PLACES
+        bad = _NOT_PLACE.search(raw) or raw in _GENERIC_PLACES or raw in _TIME_WORDS
         return None if bad else (predicate, raw)
     if predicate == "status":
         alive = raw in (
@@ -408,8 +487,18 @@ def _normalize(predicate: str, raw: str, tail: str) -> tuple[str, str] | None:
         skill = _USED_VERB.get(raw[:1])
     elif "旱鸭子" in tail:
         skill = "swim"
-    elif raw in ("大字不识", "一字不识", "目不识丁", "不识得字"):
+    elif raw in (
+        "大字不识",
+        "一字不识",
+        "目不识丁",
+        "不识得字",
+        "不识字",
+        "不认字",
+        "斗大的字不识",
+    ):
         skill = "read"
+    elif raw == "不会水":
+        skill = "swim"
     else:
         skill = SKILLS_ZH.get(raw)
     return None if skill is None else (f"ability:{skill}", mode)
@@ -448,13 +537,19 @@ def extract_claims_zh(
             rf"(?P<gap>[^。！？；\n]{{0,{rule.gap}}}?)(?:{rule.tail.replace('{PLACE}', place)})"
         )
         for m in anchors:
+            if rule.kind != "attribute" and _PREPOSITION.search(
+                body[max(0, m.start - 2) : m.start]
+            ):
+                continue
             t = tail.match(body, m.end)
             if t is None or not _gap_ok(
                 body, m.end, t.start() + len(t.group("gap")), rule, mentions
             ):
                 continue
             inner = body[m.end : t.start("val")]
-            if _PRONOUN.search(inner) or any(m.end <= x.start < t.start("val") for x in mentions):
+            if _PRONOUN.search(inner) or not _others_ok(
+                body, m.end, t.start("val"), rule, mentions
+            ):
                 continue
             if rule.kind == "attribute" and _OWNED_BY_OTHER.match(body, t.end()):
                 continue  # 一头白发的老人: the hair belongs to the person after it
@@ -486,7 +581,7 @@ def extract_claims_zh(
                  t.end("val"), t.group(0), None, t.start())
             )  # fmt: skip
 
-    seen: set[tuple[str, int]] = set()
+    seen: set[tuple[str, str, int]] = set()
     claims: list[ExtractedClaim] = []
     for (
         predicate,
@@ -504,9 +599,10 @@ def extract_claims_zh(
         if normalized is None:
             continue
         final, value = normalized
-        if (final, end) in seen:
-            continue  # the same words already gave this fact
-        seen.add((final, end))
+        keys = {(final, "end", end), (final, "val", val_end - len(raw))}
+        if keys & seen:
+            continue  # the same words already gave this fact (骑在一匹马上: two rules, one fact)
+        seen |= keys
         modality = _modality(body, anchor, end, final, val_end)
         offset = day_offset_zh(body, start)
         details: dict = {"change": True} if predicate.endswith(".change") else {}
