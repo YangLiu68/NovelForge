@@ -5,6 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from novelforge.api.deps import SessionDep, chapter_dep, novel_dep
+from novelforge.core.lang import text_length
 from novelforge.models import Chapter, Novel, Revision
 from novelforge.schemas import (
     ChapterCreate,
@@ -22,7 +23,7 @@ router = APIRouter(prefix="/api", tags=["chapters"])
 
 def _summary(chapter: Chapter, cls=ChapterSummary):
     out = cls.model_validate(chapter)
-    out.word_count = len(chapter.body.split())
+    out.word_count, out.length_unit = text_length(chapter.body)
     return out
 
 

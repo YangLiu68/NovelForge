@@ -21,6 +21,7 @@ from typing import Literal
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from novelforge.core.text import cjk_query_spans, cjk_search_text
 from novelforge.retrieval.embedders import Embedder
 from novelforge.retrieval.rerankers import Reranker
 
@@ -165,7 +166,8 @@ def search(
         raise ValueError("mode 'hybrid_rerank' needs a reranker")
     timings: dict[str, float] = {}
     total_start = time.perf_counter()
-    base = {"novel_id": novel_id, "query": query}
+    # Chinese in the query is matched as bigrams, like Chinese passages are indexed.
+    base = {"novel_id": novel_id, "query": cjk_search_text(query) or query}
     depth = k if mode in ("keyword", "fts", "vector") else candidates
     lists: dict[str, list[tuple[str, float]]] = {}
     query_tokens = 0
@@ -231,7 +233,7 @@ def search(
 
     top = ordered[:k]
     t = time.perf_counter()
-    hits = _hydrate(session, query, top, ranks)
+    hits = _hydrate(session, base["query"], top, ranks, query)
     timings["hydrate"] = (time.perf_counter() - t) * 1000
     timings["total"] = (time.perf_counter() - total_start) * 1000
     return SearchResult(
@@ -253,7 +255,11 @@ def _texts(session: Session, ids: list[str]) -> dict[str, str]:
 
 
 def _hydrate(
-    session: Session, query: str, top: list[tuple[str, float]], ranks: dict[str, dict[str, int]]
+    session: Session,
+    query: str,
+    top: list[tuple[str, float]],
+    ranks: dict[str, dict[str, int]],
+    original_query: str | None = None,
 ) -> list[Hit]:
     if not top:
         return []
@@ -275,6 +281,9 @@ def _hydrate(
         if r is None:  # deleted between ranking and hydration
             continue
         rel = parse_marked(r.marked, r.text) or []
+        if original_query is not None and r.text != (cjk_search_text(r.text) or r.text):
+            # ts_headline cannot mark bigrams inside unspaced Chinese: mark the query's runs.
+            rel = sorted(set(rel) | set(cjk_query_spans(original_query, r.text)))
         hits.append(
             Hit(
                 passage_id=pid,

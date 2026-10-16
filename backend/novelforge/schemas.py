@@ -94,7 +94,8 @@ class ChapterSummary(ORM):
     story_time_label: str | None
     version: int
     updated_at: datetime
-    word_count: int = 0
+    word_count: int = 0  # Chinese characters for Chinese text
+    length_unit: str = "words"  # words | characters
 
 
 class ChapterOut(ChapterSummary):

@@ -11,6 +11,7 @@ import NovelList from "./pages/NovelList";
 import Overview from "./pages/Overview";
 import Review from "./pages/Review";
 import Search from "./pages/Search";
+import StoryPage from "./pages/StoryPage";
 import Workspace from "./pages/Workspace";
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="characters" element={<Characters />} />
           <Route path="search" element={<Search />} />
           <Route path="contradictions" element={<Contradictions />} />
+          <Route path="story" element={<StoryPage />} />
           <Route path="facts" element={<Facts />} />
           <Route path="review" element={<Review />} />
           <Route path="canon" element={<CanonPage />} />

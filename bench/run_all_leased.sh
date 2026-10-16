@@ -25,6 +25,10 @@ $RQ run -c 1 -m 1 -t 4 -w "novelforge bench: real prose (4 books)" -- bash -c '
   for book in little-women anne-of-green-gables pride-and-prejudice the-secret-garden; do
     uv run novelforge bench-real "$book" --out "$1" && uv run novelforge bench-real "$book" --no-sheet-pronouns --out "$1"
   done' x "$OUT"
+# Story logic: replayed from the recorded qwen2.5:7b answers, so no model and little memory.
+nf_story() { for s in xueye-dangpu qingshi-du xueye-dangpu-revised; do
+  uv run novelforge audit-story "$s" --llm ollama:qwen2.5:7b --replay --out "$OUT" || return 1; done; }
+nf_story
 $RQ run -c 2 -m 2 -t 4 -w "novelforge bench: consistency 100" -- \
   uv run novelforge bench-consistency "$C/syn-100-s7" --embedder fastembed --out "$OUT"
 $RQ run -c 1 -m 1 -t 3 -w "novelforge bench: load 100" -- \

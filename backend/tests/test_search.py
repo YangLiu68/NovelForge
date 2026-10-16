@@ -48,3 +48,21 @@ def test_search_reflects_edits(client, sample_novel_id):
     )
     hits = client.get(url, params={"q": "kraken"}).json()["hits"]
     assert len(hits) == 1 and hits[0]["chapter_version"] == full["version"] + 1
+
+
+def test_chinese_search_matches_words_and_highlights_them(client):
+    novel_id = client.post("/api/samples/xueye-dangpu/import").json()["novel_id"]
+    url = f"/api/novels/{novel_id}/search"
+    hits = client.get(url, params={"q": "沈若兰"}).json()["hits"]
+    assert hits and all("沈若兰" in h["text"] for h in hits)
+    assert {h["chapter_number"] for h in hits} == {1, 3}
+    for hit in hits:
+        body = client.get(f"/api/chapters/{hit['chapter_id']}").json()["body"]
+        assert body[hit["start"] : hit["end"]] == hit["text"]
+        assert [body[s:e] for s, e in hit["highlights"]] == ["沈若兰"] * hit["text"].count("沈若兰")
+    # A quoted phrase must appear as written; its characters in another order do not match.
+    assert [h["chapter_number"] for h in client.get(url, params={"q": '"二十文"'}).json()["hits"]]
+    assert client.get(url, params={"q": '"文十二"'}).json()["hits"] == []
+    # fts mode uses OR semantics: either word is enough.
+    hits = client.get(url, params={"q": "乞丐 盐价", "mode": "fts"}).json()["hits"]
+    assert any("乞丐" in h["text"] for h in hits) and any("盐价" in h["text"] for h in hits)

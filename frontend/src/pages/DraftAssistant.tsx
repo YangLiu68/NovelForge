@@ -244,7 +244,8 @@ export default function DraftAssistant() {
   const { novel, chapters } = useWorkspace();
   const [params, setParams] = useSearchParams();
   const [runs, setRuns] = useState<WorkflowRun[]>([]);
-  const [goal, setGoal] = useState("");
+  // A revision suggestion from the story-logic page arrives as ?goal=...&chapter=...
+  const [goal, setGoal] = useState(params.get("goal") ?? "");
   const [chapterId, setChapterId] = useState(params.get("chapter") ?? "");
   const [maxIterations, setMaxIterations] = useState(2);
   const [error, setError] = useState<string | null>(null);

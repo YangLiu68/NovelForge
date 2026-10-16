@@ -15,6 +15,7 @@ import type {
   RevisionSummary,
   SearchMode,
   SearchResult,
+  StoryAuditRun,
   TimelineData,
   WorkflowRun,
 } from "./types";
@@ -136,6 +137,11 @@ export const api = {
   listWorkflows: (novelId: string) =>
     request<WorkflowRun[]>("GET", `/api/novels/${novelId}/workflows`),
   getWorkflow: (id: string) => request<WorkflowRun>("GET", `/api/workflows/${id}`),
+  startStoryAudit: (novelId: string, llm?: string) =>
+    request<StoryAuditRun>("POST", `/api/novels/${novelId}/story-audits`, llm ? { llm } : {}),
+  listStoryAudits: (novelId: string) =>
+    request<StoryAuditRun[]>("GET", `/api/novels/${novelId}/story-audits`),
+  getStoryAudit: (id: string) => request<StoryAuditRun>("GET", `/api/story-audits/${id}`),
   approvePlan: (id: string, plan: string) =>
     request<WorkflowRun>("POST", `/api/workflows/${id}/approve-plan`, { plan }),
   decide: (id: string, action: "apply" | "revise" | "discard", force = false) =>

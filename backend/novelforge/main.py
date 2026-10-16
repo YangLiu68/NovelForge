@@ -20,6 +20,7 @@ from novelforge.api import (
     novels,
     review,
     samples,
+    story,
     workflows,
 )
 from novelforge.config import get_settings
@@ -122,7 +123,7 @@ def create_app() -> FastAPI:
             conn.execute(text("SELECT 1"))
         return {"status": "ok"}
 
-    for module in (novels, chapters, characters, analysis, samples, jobs, review, workflows):
+    for module in (novels, chapters, characters, analysis, samples, jobs, review, workflows, story):
         app.include_router(module.router)
     app.include_router(analysis.findings_router)
     return app

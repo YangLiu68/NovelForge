@@ -1,0 +1,57 @@
+# Original Chinese sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+# Held-out sample for the story-logic audit: written before the dev run on xueye-dangpu was
+# scored, run once with the frozen prompts. Labels in narrative_truth.yaml.
+slug: qingshi-du
+title: 青石渡
+language: zh
+synopsis: >-
+  民国年间，父母双亡的程歌寄住在青石镇的舅舅家，一边读女中，一边在督军府抄写文书挣学费。
+  督军府里的一本私账，把她卷进了一场她本不该碰的风波。
+characters:
+  - name: 程歌
+    aliases: [歌儿, 程小姐]
+    description: >-
+      女主，十七岁，父母双亡，寄住在舅舅家。人设：胆子小，遇事先躲，从不与人争执，最怕给舅舅一家添麻烦。
+      处境：学费靠在督军府文书处抄写挣来，丢了这份差事就读不成书。
+    attributes: {pronouns: she/her}
+  - name: 周舅母
+    aliases: [舅母]
+    description: 程歌的舅母，持家精明，嘴上刻薄。
+    attributes: {pronouns: she/her}
+  - name: 周伯年
+    aliases: [舅舅]
+    description: 程歌的舅舅，镇上米铺的掌柜，性子软。
+    attributes: {pronouns: he/him}
+  - name: 周宝
+    aliases: []
+    description: 程歌的表哥，周舅母的独子。
+    attributes: {pronouns: he/him}
+  - name: 段督军
+    aliases: [督军]
+    description: 青石镇驻军的督军。
+    attributes: {pronouns: he/him}
+  - name: 段少钧
+    aliases: [段少爷]
+    description: 段督军的独子，镇上有名的纨绔。
+    attributes: {pronouns: he/him}
+  - name: 孙账房
+    aliases: [孙先生]
+    description: 督军府的账房先生。
+    attributes: {pronouns: he/him}
+  - name: 赵启明
+    aliases: []
+    description: 程歌在女中隔壁男校的同年级学生。
+    attributes: {pronouns: he/him}
+  - name: 许校长
+    aliases: [校长]
+    description: 青石女中的校长。
+    attributes: {pronouns: he/him}
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md
+  - ch04.md
+  - ch05.md
+  - ch06.md
+  - ch07.md
+  - ch08.md

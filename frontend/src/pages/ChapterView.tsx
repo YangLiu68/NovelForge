@@ -200,7 +200,8 @@ export default function ChapterView() {
           />
         </label>
         <span className="muted small">
-          v{chapter.version} · {chapter.word_count.toLocaleString()} words
+          v{chapter.version} · {chapter.word_count.toLocaleString()}{" "}
+          {chapter.length_unit === "characters" ? "characters" : "words"}
         </span>
       </div>
 

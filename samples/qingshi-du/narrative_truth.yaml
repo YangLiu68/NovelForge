@@ -1,0 +1,99 @@
+# Labelled story-logic problems for the held-out 青石渡 sample (written and labelled by the
+# NovelForge authors before any model saw it; scored once with the prompts frozen on the
+# xueye-dangpu dev run). Same format as samples/xueye-dangpu/narrative_truth.yaml.
+problems:
+  - id: H1
+    kind: character
+    accept: [contradicts, unmotivated]
+    character: 程歌
+    chapter: 3
+    note: >-
+      人设是胆小、遇事先躲、最怕给舅舅家添麻烦，学费还全靠督军府的差事；她却当街扇了督军独子一记耳光。
+      前文没有任何转变的铺垫（比如她也被欺负过、卖花姑娘与她有渊源），后文也没有交代。
+    evidence:
+      - {chapter: 3, text: "程歌拨开人群走了进去，扬手给了段少钧一记耳光，声音清脆得满街都听得见。"}
+      - {chapter: 1, text: "遇事先躲，有话咽下，从不和人争"}
+  - id: H2
+    kind: character
+    accept: [malice_without_cause, unmotivated]
+    character: 赵启明
+    chapter: 4
+    note: 撕掉素不相识的女学生的卷子，原文明说没有任何过节或目的：为坏而坏。
+    evidence:
+      - {chapter: 4, text: "赵启明从她身后走过，顺手抽出那张卷子，三两下撕成了碎片，扔进了礼堂角落的炭盆里。"}
+      - {chapter: 4, text: "他和程歌素不相识，两个人连话都没说过一句。"}
+  - id: H3
+    kind: plot
+    accept: [knowledge_leak, unmotivated, contradicts]
+    character: 程歌
+    chapter: 5
+    note: >-
+      暗格的位置和开法只有督军和孙账房知道（第 4 章，程歌不在场），原文还强调她从没进过祠堂，
+      她却径直找到并打开了暗格；她为什么要偷这本账，前文也没有交代。
+    evidence:
+      - {chapter: 5, text: "她跪到供桌前，伸手按下左边第三块砖，暗格“咔”地弹开了。"}
+      - {chapter: 5, text: "傍晚，她提着一篮洗好的衣裳，从后门进了督军府"}
+      - {chapter: 5, text: "她从没进过督军府的祠堂"}
+  - id: H4
+    kind: plot
+    accept: [deus_ex_machina]
+    chapter: 7
+    note: 退学关头，前文从未出现过的南洋“远房舅公”从天而降，补学费、捐图书馆，然后再也不出现。
+    evidence:
+      - {chapter: 7, text: "一个穿着白西装、戴着金丝眼镜的中年人走了进来，自称是程歌的远房舅公，刚从南洋回来。"}
+  - id: H5
+    kind: plot
+    accept: [dangling_setup]
+    chapter: 1
+    note: 父亲临终郑重交代、“关系到她这一辈子”的信，之后再没出现。
+    evidence:
+      - {chapter: 1, text: "歌儿十八岁生日那天再拆"}
+  - id: H6
+    kind: pacing
+    accept: [flat_stretch, no_hook]
+    chapter: 6
+    note: 整章踏青，没有冲突、没有推进，平淡收尾；夹在偷账册和退学危机之间。
+    evidence:
+      - {chapter: 6, text: "傍晚回到舅舅家，程歌帮舅母剥了一筐豆子，吃过晚饭，就回小屋睡下了。"}
+
+traps:
+  - id: U1
+    character: 周舅母
+    chapter: 1
+    note: 舅母刻薄有来由：表哥两回落榜，补习花了钱，家里拮据（第 1、8 章）。
+    evidence:
+      - {chapter: 1, text: "咱家可不是开钱庄的"}
+  - id: U2
+    character: 许校长
+    chapter: 2
+    note: 无缘无故减学费，第 8 章揭晓：程歌的父亲替他交过三年学费。应判“后文有解释”。
+    evidence:
+      - {chapter: 2, text: "你这学期的学费，学校减一半"}
+  - id: U3
+    kind: knowledge
+    character: 程歌
+    chapter: 5
+    note: 她知道督军初九去省城，是第 2 章亲手誊抄行程单时看到的：信息有来源。
+    evidence:
+      - {chapter: 5, text: "她记得清清楚楚，誊抄的行程单上写着：初九，督军赴省城，十一日返。"}
+  - id: U4
+    character: 周舅母
+    chapter: 7
+    note: 赞成退学是为了把钱省给儿子补习，动机在第 1 章就交代了。
+    evidence:
+      - {chapter: 7, text: "退了正好，省下的学费给宝儿补习"}
+
+# A careful editor could go either way on these; issues here count as neither found nor false.
+ambiguous:
+  - id: A1
+    character: 程歌
+    chapter: 8
+    note: 胆小的人设下要挟督军府的账房；动机（保护卖花姑娘和舅舅的米铺）有，但性格转变没有铺垫。
+    evidence:
+      - {chapter: 8, text: "程歌只提了一个条件"}
+  - id: A2
+    character: 段少钧
+    chapter: 3
+    note: 纨绔当街欺负卖花姑娘，没有具体动机；人物卡写了“有名的纨绔”，算不算为坏而坏见仁见智。
+    evidence:
+      - {chapter: 3, text: "段少钧一脚踢翻了卖花姑娘的竹篮"}

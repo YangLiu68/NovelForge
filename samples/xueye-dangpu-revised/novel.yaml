@@ -1,0 +1,78 @@
+# Original Chinese sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+# A revision of samples/xueye-dangpu written by hand (the assistant, acting as the author) from
+# the story audit's problems and suggestions; narrative_truth.yaml labels the fixed places as
+# traps (they must no longer be flagged).
+slug: xueye-dangpu-revised
+title: 雪夜当铺（修订版）
+language: zh
+synopsis: >-
+  沈知微重生回到十七岁，离家产被夺、自己冻死在当铺门外还有二十七天。她要在二叔卖掉老宅之前，
+  把这笔账一笔一笔算回来。
+characters:
+  - name: 沈知微
+    aliases: [知微, 大小姐, 沈姑娘]
+    description: >-
+      女主，十七岁（重生）。前世十九岁那年冻死在周记当铺门外。人设：冷静、聪明、凡事先算账，
+      把自己的利益放在第一位，从不做亏本的买卖。处境：父亲新丧，家产被二叔把持，身上只有三十七文钱。
+    attributes: {pronouns: she/her}
+  - name: 沈承业
+    aliases: [二叔, 沈二爷, 二爷]
+    description: 沈知微的二叔。好赌，在长乐赌坊欠下三百两。
+    attributes: {pronouns: he/him}
+  - name: 沈若兰
+    aliases: [若兰]
+    description: 沈承业的女儿，沈知微的堂妹。暗中倾心陆明川。
+    attributes: {pronouns: she/her}
+  - name: 顾晏
+    aliases: [顾少东家, 少东家]
+    description: 周记当铺的少东家，出了名的冷面，借钱必立字据。
+    attributes: {pronouns: he/him}
+  - name: 陆明川
+    aliases: [陆公子]
+    description: 陆家公子，沈知微前世的未婚夫。
+    attributes: {pronouns: he/him}
+  - name: 周掌柜
+    aliases: [老掌柜]
+    description: 周记当铺的老掌柜。
+    attributes: {pronouns: he/him}
+  - name: 春杏
+    aliases: []
+    description: 沈知微母亲的陪嫁丫鬟。
+    attributes: {pronouns: she/her}
+  - name: 小桃
+    aliases: []
+    description: 沈知微的小丫鬟。
+    attributes: {pronouns: she/her}
+  - name: 小六
+    aliases: []
+    description: 沈承业身边的小厮。
+    attributes: {pronouns: he/him}
+  - name: 阿满
+    aliases: [小乞丐]
+    description: 桥头的小乞丐，七八岁。
+    attributes: {pronouns: he/him}
+  - name: 刘三
+    aliases: []
+    description: 长乐赌坊管讨债的人。
+    attributes: {pronouns: he/him}
+  - name: 陈伯
+    aliases: []
+    description: 沈家的老仆。
+    attributes: {pronouns: he/him}
+  - name: 钱县令
+    aliases: []
+    description: 临川县令。
+    attributes: {pronouns: he/him}
+  - name: 巡察使
+    aliases: [杜大人]
+    description: 奉旨巡察江南的官员，腊月十五到临川。
+    attributes: {pronouns: he/him}
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md
+  - ch04.md
+  - ch05.md
+  - ch06.md
+  - ch07.md
+  - ch08.md

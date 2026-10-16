@@ -74,7 +74,9 @@ export default function Overview() {
         </>
       )}
       <p className="muted">
-        {chapters.length} chapters · {words.toLocaleString()} words · {novel.character_count}{" "}
+        {chapters.length} chapters · {words.toLocaleString()}{" "}
+        {chapters.some((c) => c.length_unit === "characters") ? "characters" : "words"} ·{" "}
+        {novel.character_count}{" "}
         characters
       </p>
       <div className="quick-links">
