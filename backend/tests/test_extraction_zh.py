@@ -161,7 +161,10 @@ def test_detectors_run_on_chinese_claims():
     ]
     # A Chinese novel gets Chinese wording, built from the same values.
     text = {f.kind: (f.explanation, f.suggestion) for f in findings}
-    assert text["attribute_conflict"][0] == "陈砚的惯用手前后不一致：第 1 章是“左手”；第 2 章是“右手”。"
+    assert (
+        text["attribute_conflict"][0]
+        == "陈砚的惯用手前后不一致：第 1 章是“左手”；第 2 章是“右手”。"
+    )
     assert text["canon_conflict"][0] == "人物卡上陈砚的出生地是“青州”，但第 2 章写的是“临江县”。"
     assert "中间过了 30 天，年龄应该是 17 或 18 岁" in text["age_timeline"][0]
     assert text["ability_conflict"][1].startswith("在第 1 章和第 2 章之间写苏婉学会游泳")
@@ -186,3 +189,46 @@ def test_dev_sample_scores(capsys):
     facts_result = json.loads(capsys.readouterr().out)
     assert facts_result["precision"] == 1.0
     assert facts_result["recall"] >= 0.9
+
+
+@pytest.mark.parametrize(
+    "body, expected",
+    [
+        ("林雪棠今年十七。", [("l", "age", "17", "asserted")]),
+        ("周铁山走了。陈砚今年五十三了。", [("c", "age", "53", "asserted")]),
+        ("苏婉不会水。", [("s", "ability:swim", "cannot", "asserted")]),
+        ("顾明远不识字。", [("g", "ability:read", "cannot", "asserted")]),
+        ("顾明远死了快两年了。", [("g", "status", "dead", "asserted")]),
+        ("林雪棠跟着陈砚学会了骑马。", [("l", "ability:ride", "learned", "asserted")]),
+        ("陈砚生在江陵。", [("c", "birthplace", "江陵", "asserted")]),
+        ("陈砚生在寒冬。", []),
+        ("陈砚生在云州城外。", [("c", "birthplace", "云州", "asserted")]),
+        ("苏婉的头发已经染得乌黑。", [("s", "hair_color", "black", "asserted")]),
+        (
+            "顾明远把那封信抖开，借着火把的光一行一行看下去。",
+            [("g", "ability:read", "used", "asserted")],
+        ),
+        ("陈砚骑在一匹通身乌黑的高头大马上。", [("c", "ability:ride", "used", "asserted")]),
+        ("陈砚一辈子使的都是右手刀。", [("c", "handedness", "right", "asserted")]),
+        ("林雪棠把乌发膏挑在木梳上。", []),
+    ],
+)
+def test_v2_phrasings(body, expected):
+    """Phrasings added in rules-zh-v2, after the first held-out sample (BENCHMARK.md section 9)."""
+    assert facts(body) == expected
+
+
+def test_v2_pronouns():
+    # A man named next to a woman does not block 她.
+    assert facts("林雪棠跟陈砚说完话。她是左撇子。") == [("l", "handedness", "left", "asserted")]
+    # A resolved 她 carries over to the next sentence that names nobody.
+    assert facts("苏婉不会游泳。她在山里长大。她生在青州。") == [
+        ("s", "ability:swim", "cannot", "asserted"),
+        ("s", "birthplace", "青州", "asserted"),
+    ]
+    # Across a paragraph break.
+    assert facts("顾明远等在岭上。\n\n他骑在一匹黑马上。") == [
+        ("g", "ability:ride", "used", "asserted")
+    ]
+    # A person noun in between: 她 could be 这姑娘.
+    assert facts("林雪棠以为这姑娘娇气，后来才知道，她骑马很稳。") == []
