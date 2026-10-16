@@ -14,16 +14,26 @@ uv run novelforge gen-corpus --chapters 100 --seed 7 --filler 25 --out "$C/load-
 uv run novelforge gen-corpus --chapters 1000 --seed 7 --filler 25 --out "$C/load-1000-s7"
 
 # Sample smoke check (three hand-written chapters)
-uv run novelforge eval-sample --json > "$OUT/sample-lanternfall-rules-v2.json"
+uv run novelforge eval-sample --json > "$OUT/sample-lanternfall-rules-v6.json"
 
 # Retrieval: mock embedder, then real local models (bge-small + MiniLM cross-encoder)
 uv run novelforge bench-retrieval "$C/syn-100-s7" --embedder hash --reranker lexical --out "$OUT"
 uv run novelforge bench-retrieval "$C/syn-100-s7" --embedder fastembed --reranker cross-encoder --out "$OUT"
 uv run novelforge bench-retrieval "$C/syn-1000-s7" --embedder fastembed --reranker cross-encoder --out "$OUT"
 
-# Extraction quality of the rule baseline
+# Extraction quality of the rule baseline (and the pronoun ablation)
 uv run novelforge bench-extraction "$C/syn-100-s7" --extractor rules --out "$OUT"
 uv run novelforge bench-extraction "$C/syn-1000-s7" --extractor rules --out "$OUT"
+uv run novelforge bench-extraction "$C/syn-1000-s7" --extractor rules --no-sheet-pronouns --out "$OUT"
+
+# Real prose: four public-domain novels (downloaded once), scored against bench/real/labels
+for book in little-women anne-of-green-gables pride-and-prejudice the-secret-garden; do
+  uv run novelforge bench-real "$book" --out "$OUT"
+  uv run novelforge bench-real "$book" --no-sheet-pronouns --out "$OUT"
+  for v in v3 v4 v5; do
+    uv run novelforge bench-real "$book" --claims "$OUT/real-claims/claims-$book-rules-$v.jsonl" --out "$OUT"
+  done
+done
 
 # Contradiction detection with the memory ablation
 uv run novelforge bench-consistency "$C/syn-100-s7" --extractor rules --embedder fastembed --out "$OUT"

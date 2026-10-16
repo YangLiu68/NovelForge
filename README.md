@@ -48,6 +48,8 @@ extraction and contradiction detection, including how much each kind of memory h
 | Extracted facts wait for review before they become canon. | Who appears with whom, with the paragraphs behind each link. |
 | ![Per-character timeline by story day](docs/images/timeline.png) | ![Draft assistant at the decision checkpoint](docs/images/draft.png) |
 | Facts by story day; red rings are facts in an open contradiction. | Plan, draft, check, then apply, revise or discard (mock model shown). |
+| ![Little Women in the review queue, with attributions explained](docs/images/review-real.png) | ![A pronoun-resolved fact highlighted in Little Women](docs/images/cited-span-real.png) |
+| *Little Women* imported with `import-text --book little-women`: facts reached through "She" or a sentence's subject say why. | "She had … sharp, gray eyes" is Jo's. Later in the paragraph, "A regular snow maiden, with blue eyes" (Amy) is a miss: the sentence has no subject to attach it to. |
 
 ## Quick start (no Docker needed)
 
@@ -98,12 +100,12 @@ local on an M4 laptop:
 | What | Result |
 |---|---|
 | Retrieval, 800 questions (half paraphrased) | hybrid + cross-encoder R@1 **0.909**, R@10 0.999; full-text alone 0.584, vectors alone 0.614 |
-| Contradiction recall by memory type (same claims, same detectors) | chapter alone 0.224 · vector memory 0.496 · hybrid memory 0.424 · **structured claim store 0.576** |
-| False alarms (structured) | **0** findings wrong, 0 of 148 negatives flagged; whole-novel check in 0.8 s |
+| Contradiction recall by memory type (same claims, same detectors) | chapter alone 0.280 · vector memory 0.584 · hybrid memory 0.512 · **structured claim store 0.664** |
+| False alarms (structured) | **0** findings wrong, 0 of 148 negatives flagged; whole-novel check in 0.5 s |
 | Rule extractor (synthetic) | precision 1.0, recall 0.903 (rules-v6; v3 was 0.812); similes and implications are left to the LLM |
 | **Real prose**: 4 public-domain novels, 490,000 words, every claim hand-judged | on books held out from rule development: strict precision 0.78, recall of explicit identity facts 0.20 to 0.34 (v3: 0.04 to 0.09); **0 contradiction findings, so 0 false alarms** |
 | Local LLM extractor (qwen2.5:3b, 15 chapters) | precision 0.667, recall 0.036: too weak to help; validation cut its false positives from 14 to 1. Claude is wired in but has not been run (no API key) |
-| Scale, 1.25 M words / 33,277 paragraphs | chapter save p50 213 ms, hybrid search p50 136 ms, report refresh 524 ms, 257 MB database |
+| Scale, 1.25 M words / 33,277 paragraphs | import 44 s, chapter save p50 247 ms, hybrid search p50 173 ms, report refresh 774 ms, 258 MB database (on a saturated shared machine) |
 
 The synthetic corpus is templated, so its numbers measure the pipeline against known answers,
 not literary understanding; the real-prose rows show how far they fall on prose nobody wrote

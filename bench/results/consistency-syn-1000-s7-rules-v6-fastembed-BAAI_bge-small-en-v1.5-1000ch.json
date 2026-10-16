@@ -1,0 +1,7770 @@
+{
+  "corpus": "syn-1000-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 4,
+    "seed": 7,
+    "chapters": 1000
+  },
+  "extractor": "rules",
+  "embedder": "fastembed:BAAI/bge-small-en-v1.5",
+  "k": 5,
+  "systems": {
+    "no-memory": {
+      "findings": 35,
+      "true_positives": 35,
+      "false_positives": 0,
+      "duplicates": 0,
+      "false_negatives": 90,
+      "precision": 1.0,
+      "recall_all": 0.28,
+      "recall_detectable": 0.28,
+      "negatives": 148,
+      "negatives_violated": 0,
+      "cited_spans": 55,
+      "cited_spans_correct": 51,
+      "citation_precision": 0.9273,
+      "labelled_spans_covered": 51,
+      "labelled_spans_total": 55,
+      "citation_recall": 0.9273,
+      "by_category": {
+        "abilities": {
+          "labelled": 10,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        },
+        "identity": {
+          "labelled": 44,
+          "detected": 17,
+          "fp": 0,
+          "recall": 0.3864
+        },
+        "location": {
+          "labelled": 16,
+          "detected": 16,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 27,
+          "detected": 2,
+          "fp": 0,
+          "recall": 0.0741
+        },
+        "world_rules": {
+          "labelled": 28,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT103",
+        "GT107",
+        "GT110",
+        "GT114",
+        "GT12",
+        "GT121",
+        "GT124",
+        "GT16",
+        "GT2",
+        "GT23",
+        "GT24",
+        "GT26",
+        "GT33",
+        "GT37",
+        "GT40",
+        "GT44",
+        "GT47",
+        "GT5",
+        "GT51",
+        "GT54",
+        "GT58",
+        "GT59",
+        "GT61",
+        "GT65",
+        "GT68",
+        "GT72",
+        "GT75",
+        "GT79",
+        "GT82",
+        "GT85",
+        "GT89",
+        "GT9",
+        "GT93",
+        "GT95",
+        "GT96"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT3",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT6",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT8",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT10",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT13",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT14",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT15",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT17",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT18",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT19",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT20",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT21",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT22",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT25",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT27",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT28",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT29",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT30",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT31",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT32",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT34",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT35",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT36",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT38",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT39",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT41",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT42",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT43",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT45",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT46",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT48",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT49",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT50",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT52",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT53",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT55",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT56",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT57",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT60",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT62",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT63",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT64",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT66",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT67",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT69",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT70",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT71",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT73",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT74",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT76",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT77",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT78",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT80",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT81",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT83",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT84",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT86",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT87",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT88",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT90",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT91",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT92",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT94",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT97",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT98",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT99",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT100",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT101",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT102",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT104",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT105",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT106",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT108",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT109",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT111",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT112",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT113",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT115",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT116",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT117",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT118",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT119",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT120",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT122",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT123",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT125",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [],
+      "violated_negatives": [],
+      "seconds": 1.68,
+      "avg_context_claims": 2.8,
+      "findings_raw": [
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Braric Garley",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              213,
+              901,
+              953
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Rosa Garrow",
+          "predicate": "location",
+          "spans": [
+            [
+              224,
+              670,
+              690
+            ],
+            [
+              224,
+              716,
+              737
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              253,
+              1019,
+              1039
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Braric Garley",
+          "predicate": "location",
+          "spans": [
+            [
+              263,
+              781,
+              804
+            ],
+            [
+              263,
+              830,
+              853
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              273,
+              1062,
+              1081
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Ormo Venholt",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              295,
+              967,
+              988
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "age",
+          "spans": [
+            [
+              296,
+              238,
+              264
+            ],
+            [
+              296,
+              703,
+              718
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Elewen Dunton",
+          "predicate": "location",
+          "spans": [
+            [
+              316,
+              807,
+              829
+            ],
+            [
+              316,
+              855,
+              878
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Vena Garton",
+          "predicate": "location",
+          "spans": [
+            [
+              361,
+              1050,
+              1071
+            ],
+            [
+              361,
+              1097,
+              1117
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              388,
+              882,
+              901
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Calis Marrow",
+          "predicate": "location",
+          "spans": [
+            [
+              396,
+              940,
+              961
+            ],
+            [
+              396,
+              987,
+              1009
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Damo Corwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              416,
+              848,
+              898
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Calis Marrow",
+          "predicate": "location",
+          "spans": [
+            [
+              431,
+              1078,
+              1099
+            ],
+            [
+              431,
+              1125,
+              1146
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Braric Garley",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              442,
+              860,
+              892
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Cadra Garrow",
+          "predicate": "location",
+          "spans": [
+            [
+              464,
+              1150,
+              1171
+            ],
+            [
+              464,
+              1197,
+              1218
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Haric Marrow",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              471,
+              621,
+              672
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Sevik Garwick",
+          "predicate": "age",
+          "spans": [
+            [
+              478,
+              140,
+              149
+            ],
+            [
+              478,
+              773,
+              794
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Hara Halmere",
+          "predicate": "location",
+          "spans": [
+            [
+              498,
+              720,
+              740
+            ],
+            [
+              498,
+              766,
+              786
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Jorin Halwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              527,
+              747,
+              771
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Orwen Talrow",
+          "predicate": "location",
+          "spans": [
+            [
+              541,
+              926,
+              947
+            ],
+            [
+              541,
+              973,
+              994
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              557,
+              568,
+              588
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Jodra Halrow",
+          "predicate": "location",
+          "spans": [
+            [
+              627,
+              787,
+              809
+            ],
+            [
+              627,
+              835,
+              857
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Jorin Halwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              663,
+              440,
+              467
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Rowen Ashrow",
+          "predicate": "location",
+          "spans": [
+            [
+              674,
+              720,
+              741
+            ],
+            [
+              674,
+              767,
+              788
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Robel Wexrow",
+          "predicate": "location",
+          "spans": [
+            [
+              725,
+              486,
+              507
+            ],
+            [
+              725,
+              533,
+              554
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Elerin Venford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              773,
+              518,
+              541
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Rosa Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              778,
+              164,
+              190
+            ],
+            [
+              778,
+              499,
+              520
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Vesa Dunwick",
+          "predicate": "location",
+          "spans": [
+            [
+              796,
+              519,
+              540
+            ],
+            [
+              796,
+              566,
+              586
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Fenor Dunby",
+          "predicate": "location",
+          "spans": [
+            [
+              849,
+              932,
+              953
+            ],
+            [
+              849,
+              979,
+              1000
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Vena Garton",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              909,
+              1004,
+              1034
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Jorin Halwell",
+          "predicate": "location",
+          "spans": [
+            [
+              928,
+              559,
+              580
+            ],
+            [
+              928,
+              606,
+              628
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Vetha Brirow",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              934,
+              1065,
+              1089
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Wysa Venshaw",
+          "predicate": "handedness",
+          "spans": [
+            [
+              970,
+              959,
+              979
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Ariko Lonshaw",
+          "predicate": "location",
+          "spans": [
+            [
+              991,
+              631,
+              652
+            ],
+            [
+              991,
+              678,
+              700
+            ]
+          ]
+        }
+      ]
+    },
+    "vector-only": {
+      "findings": 99,
+      "true_positives": 73,
+      "false_positives": 0,
+      "duplicates": 26,
+      "false_negatives": 52,
+      "precision": 1.0,
+      "recall_all": 0.584,
+      "recall_detectable": 0.584,
+      "negatives": 148,
+      "negatives_violated": 0,
+      "cited_spans": 148,
+      "cited_spans_correct": 116,
+      "citation_precision": 0.7838,
+      "labelled_spans_covered": 116,
+      "labelled_spans_total": 131,
+      "citation_recall": 0.8855,
+      "by_category": {
+        "abilities": {
+          "labelled": 10,
+          "detected": 8,
+          "fp": 0,
+          "recall": 0.8
+        },
+        "identity": {
+          "labelled": 44,
+          "detected": 30,
+          "fp": 0,
+          "recall": 0.6818
+        },
+        "location": {
+          "labelled": 16,
+          "detected": 16,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 27,
+          "detected": 19,
+          "fp": 0,
+          "recall": 0.7037
+        },
+        "world_rules": {
+          "labelled": 28,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT10",
+        "GT101",
+        "GT102",
+        "GT103",
+        "GT107",
+        "GT108",
+        "GT110",
+        "GT111",
+        "GT113",
+        "GT114",
+        "GT115",
+        "GT117",
+        "GT12",
+        "GT120",
+        "GT121",
+        "GT122",
+        "GT123",
+        "GT124",
+        "GT13",
+        "GT15",
+        "GT16",
+        "GT17",
+        "GT19",
+        "GT2",
+        "GT20",
+        "GT23",
+        "GT24",
+        "GT25",
+        "GT26",
+        "GT27",
+        "GT3",
+        "GT31",
+        "GT33",
+        "GT34",
+        "GT37",
+        "GT38",
+        "GT40",
+        "GT43",
+        "GT44",
+        "GT45",
+        "GT46",
+        "GT47",
+        "GT5",
+        "GT51",
+        "GT52",
+        "GT54",
+        "GT55",
+        "GT58",
+        "GT59",
+        "GT6",
+        "GT61",
+        "GT64",
+        "GT65",
+        "GT66",
+        "GT67",
+        "GT68",
+        "GT71",
+        "GT72",
+        "GT73",
+        "GT75",
+        "GT79",
+        "GT8",
+        "GT81",
+        "GT82",
+        "GT83",
+        "GT85",
+        "GT89",
+        "GT9",
+        "GT92",
+        "GT93",
+        "GT95",
+        "GT96",
+        "GT99"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT14",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT18",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT21",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT22",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT28",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT29",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT30",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT32",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT35",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT36",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT39",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT41",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT42",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT48",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT49",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT50",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT53",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT56",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT57",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT60",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT62",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT63",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT69",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT70",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT74",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT76",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT77",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT78",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT80",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT84",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT86",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT87",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT88",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT90",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT91",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT94",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT97",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT98",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT100",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT104",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT105",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT106",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT109",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT112",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT116",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT118",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT119",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT125",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [],
+      "violated_negatives": [],
+      "seconds": 277.4,
+      "avg_context_claims": 15.9,
+      "findings_raw": [
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Braric Garley",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              213,
+              901,
+              953
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Vena Garton",
+          "predicate": "age",
+          "spans": [
+            [
+              141,
+              408,
+              428
+            ],
+            [
+              217,
+              778,
+              798
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Rosa Garrow",
+          "predicate": "location",
+          "spans": [
+            [
+              224,
+              670,
+              690
+            ],
+            [
+              224,
+              716,
+              737
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Elerin Venford",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              2,
+              561,
+              582
+            ],
+            [
+              229,
+              721,
+              732
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Damo Corwell",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              58,
+              1027,
+              1049
+            ],
+            [
+              58,
+              1051,
+              1070
+            ],
+            [
+              252,
+              779,
+              799
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              253,
+              1019,
+              1039
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Feko Garley",
+          "predicate": "age",
+          "spans": [
+            [
+              116,
+              102,
+              120
+            ],
+            [
+              256,
+              879,
+              887
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Braric Garley",
+          "predicate": "location",
+          "spans": [
+            [
+              263,
+              781,
+              804
+            ],
+            [
+              263,
+              830,
+              853
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Canor Ashford",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              13,
+              882,
+              902
+            ],
+            [
+              264,
+              668,
+              678
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              167,
+              303,
+              325
+            ],
+            [
+              271,
+              796,
+              817
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              273,
+              1062,
+              1081
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "age",
+          "spans": [
+            [
+              145,
+              144,
+              161
+            ],
+            [
+              275,
+              770,
+              786
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Canor Ashford",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              13,
+              882,
+              902
+            ],
+            [
+              287,
+              794,
+              804
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Ormo Venholt",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              295,
+              967,
+              988
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "age",
+          "spans": [
+            [
+              145,
+              144,
+              161
+            ],
+            [
+              296,
+              703,
+              718
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Jodra Halrow",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              26,
+              622,
+              653
+            ],
+            [
+              310,
+              1025,
+              1035
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Elewen Dunton",
+          "predicate": "location",
+          "spans": [
+            [
+              316,
+              807,
+              829
+            ],
+            [
+              316,
+              855,
+              878
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Braric Garley",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              110,
+              746,
+              767
+            ],
+            [
+              334,
+              1073,
+              1084
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Nidra Falford",
+          "predicate": "age",
+          "spans": [
+            [
+              1,
+              1089,
+              1111
+            ],
+            [
+              355,
+              806,
+              825
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Vena Garton",
+          "predicate": "location",
+          "spans": [
+            [
+              361,
+              1050,
+              1071
+            ],
+            [
+              361,
+              1097,
+              1117
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Fenor Dunby",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              14,
+              755,
+              786
+            ],
+            [
+              366,
+              819,
+              852
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "age",
+          "spans": [
+            [
+              275,
+              770,
+              786
+            ],
+            [
+              383,
+              156,
+              165
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              388,
+              882,
+              901
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Vena Garton",
+          "predicate": "age",
+          "spans": [
+            [
+              217,
+              778,
+              798
+            ],
+            [
+              390,
+              177,
+              193
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Nidra Falford",
+          "predicate": "age",
+          "spans": [
+            [
+              1,
+              1089,
+              1111
+            ],
+            [
+              392,
+              798,
+              818
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Calis Marrow",
+          "predicate": "location",
+          "spans": [
+            [
+              396,
+              940,
+              961
+            ],
+            [
+              396,
+              987,
+              1009
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Kaven Falford",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              89,
+              289,
+              306
+            ],
+            [
+              409,
+              842,
+              860
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              167,
+              303,
+              325
+            ],
+            [
+              271,
+              796,
+              817
+            ],
+            [
+              410,
+              219,
+              241
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Damo Corwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              416,
+              848,
+              898
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Damo Corwell",
+          "predicate": "status",
+          "spans": [
+            [
+              317,
+              986,
+              995
+            ],
+            [
+              426,
+              890,
+              910
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Calis Marrow",
+          "predicate": "location",
+          "spans": [
+            [
+              431,
+              1078,
+              1099
+            ],
+            [
+              431,
+              1125,
+              1146
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Braric Garley",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              442,
+              860,
+              892
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Robel Wexrow",
+          "predicate": "age",
+          "spans": [
+            [
+              434,
+              111,
+              120
+            ],
+            [
+              446,
+              967,
+              988
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              285,
+              673,
+              700
+            ],
+            [
+              454,
+              177,
+              204
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Cadra Garrow",
+          "predicate": "location",
+          "spans": [
+            [
+              464,
+              1150,
+              1171
+            ],
+            [
+              464,
+              1197,
+              1218
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Cadra Garrow",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              1,
+              863,
+              883
+            ],
+            [
+              467,
+              927,
+              937
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Haric Marrow",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              471,
+              621,
+              672
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Sevik Garwick",
+          "predicate": "age",
+          "spans": [
+            [
+              118,
+              145,
+              167
+            ],
+            [
+              478,
+              773,
+              794
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              285,
+              673,
+              700
+            ],
+            [
+              454,
+              177,
+              204
+            ],
+            [
+              487,
+              112,
+              139
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Hara Halmere",
+          "predicate": "location",
+          "spans": [
+            [
+              498,
+              720,
+              740
+            ],
+            [
+              498,
+              766,
+              786
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Orlis Garton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              79,
+              313,
+              339
+            ],
+            [
+              197,
+              137,
+              163
+            ],
+            [
+              287,
+              384,
+              433
+            ],
+            [
+              405,
+              173,
+              199
+            ],
+            [
+              518,
+              837,
+              863
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Jorin Halwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              527,
+              747,
+              771
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Havik Corner",
+          "predicate": "age",
+          "spans": [
+            [
+              385,
+              265,
+              277
+            ],
+            [
+              536,
+              645,
+              669
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Isasa Briley",
+          "predicate": "status",
+          "spans": [
+            [
+              418,
+              722,
+              732
+            ],
+            [
+              539,
+              467,
+              489
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Orwen Talrow",
+          "predicate": "location",
+          "spans": [
+            [
+              541,
+              926,
+              947
+            ],
+            [
+              541,
+              973,
+              994
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              275,
+              219,
+              245
+            ],
+            [
+              456,
+              116,
+              142
+            ],
+            [
+              549,
+              744,
+              767
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              285,
+              673,
+              700
+            ],
+            [
+              454,
+              177,
+              204
+            ],
+            [
+              487,
+              112,
+              139
+            ],
+            [
+              549,
+              138,
+              160
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              557,
+              568,
+              588
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Jodra Halrow",
+          "predicate": "location",
+          "spans": [
+            [
+              627,
+              787,
+              809
+            ],
+            [
+              627,
+              835,
+              857
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Orlis Garton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              79,
+              313,
+              339
+            ],
+            [
+              197,
+              137,
+              163
+            ],
+            [
+              287,
+              384,
+              433
+            ],
+            [
+              405,
+              173,
+              199
+            ],
+            [
+              518,
+              837,
+              863
+            ],
+            [
+              651,
+              137,
+              163
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Jorin Halwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              527,
+              747,
+              771
+            ],
+            [
+              663,
+              440,
+              467
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Jomo Halford",
+          "predicate": "status",
+          "spans": [
+            [
+              629,
+              630,
+              639
+            ],
+            [
+              668,
+              1072,
+              1092
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Rowen Ashrow",
+          "predicate": "location",
+          "spans": [
+            [
+              674,
+              720,
+              741
+            ],
+            [
+              674,
+              767,
+              788
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Vesa Dunwick",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              1,
+              886,
+              905
+            ],
+            [
+              679,
+              563,
+              572
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              879,
+              902
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Sevik Garwick",
+          "predicate": "age",
+          "spans": [
+            [
+              478,
+              773,
+              794
+            ],
+            [
+              688,
+              140,
+              162
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Vena Garton",
+          "predicate": "age",
+          "spans": [
+            [
+              217,
+              778,
+              798
+            ],
+            [
+              697,
+              359,
+              375
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Robel Wexrow",
+          "predicate": "location",
+          "spans": [
+            [
+              725,
+              486,
+              507
+            ],
+            [
+              725,
+              533,
+              554
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Wytha Talmere",
+          "predicate": "age",
+          "spans": [
+            [
+              594,
+              887,
+              907
+            ],
+            [
+              745,
+              136,
+              160
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Liset Corwell",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              633,
+              188,
+              208
+            ],
+            [
+              665,
+              237,
+              257
+            ],
+            [
+              747,
+              887,
+              906
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              271,
+              796,
+              817
+            ],
+            [
+              410,
+              219,
+              241
+            ],
+            [
+              762,
+              390,
+              412
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Elerin Venford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              773,
+              518,
+              541
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Rosa Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              37,
+              142,
+              168
+            ],
+            [
+              579,
+              169,
+              188
+            ],
+            [
+              614,
+              116,
+              137
+            ],
+            [
+              778,
+              164,
+              190
+            ],
+            [
+              778,
+              499,
+              520
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              271,
+              796,
+              817
+            ],
+            [
+              410,
+              219,
+              241
+            ],
+            [
+              783,
+              305,
+              327
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Robel Wexrow",
+          "predicate": "age",
+          "spans": [
+            [
+              446,
+              967,
+              988
+            ],
+            [
+              794,
+              524,
+              545
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Vesa Dunwick",
+          "predicate": "location",
+          "spans": [
+            [
+              796,
+              519,
+              540
+            ],
+            [
+              796,
+              566,
+              586
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              879,
+              902
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ],
+            [
+              797,
+              210,
+              228
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Ormo Venholt",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              66,
+              448,
+              473
+            ],
+            [
+              819,
+              1202,
+              1252
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              285,
+              673,
+              700
+            ],
+            [
+              454,
+              177,
+              204
+            ],
+            [
+              487,
+              112,
+              139
+            ],
+            [
+              828,
+              185,
+              207
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Rosa Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              579,
+              169,
+              188
+            ],
+            [
+              614,
+              116,
+              137
+            ],
+            [
+              778,
+              499,
+              520
+            ],
+            [
+              834,
+              149,
+              168
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Dawen Halley",
+          "predicate": "age",
+          "spans": [
+            [
+              370,
+              362,
+              382
+            ],
+            [
+              837,
+              1049,
+              1068
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "status",
+          "spans": [
+            [
+              716,
+              1063,
+              1073
+            ],
+            [
+              839,
+              1031,
+              1052
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Wytha Talmere",
+          "predicate": "age",
+          "spans": [
+            [
+              594,
+              887,
+              907
+            ],
+            [
+              844,
+              298,
+              324
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Fenor Dunby",
+          "predicate": "location",
+          "spans": [
+            [
+              849,
+              932,
+              953
+            ],
+            [
+              849,
+              979,
+              1000
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              285,
+              673,
+              700
+            ],
+            [
+              828,
+              185,
+              207
+            ],
+            [
+              889,
+              114,
+              134
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              879,
+              902
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ],
+            [
+              797,
+              210,
+              228
+            ],
+            [
+              889,
+              424,
+              444
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Havik Corner",
+          "predicate": "age",
+          "spans": [
+            [
+              536,
+              645,
+              669
+            ],
+            [
+              906,
+              305,
+              317
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Vena Garton",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              909,
+              1004,
+              1034
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Orlis Garton",
+          "predicate": "age",
+          "spans": [
+            [
+              598,
+              235,
+              255
+            ],
+            [
+              912,
+              684,
+              703
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              879,
+              902
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ],
+            [
+              797,
+              210,
+              228
+            ],
+            [
+              889,
+              424,
+              444
+            ],
+            [
+              921,
+              185,
+              205
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Jorin Halwell",
+          "predicate": "location",
+          "spans": [
+            [
+              928,
+              559,
+              580
+            ],
+            [
+              928,
+              606,
+              628
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Brasa Halton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              591,
+              197,
+              223
+            ],
+            [
+              929,
+              885,
+              934
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Ariko Lonshaw",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              35,
+              406,
+              455
+            ],
+            [
+              729,
+              448,
+              497
+            ],
+            [
+              932,
+              947,
+              973
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Vetha Brirow",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              934,
+              1065,
+              1089
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Feko Garley",
+          "predicate": "age",
+          "spans": [
+            [
+              256,
+              879,
+              887
+            ],
+            [
+              943,
+              711,
+              727
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Nidra Falford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              716,
+              1105,
+              1128
+            ],
+            [
+              716,
+              1130,
+              1150
+            ],
+            [
+              949,
+              827,
+              854
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Nidra Falford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              716,
+              1105,
+              1128
+            ],
+            [
+              716,
+              1130,
+              1150
+            ],
+            [
+              949,
+              827,
+              854
+            ],
+            [
+              956,
+              312,
+              332
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Fenor Dunby",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              722,
+              280,
+              304
+            ],
+            [
+              798,
+              305,
+              329
+            ],
+            [
+              853,
+              507,
+              534
+            ],
+            [
+              965,
+              499,
+              525
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              879,
+              902
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ],
+            [
+              797,
+              210,
+              228
+            ],
+            [
+              889,
+              424,
+              444
+            ],
+            [
+              967,
+              140,
+              160
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Brasa Halton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              92,
+              401,
+              427
+            ],
+            [
+              591,
+              197,
+              223
+            ],
+            [
+              929,
+              885,
+              934
+            ],
+            [
+              968,
+              184,
+              233
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Nidra Falford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              716,
+              1105,
+              1128
+            ],
+            [
+              716,
+              1130,
+              1150
+            ],
+            [
+              949,
+              827,
+              854
+            ],
+            [
+              970,
+              139,
+              157
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Wysa Venshaw",
+          "predicate": "handedness",
+          "spans": [
+            [
+              970,
+              959,
+              979
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Liset Corwell",
+          "predicate": "age",
+          "spans": [
+            [
+              196,
+              179,
+              203
+            ],
+            [
+              979,
+              632,
+              649
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Tewen Talner",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              484,
+              133,
+              160
+            ],
+            [
+              587,
+              154,
+              181
+            ],
+            [
+              983,
+              1199,
+              1222
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              271,
+              796,
+              817
+            ],
+            [
+              410,
+              219,
+              241
+            ],
+            [
+              783,
+              305,
+              327
+            ],
+            [
+              986,
+              173,
+              195
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              879,
+              902
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ],
+            [
+              797,
+              210,
+              228
+            ],
+            [
+              889,
+              424,
+              444
+            ],
+            [
+              991,
+              205,
+              223
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Ariko Lonshaw",
+          "predicate": "location",
+          "spans": [
+            [
+              991,
+              631,
+              652
+            ],
+            [
+              991,
+              678,
+              700
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Isalis Ashby",
+          "predicate": "age",
+          "spans": [
+            [
+              420,
+              660,
+              673
+            ],
+            [
+              992,
+              106,
+              119
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              271,
+              796,
+              817
+            ],
+            [
+              410,
+              219,
+              241
+            ],
+            [
+              783,
+              305,
+              327
+            ],
+            [
+              986,
+              173,
+              195
+            ],
+            [
+              996,
+              138,
+              160
+            ]
+          ]
+        }
+      ]
+    },
+    "hybrid": {
+      "findings": 71,
+      "true_positives": 64,
+      "false_positives": 2,
+      "duplicates": 5,
+      "false_negatives": 61,
+      "precision": 0.9697,
+      "recall_all": 0.512,
+      "recall_detectable": 0.512,
+      "negatives": 148,
+      "negatives_violated": 2,
+      "cited_spans": 139,
+      "cited_spans_correct": 103,
+      "citation_precision": 0.741,
+      "labelled_spans_covered": 103,
+      "labelled_spans_total": 113,
+      "citation_recall": 0.9115,
+      "by_category": {
+        "abilities": {
+          "labelled": 10,
+          "detected": 2,
+          "fp": 2,
+          "recall": 0.2
+        },
+        "identity": {
+          "labelled": 44,
+          "detected": 30,
+          "fp": 0,
+          "recall": 0.6818
+        },
+        "location": {
+          "labelled": 16,
+          "detected": 16,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 27,
+          "detected": 16,
+          "fp": 0,
+          "recall": 0.5926
+        },
+        "world_rules": {
+          "labelled": 28,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT101",
+        "GT103",
+        "GT107",
+        "GT108",
+        "GT110",
+        "GT111",
+        "GT113",
+        "GT114",
+        "GT115",
+        "GT117",
+        "GT12",
+        "GT120",
+        "GT121",
+        "GT122",
+        "GT123",
+        "GT124",
+        "GT13",
+        "GT15",
+        "GT16",
+        "GT17",
+        "GT19",
+        "GT2",
+        "GT20",
+        "GT23",
+        "GT24",
+        "GT26",
+        "GT3",
+        "GT33",
+        "GT37",
+        "GT38",
+        "GT40",
+        "GT43",
+        "GT44",
+        "GT45",
+        "GT46",
+        "GT47",
+        "GT5",
+        "GT51",
+        "GT52",
+        "GT54",
+        "GT58",
+        "GT59",
+        "GT61",
+        "GT64",
+        "GT65",
+        "GT66",
+        "GT67",
+        "GT68",
+        "GT71",
+        "GT72",
+        "GT73",
+        "GT75",
+        "GT79",
+        "GT8",
+        "GT81",
+        "GT82",
+        "GT85",
+        "GT89",
+        "GT9",
+        "GT92",
+        "GT93",
+        "GT95",
+        "GT96",
+        "GT99"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT6",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT10",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT14",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT18",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT21",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT22",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT25",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT27",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT28",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT29",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT30",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT31",
+          "category": "timeline",
+          "kind": "age_timeline",
+          "reason": ""
+        },
+        {
+          "id": "GT32",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT34",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT35",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT36",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT39",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT41",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT42",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT48",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT49",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT50",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT53",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT55",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT56",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT57",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT60",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT62",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT63",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT69",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT70",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT74",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT76",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT77",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT78",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT80",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT83",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT84",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT86",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT87",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT88",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT90",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT91",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT94",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT97",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT98",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT100",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT102",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT104",
+          "category": "abilities",
+          "kind": "ability_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT105",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT106",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT109",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT112",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT116",
+          "category": "timeline",
+          "kind": "dead_character_active",
+          "reason": ""
+        },
+        {
+          "id": "GT118",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT119",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT125",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [
+        {
+          "kind": "ability_conflict",
+          "subject": "Wytha Talmere",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              29,
+              724,
+              744
+            ],
+            [
+              73,
+              549,
+              582
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "subject": "Dara Dunford",
+          "predicate": "ability:read",
+          "spans": [
+            [
+              13,
+              754,
+              773
+            ],
+            [
+              640,
+              965,
+              974
+            ]
+          ]
+        }
+      ],
+      "violated_negatives": [
+        "N11",
+        "N91"
+      ],
+      "seconds": 288.96,
+      "avg_context_claims": 18.0,
+      "findings_raw": [
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Wytha Talmere",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              29,
+              724,
+              744
+            ],
+            [
+              73,
+              549,
+              582
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Braric Garley",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              213,
+              901,
+              953
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Vena Garton",
+          "predicate": "age",
+          "spans": [
+            [
+              141,
+              408,
+              428
+            ],
+            [
+              217,
+              778,
+              798
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Rosa Garrow",
+          "predicate": "location",
+          "spans": [
+            [
+              224,
+              670,
+              690
+            ],
+            [
+              224,
+              716,
+              737
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Damo Corwell",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              58,
+              1027,
+              1049
+            ],
+            [
+              58,
+              1051,
+              1070
+            ],
+            [
+              252,
+              779,
+              799
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              253,
+              1019,
+              1039
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Braric Garley",
+          "predicate": "location",
+          "spans": [
+            [
+              263,
+              781,
+              804
+            ],
+            [
+              263,
+              830,
+              853
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Canor Ashford",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              13,
+              882,
+              902
+            ],
+            [
+              264,
+              668,
+              678
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              167,
+              303,
+              325
+            ],
+            [
+              271,
+              796,
+              817
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              273,
+              1062,
+              1081
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "age",
+          "spans": [
+            [
+              145,
+              144,
+              161
+            ],
+            [
+              275,
+              770,
+              786
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Canor Ashford",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              13,
+              882,
+              902
+            ],
+            [
+              287,
+              794,
+              804
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Ormo Venholt",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              295,
+              967,
+              988
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "age",
+          "spans": [
+            [
+              145,
+              144,
+              161
+            ],
+            [
+              296,
+              703,
+              718
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Elewen Dunton",
+          "predicate": "location",
+          "spans": [
+            [
+              316,
+              807,
+              829
+            ],
+            [
+              316,
+              855,
+              878
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Vena Garton",
+          "predicate": "location",
+          "spans": [
+            [
+              361,
+              1050,
+              1071
+            ],
+            [
+              361,
+              1097,
+              1117
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              388,
+              882,
+              901
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Calis Marrow",
+          "predicate": "location",
+          "spans": [
+            [
+              396,
+              940,
+              961
+            ],
+            [
+              396,
+              987,
+              1009
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Kaven Falford",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              89,
+              289,
+              306
+            ],
+            [
+              409,
+              842,
+              860
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              167,
+              303,
+              325
+            ],
+            [
+              271,
+              796,
+              817
+            ],
+            [
+              410,
+              219,
+              241
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Damo Corwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              416,
+              848,
+              898
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Isalis Ashby",
+          "predicate": "age",
+          "spans": [
+            [
+              331,
+              338,
+              359
+            ],
+            [
+              420,
+              660,
+              673
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Damo Corwell",
+          "predicate": "status",
+          "spans": [
+            [
+              317,
+              986,
+              995
+            ],
+            [
+              426,
+              890,
+              910
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Calis Marrow",
+          "predicate": "location",
+          "spans": [
+            [
+              431,
+              1078,
+              1099
+            ],
+            [
+              431,
+              1125,
+              1146
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Braric Garley",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              442,
+              860,
+              892
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Robel Wexrow",
+          "predicate": "age",
+          "spans": [
+            [
+              85,
+              402,
+              422
+            ],
+            [
+              446,
+              967,
+              988
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              90,
+              355,
+              377
+            ],
+            [
+              285,
+              673,
+              700
+            ],
+            [
+              454,
+              177,
+              204
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Cadra Garrow",
+          "predicate": "location",
+          "spans": [
+            [
+              464,
+              1150,
+              1171
+            ],
+            [
+              464,
+              1197,
+              1218
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Haric Marrow",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              471,
+              621,
+              672
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Sevik Garwick",
+          "predicate": "age",
+          "spans": [
+            [
+              118,
+              145,
+              167
+            ],
+            [
+              478,
+              773,
+              794
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              90,
+              355,
+              377
+            ],
+            [
+              285,
+              673,
+              700
+            ],
+            [
+              454,
+              177,
+              204
+            ],
+            [
+              487,
+              112,
+              139
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Hara Halmere",
+          "predicate": "location",
+          "spans": [
+            [
+              498,
+              720,
+              740
+            ],
+            [
+              498,
+              766,
+              786
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Orlis Garton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              79,
+              313,
+              339
+            ],
+            [
+              197,
+              137,
+              163
+            ],
+            [
+              287,
+              384,
+              433
+            ],
+            [
+              405,
+              173,
+              199
+            ],
+            [
+              518,
+              837,
+              863
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Jorin Halwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              527,
+              747,
+              771
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Havik Corner",
+          "predicate": "age",
+          "spans": [
+            [
+              385,
+              265,
+              277
+            ],
+            [
+              536,
+              645,
+              669
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Isasa Briley",
+          "predicate": "status",
+          "spans": [
+            [
+              418,
+              722,
+              732
+            ],
+            [
+              539,
+              467,
+              489
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Orwen Talrow",
+          "predicate": "location",
+          "spans": [
+            [
+              541,
+              926,
+              947
+            ],
+            [
+              541,
+              973,
+              994
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              211,
+              171,
+              220
+            ],
+            [
+              275,
+              219,
+              245
+            ],
+            [
+              456,
+              116,
+              142
+            ],
+            [
+              549,
+              744,
+              767
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              557,
+              568,
+              588
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Nidra Falford",
+          "predicate": "age",
+          "spans": [
+            [
+              392,
+              798,
+              818
+            ],
+            [
+              590,
+              486,
+              507
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Wytha Talmere",
+          "predicate": "age",
+          "spans": [
+            [
+              281,
+              159,
+              177
+            ],
+            [
+              594,
+              887,
+              907
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Jodra Halrow",
+          "predicate": "location",
+          "spans": [
+            [
+              627,
+              787,
+              809
+            ],
+            [
+              627,
+              835,
+              857
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Dara Dunford",
+          "predicate": "ability:read",
+          "spans": [
+            [
+              13,
+              754,
+              773
+            ],
+            [
+              640,
+              965,
+              974
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Orlis Garton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              79,
+              313,
+              339
+            ],
+            [
+              197,
+              137,
+              163
+            ],
+            [
+              287,
+              384,
+              433
+            ],
+            [
+              405,
+              173,
+              199
+            ],
+            [
+              518,
+              837,
+              863
+            ],
+            [
+              651,
+              137,
+              163
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Jorin Halwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              527,
+              747,
+              771
+            ],
+            [
+              663,
+              440,
+              467
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Jomo Halford",
+          "predicate": "status",
+          "spans": [
+            [
+              629,
+              630,
+              639
+            ],
+            [
+              668,
+              1072,
+              1092
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Rowen Ashrow",
+          "predicate": "location",
+          "spans": [
+            [
+              674,
+              720,
+              741
+            ],
+            [
+              674,
+              767,
+              788
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              879,
+              902
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Robel Wexrow",
+          "predicate": "location",
+          "spans": [
+            [
+              725,
+              486,
+              507
+            ],
+            [
+              725,
+              533,
+              554
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Liset Corwell",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              320,
+              148,
+              168
+            ],
+            [
+              552,
+              144,
+              164
+            ],
+            [
+              633,
+              188,
+              208
+            ],
+            [
+              665,
+              237,
+              257
+            ],
+            [
+              747,
+              887,
+              906
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Elerin Venford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              773,
+              518,
+              541
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Rosa Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              37,
+              142,
+              168
+            ],
+            [
+              251,
+              130,
+              151
+            ],
+            [
+              579,
+              169,
+              188
+            ],
+            [
+              614,
+              116,
+              137
+            ],
+            [
+              778,
+              164,
+              190
+            ],
+            [
+              778,
+              499,
+              520
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Vesa Dunwick",
+          "predicate": "location",
+          "spans": [
+            [
+              796,
+              519,
+              540
+            ],
+            [
+              796,
+              566,
+              586
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Ormo Venholt",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              66,
+              448,
+              473
+            ],
+            [
+              734,
+              148,
+              197
+            ],
+            [
+              795,
+              134,
+              159
+            ],
+            [
+              819,
+              1202,
+              1252
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Dawen Halley",
+          "predicate": "age",
+          "spans": [
+            [
+              15,
+              386,
+              407
+            ],
+            [
+              837,
+              1049,
+              1068
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Sevik Garwick",
+          "predicate": "age",
+          "spans": [
+            [
+              478,
+              773,
+              794
+            ],
+            [
+              839,
+              114,
+              135
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Fenor Dunby",
+          "predicate": "location",
+          "spans": [
+            [
+              849,
+              932,
+              953
+            ],
+            [
+              849,
+              979,
+              1000
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Vena Garton",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              909,
+              1004,
+              1034
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Orlis Garton",
+          "predicate": "age",
+          "spans": [
+            [
+              485,
+              172,
+              193
+            ],
+            [
+              912,
+              684,
+              703
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Jorin Halwell",
+          "predicate": "location",
+          "spans": [
+            [
+              928,
+              559,
+              580
+            ],
+            [
+              928,
+              606,
+              628
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Brasa Halton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              591,
+              197,
+              223
+            ],
+            [
+              929,
+              885,
+              934
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Ariko Lonshaw",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              35,
+              406,
+              455
+            ],
+            [
+              729,
+              448,
+              497
+            ],
+            [
+              932,
+              947,
+              973
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Vetha Brirow",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              934,
+              1065,
+              1089
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Feko Garley",
+          "predicate": "age",
+          "spans": [
+            [
+              385,
+              142,
+              165
+            ],
+            [
+              943,
+              711,
+              727
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Nidra Falford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              716,
+              1105,
+              1128
+            ],
+            [
+              716,
+              1130,
+              1150
+            ],
+            [
+              949,
+              827,
+              854
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Fenor Dunby",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              279,
+              142,
+              192
+            ],
+            [
+              744,
+              427,
+              451
+            ],
+            [
+              853,
+              507,
+              534
+            ],
+            [
+              965,
+              499,
+              525
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Brasa Halton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              92,
+              401,
+              427
+            ],
+            [
+              591,
+              197,
+              223
+            ],
+            [
+              787,
+              244,
+              267
+            ],
+            [
+              929,
+              885,
+              934
+            ],
+            [
+              968,
+              184,
+              233
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Wysa Venshaw",
+          "predicate": "handedness",
+          "spans": [
+            [
+              970,
+              959,
+              979
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Liset Corwell",
+          "predicate": "age",
+          "spans": [
+            [
+              196,
+              179,
+              203
+            ],
+            [
+              979,
+              632,
+              649
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Tewen Talner",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              37,
+              335,
+              362
+            ],
+            [
+              430,
+              194,
+              218
+            ],
+            [
+              484,
+              133,
+              160
+            ],
+            [
+              587,
+              154,
+              181
+            ],
+            [
+              983,
+              1199,
+              1222
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Ariko Lonshaw",
+          "predicate": "location",
+          "spans": [
+            [
+              991,
+              631,
+              652
+            ],
+            [
+              991,
+              678,
+              700
+            ]
+          ]
+        }
+      ]
+    },
+    "structured": {
+      "findings": 83,
+      "true_positives": 83,
+      "false_positives": 0,
+      "duplicates": 0,
+      "false_negatives": 42,
+      "precision": 1.0,
+      "recall_all": 0.664,
+      "recall_detectable": 0.664,
+      "negatives": 148,
+      "negatives_violated": 0,
+      "cited_spans": 221,
+      "cited_spans_correct": 144,
+      "citation_precision": 0.6516,
+      "labelled_spans_covered": 144,
+      "labelled_spans_total": 152,
+      "citation_recall": 0.9474,
+      "by_category": {
+        "abilities": {
+          "labelled": 10,
+          "detected": 10,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "identity": {
+          "labelled": 44,
+          "detected": 30,
+          "fp": 0,
+          "recall": 0.6818
+        },
+        "location": {
+          "labelled": 16,
+          "detected": 16,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "timeline": {
+          "labelled": 27,
+          "detected": 27,
+          "fp": 0,
+          "recall": 1.0
+        },
+        "world_rules": {
+          "labelled": 28,
+          "detected": 0,
+          "fp": 0,
+          "recall": 0.0
+        }
+      },
+      "matched": [
+        "GT10",
+        "GT101",
+        "GT102",
+        "GT103",
+        "GT104",
+        "GT107",
+        "GT108",
+        "GT109",
+        "GT110",
+        "GT111",
+        "GT113",
+        "GT114",
+        "GT115",
+        "GT116",
+        "GT117",
+        "GT12",
+        "GT120",
+        "GT121",
+        "GT122",
+        "GT123",
+        "GT124",
+        "GT13",
+        "GT15",
+        "GT16",
+        "GT17",
+        "GT19",
+        "GT2",
+        "GT20",
+        "GT23",
+        "GT24",
+        "GT25",
+        "GT26",
+        "GT27",
+        "GT3",
+        "GT31",
+        "GT32",
+        "GT33",
+        "GT34",
+        "GT37",
+        "GT38",
+        "GT39",
+        "GT40",
+        "GT43",
+        "GT44",
+        "GT45",
+        "GT46",
+        "GT47",
+        "GT48",
+        "GT5",
+        "GT51",
+        "GT52",
+        "GT53",
+        "GT54",
+        "GT55",
+        "GT58",
+        "GT59",
+        "GT6",
+        "GT60",
+        "GT61",
+        "GT64",
+        "GT65",
+        "GT66",
+        "GT67",
+        "GT68",
+        "GT71",
+        "GT72",
+        "GT73",
+        "GT74",
+        "GT75",
+        "GT78",
+        "GT8",
+        "GT81",
+        "GT82",
+        "GT83",
+        "GT85",
+        "GT88",
+        "GT89",
+        "GT9",
+        "GT92",
+        "GT93",
+        "GT95",
+        "GT96",
+        "GT99"
+      ],
+      "missed": [
+        {
+          "id": "GT1",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT4",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT7",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT11",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT14",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT18",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT21",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT22",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT28",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT29",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT30",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT35",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT36",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT41",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT42",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT49",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT50",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT56",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT57",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT62",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT63",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT69",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT70",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT76",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT77",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT79",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT80",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT84",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT86",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT87",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT90",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT91",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT94",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT97",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT98",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT100",
+          "category": "identity",
+          "kind": "canon_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT105",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT106",
+          "category": "identity",
+          "kind": "attribute_conflict",
+          "reason": ""
+        },
+        {
+          "id": "GT112",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT118",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT119",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        },
+        {
+          "id": "GT125",
+          "category": "world_rules",
+          "kind": "world_rule_violation",
+          "reason": ""
+        }
+      ],
+      "false_positive_findings": [],
+      "violated_negatives": [],
+      "seconds": 0.47,
+      "avg_context_claims": 2806,
+      "findings_raw": [
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Cadra Garrow",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              1,
+              863,
+              883
+            ],
+            [
+              467,
+              927,
+              937
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Vesa Dunwick",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              1,
+              886,
+              905
+            ],
+            [
+              679,
+              563,
+              572
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Elerin Venford",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              2,
+              561,
+              582
+            ],
+            [
+              229,
+              721,
+              732
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Canor Ashford",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              13,
+              882,
+              902
+            ],
+            [
+              264,
+              668,
+              678
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Canor Ashford",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              13,
+              882,
+              902
+            ],
+            [
+              287,
+              794,
+              804
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Fenor Dunby",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              14,
+              755,
+              786
+            ],
+            [
+              366,
+              819,
+              852
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Jodra Halrow",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              26,
+              622,
+              653
+            ],
+            [
+              310,
+              1025,
+              1035
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Ariko Lonshaw",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              35,
+              406,
+              455
+            ],
+            [
+              240,
+              335,
+              358
+            ],
+            [
+              729,
+              448,
+              497
+            ],
+            [
+              867,
+              522,
+              545
+            ],
+            [
+              932,
+              947,
+              973
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Rosa Garrow",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              37,
+              142,
+              168
+            ],
+            [
+              110,
+              424,
+              445
+            ],
+            [
+              187,
+              345,
+              371
+            ],
+            [
+              251,
+              130,
+              151
+            ],
+            [
+              429,
+              147,
+              168
+            ],
+            [
+              579,
+              169,
+              188
+            ],
+            [
+              614,
+              116,
+              137
+            ],
+            [
+              778,
+              164,
+              190
+            ],
+            [
+              778,
+              499,
+              520
+            ],
+            [
+              834,
+              149,
+              168
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Tewen Talner",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              37,
+              335,
+              362
+            ],
+            [
+              166,
+              185,
+              235
+            ],
+            [
+              328,
+              417,
+              444
+            ],
+            [
+              430,
+              194,
+              218
+            ],
+            [
+              441,
+              238,
+              262
+            ],
+            [
+              484,
+              133,
+              160
+            ],
+            [
+              587,
+              154,
+              181
+            ],
+            [
+              983,
+              1199,
+              1222
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              45,
+              141,
+              161
+            ],
+            [
+              645,
+              776,
+              810
+            ],
+            [
+              836,
+              187,
+              207
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Damo Corwell",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              58,
+              1027,
+              1049
+            ],
+            [
+              58,
+              1051,
+              1070
+            ],
+            [
+              252,
+              779,
+              799
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Havik Corner",
+          "predicate": "ability:ride",
+          "spans": [
+            [
+              61,
+              1036,
+              1067
+            ],
+            [
+              434,
+              1062,
+              1072
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Ormo Venholt",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              66,
+              448,
+              473
+            ],
+            [
+              184,
+              113,
+              138
+            ],
+            [
+              451,
+              378,
+              403
+            ],
+            [
+              734,
+              148,
+              197
+            ],
+            [
+              795,
+              134,
+              159
+            ],
+            [
+              819,
+              1202,
+              1252
+            ],
+            [
+              962,
+              215,
+              240
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Orlis Garton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              79,
+              313,
+              339
+            ],
+            [
+              197,
+              137,
+              163
+            ],
+            [
+              287,
+              384,
+              433
+            ],
+            [
+              405,
+              173,
+              199
+            ],
+            [
+              518,
+              837,
+              863
+            ],
+            [
+              651,
+              137,
+              163
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Kaven Falford",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              89,
+              289,
+              306
+            ],
+            [
+              409,
+              842,
+              860
+            ],
+            [
+              567,
+              280,
+              310
+            ],
+            [
+              630,
+              286,
+              303
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              90,
+              355,
+              377
+            ],
+            [
+              285,
+              673,
+              700
+            ],
+            [
+              454,
+              177,
+              204
+            ],
+            [
+              487,
+              112,
+              139
+            ],
+            [
+              549,
+              138,
+              160
+            ],
+            [
+              828,
+              185,
+              207
+            ],
+            [
+              889,
+              114,
+              134
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Brasa Halton",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              92,
+              401,
+              427
+            ],
+            [
+              591,
+              197,
+              223
+            ],
+            [
+              787,
+              244,
+              267
+            ],
+            [
+              929,
+              885,
+              934
+            ],
+            [
+              968,
+              184,
+              233
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Braric Garley",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              110,
+              746,
+              767
+            ],
+            [
+              334,
+              1073,
+              1084
+            ]
+          ]
+        },
+        {
+          "kind": "ability_conflict",
+          "category": "abilities",
+          "subject": "Braric Garley",
+          "predicate": "ability:swim",
+          "spans": [
+            [
+              110,
+              746,
+              767
+            ],
+            [
+              855,
+              696,
+              730
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "handedness",
+          "spans": [
+            [
+              167,
+              303,
+              325
+            ],
+            [
+              271,
+              796,
+              817
+            ],
+            [
+              410,
+              219,
+              241
+            ],
+            [
+              762,
+              390,
+              412
+            ],
+            [
+              783,
+              305,
+              327
+            ],
+            [
+              986,
+              173,
+              195
+            ],
+            [
+              996,
+              138,
+              160
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Dawen Halley",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              211,
+              171,
+              220
+            ],
+            [
+              275,
+              219,
+              245
+            ],
+            [
+              456,
+              116,
+              142
+            ],
+            [
+              549,
+              744,
+              767
+            ],
+            [
+              580,
+              149,
+              198
+            ],
+            [
+              583,
+              108,
+              157
+            ],
+            [
+              915,
+              284,
+              307
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Braric Garley",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              213,
+              901,
+              953
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              253,
+              1019,
+              1039
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thodan Lonmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              273,
+              1062,
+              1081
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Fenor Dunby",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              279,
+              142,
+              192
+            ],
+            [
+              722,
+              280,
+              304
+            ],
+            [
+              744,
+              427,
+              451
+            ],
+            [
+              798,
+              305,
+              329
+            ],
+            [
+              853,
+              507,
+              534
+            ],
+            [
+              965,
+              499,
+              525
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Ormo Venholt",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              295,
+              967,
+              988
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Damo Corwell",
+          "predicate": "status",
+          "spans": [
+            [
+              317,
+              986,
+              995
+            ],
+            [
+              357,
+              717,
+              738
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Damo Corwell",
+          "predicate": "status",
+          "spans": [
+            [
+              317,
+              986,
+              995
+            ],
+            [
+              395,
+              524,
+              545
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Damo Corwell",
+          "predicate": "status",
+          "spans": [
+            [
+              317,
+              986,
+              995
+            ],
+            [
+              426,
+              890,
+              910
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Damo Corwell",
+          "predicate": "status",
+          "spans": [
+            [
+              317,
+              986,
+              995
+            ],
+            [
+              497,
+              774,
+              794
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Damo Corwell",
+          "predicate": "status",
+          "spans": [
+            [
+              317,
+              986,
+              995
+            ],
+            [
+              622,
+              688,
+              709
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Liset Corwell",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              320,
+              148,
+              168
+            ],
+            [
+              530,
+              152,
+              170
+            ],
+            [
+              552,
+              144,
+              164
+            ],
+            [
+              633,
+              188,
+              208
+            ],
+            [
+              657,
+              409,
+              427
+            ],
+            [
+              665,
+              237,
+              257
+            ],
+            [
+              733,
+              190,
+              208
+            ],
+            [
+              747,
+              887,
+              906
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Thoko Dunwell",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              388,
+              882,
+              901
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Damo Corwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              416,
+              848,
+              898
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Isasa Briley",
+          "predicate": "status",
+          "spans": [
+            [
+              418,
+              722,
+              732
+            ],
+            [
+              454,
+              573,
+              594
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Isasa Briley",
+          "predicate": "status",
+          "spans": [
+            [
+              418,
+              722,
+              732
+            ],
+            [
+              539,
+              467,
+              489
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Isasa Briley",
+          "predicate": "status",
+          "spans": [
+            [
+              418,
+              722,
+              732
+            ],
+            [
+              713,
+              943,
+              964
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Braric Garley",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              442,
+              860,
+              892
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Haric Marrow",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              471,
+              621,
+              672
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Jorin Halwell",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              527,
+              747,
+              771
+            ],
+            [
+              663,
+              440,
+              467
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              557,
+              568,
+              588
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Wytha Talmere",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              620,
+              879,
+              902
+            ],
+            [
+              620,
+              904,
+              924
+            ],
+            [
+              683,
+              125,
+              145
+            ],
+            [
+              683,
+              902,
+              928
+            ],
+            [
+              797,
+              210,
+              228
+            ],
+            [
+              889,
+              424,
+              444
+            ],
+            [
+              921,
+              185,
+              205
+            ],
+            [
+              967,
+              140,
+              160
+            ],
+            [
+              991,
+              205,
+              223
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Jomo Halford",
+          "predicate": "status",
+          "spans": [
+            [
+              629,
+              630,
+              639
+            ],
+            [
+              668,
+              1072,
+              1092
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "status",
+          "spans": [
+            [
+              716,
+              1063,
+              1073
+            ],
+            [
+              839,
+              1031,
+              1052
+            ]
+          ]
+        },
+        {
+          "kind": "attribute_conflict",
+          "category": "identity",
+          "subject": "Nidra Falford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              716,
+              1105,
+              1128
+            ],
+            [
+              716,
+              1130,
+              1150
+            ],
+            [
+              949,
+              827,
+              854
+            ],
+            [
+              956,
+              312,
+              332
+            ],
+            [
+              970,
+              139,
+              157
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Elerin Venford",
+          "predicate": "hair_color",
+          "spans": [
+            [
+              773,
+              518,
+              541
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Nibel Wexley",
+          "predicate": "status",
+          "spans": [
+            [
+              866,
+              764,
+              774
+            ],
+            [
+              913,
+              899,
+              921
+            ]
+          ]
+        },
+        {
+          "kind": "dead_character_active",
+          "category": "timeline",
+          "subject": "Nibel Wexley",
+          "predicate": "status",
+          "spans": [
+            [
+              866,
+              764,
+              774
+            ],
+            [
+              946,
+              771,
+              793
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Vena Garton",
+          "predicate": "eye_color",
+          "spans": [
+            [
+              909,
+              1004,
+              1034
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Vetha Brirow",
+          "predicate": "birthplace",
+          "spans": [
+            [
+              934,
+              1065,
+              1089
+            ]
+          ]
+        },
+        {
+          "kind": "canon_conflict",
+          "category": "identity",
+          "subject": "Wysa Venshaw",
+          "predicate": "handedness",
+          "spans": [
+            [
+              970,
+              959,
+              979
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Nidra Falford",
+          "predicate": "age",
+          "spans": [
+            [
+              1,
+              1089,
+              1111
+            ],
+            [
+              355,
+              806,
+              825
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Nidra Falford",
+          "predicate": "age",
+          "spans": [
+            [
+              1,
+              1089,
+              1111
+            ],
+            [
+              392,
+              798,
+              818
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Dawen Halley",
+          "predicate": "age",
+          "spans": [
+            [
+              15,
+              386,
+              407
+            ],
+            [
+              837,
+              1049,
+              1068
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Robel Wexrow",
+          "predicate": "age",
+          "spans": [
+            [
+              37,
+              224,
+              241
+            ],
+            [
+              446,
+              967,
+              988
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Feko Garley",
+          "predicate": "age",
+          "spans": [
+            [
+              116,
+              102,
+              120
+            ],
+            [
+              256,
+              879,
+              887
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Vena Garton",
+          "predicate": "age",
+          "spans": [
+            [
+              141,
+              408,
+              428
+            ],
+            [
+              217,
+              778,
+              798
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "age",
+          "spans": [
+            [
+              145,
+              144,
+              161
+            ],
+            [
+              275,
+              770,
+              786
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Cawen Briwick",
+          "predicate": "age",
+          "spans": [
+            [
+              145,
+              144,
+              161
+            ],
+            [
+              296,
+              703,
+              718
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Rosa Garrow",
+          "predicate": "location",
+          "spans": [
+            [
+              224,
+              670,
+              690
+            ],
+            [
+              224,
+              716,
+              737
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Liset Corwell",
+          "predicate": "age",
+          "spans": [
+            [
+              241,
+              225,
+              241
+            ],
+            [
+              979,
+              632,
+              649
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Braric Garley",
+          "predicate": "location",
+          "spans": [
+            [
+              263,
+              781,
+              804
+            ],
+            [
+              263,
+              830,
+              853
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Wytha Talmere",
+          "predicate": "age",
+          "spans": [
+            [
+              281,
+              159,
+              177
+            ],
+            [
+              594,
+              887,
+              907
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Sevik Garwick",
+          "predicate": "age",
+          "spans": [
+            [
+              314,
+              207,
+              229
+            ],
+            [
+              478,
+              773,
+              794
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Elewen Dunton",
+          "predicate": "location",
+          "spans": [
+            [
+              316,
+              807,
+              829
+            ],
+            [
+              316,
+              855,
+              878
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Isalis Ashby",
+          "predicate": "age",
+          "spans": [
+            [
+              331,
+              338,
+              359
+            ],
+            [
+              420,
+              660,
+              673
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Vena Garton",
+          "predicate": "location",
+          "spans": [
+            [
+              361,
+              1050,
+              1071
+            ],
+            [
+              361,
+              1097,
+              1117
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Feko Garley",
+          "predicate": "age",
+          "spans": [
+            [
+              385,
+              142,
+              165
+            ],
+            [
+              943,
+              711,
+              727
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Havik Corner",
+          "predicate": "age",
+          "spans": [
+            [
+              385,
+              265,
+              277
+            ],
+            [
+              536,
+              645,
+              669
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Calis Marrow",
+          "predicate": "location",
+          "spans": [
+            [
+              396,
+              940,
+              961
+            ],
+            [
+              396,
+              987,
+              1009
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Calis Marrow",
+          "predicate": "location",
+          "spans": [
+            [
+              431,
+              1078,
+              1099
+            ],
+            [
+              431,
+              1125,
+              1146
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Cadra Garrow",
+          "predicate": "location",
+          "spans": [
+            [
+              464,
+              1150,
+              1171
+            ],
+            [
+              464,
+              1197,
+              1218
+            ]
+          ]
+        },
+        {
+          "kind": "age_timeline",
+          "category": "timeline",
+          "subject": "Orlis Garton",
+          "predicate": "age",
+          "spans": [
+            [
+              485,
+              172,
+              193
+            ],
+            [
+              912,
+              684,
+              703
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Hara Halmere",
+          "predicate": "location",
+          "spans": [
+            [
+              498,
+              720,
+              740
+            ],
+            [
+              498,
+              766,
+              786
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Orwen Talrow",
+          "predicate": "location",
+          "spans": [
+            [
+              541,
+              926,
+              947
+            ],
+            [
+              541,
+              973,
+              994
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Jodra Halrow",
+          "predicate": "location",
+          "spans": [
+            [
+              627,
+              787,
+              809
+            ],
+            [
+              627,
+              835,
+              857
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Rowen Ashrow",
+          "predicate": "location",
+          "spans": [
+            [
+              674,
+              720,
+              741
+            ],
+            [
+              674,
+              767,
+              788
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Robel Wexrow",
+          "predicate": "location",
+          "spans": [
+            [
+              725,
+              486,
+              507
+            ],
+            [
+              725,
+              533,
+              554
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Vesa Dunwick",
+          "predicate": "location",
+          "spans": [
+            [
+              796,
+              519,
+              540
+            ],
+            [
+              796,
+              566,
+              586
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Fenor Dunby",
+          "predicate": "location",
+          "spans": [
+            [
+              849,
+              932,
+              953
+            ],
+            [
+              849,
+              979,
+              1000
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Jorin Halwell",
+          "predicate": "location",
+          "spans": [
+            [
+              928,
+              559,
+              580
+            ],
+            [
+              928,
+              606,
+              628
+            ]
+          ]
+        },
+        {
+          "kind": "location_conflict",
+          "category": "location",
+          "subject": "Ariko Lonshaw",
+          "predicate": "location",
+          "spans": [
+            [
+              991,
+              631,
+              652
+            ],
+            [
+              991,
+              678,
+              700
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "extraction": {
+    "extractor": "rules-v6",
+    "note": "claims extracted during import",
+    "seconds": 0.01
+  },
+  "index_seconds": 289.03,
+  "labelled_contradictions": 125,
+  "labelled_negatives": 148,
+  "chapters": 1000,
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "9cc3b88"
+  }
+}

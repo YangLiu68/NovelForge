@@ -1,19 +1,19 @@
-`load-1000-s7`: 1000 chapters, 1,250,697 words, 33,277 passages, 4,111 claims; embedder `hash:384`.
+`load-1000-s7`: 1000 chapters, 1,250,697 words, 33,277 passages, 4,337 claims; embedder `hash:384`.
 
 | Measure | Value |
 |---|---|
-| Import (split, extract, revisions) | 59.7 s (16.7 chapters/s) |
-| Embedding index | 17.85 s (1864.5 passages/s) |
-| HNSW build | 10.08 s |
-| Search `keyword` p50 / p95 | 3.8 / 4.87 ms |
-| Search `fts` p50 / p95 | 13.56 / 30.1 ms |
-| Search `vector` p50 / p95 | 126.73 / 143.39 ms |
-| Search `hybrid` p50 / p95 | 135.63 / 159.12 ms |
-| Search `vector_hnsw` p50 / p95 | 100.93 / 123.31 ms |
+| Import (split, extract, revisions) | 44.4 s (22.5 chapters/s) |
+| Embedding index | 24.46 s (1360.5 passages/s) |
+| HNSW build | 14.37 s |
+| Search `keyword` p50 / p95 | 4.86 / 5.84 ms |
+| Search `fts` p50 / p95 | 18.69 / 35.07 ms |
+| Search `vector` p50 / p95 | 178.28 / 222.18 ms |
+| Search `hybrid` p50 / p95 | 172.53 / 193.01 ms |
+| Search `vector_hnsw` p50 / p95 | 137.64 / 151.12 ms |
 | HNSW top-10 agreement with exact | 1.0 |
-| Contradiction report (refresh) p50 | 523.8 ms |
-| Character graph p50 | 2037.2 ms |
-| Timeline p50 | 448.67 ms |
-| Chapter save (re-split, re-extract, revision) p50 / p95 | 213.14 / 327.58 ms |
-| Database size | 257.3 MB |
-| Peak RSS (benchmark process) | 837.2 MB |
+| Contradiction report (refresh) p50 | 774.3 ms |
+| Character graph p50 | 2658.52 ms |
+| Timeline p50 | 629.94 ms |
+| Chapter save (re-split, re-extract, revision) p50 / p95 | 247.17 / 568.54 ms |
+| Database size | 257.5 MB |
+| Peak RSS (benchmark process) | 834.2 MB |

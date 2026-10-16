@@ -8,8 +8,10 @@ bench/run_all.sh        # regenerates the corpora and every result below (~30 mi
 ```
 
 Raw outputs are in [bench/results/](bench/results). Each section names the commit its numbers
-come from (reports from `bc2ddf6` on also record it themselves). All corpora: generator version 3,
-seed 7. Hardware: Apple M4, 16 GB, macOS 15.3, Python 3.12.10, PostgreSQL 16.2 + pgvector 0.6.2
+come from (reports from `bc2ddf6` on also record it themselves). All corpora: generator version 4,
+seed 7 (version 4 adds the dye sentence to the labels and pronouns to the character sheets; the
+chapter text, retrieval questions and planted evidence are byte-identical to version 3, so
+the retrieval results in section 1 hold for both). Hardware: Apple M4, 16 GB, macOS 15.3, Python 3.12.10, PostgreSQL 16.2 + pgvector 0.6.2
 (embedded `pgserver`). The machine was shared with other jobs, so latencies are indicative, not
 tuned peaks.
 
@@ -91,48 +93,44 @@ mocks keep tests deterministic; they are not semantic, and these rows show why t
 
 Command: `novelforge bench-extraction bench/corpora/syn-1000-s7 --extractor rules`. A fact is
 found when an `asserted` claim has the same chapter, character, predicate and value as a labelled
-statement and overlaps its sentence. Two versions of the rule extractor are compared: `rules-v2`
-(commit `2572c56`) and `rules-v3` (run at `eb34a16` and again at `d7830ba` with identical
-results), which adds four patterns found by the failure analysis below.
+statement and overlaps its sentence. The table compares `rules-v3` (frozen at `e709488`, run from
+a worktree) with the current `rules-v6` (`9cc3b88`), both against generator-v4 labels.
 
-| Predicate | v2 precision | v2 recall | v3 precision | v3 recall |
+| Predicate | v3 precision | v3 recall | v6 precision | v6 recall |
 |---|---|---|---|---|
-| **all scored** (1,000 ch) | 1.000 | 0.784 | 0.992* | **0.812** |
-| all scored (100 ch) | 1.000 | 0.777 | 0.996* | 0.799 |
+| **all scored** (1,000 ch) | 1.000 | 0.813 | 1.000 | **0.903** |
+| all scored (100 ch) | 1.000 | 0.799 | 1.000 | 0.884 |
 | location | 1.000 | 1.000 | 1.000 | 1.000 |
 | abilities (cannot / learned) | 1.000 | 1.000 | 1.000 | 1.000 |
 | death | 1.000 | 1.000 | 1.000 | 1.000 |
-| age | 1.000 | 0.749 | 1.000 | **1.000** |
-| hair colour | 1.000 | 0.705 | 0.931* | 0.705 |
-| birthplace | 1.000 | 0.672 | 1.000 | 0.672 |
-| eye colour | 1.000 | 0.586 | 1.000 | 0.586 |
+| age | 1.000 | 1.000 | 1.000 | 1.000 |
+| hair colour | 1.000 | 0.720 | 1.000 | **1.000** |
+| birthplace | 1.000 | 0.672 | 1.000 | **1.000** |
+| eye colour | 1.000 | 0.586 | 1.000 | 0.759 |
 | handedness | 1.000 | 0.307 | 1.000 | 0.307 |
 
-\* All 16 v3 "false positives" are sentences like "Damo dyed her hair red": correct statements of
-the new colour that the generator does not label as facts (it labels the following "her hair was
-red now"). This is a gap in the ground truth, not an extraction error (see Known gaps).
+1,000 chapters extract in 4 to 11 s depending on machine load. Every hedged, dialogue and memory
+negative the extractor touched was kept out of `asserted` (42 of 42), and location days are right
+for all 1,027 journeys. World rules, foreshadowing and causal links: 0% (the rules do not read
+them). With pronouns inferred from each chapter instead of read from the character sheets,
+rules-v6 recall is 0.844, still at precision 1.000.
 
-1,000 chapters extract in about 5 s. Every hedged, dialogue and memory negative the extractor
-touched was kept out of `asserted` (42 of 42). Location day accuracy rose from 1,013 to 1,027 of
-1,027: v3 reads in-chapter offsets ("Three days later Tomas was in Varrow"). World rules,
-foreshadowing and causal links: 0% (the rules do not read them).
+**Failure analysis by phrasing** (1,000 chapters):
 
-**Failure analysis by phrasing** (1,000 chapters, rules-v3): the rules find 100% of statements
-anchored on a name and 0% of these, which is the gap the LLM extractor exists to close:
+| Phrasing | Missed by v3 | Missed by v6 | Example |
+|---|---|---|---|
+| pronoun | 138 | 0 | "Mara looked up, her grey eyes narrowing" |
+| indirect birthplace | 88 | 0 | "had grown up in Ashford, where she was born" |
+| handedness by implication | 178 | 178 | "Being left-handed, …", "wrote with his left hand" |
+| colour by simile | 67 | 67 | "eyes the colour of sea glass" |
 
-| Phrasing | Missed | Example |
-|---|---|---|
-| pronoun | 138 | "Mara looked up, her grey eyes narrowing" |
-| handedness by implication | 178 | "Being left-handed, …", "wrote with his left hand" |
-| indirect birthplace | 88 | "had grown up in Ashford, where she was born" |
-| colour by simile | 67 | "eyes the colour of sea glass" |
-
-**What v3 changed, and the caveat.** The 1,000-chapter run of v2 showed four phrasings the rules
-missed or misread: "At fifty, Cawen …" (69 ages), "dove from the pier and swam" (missed ability
-use), "dyed her hair red" (a deliberate change reported as a contradiction) and "Three days later …"
-(14 journeys put on the wrong day). v3 handles all four with generic English patterns. They were
-found on this generator's own templates, so the size of the improvement on real manuscripts is
-unknown; the same caution applies to every rule-based number here.
+**History and caveat.** rules-v3 added four patterns found in the v2 failure analysis ("At fifty,
+Cawen …", "dove from the pier and swam", "dyed her hair red", "Three days later …"; recall 0.784
+to 0.812 against generator-v3 labels, which did not label the dye sentence). rules-v4 to v6 add
+precision-first pronoun and "with"-phrase attribution (`core/coref.py`) and fixes found by reading
+real novels (section 6). Every phrasing above comes from this generator's templates, so a recall
+of 0.903 here says little about real manuscripts; section 6 measures that, and the answer is a
+fifth to a third.
 
 ## 3. Contradiction detection and the memory ablation
 
@@ -147,30 +145,33 @@ the same detectors; they differ only in what the checker can see when it checks 
 - **structured**: every claim in the novel, indexed by character and predicate (NovelForge)
 
 A finding counts only if it names the right category and character and cites the planted
-statement itself; a negative counts as violated when a false alarm cites it. rules-v3 ran at
-commit `d7830ba`; rules-v2 ran from a worktree at `2572c56` with the same scoring code copied in,
-so both rows use the same scorer.
+statement itself; a negative counts as violated when a false alarm cites it. rules-v6 ran at
+`9cc3b88`, rules-v3 at `d7830ba`; rules-v2 ran from a worktree at `2572c56` with the same scoring
+code copied in, so every row uses the same scorer.
 
-**1,000 chapters** (125 planted contradictions, 148 negatives), rules-v3:
+**1,000 chapters** (125 planted contradictions, 148 negatives), rules-v6:
 
 | System | Recall | Precision | False alarms | Negatives flagged | Claims seen per check | Time |
 |---|---|---|---|---|---|---|
-| no-memory | 0.224 | 1.000 | 0 | 0 / 148 | 2.6 | 5 s |
-| vector-only | 0.496 | 1.000 | 0 | 0 / 148 | 14.0 | 288 s |
-| hybrid | 0.424 | 0.964 | 2 | 2 / 148 | 15.7 | 299 s |
-| **structured** | **0.576** | **1.000** | **0** | **0 / 148** | 2,580 | **0.8 s** |
+| no-memory | 0.280 | 1.000 | 0 | 0 / 148 | 2.8 | 1.7 s |
+| vector-only | 0.584 | 1.000 | 0 | 0 / 148 | 15.9 | 277 s |
+| hybrid | 0.512 | 0.970 | 2 | 2 / 148 | 18.0 | 289 s |
+| **structured** | **0.664** | **1.000** | **0** | **0 / 148** | 2,806 | **0.5 s** |
 
-Same run with rules-v2: structured recall 0.520, precision 0.813, 15 false alarms, 18 negatives
-flagged; no-memory 0.208 / 0.813; vector-only 0.440 / 0.688; hybrid 0.384 / 0.640.
+With rules-v3 the same systems scored 0.224, 0.496, 0.424 (2 false alarms) and 0.576; with
+rules-v2, structured recall was 0.520 at precision 0.813 (15 false alarms, 18 negatives flagged).
+The gain from v3 to v6 is the pronoun-stated facts the extractor now reads (section 2); no system
+gained a false alarm.
 
-**100 chapters** (12 contradictions, 13 negatives), identical for v2 and v3: no-memory 0.250,
+**100 chapters** (12 contradictions, 13 negatives), identical for v2, v3 and v6: no-memory 0.250,
 vector-only 0.667, hybrid 0.583, structured **0.750**; precision 1.000 and no negative flagged
 in every system.
 
-By category at 1,000 chapters (structured, rules-v3): timeline 27/27, location 16/16, abilities
-10/10, identity 19/44, world rules 0/28. Citation precision 0.744 (cited spans that are labelled
-evidence; findings also cite consistent statements that support the explanation), citation recall
-0.926.
+By category at 1,000 chapters (structured, rules-v6): timeline 27/27, location 16/16, abilities
+10/10, identity 30/44 (v3: 19/44), world rules 0/28. Citation recall 0.947; citation precision
+0.652 (v3: 0.744), counted as the share of cited spans that are labelled evidence. It fell because
+findings now also cite more of the consistent statements behind the explanation, which v6 reads
+through pronouns and which the ground truth does not list as evidence.
 
 What the ablation shows:
 - **Memory decides recall.** Checking a chapter alone finds about a fifth of the contradictions.
@@ -180,12 +181,13 @@ What the ablation shows:
   matching then favours paragraphs that share the character's name and template words, which
   crowds out the paragraph that actually conflicts. Hybrid wins for questions (section 1) and loses
   for this use. The structured index does not depend on retrieval at all.
-- **What stays missed is extraction, not memory.** Of the 25 missed identity contradictions, 24
-  are stated through a pronoun or by implication ("Being left-handed, …", "eyes the colour of
-  peat"), which the rules cannot read. The 25th is detected but merged: Jorin is "born in
-  Blackmere" in chapters 527 and 663 against a sheet that says Wrengate, the detector reports both
-  as one finding, and the scorer credits each finding to one planted contradiction. Every
-  world-rule violation needs the LLM judge. Detection has no false alarms on 148 negatives.
+- **What stays missed is extraction, not memory.** Of the 14 missed identity contradictions
+  (25 with v3), 13 are stated by implication or simile ("Being left-handed, …", "wrote with her
+  left hand", "eyes the colour of peat"), which the rules do not read by design. The 14th is
+  detected but merged: Jorin is "born in Blackmere" in chapters 527 and 663 against a sheet that
+  says Wrengate, the detector reports both as one finding, and the scorer credits each finding to
+  one planted contradiction. Every world-rule violation needs the LLM judge. Detection has no
+  false alarms on 148 negatives.
 - **Failure analysis drove v3.** The v2 false alarms were all deliberate changes ("dyed her hair")
   and journeys within one chapter ("three days later"); recognising those removed every false
   alarm and lifted recall by 5.6 points (section 2 has the caveat).
@@ -193,37 +195,43 @@ What the ablation shows:
 ## 4. Scale and load
 
 Command: `novelforge bench-load bench/corpora/load-1000-s7` (generated with `--filler 25`, about
-1,250 words per chapter; commit `eb34a16`, hash embedder so indexing time measures the pipeline
-rather than a model). Everything runs in one process against a fresh database.
+1,250 words per chapter; commit `9cc3b88`, rules-v6, hash embedder so indexing time measures the
+pipeline rather than a model). Everything runs in one process against a fresh database.
 
 | Measure | 100 chapters | 1,000 chapters |
 |---|---|---|
-| Words / paragraphs / extracted claims | 125,000 / 3,342 / 433 | 1,250,697 / 33,277 / 4,111 |
-| Import (split, scenes, extraction, revisions) | 4.4 s | 59.7 s (16.7 chapters/s) |
-| Embedding index (hash mock) | 1.8 s | 17.9 s |
-| HNSW index build | 0.9 s | 10.1 s |
-| Search p50 / p95: keyword | 1.8 / 3.6 ms | 3.8 / 4.9 ms |
-| Search p50 / p95: fts | 5.3 / 7.0 ms | 13.6 / 30.1 ms |
-| Search p50 / p95: vector, exact | 12.5 / 16.5 ms | 126.7 / 143.4 ms |
-| Search p50 / p95: vector, HNSW | 12.0 / 15.7 ms | 100.9 / 123.3 ms |
-| Search p50 / p95: hybrid (exact) | 17.3 / 23.1 ms | 135.6 / 159.1 ms |
+| Words / paragraphs / extracted claims | 124,999 / 3,342 / 457 | 1,250,697 / 33,277 / 4,337 |
+| Import (split, scenes, extraction, revisions) | 4.0 s | 44.4 s (22.5 chapters/s) |
+| Embedding index (hash mock) | 2.5 s | 24.5 s |
+| HNSW index build | 1.3 s | 14.4 s |
+| Search p50 / p95: keyword | 4.2 / 6.9 ms | 4.9 / 5.8 ms |
+| Search p50 / p95: fts | 14.8 / 20.0 ms | 18.7 / 35.1 ms |
+| Search p50 / p95: vector, exact | 17.8 / 19.9 ms | 178.3 / 222.2 ms |
+| Search p50 / p95: vector, HNSW | 16.5 / 18.3 ms | 137.6 / 151.1 ms |
+| Search p50 / p95: hybrid (exact) | 33.4 / 38.4 ms | 172.5 / 193.0 ms |
 | HNSW top-10 agreement with exact search | 1.0 | 1.0 |
-| Contradiction report refresh p50 | 37 ms | 524 ms |
-| Character graph p50 | 102 ms | 2,037 ms |
-| Timeline p50 | 37 ms | 449 ms |
-| Chapter save p50 / p95 (re-split, re-extract, revision) | 53 / 70 ms | 213 / 328 ms |
-| Database size | 35 MB | 257 MB |
-| Peak RSS of the benchmark process | 168 MB | 837 MB |
+| Contradiction report refresh p50 | 50 ms | 774 ms |
+| Character graph p50 | 145 ms | 2,659 ms |
+| Timeline p50 | 43 ms | 630 ms |
+| Chapter save p50 / p95 (re-split, re-extract, revision) | 60 / 70 ms | 247 / 569 ms |
+| Database size | 36 MB | 258 MB |
+| Peak RSS of the benchmark process | 170 MB | 834 MB |
+
+These runs shared the machine with other jobs at a load average near 100 on 10 cores, far busier
+than the previous run (rules-v3 at `eb34a16`: 1,000-chapter import 59.7 s, exact vector search
+127 ms, save 213 ms, report 524 ms, graph 2,037 ms). Import got faster because rules-v6 matches
+its patterns at each name instead of at every character. Search latencies rose with the machine
+load (the search code did not change); the report and timeline also handle 5% more claims.
 
 What this says about a 1.25-million-word manuscript on a laptop:
-- Saving a chapter stays around a fifth of a second, and search stays interactive.
-- Exact vector search over 33,000 paragraphs costs about 127 ms. With HNSW it is about 101 ms,
-  and its top 10 matched exact search on every query. Exact remains the default because an
-  approximate index filtered by novel can drop matches; HNSW is the switch for larger corpora.
-- The character graph is the slowest view (2 s at 1,000 chapters). It re-scans every paragraph for
-  names on each request; caching it per chapter version is the obvious next step.
-- These timings come from a machine running other jobs, so they are an upper bound for an
-  idle M4.
+- Saving a chapter stays around a quarter of a second even on a saturated machine, and search
+  stays interactive.
+- Exact vector search over 33,000 paragraphs costs 130 to 180 ms. HNSW is about a quarter
+  faster, and its top 10 matched exact search on every query. Exact remains the default because
+  an approximate index filtered by novel can drop matches; HNSW is the switch for larger corpora.
+- The character graph is the slowest view (2 to 3 s at 1,000 chapters). It re-scans every
+  paragraph for names on each request; caching it per chapter version is the obvious next step.
+- These timings are an upper bound for an idle M4.
 
 ## 5. LLM extraction with a small local model
 
@@ -233,10 +241,10 @@ Command: `novelforge bench-extraction bench/corpora/syn-40-s7 --extractor ollama
 It ran on the first 15 chapters of a 40-chapter corpus (55 labelled facts) with schema-constrained
 JSON and an output cap of 2,048 tokens per call. The scoring is the same as in section 2.
 
-| | Rules (rules-v3) | qwen2.5:3b, default validation | qwen2.5:3b, value check off |
+| | Rules (rules-v3 / rules-v6) | qwen2.5:3b, default validation | qwen2.5:3b, value check off |
 |---|---|---|---|
-| Facts found / false positives | 50 / 0 | 2 / 1 | 2 / 14 |
-| Precision / recall | 1.000 / 0.909 | 0.667 / 0.036 | 0.125 / 0.036 |
+| Facts found / false positives | 50 / 0, 53 / 0 | 2 / 1 | 2 / 14 |
+| Precision / recall | 1.000 / 0.909, 1.000 / 0.964 | 0.667 / 0.036 | 0.125 / 0.036 |
 | Facts rejected by validation | n/a | 53 | 35 |
 | Time for 15 chapters | 0.2 s | 711 s uncached (see below) | 0.06 s, replayed |
 
@@ -248,9 +256,9 @@ check is on). The first, uncached run took 711 s; the committed report comes fro
 called the model only for the two failed calls (281 s) and reproduced every number.
 
 - **A 3B model is not a usable extractor for this task.** It found 2 of 55 facts, both hair
-  colours, against 50 for the rules. It also proposed 6 events, 2 relationships and 1 of the 4
-  world-rule statements, which the rules cannot produce at all, but too little to change any
-  number above.
+  colours, against 50 for rules-v3 (53 for v6). It also proposed 6 events, 2 relationships
+  and 1 of the 4 world-rule statements, which the rules cannot produce at all, but too little to
+  change any number above.
 - **The validation layer is what keeps a weak model safe.** Without the value check, 14 of the 16
   accepted facts were wrong: real sentences offered as evidence for an unrelated value ("Jorin
   could not swim." as evidence of a location). The check removed 13 of them and no correct fact.
@@ -260,16 +268,72 @@ called the model only for the two failed calls (281 s) and reproduced every numb
   recorded in `bench/results/llm-cache/`; this column re-scores the same responses with the
   check off and loads no model.
 - **Not measured: a capable model.** `--extractor anthropic` runs the same benchmark against
-  Claude (`claude-opus-5-5`); it has not been run, so how much of the pronoun and implication gap
-  in section 2 an LLM closes is still an open question.
+  Claude (`claude-opus-5-5`); it has not been run, so how much of the implication gap in
+  section 2, and of the much larger real-prose gap in section 6, an LLM closes is still an open
+  question.
 
-## 6. The three-chapter sample
+## 6. Real prose: four public-domain novels
+
+Command: `novelforge bench-real <book>`; the method, labelling rules and protocol are in
+[bench/real/README.md](bench/real/README.md). The synthetic numbers above were earned on the
+generator's own phrasings, so this section runs the extractor and the contradiction report on
+novels nobody wrote for NovelForge, 489,634 words in all, and judges every claim by hand. Recall
+is estimated on sentences that a keyword filter flags as possibly stating an eye colour, hair
+colour, age, birthplace, handedness or death (an upper bound: facts stated without those words
+are not counted). The labels were made by the AI assistant that wrote the rules, so the protocol
+holds books out: each extractor version was frozen before its held-out book was read.
+
+| Book | Words | Role | Version | Claims | Strict precision | Recall, narrator-stated facts |
+|---|---|---|---|---|---|---|
+| *Little Women* | 185,677 | dev | rules-v3 | 24 | 0.79 | 3 / 30 (0.10) |
+| | | | rules-v6 | 33 | 0.97 | 15 / 30 (0.50) |
+| *Anne of Green Gables* | 101,964 | **v4 held-out** | rules-v3 | 11 | 0.82 | 3 / 29 (0.10) |
+| | | | **rules-v4** | 19 | 0.84 | **10 / 29 (0.34)** |
+| *Pride and Prejudice* | 121,681 | **v4 held-out** | rules-v3 | 6 | 0.67 | 0 / 3 |
+| | | | **rules-v4** | 8 | 0.63 | **1 / 3** |
+| *The Secret Garden* | 80,312 | **v5 held-out** | rules-v3 | 3 | 0.67 | 1 / 25 (0.04) |
+| | | | **rules-v5** | 9 | 0.78 | **5 / 25 (0.20)** |
+
+Strict precision counts a claim as correct only when the fact is right and its modality is right
+(a narrator assertion marked `asserted`, dialogue or a past state not). Bold rows are the
+held-out measurements; later versions on the same books are in `bench/results/real-*.json`
+(rules-v6 on all four: 69 claims, strict precision 0.94, no wrong fact).
+
+- **Synthetic recall does not transfer.** The rules find 90% of the generator's facts and a
+  fifth to a third of the explicit identity facts in held-out novels. The misses are what real
+  prose does that templates do not: the owner given by the paragraph ("the brown eyes" when the
+  paragraph is about Brooke), sentences without a subject ("A regular snow maiden, with blue
+  eyes"), compounds ("black-eyed", "iron-gray", "bright-blue"), features joined by "and", first
+  person ("my red hair") and plain euphemism (Beth's death is never written as "Beth died").
+  This is the gap the LLM extractor is for, and it is far larger than the synthetic benchmark
+  suggests.
+- **Precision transfers better.** Across the held-out books, rules-v4 and v5 made 36 claims, of
+  which one had the wrong fact. The other errors were modality: four past states in time clauses
+  ("ever since he was twenty", "since Jane was sixteen", "before Anne came to Green Gables"),
+  which v5 now marks `recalled`, and "might"/"perhaps" scoped over a different clause.
+- **The one wrong attribution** was "He did look funny and delightful, Mary thought, with his
+  round blue eyes": an introductory-phrase rule handed Dickon's eyes to Mary. rules-v6 fixes it
+  (a sentence that opens with its subject pronoun keeps the phrase); v6 has not been measured on
+  an unseen book.
+- **No false alarms, but nothing found either.** No version raised a single contradiction on
+  any of the four books. With this few facts per character there is little to compare, and none
+  of these books has a well-known identity contradiction. *Anne of Green Gables* deliberately
+  gives Anne eyes that "looked green in some lights and moods and gray in others"; the rules
+  extracted neither colour, so the report stayed silent where an LLM extractor would need the
+  author to mark the variation.
+- **Pronouns on the sheet matter less on real chapters.** Without sheet pronouns, rules-v6
+  infers them per chapter and finds 14 of the 15 *Little Women* facts it finds with them, 5 of 10
+  in *Anne* and 5 of 6 in *The Secret Garden*, still with no wrong fact. On the synthetic
+  corpus, whose chapters are short, inference recovers a third of the gain (recall 0.844 against
+  0.903).
+
+## 7. The three-chapter sample
 
 `novelforge eval-sample` on `samples/lanternfall` (hand-written, five labelled contradictions, four
 negatives): 4 found, 0 false positives, 0 of 4 negatives flagged, citation precision 1.0 (rules-v2
-and rules-v3 alike). The miss is a hair-colour change referred to only by "Her hair", which needs
-pronoun resolution. The sample and the rules were written together, so this is a regression check,
-not a result.
+to rules-v6 alike). The miss is a hair-colour change written as "Her hair, cropped short since the
+year of the fever, had gone the red of rust": a pronoun plus a phrasing the rules do not read.
+The sample and the rules were written together, so this is a regression check, not a result.
 
 ## Reproducing
 
@@ -277,6 +341,9 @@ not a result.
 make setup                                   # or: cd backend && uv sync --extra localdb --extra embeddings
 bench/run_all.sh                             # corpora + every table above (about 30 min on an M4)
 cd backend && uv run novelforge bench-consistency ../bench/corpora/syn-100-s7 --embedder fastembed
+uv run novelforge bench-real the-secret-garden   # downloads the book once, scores the labels
+uv run novelforge bench-real anne-of-green-gables \
+    --claims ../bench/results/real-claims/claims-anne-of-green-gables-rules-v4.jsonl  # a frozen version
 ```
 
 - Corpora are byte-identical for the same seed, chapter count, filler and generator version.
@@ -292,10 +359,17 @@ cd backend && uv run novelforge bench-consistency ../bench/corpora/syn-100-s7 --
   benchmark unchanged.
 - **Small local model only.** The one LLM run is qwen2.5:3b on 15 chapters (section 5), which
   is far below the rule baseline; it tests the pipeline and its guardrails, not LLM extraction.
+  It has not been run on the real-prose books.
 - **World rules are undetected without an LLM.** All 28 planted rule violations at 1,000 chapters
   are missed by the rule baseline; the LLM judge is the only path.
-- **Ground-truth gap.** The generator does not label "X dyed her hair Y" as a hair-colour fact.
-  Fixing it changes the ground truth (and every result above), so it is left for the next full
-  benchmark run under a new generator version.
-- **Synthetic prose.** Templates and a small world: good for controlled measurement, not a
-  substitute for real manuscripts.
+- **Rules read a fifth to a third of real prose.** On held-out novels the rules find 20 to 34%
+  of explicitly stated identity facts (section 6). Real-prose recall is what an LLM run should be
+  judged on: `bench-real` scores any extractor's claims against the same labels.
+- **Contradiction detection on real prose is unmeasured.** No version raised a finding on the
+  four novels, so there is no real-prose detection recall. Measuring it needs a manuscript with
+  known continuity errors (an author's draft, or errors planted in real text).
+- **The real-prose labels are not independent.** They were made by the assistant that wrote the
+  rules, with the notes field recording each judgement call; a second annotator would show how
+  stable they are. The keyword filter also bounds the recall estimate from above.
+- **Hedge scope.** "might" and "perhaps" hedge their whole clause, so "so that she might see
+  Matthew's kindly brown eyes" marks the colour as hedged. Three of the eight held-out errors.

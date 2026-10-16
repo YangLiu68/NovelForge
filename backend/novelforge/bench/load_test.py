@@ -22,6 +22,7 @@ from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
 
 from novelforge.bench.retrieval_eval import _git_commit, migrate, percentile, recreate_database
+from novelforge.core.extraction import EXTRACTOR
 from novelforge.models import Chapter, Claim, Passage
 from novelforge.retrieval.embedders import get_embedder
 from novelforge.retrieval.index import embed_passages, ensure_hnsw_index
@@ -96,7 +97,8 @@ def run(
         report["import"] = {
             "seconds": round(import_s, 2),
             "chapters_per_s": round(chapters / import_s, 1),
-            "note": "includes passage split, scenes, rules-v2 extraction, revisions",
+            "note": "includes passage split, scenes, rule extraction, revisions",
+            "extractor": EXTRACTOR,
         }
 
         t = time.perf_counter()

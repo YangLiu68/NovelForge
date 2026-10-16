@@ -1,4 +1,4 @@
-*The Secret Garden* (Frances Hodgson Burnett; v5 held-out book): 27 chapters, 80,312 words, 16 characters listed. Extractor `rules-v6` (pronouns inferred, none on the sheets), 1.94 s, 8 claims.
+*The Secret Garden* (Frances Hodgson Burnett; v5 held-out book): 27 chapters, 80,312 words, 16 characters listed. Extractor `rules-v6` (pronouns inferred, none on the sheets), 2.06 s, 8 claims.
 
 Source https://www.gutenberg.org/cache/epub/113/pg113.txt (sha256 matches the labelled file).
 

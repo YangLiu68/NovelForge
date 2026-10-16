@@ -55,18 +55,19 @@ Invariants (enforced by tests and check constraints):
 
 Two extractors produce the same `Claim` shape.
 
-- `rules-v4` (`core/extraction.py`): regular expressions anchored on character names and aliases
+- `rules-v6` (`core/extraction.py`): regular expressions anchored on character names and aliases
   for attributes, age, location, death/alive, abilities (cannot / learned / used) and explicit
   changes ("dyed her hair red"). A time phrase earlier in the sentence ("Three days later", "The
   next morning") shifts the claim's story day. Each match gets a modality: `asserted`, `hedged`
   (perception governing the fact, rumour, a condition), `reported` (inside dialogue) or
-  `recalled` (memory, habit). Deterministic, about 2 s for a 186,000-word novel.
-- Attribution without a name (`core/coref.py`, v4): "her grey eyes", "She had ... gray eyes"
+  `recalled` (memory, habit, a state in a time clause such as "ever since he was twenty").
+  Deterministic, about 2 s for a 186,000-word novel.
+- Attribution without a name (`core/coref.py`): "her grey eyes", "She had ... gray eyes"
   and "Brooke was a silent young man, with brown eyes" are attributed when exactly one
   character fits. Pronouns come from the character sheet (`pronouns: she/her`) or are inferred
-  per chapter from the pronouns that follow a name; the nearest sentence that names someone
-  decides, and two candidates of the same gender, a candidate of unknown gender, a person noun
-  in between ("the girl") or dialogue make it abstain. The claim records the pronoun and the
+  per chapter from the pronouns that follow a name; the nearest sentence that names a possible
+  referent decides, and two candidates of the same gender, a candidate of unknown gender, a
+  person noun in between ("the girl") or dialogue make it abstain. The claim records the pronoun and the
   antecedent (`details.resolved`) and is 0.1 less confident. Similes and implications ("eyes the
   colour of sea glass", "Being left-handed, ...") are left to the LLM.
 - LLM (`extraction/`): a strict JSON schema (16 kinds, including world rules, events,
@@ -166,6 +167,14 @@ Every response carries `X-Request-ID`; one JSON log line per request (method, pa
 duration) and per job (kind, status, attempt, duration). Query strings, bodies and manuscript text
 are never logged. Credentials come only from the environment. The default LLM and embedder are
 local; sending text to a hosted model is an explicit configuration choice.
+
+## Plain-text import and the real-prose benchmark
+
+`core/plaintext.py` turns a typed or Project Gutenberg `.txt` into chapters (licence header and
+footer stripped, table of contents skipped, hard-wrapped paragraphs joined);
+`novelforge import-text` imports the result with an optional cast list. `bench/real_text.py`
+uses the same path on four public-domain novels and scores claims against hand labels keyed by
+content, so labels survive extractor versions; `--claims` scores a frozen version's claims.
 
 ## Local database without Docker
 
