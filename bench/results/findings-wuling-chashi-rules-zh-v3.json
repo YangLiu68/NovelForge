@@ -1,0 +1,62 @@
+{
+  "findings": 8,
+  "true_positives": 8,
+  "false_positives": 0,
+  "duplicates": 0,
+  "false_negatives": 1,
+  "precision": 1.0,
+  "recall_all": 0.8889,
+  "recall_detectable": 0.8889,
+  "negatives": 9,
+  "negatives_violated": 0,
+  "cited_spans": 13,
+  "cited_spans_correct": 13,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 13,
+  "labelled_spans_total": 13,
+  "citation_recall": 1.0,
+  "by_category": {
+    "abilities": {
+      "labelled": 2,
+      "detected": 1,
+      "fp": 0,
+      "recall": 0.5
+    },
+    "identity": {
+      "labelled": 5,
+      "detected": 5,
+      "fp": 0,
+      "recall": 1.0
+    },
+    "timeline": {
+      "labelled": 2,
+      "detected": 2,
+      "fp": 0,
+      "recall": 1.0
+    }
+  },
+  "matched": [
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G9"
+  ],
+  "missed": [
+    {
+      "id": "G8",
+      "category": "abilities",
+      "kind": "ability_conflict",
+      "reason": ""
+    }
+  ],
+  "false_positive_findings": [],
+  "violated_negatives": [],
+  "sample": "wuling-chashi",
+  "extractor": "rules-zh-v3",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}

@@ -1,0 +1,158 @@
+{
+  "sample": "linjiang-biaoqi",
+  "extractor": "rules-zh-v3",
+  "facts": 52,
+  "claims": 39,
+  "unscored_claims": 17,
+  "matched": 39,
+  "precision": 1.0,
+  "strict_precision": 1.0,
+  "recall": 0.75,
+  "recall_asserted": 0.838,
+  "modality_accuracy": 1.0,
+  "by_predicate": {
+    "ability": {
+      "facts": 19,
+      "found": 12,
+      "claims": 12
+    },
+    "age": {
+      "facts": 9,
+      "found": 9,
+      "claims": 9
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 4,
+      "claims": 4
+    },
+    "eye_color": {
+      "facts": 5,
+      "found": 3,
+      "claims": 3
+    },
+    "hair_color": {
+      "facts": 4,
+      "found": 4,
+      "claims": 4
+    },
+    "handedness": {
+      "facts": 5,
+      "found": 5,
+      "claims": 5
+    },
+    "status": {
+      "facts": 5,
+      "found": 2,
+      "claims": 2
+    }
+  },
+  "wrong": [],
+  "modality_errors": [],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "林守拙",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "林守拙展开文书，凑在灯下看了许久",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "韩七",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "韩老七那厮，斗大的字不识一箩筐",
+      "modality": "reported"
+    },
+    {
+      "chapter": 1,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "你连马都不会骑",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "楚青萝",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "她骑马比镖局里谁都稳",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "林照雪",
+      "predicate": "eye_color",
+      "value": "amber",
+      "text": "三小姐的眸子看上去竟像两粒琥珀",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "韩七",
+      "predicate": "birthplace",
+      "value": "陇西",
+      "text": "也有人说他生在陇西",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "韩七",
+      "predicate": "eye_color",
+      "value": "black",
+      "text": "韩七才抬起眼来。那是一双墨一样的眼睛，黑沉沉的",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "林守拙",
+      "predicate": "status",
+      "value": "alive",
+      "text": "林守拙差点没熬过那个冬天",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 3,
+      "subject": "楚青萝",
+      "predicate": "ability:swim",
+      "value": "cannot",
+      "text": "我到现在还是不会水",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "林守拙",
+      "predicate": "status",
+      "value": "alive",
+      "text": "我这把老骨头还没死呢",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "楚青萝",
+      "predicate": "ability:swim",
+      "value": "used",
+      "text": "她游得极快",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "她从拴马桩上扯下一匹马，翻身上去，打马冲上了江堤",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "周铁山",
+      "predicate": "status",
+      "value": "alive",
+      "text": "周镖头蹲在门槛上抽旱烟",
+      "modality": "asserted"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "findings": 7,
+  "true_positives": 7,
+  "false_positives": 0,
+  "duplicates": 0,
+  "false_negatives": 2,
+  "precision": 1.0,
+  "recall_all": 0.7778,
+  "recall_detectable": 0.7778,
+  "negatives": 9,
+  "negatives_violated": 0,
+  "cited_spans": 12,
+  "cited_spans_correct": 12,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 12,
+  "labelled_spans_total": 12,
+  "citation_recall": 1.0,
+  "by_category": {
+    "abilities": {
+      "labelled": 2,
+      "detected": 1,
+      "fp": 0,
+      "recall": 0.5
+    },
+    "identity": {
+      "labelled": 5,
+      "detected": 4,
+      "fp": 0,
+      "recall": 0.8
+    },
+    "timeline": {
+      "labelled": 2,
+      "detected": 2,
+      "fp": 0,
+      "recall": 1.0
+    }
+  },
+  "matched": [
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G6",
+    "G7",
+    "G9"
+  ],
+  "missed": [
+    {
+      "id": "G5",
+      "category": "identity",
+      "kind": "canon_conflict",
+      "reason": ""
+    },
+    {
+      "id": "G8",
+      "category": "abilities",
+      "kind": "ability_conflict",
+      "reason": ""
+    }
+  ],
+  "false_positive_findings": [],
+  "violated_negatives": [],
+  "sample": "linjiang-biaoqi",
+  "extractor": "rules-zh-v3",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}

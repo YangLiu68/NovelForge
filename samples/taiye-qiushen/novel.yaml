@@ -1,0 +1,55 @@
+# Original Chinese held-out sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+# Written by a separate agent that did not see the extractor or the other Chinese samples; scored once
+# against rules-zh-v3 after it was frozen (commit b89d1a8), see BENCHMARK.md section 9.
+# Planted continuity contradictions and look-alikes are labelled in ground_truth.yaml.
+slug: taiye-qiushen
+title: 太液秋深
+language: zh
+synopsis: >-
+  景和十二年秋，龟兹公主白昙和亲入宫，封昭仪，住进临着太液池的承香殿。不识字的浣衣宫女许青禾
+  被老宫人孙嬷嬷挑去伺候，又一同照看生母早逝的七皇子李昀。三天后，七皇子在太液池落水，孙嬷嬷
+  死在掖庭的废井里，留下一张缝在旧袄里的纸，牵出五年前一桩坠马旧案和权倾六宫的郑贵妃。
+characters:
+  - name: 许青禾
+    aliases: [青禾, 禾丫头, 许姑姑]
+    description: >-
+      女主。浣衣局出身的宫女，被挑去承香殿伺候白昭仪，后来做了承香殿的掌事宫女。海边长大，
+      话少，胆子比自己以为的大。
+    attributes:
+      pronouns: she/her
+      handedness: left
+      birthplace: 明州
+  - name: 白昙
+    aliases: [白昭仪, 昭仪, 昭仪娘娘, 龟兹公主]
+    description: >-
+      和亲入宫的龟兹公主，封昭仪。汉话说得生硬，认不得汉字，性子直，护短。
+    attributes:
+      pronouns: she/her
+      eye_color: green
+      hair_color: auburn
+      birthplace: 龟兹
+  - name: 裴照
+    aliases: [裴统领, 裴将军]
+    description: 羽林中郎将，母亲是西市酒肆的胡姬，曾在沙州戍边。心思难测。
+    attributes:
+      pronouns: he/him
+  - name: 李昀
+    aliases: [七殿下, 小殿下, 七郎, 七皇子]
+    description: 七皇子。生母周美人当年秋狝坠马身亡，此后在宫中辗转寄养，被送到承香殿。
+    attributes:
+      pronouns: he/him
+  - name: 孙嬷嬷
+    aliases: [嬷嬷]
+    description: 伺候过两朝娘娘的老宫人，人称“活档册”，知道许多宫中旧事。
+    attributes:
+      pronouns: she/her
+  - name: 郑令仪
+    aliases: [郑贵妃, 贵妃, 郑氏, 郑半后]
+    description: 三皇子生母，掌六宫之印，宫人背地里叫她“郑半后”。
+    attributes:
+      pronouns: she/her
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md
+  - ch04.md

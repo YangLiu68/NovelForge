@@ -73,8 +73,9 @@ Two extractors produce the same `Claim` shape.
   person noun in between ("the girl") or dialogue make it abstain. The claim records the pronoun and the
   antecedent (`details.resolved`) and is 0.1 less confident. Similes and implications ("eyes the
   colour of sea glass", "Being left-handed, ...") are left to the LLM.
-- `rules-zh-v1` (`core/extraction_zh.py`), used for any chapter whose text is Chinese: the same
-  predicates and modalities, so the detectors are unchanged. Chinese has no word boundaries or
+- `rules-zh-v3` (`core/extraction_zh.py`), used for any chapter whose text is Chinese: the same
+  predicates and modalities, so the detectors are unchanged, plus `presence` (the narrator puts a
+  character on stage: 坐在, 站着, 走进), which counts as being alive for the dead-character check. Chinese has no word boundaries or
   capitals, so each rule is anchored on a name or alias and the words between the name and the
   fact are checked: no other name, no pronoun, no dialogue quote; for eyes and hair no person
   noun that would own them (“林雪棠的母亲有一双灰色的眼睛”) unless it sits in a 是… predicate
@@ -83,9 +84,13 @@ Two extractors produce the same `Claim` shape.
   clauses. Values are mapped to the English canonical words (琥珀色 → amber, 栗色 → brown) and
   Chinese numerals are parsed (五十六 → 56; 七八岁 is a range and is skipped). Recalled covers
   记得、当年、前世、“十岁那年” and an age used as a time adverbial (“十二岁跟着叔叔来到雾港”);
-  hedged covers 看上去、听说、以为 and conditions (如果、梦里). 她/他 is resolved like English pronouns:
-  the nearest sentence that names a character must name exactly one, in narration, with the
-  matching sheet pronoun.
+  hedged covers rumour anywhere in the clause (听说、以为), perception before or inside the fact
+  (看上去; “蓝眼睛显得格外亮” is still blue eyes) and conditions (如果、梦里). 她/他 is resolved like
+  English pronouns: the nearest sentence that names a character, the previous one even across a
+  paragraph break, must name exactly one that fits the pronoun's gender, in narration; a resolved
+  她 carries over to a following sentence that names nobody; a person noun in between (这姑娘)
+  makes it abstain. A name after 跟着/和/向 is never the subject. Versions v2 and v3 were each
+  made from the failures on one held-out novel and scored on the next (BENCHMARK.md section 9).
 - LLM (`extraction/`): a strict JSON schema (16 kinds, including world rules, events,
   foreshadowing, causal links and relationships, plus `day_offset` for "three days later").
   Long chapters are split into paragraph windows. Every returned fact is validated: unknown
@@ -229,7 +234,7 @@ draft assistant, so a revision still goes through plan approval and a checked dr
   migration 0008): PostgreSQL's parser under the C locale (pgserver) treats Chinese characters as
   spaces, so plain bigrams would index nothing. Queries get the same encoding, so a quoted
   phrase matches adjacent bigrams; highlights are computed in Python.
-- Facts are read by `rules-zh-v1` (see Extraction), so the contradiction report, the canon checks
+- Facts are read by `rules-zh-v3` (see Extraction), so the contradiction report, the canon checks
   on the character sheet and the draft critic work on Chinese text. Finding explanations are
   still written in English around Chinese quotes. The story-logic audit (LLM) covers motives,
   plot and pacing.

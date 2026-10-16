@@ -1,0 +1,253 @@
+{
+  "sample": "taiye-qiushen",
+  "extractor": "rules-zh-v3",
+  "facts": 58,
+  "claims": 36,
+  "unscored_claims": 14,
+  "matched": 36,
+  "precision": 1.0,
+  "strict_precision": 0.944,
+  "recall": 0.621,
+  "recall_asserted": 0.7,
+  "modality_accuracy": 0.944,
+  "by_predicate": {
+    "ability": {
+      "facts": 11,
+      "found": 4,
+      "claims": 4
+    },
+    "age": {
+      "facts": 11,
+      "found": 9,
+      "claims": 9
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 1,
+      "claims": 1
+    },
+    "eye_color": {
+      "facts": 9,
+      "found": 8,
+      "claims": 8
+    },
+    "hair_color": {
+      "facts": 10,
+      "found": 6,
+      "claims": 6
+    },
+    "handedness": {
+      "facts": 4,
+      "found": 2,
+      "claims": 2
+    },
+    "status": {
+      "facts": 8,
+      "found": 6,
+      "claims": 6
+    }
+  },
+  "wrong": [],
+  "modality_errors": [
+    {
+      "chapter": 1,
+      "subject": "李昀",
+      "predicate": "age",
+      "value": "4",
+      "modality": "asserted",
+      "quote": "他才四岁",
+      "resolved": "他",
+      "fact": 19,
+      "gold_modality": "recalled"
+    },
+    {
+      "chapter": 2,
+      "subject": "孙嬷嬷",
+      "predicate": "status",
+      "value": "dead",
+      "modality": "asserted",
+      "quote": "孙嬷嬷也克死了",
+      "resolved": null,
+      "fact": 36,
+      "gold_modality": "hedged"
+    }
+  ],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "许青禾",
+      "predicate": "handedness",
+      "value": "left",
+      "text": "她惯用左手",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "许青禾",
+      "predicate": "birthplace",
+      "value": "明州",
+      "text": "许青禾今年十六，明州人",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "许青禾",
+      "predicate": "age",
+      "value": 7,
+      "text": "她七岁",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "许青禾",
+      "predicate": "ability:swim",
+      "value": "learned",
+      "text": "她七岁就能跟着哥哥们凫水",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "许青禾",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "她一个字也不认得",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "许青禾",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "听说你不识字",
+      "modality": "reported"
+    },
+    {
+      "chapter": 1,
+      "subject": "白昙",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "我认不得",
+      "modality": "reported"
+    },
+    {
+      "chapter": 1,
+      "subject": "裴照",
+      "predicate": "birthplace",
+      "value": "凉州",
+      "text": "有人说他生在凉州",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "郑令仪",
+      "predicate": "age",
+      "value": 38,
+      "text": "她今年三十有八",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "许青禾",
+      "predicate": "ability:swim",
+      "value": "used",
+      "text": "她蹬开荷梗，游到那只手边上",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "李昀",
+      "predicate": "status",
+      "value": "dead",
+      "text": "小殿下没气了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "白昙",
+      "predicate": "hair_color",
+      "value": "auburn",
+      "text": "白昙赤褐色的长辫",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "白昙",
+      "predicate": "eye_color",
+      "value": "green",
+      "text": "她没有哭，一双绿眼睛",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "孙嬷嬷",
+      "predicate": "status",
+      "value": "dead",
+      "text": "孙嬷嬷没了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "许青禾",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "她把那张纸凑到窗下，一行一行地读下去",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "裴照",
+      "predicate": "birthplace",
+      "value": "沙州",
+      "text": "我生在沙州",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "李昀",
+      "predicate": "ability:swim",
+      "value": "learned",
+      "text": "教他凫水",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 4,
+      "subject": "李昀",
+      "predicate": "handedness",
+      "value": "right",
+      "text": "他自幼惯使右手",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "白昙",
+      "predicate": "hair_color",
+      "value": "auburn",
+      "text": "她重新编起了辫子，赤褐色的",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "白昙",
+      "predicate": "birthplace",
+      "value": "于阗",
+      "text": "她的第一声啼哭，是落在于阗",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "郑令仪",
+      "predicate": "hair_color",
+      "value": "white",
+      "text": "郑氏的头发原来早就白了",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "郑令仪",
+      "predicate": "hair_color",
+      "value": "black",
+      "text": "替她细细染一遍，染得比墨还黑",
+      "modality": "recalled"
+    }
+  ]
+}
