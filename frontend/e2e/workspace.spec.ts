@@ -17,7 +17,7 @@ async function openContradictions(page: Page, novelId: string) {
 
 test("import the sample from the home page", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: /Import sample/ }).click();
+  await page.getByRole("button", { name: /Import sample “lanternfall”/ }).click();
   await expect(page).toHaveURL(/\/novels\/[0-9a-f-]+$/);
   await expect(page.getByRole("heading", { name: "The Lanternfall Ledger" })).toBeVisible();
   await expect(page.locator(".chapter-list li")).toHaveCount(3);
@@ -287,4 +287,52 @@ test("character graph and timeline show evidence and contradictions", async ({ p
   await page.getByTestId("timeline-event").first().click();
   await expect(page).toHaveURL(/\/chapters\/.+\?start=\d+&end=\d+/);
   await expect(page.getByTestId("span-highlight")).toBeVisible();
+});
+
+test("story logic: replay a recorded local-model audit and follow its evidence", async ({
+  page,
+  request,
+}) => {
+  const res = await request.post("/api/samples/xueye-dangpu/import");
+  expect(res.ok()).toBeTruthy();
+  const novelId = (await res.json()).novel_id;
+  await page.goto(`/novels/${novelId}/story`);
+  await expect(page.getByRole("heading", { name: "人物与故事线" })).toBeVisible();
+  await page.getByTestId("story-llm").selectOption("replay:ollama:qwen2.5:7b");
+  await page.getByRole("button", { name: "开始审查" }).click();
+  await expect(page.getByTestId("story-usage")).toContainText("replay:ollama:qwen2.5:7b", {
+    timeout: 20_000,
+  });
+
+  const runs = await (await request.get(`/api/novels/${novelId}/story-audits`)).json();
+  const run = await (await request.get(`/api/story-audits/${runs[0].id}`)).json();
+  expect(run.status).toBe("done");
+  const issues = page.getByTestId("story-issue");
+  await expect(issues).toHaveCount(run.result.issues.length);
+  expect(run.result.issues.length).toBeGreaterThan(0);
+
+  // Evidence opens the chapter with exactly that span highlighted.
+  const link = page.getByTestId("story-evidence").first();
+  const quote = stripQuotes(await link.innerText());
+  await link.click();
+  await expect(page).toHaveURL(/\/chapters\/[0-9a-f-]+\?start=\d+&end=\d+/);
+  await expect(page.getByTestId("span-highlight")).toHaveText(quote);
+
+  await page.goto(`/novels/${novelId}/story`);
+  await page.getByRole("button", { name: "人物动机" }).click();
+  await expect(page.getByTestId("story-beat").first()).toBeVisible();
+  await page.getByRole("button", { name: "节奏曲线" }).click();
+  await expect(page.locator(".story-chart circle")).toHaveCount(
+    run.result.pulses.filter((p: { tension: number }) => p.tension > 0).length,
+  );
+
+  // A revision suggestion opens the draft assistant with the goal filled in.
+  if (run.result.suggestions.length > 0) {
+    await page.getByRole("button", { name: /重大事故点/ }).click();
+    await page.getByTestId("story-draft-link").first().click();
+    await expect(page).toHaveURL(/\/draft\?goal=/);
+    await expect(page.getByLabel("Goal")).toHaveValue(
+      new RegExp(run.result.suggestions[0].change.slice(0, 12).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
+    );
+  }
 });

@@ -20,6 +20,7 @@ export interface ChapterSummary {
   version: number;
   updated_at: string;
   word_count: number;
+  length_unit?: "words" | "characters";
 }
 
 export interface Chapter extends ChapterSummary {
@@ -303,4 +304,146 @@ export interface TimelineData {
   day_range: [number, number] | null;
   chapters: { number: number; story_day: number | null }[];
   undated_claims: number;
+}
+
+// Story-logic audit (character motives, plot logic, pacing, revision plan).
+export interface StoryNote {
+  id: string;
+  character: string;
+  kind: string;
+  text: string;
+  chapter: number | null;
+  quote: string | null;
+  start: number | null;
+  end: number | null;
+  located: string | null;
+}
+
+export interface StoryBeat {
+  id: string;
+  chapter: number;
+  character: string;
+  listed: boolean;
+  action: string;
+  quote: string;
+  start: number;
+  end: number;
+  hostile: boolean;
+  target: string;
+  cost: string;
+  located: string;
+  resolves_crisis?: boolean;
+  uses_secret?: boolean;
+  secret?: string;
+}
+
+export interface StorySetup {
+  id: string;
+  chapter: number;
+  text: string;
+  quote: string;
+  start: number;
+  end: number;
+  key?: string;
+}
+
+export interface StoryPulse {
+  chapter: number;
+  summary: string;
+  tension: number;
+  emotions: string[];
+  hook: boolean;
+  hook_quote: string | null;
+  hook_start: number | null;
+  hook_end: number | null;
+}
+
+export interface StoryJudgement {
+  beat: string;
+  model_verdict: string;
+  verdict: string;
+  severity: number;
+  reasoning: string;
+  motives: { motive: string; support: string[] }[];
+  conflicts: { note: string; why: string }[];
+  fixes: string[];
+  explained_by: string | null;
+  explained_why: string | null;
+  checks: string[];
+}
+
+export interface StoryEvidence {
+  chapter: number;
+  start: number;
+  end: number;
+  quote: string;
+  role: string;
+}
+
+export interface StoryIssue {
+  id: string;
+  family: "character" | "plot" | "pacing";
+  kind: string;
+  chapter: number;
+  chapters: number[];
+  character: string | null;
+  severity: number;
+  title: string;
+  explanation: string;
+  evidence: StoryEvidence[];
+  refs: string[];
+  fixes: string[];
+}
+
+export interface StorySuggestion {
+  targets: string[];
+  chapter: number;
+  technique: string;
+  change: string;
+  why: string;
+  sample: string;
+}
+
+export interface StoryAuditResult {
+  language: "zh" | "en";
+  llm: string;
+  prompt_version: string;
+  chapters: { number: number; title: string }[];
+  cast: string[];
+  notes: StoryNote[];
+  beats: StoryBeat[];
+  setups: StorySetup[];
+  pulses: StoryPulse[];
+  judgements: StoryJudgement[];
+  issues: StoryIssue[];
+  suggestions: StorySuggestion[];
+  rejected: { stage: string; chapter: number | null; reason: string }[];
+  errors: string[];
+  usage: {
+    calls?: number;
+    input_tokens?: number;
+    output_tokens?: number;
+    cost_usd?: number | null;
+    llm_seconds?: number;
+  };
+}
+
+export interface StoryAuditRun {
+  id: string;
+  novel_id: string;
+  llm: string;
+  prompt_version: string;
+  status: "queued" | "running" | "done" | "failed";
+  progress: string | null;
+  error: string | null;
+  input_tokens: number;
+  output_tokens: number;
+  cost_usd: number | null;
+  created_at: string;
+  finished_at: string | null;
+  stale_chapters: string[];
+  chapter_versions: Record<string, number>;
+  chapter_ids: Record<string, string>;
+  counts?: { issues: number; severe: number; suggestions: number };
+  result?: StoryAuditResult | null;
 }

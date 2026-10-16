@@ -1,0 +1,123 @@
+# Labelled story-logic problems for the 雪夜当铺 sample (written and labelled by the NovelForge
+# authors; the sample was written to contain them). `evidence[].text` must be an exact substring
+# of that chapter's body.
+#
+# A reported issue matches a problem when its kind is in `accept`, its chapter is the
+# problem's chapter, and (for character problems and knowledge leaks) its character is the
+# problem's character and its beat quote overlaps a labelled evidence paragraph. Other plot
+# problems match on kind and chapter; pacing problems on chapter alone.
+problems:
+  - id: P1
+    kind: character
+    accept: [contradicts, unmotivated]
+    character: 沈知微
+    chapter: 2
+    note: >-
+      人设是凡事先算账、不做亏本买卖，第 1 章刚立下“每一文钱都要花在刀刃上”；身上只有三十七文，
+      却因为“心里一软”给了陌生乞丐二十文。前文没有任何铺垫（比如她也讨过饭、被人救过），
+      后文也没有回报或代价。
+    evidence:
+      - {chapter: 2, text: "沈知微心里一软，把怀里的三十七文数出二十文，全倒进了他的碗里。"}
+      - {chapter: 1, text: "这一世，她只算自己的账。谁的情都不欠，谁的亏都不吃，每一文钱都要花在刀刃上。"}
+  - id: P2
+    kind: character
+    accept: [malice_without_cause, unmotivated]
+    character: 沈若兰
+    chapter: 3
+    note: 推堂姐下冰池，原文明说两人没有过节、没有利益冲突，“就是看她不顺眼”：为坏而坏。
+    evidence:
+      - {chapter: 3, text: "走到池边，沈若兰忽然松开手，用力一推。"}
+      - {chapter: 3, text: "她和这个堂姐没有过节，堂姐也从没碍过她什么事，她就是看她不顺眼"}
+  - id: P3
+    kind: plot
+    accept: [knowledge_leak]
+    character: 沈知微
+    chapter: 5
+    note: >-
+      字码锁的两个字只有周掌柜和顾晏知道（第 4 章，沈知微不在场），前世她也没进过后堂，
+      她却直接拨开了锁。
+    evidence:
+      - {chapter: 5, text: "沈知微伸手拨了两下，“青”，“雀”，锁“咔嗒”一声开了。"}
+      - {chapter: 5, text: "她取出那只匣子。匣子里是沈家老宅的地契"}
+      - {chapter: 5, text: "顾少东家让我来后堂取一样东西"}
+      - {chapter: 4, text: "这件事只有你我两个人知道，连账房都不知道。"}
+  - id: P4
+    kind: plot
+    accept: [deus_ex_machina]
+    chapter: 7
+    note: 板子举起来时，前文从未提过的钦差“恰好路过”解围，然后马上离开；危机不是靠人物自己解决的。
+    evidence:
+      - {chapter: 7, text: "“本官奉旨巡察江南，路过临川，听说这里有人当堂滥用私刑？”"}
+  - id: P5
+    kind: plot
+    accept: [dangling_setup]
+    chapter: 1
+    note: 母亲临终交代玉佩“去城西找人”，写得很郑重，之后八章再没出现。
+    evidence:
+      - {chapter: 1, text: "玉佩是母亲临终前亲手给她系上的，边上缺了一个小口。"}
+      - {chapter: 1, text: "“走投无路的时候……拿着它，去城西……找……”"}
+  - id: P6
+    kind: pacing
+    accept: [flat_stretch, no_hook]
+    chapter: 6
+    note: 整章逛年市，没有冲突、没有推进主线，章末也没有钩子；夹在公堂危机之前，节奏塌了。
+    evidence:
+      - {chapter: 6, text: "晚饭是腊肉炒蒜苗，配一碗白米饭。小桃吃了两碗，早早就睡下了。"}
+
+# Things that look like problems but are not. A problem verdict on the same character whose
+# beat quote overlaps the trap's paragraph (for knowledge traps: a knowledge_leak on that
+# character whose beat overlaps it) is a false alarm.
+traps:
+  - id: T1
+    character: 沈知微
+    chapter: 4
+    note: 五十文对她不少，但这是买地契下落的消息，原文写明“这笔买卖不亏”：正合人设。
+    evidence:
+      - {chapter: 4, text: "又往他手里塞了五十文钱"}
+  - id: T2
+    character: 沈承业
+    chapter: 3
+    note: 二叔抢账本、守库房，动机在第 1、3 章都交代了：赌债三百两，年前还不上要剁手。
+    evidence:
+      - {chapter: 3, text: "他就叫人把绸缎铺子的账本全搬去了自己屋里"}
+  - id: T3
+    character: 顾晏
+    chapter: 2
+    note: >-
+      冷面少东家破例无息借钱，看似没来由，但第 7 章交代了原因（她母亲救过他的命）：
+      这是延后揭晓的伏笔，应判为“后文有解释”。
+    evidence:
+      - {chapter: 2, text: "我可以另借你二两，不收利息，也不用抵押"}
+  - id: T4
+    kind: knowledge
+    character: 沈知微
+    chapter: 2
+    note: 她知道盐价要跌，是前世的记忆，原文交代了：不是信息来源不明。
+    evidence:
+      - {chapter: 2, text: "正月里盐价要跌一半"}
+  - id: T5
+    character: 沈知微
+    chapter: 5
+    note: 拒绝春杏看似冷血，但原文给了理由（前世她第一个去报信讨赏），也合“不吃亏”的人设。
+    evidence:
+      - {chapter: 5, text: "“春杏，我不欠你的。”"}
+  - id: T6
+    character: 陆明川
+    chapter: 8
+    note: 陆明川告密有明确的利益动机：陆家欠沈承业一百两，事成之后一笔勾销。
+    evidence:
+      - {chapter: 8, text: "陆家欠我二叔一百两"}
+  - id: T7
+    kind: knowledge
+    character: 沈知微
+    chapter: 1
+    note: 她知道二叔欠赌债、月底卖宅，是前世的记忆。
+    evidence:
+      - {chapter: 1, text: "前世，正是这个月底，二叔把沈家老宅连同绸缎铺子一起卖给了陆家"}
+  - id: T8
+    kind: knowledge
+    character: 沈知微
+    chapter: 8
+    note: 她点破告密的经过，信息来自顾晏前一夜送来的字条，原文交代了来源。
+    evidence:
+      - {chapter: 8, text: "周记守夜的伙计是你表舅"}

@@ -126,8 +126,12 @@ class Passage(Base):
     start: Mapped[int] = mapped_column(Integer)  # code-point offsets into chapter.body
     end: Mapped[int] = mapped_column(Integer)
     text: Mapped[str] = mapped_column(Text)
+    # Chinese passages are indexed as character bigrams (see core.text.cjk_search_text); null
+    # for text without Chinese, which is indexed as it is.
+    search_text: Mapped[str | None] = mapped_column(Text)
     tsv: Mapped[Any] = mapped_column(
-        TSVECTOR, Computed("to_tsvector('english', text)", persisted=True)
+        TSVECTOR,
+        Computed("to_tsvector('english', coalesce(search_text, text))", persisted=True),
     )
     text_hash: Mapped[str] = mapped_column(String(64))
     # Dimension-less vector column: different embedders have different sizes. Each model gets its
@@ -510,4 +514,31 @@ class WorkflowStep(Base):
     cost_usd: Mapped[float | None] = mapped_column(Float, default=0.0)
     error: Mapped[str | None] = mapped_column(Text)
     started_at: Mapped[datetime] = _now_column()
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class StoryAuditRun(Base):
+    """One story-logic audit of a whole novel (character motives, plot logic, pacing, plan).
+
+    The audit is an LLM job, so the result is stored whole (JSONB) with the chapter versions it
+    read; evidence in a chapter edited since is shown as stale instead of being re-anchored.
+    Status: queued | running | done | failed.
+    """
+
+    __tablename__ = "story_audit"
+    __table_args__ = (Index("ix_story_audit_novel", "novel_id", "created_at"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    novel_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("novel.id", ondelete="CASCADE"))
+    llm: Mapped[str] = mapped_column(String(120))
+    prompt_version: Mapped[str] = mapped_column(String(32))
+    chapter_versions: Mapped[dict[str, int]] = mapped_column(JSONB, default=dict)
+    status: Mapped[str] = mapped_column(String(16), default="queued")
+    progress: Mapped[str | None] = mapped_column(String(200))
+    result: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    error: Mapped[str | None] = mapped_column(Text)
+    input_tokens: Mapped[int] = mapped_column(Integer, default=0)
+    output_tokens: Mapped[int] = mapped_column(Integer, default=0)
+    cost_usd: Mapped[float | None] = mapped_column(Float, default=0.0)
+    created_at: Mapped[datetime] = _now_column()
     finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

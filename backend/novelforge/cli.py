@@ -317,6 +317,59 @@ def cmd_bench_real(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_audit_story(args: argparse.Namespace) -> int:
+    from novelforge.bench import story_eval
+    from novelforge.config import get_settings
+    from novelforge.llm.cache import CachingLLM
+    from novelforge.llm.registry import get_llm
+
+    settings = get_settings()
+    folder = Path(args.sample)
+    if not folder.exists():
+        folder = settings.samples_dir / args.sample
+    out = Path(args.out)
+    safe_llm = args.llm.replace(":", "-").replace("/", "-")
+    cache = (
+        Path(args.cache)
+        if args.cache
+        else (out / "llm-cache" / f"story-{folder.name}-{safe_llm}.jsonl")
+    )
+    if args.replay:
+        # Re-score a recorded run with the current checks: no model is loaded or called.
+        from novelforge.llm.cache import ReplayLLM
+
+        llm = ReplayLLM(args.llm, cache.parent)
+    else:
+        llm = CachingLLM(get_llm(args.llm), cache)
+    from novelforge.llm.base import LLMError
+
+    try:
+        report = story_eval.run(
+            folder, llm, progress=lambda msg: print(f"  {msg}", file=sys.stderr, flush=True)
+        )
+    except LLMError as exc:
+        print(f"audit stopped: {exc}", file=sys.stderr)
+        return 1
+    report["replayed"] = bool(args.replay)
+    report["cache"] = {
+        "path": str(cache),
+        "hits": getattr(llm, "hits", None),
+        "misses": getattr(llm, "misses", None),
+    }
+    out.mkdir(parents=True, exist_ok=True)
+    path = out / f"story-{folder.name}-{safe_llm}-{report['audit']['prompt_version']}.json"
+    path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    path.with_suffix(".md").write_text(story_eval.to_markdown(report) + "\n", encoding="utf-8")
+    print(story_eval.to_markdown(report))
+    how = (
+        "replayed from the recording"
+        if args.replay
+        else f"cache {llm.hits} hits, {llm.misses} misses"
+    )
+    print(f"\nsaved {path} ({how})")
+    return 0
+
+
 def cmd_bench_load(args: argparse.Namespace) -> int:
     from sqlalchemy.engine import make_url
 
@@ -473,6 +526,18 @@ def main(argv: list[str] | None = None) -> int:
     )
     p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
     p.set_defaults(func=cmd_bench_real)
+
+    p = sub.add_parser(
+        "audit-story", help="story-logic audit (motives, plot, pacing) on a sample folder"
+    )
+    p.add_argument("sample", nargs="?", default="xueye-dangpu", help="sample name or folder")
+    p.add_argument("--llm", default="ollama:qwen2.5:7b", help="ollama:<model> | anthropic[:model]")
+    p.add_argument("--cache", default=None, help="LLM record-and-replay cache (JSONL)")
+    p.add_argument(
+        "--replay", action="store_true", help="answer only from recordings of --llm (no model)"
+    )
+    p.add_argument("--out", default=str(BACKEND_DIR.parent / "bench" / "results"))
+    p.set_defaults(func=cmd_audit_story)
 
     p = sub.add_parser("bench-load", help="load test on a generated corpus")
     p.add_argument("corpus")

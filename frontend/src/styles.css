@@ -311,3 +311,38 @@ svg .conflict-link { fill: none; stroke: var(--high); stroke-width: 2; stroke-da
 .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; }
 .swatch.conflict { border-radius: 0; height: 2px; width: 14px; background: var(--high); }
 @media (max-width: 900px) { .graph-layout { grid-template-columns: 1fr; } }
+
+/* Story logic */
+.story-page .toolbar { justify-content: flex-start; padding-bottom: 0.6rem; }
+.story-title { font-weight: 600; margin: 0.45rem 0 0.25rem; }
+.story-fixes { margin-top: 0.4rem; }
+.story-fixes ul { margin: 0.2rem 0 0; padding-left: 1.2rem; }
+.story-sample { margin: 0.5rem 0 0; padding: 0.5rem 0.8rem; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 var(--radius) var(--radius) 0; }
+.story-sample p { margin: 0.2rem 0 0; font-family: var(--font-prose); }
+.story-target { margin-left: 0.3rem; }
+.story-motives details, .story-dossier details {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.6rem 0.9rem; margin-bottom: 0.6rem;
+}
+.story-motives summary, .story-dossier summary { cursor: pointer; }
+.story-beats { margin: 0.6rem 0 0; padding-left: 1.2rem; display: grid; gap: 0.75rem; }
+.story-reasons { list-style: none; padding: 0; margin: 0.25rem 0; display: grid; gap: 0.15rem; }
+.story-cite {
+  font: 0.72rem var(--font-mono); margin-left: 0.35rem; padding: 0 0.3rem; border-radius: 4px;
+  background: var(--low-soft); color: var(--low); cursor: help;
+}
+.verdict { font-size: 0.75rem; font-weight: 600; padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--low-soft); color: var(--low); }
+.verdict-consistent { background: var(--accent-soft); color: var(--accent); }
+.verdict-delayed { background: var(--info-soft); color: var(--text); }
+.verdict-unmotivated, .verdict-contradicts, .verdict-malice_without_cause { background: var(--high-soft); color: var(--high); }
+.story-page .chip { display: inline-block; margin-left: 0.25rem; }
+.story-chart { width: 100%; max-width: 640px; height: auto; display: block; }
+.story-chart .grid { stroke: var(--border); stroke-width: 1; }
+.story-chart .axis { fill: var(--muted); font-size: 11px; font-family: var(--font-ui); }
+.story-chart .curve { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.story-chart .dot { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
+.story-chart .dot.flat { fill: var(--medium-soft); stroke: var(--medium); }
+.story-chart .hook { fill: var(--accent); font-size: 11px; text-anchor: middle; }
+.story-pulses { padding-left: 1.2rem; display: grid; gap: 0.3rem; }
+.story-notes { list-style: none; padding: 0; margin: 0.5rem 0 0; display: grid; gap: 0.5rem; }
+.story-checks ul { margin: 0.2rem 0 0.6rem; padding-left: 1.2rem; }

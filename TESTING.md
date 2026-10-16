@@ -20,14 +20,14 @@ session and truncate tables before each test.
 
 | File | Covers |
 |---|---|
-| `test_text.py` | normalisation, paragraph offsets, number words, dialogue detection, sentence bounds |
+| `test_text.py` | normalisation, paragraph offsets, number words, dialogue detection, sentence bounds; Chinese sentences, 「」 dialogue, bigram tokens, language detection, 第一章 headings |
 | `test_extraction.py` | every rule, aliases (case, ambiguity, implied first names), modality, traps (negation, "ten minutes late", word boundaries), effective time, deterministic IDs, rules-v3 patterns ("At fifty", chained verbs, "dyed her hair", in-chapter day offsets) |
 | `test_coref.py` | pronoun and "with"-phrase attribution and every abstention (two candidates, unknown pronouns, person noun, dialogue, plural "they"), nearest-sentence rule, feature lists, ages in apposition, word sense and negation, hedge scope, time clauses, titles, sentence breaks after "Mrs.", pronoun inference, colour families |
 | `test_real_text.py` | Gutenberg stripping, unwrapping, chapter split; the real-prose scorer end to end offline (labels, to-do list, precision, recall) |
 | `test_contradictions.py` | attribute and canon conflicts, thresholds, ages vs elapsed days, dead characters (flashback, memory, unknown time), travel times, abilities |
 | `test_api_crud.py`, `test_concurrency.py` | CRUD, 404/409/422, revisions, stale saves rejected without changes, two concurrent writers |
 | `test_import.py` | deterministic and idempotent import; every claim's span slices the text to its quote; a plain-text novel imports with pronoun attribution |
-| `test_search.py`, `test_retrieval.py` | highlights, phrases, scoping, edits; hash embedder; every retrieval mode returns grounded hits; OR semantics for questions; stage ranks; HNSW agrees with exact search |
+| `test_search.py`, `test_retrieval.py` | highlights, phrases, scoping, edits; Chinese words, phrases and OR queries with highlights; hash embedder; every retrieval mode returns grounded hits; OR semantics for questions; stage ranks; HNSW agrees with exact search |
 | `test_jobs.py` | idempotent enqueue, success/skip/retry/fail, four concurrent workers run each job once, stale-job recovery, cache-aware embedding, stale versions skipped |
 | `test_llm_extraction.py` | quote locator, windows, validation and rejection reasons, day offsets, rule-backed mock, strict schema, cost table, Anthropic request shape (structured output, fallbacks, effort) and stop reasons, Ollama JSON and streaming, cancellation, rejecting values not in their quote, record-and-replay cache (repeatable failures replayed, transport errors not) |
 | `test_review.py` | review queue, accept into canon with audit, refusal to overwrite canon, explicit replace, reject, decisions surviving re-extraction, batch accept, idempotent LLM extraction jobs, scenes |
@@ -36,6 +36,8 @@ session and truncate tables before each test.
 | `test_graph.py` | co-occurrence graph with evidence, timeline lanes and findings |
 | `test_generate.py` | byte-identical corpora per seed, every labelled span exact, category coverage, import, consistency benchmark end to end |
 | `test_review_fixes.py` | regressions for the independent code review: stale LLM claims after edits, shared quotes, chapter-scoped decisions and edited values, concurrent report refreshes, preview thresholds, double accept, re-arming failed jobs, double step start and restart recovery, finalisation failures, non-adjacent ages, one-to-one benchmark matching, nulls in PATCH, case-insensitive places, length-changing lowercase, undated statements ordered by chapter around an attribute change |
+| `test_story_audit.py` | story-logic audit on a scripted model: quotes located (exact, normalised, stitched, sentence), cast resolution, circular motives dropped, verdict downgrades (unverified, unmotivated), skipped beats asked again, later reveals (and unrelated ones refused), plot references, hooks at the chapter end, pacing, plan targets, failures recorded, the scorer, the Chinese samples' labels |
+| `test_story_api.py` | audits as jobs, reuse for unchanged text, stale chapters after an edit, the LLM allow-list, a recorded run replayed through the API with the same prompts as from files, replay refusing changed text |
 | `test_report.py`, `test_migrations.py` | sample report, threshold preview, edits clearing findings, character-sheet changes, CLI evaluation in memory vs database; migrations up and down |
 
 ## Frontend unit tests (11)

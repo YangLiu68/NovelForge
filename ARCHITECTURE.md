@@ -10,6 +10,8 @@ React + TypeScript (Vite)  ──/api──▶  FastAPI (sync SQLAlchemy 2)  ─
                                        retrieval/   embedders, rerankers, hybrid search, indexing
                                        extraction/  LLM prompt, schema, quote verification
                                        drafting/    plan → draft → critique workflow
+                                       narrative/   story logic: character files, beats,
+                                                    motives, plot holes, pacing, revision plan
                                        llm/         mock | Anthropic SDK | Ollama behind one interface
                                        jobs.py      PostgreSQL job queue + worker thread
                                        core/        pure logic: text, rules extractor, detectors,
@@ -34,6 +36,7 @@ benchmarks (in memory) and in unit tests.
 | `review_decision` | Accept/reject decisions keyed by claim fingerprint, re-applied after re-extraction. |
 | `finding` | Contradiction findings with a lifecycle (open, dismissed, resolved). |
 | `workflow_run`, `workflow_step` | Drafting runs and their LLM steps. |
+| `story_audit` | Story-logic audits: the whole result (JSONB) plus the chapter versions it read, so evidence in a chapter edited since is shown as stale. |
 | `embedding_cache`, `job` | Infrastructure: content-addressed embeddings, background jobs. |
 
 Invariants (enforced by tests and check constraints):
@@ -145,6 +148,77 @@ promotes partial output. The critic extracts facts from the draft and runs the s
 against every other chapter, the character sheets and travel times, and returns each issue with
 the draft quote and the evidence it contradicts; a revision prompt carries those issues.
 
+## Story logic: motives, plot holes, pacing
+
+The contradiction detectors compare stated facts. `narrative/audit.py` checks the reasons behind
+actions, which needs an LLM, and wraps every LLM step in checks the code applies itself:
+
+```
+per chapter   notes    what the text establishes about each character: background (incl. a
+                       past life), personality, goals, wounds, situation (money, status),
+                       relationships, knowledge and its source; plus the author's sheet
+              beats    key actions (who, what, quote, hostile?, cost, resolves a crisis?),
+                       setups, a summary, tension 1-5, reader emotions, the ending hook
+per beat      motives  sub-questions, not a verdict: is it a choice that needs a reason? what
+                       reason does the text give (note IDs)? does it go against the character
+                       or their situation (note IDs)? The verdict is computed in code (below)
+per problem   later    does a later chapter explain it? then it is a planted reveal (delayed)
+whole story   plot     knowledge leaks and broken causality, tied to beat / note IDs
+per crisis    rescue   a beat that resolves a crisis by someone never named in an earlier
+                       chapter: the model confirms or not -> deus ex machina
+per setup     payoff   does any later beat pay it off? if none -> dangling setup
+whole story   pacing   from the tension curve and hooks (no LLM): flat stretches, no hook
+top problems  plan     revisions (plant a setup, rewrite the motive, a setback that opens an
+                       opportunity, reversal, past-life memory, special advantage, cliffhanger,
+                       cost and payoff), each tied to the problems it fixes
+```
+
+The motive verdict is a rule over the model's answers, in this order: not a choice → `routine`;
+a reason grounded in a cited note → `consistent`; going against the character with no grounded
+reason → `contradicts`; a reason stated but not grounded → `unverified` (not counted); harming
+someone with no reason → `malice_without_cause`; otherwise `unmotivated`. "Dislikes her",
+"found it amusing" and the like are never a reason (a lexicon check on the reason and on the
+notes cited for it), which is what "no villainy for its own sake" means in practice. The first
+prompt version asked the model for the verdict directly; a 7B model then called nearly every
+beat consistent and cited nothing (BENCHMARK.md section 8).
+
+| Check (code, not model) | What happens to the model's answer |
+|---|---|
+| Quote must be in the chapter: exact, normalised (curly/full-width punctuation, spacing), the longest real sentence of a stitched quote, or one sentence with ≥ 0.8 character overlap | otherwise dropped; the stored span is always the author's text |
+| Character must resolve to the cast (name or alias) | note dropped; a beat by an unlisted person is kept but not motive-checked |
+| A cited note must exist, be shown for that beat, and not quote the beat itself | citation dropped (a note read off the act cannot be its motive) |
+| A reason that is dislike or whim, or a note saying so | not a reason |
+| An empty or failed answer for a beat | recorded as "no judgement", never guessed |
+| A later explanation must be a later note of the same character that names the beat's target or shares words with it | ignored otherwise; if accepted, the verdict becomes `delayed` |
+| A knowledge leak needs a valid beat ID | dropped; the chapter and character come from the beat, not the model |
+| A rescuer named in any earlier chapter (any alias, honorifics stripped) | no deus ex machina check at all |
+| A setup planted in the last chapter | not checked for a payoff (an open ending) |
+| A hook must be in the last 30% of the chapter | otherwise the chapter has no hook |
+| Plan targets must be known problem IDs | dropped |
+
+Prompts are in the novel's language (Chinese or English). Runs are `story_audit` jobs, idempotent
+per (novel text, model, prompt version). `replay:<llm>` answers from recorded responses
+(`bench/results/llm-cache/`) and refuses any prompt it has no recording for, so a real model's
+run can be shown on a machine without that model, and a changed text is never answered with an
+old response. The cast is sorted by name so the same novel gives byte-identical prompts from
+files and from the database. `narrative/score.py` scores a run against labelled problems, traps
+and ambiguous cases (`samples/*/narrative_truth.yaml`); the author's suggestions link to the
+draft assistant, so a revision still goes through plan approval and a checked draft.
+
+## Chinese text
+
+- Sentences end at 。！？ (a closing quote stays with them; an ellipsis inside dialogue does not
+  end one); dialogue is tracked for “”, 「」 and 『』 (`core/text.py`).
+- Plain-text import recognises 第一章 / 第12回 headings and treats each line as a paragraph
+  (`core/plaintext.py`); chapter lengths are counted in characters.
+- Tokens for the hash embedder and the lexical reranker are character bigrams.
+- Full-text search indexes Chinese as bigrams encoded as ASCII tokens (`passage.search_text`,
+  migration 0008): PostgreSQL's parser under the C locale (pgserver) treats Chinese characters as
+  spaces, so plain bigrams would index nothing. Queries get the same encoding, so a quoted
+  phrase matches adjacent bigrams; highlights are computed in Python.
+- The rule extractor and the contradiction detectors are English-only; for a Chinese novel the
+  story-logic audit (LLM) is the analysis.
+
 ## Graph and timeline
 
 `services/graph.py`: characters co-occurring in the same paragraph (weighted, with example
@@ -159,7 +233,7 @@ by chapter order or by story day.
 LOCKED`, retries with exponential backoff, `failed` with the error after `max_attempts`,
 `skipped` when the job no longer applies, re-queueing of jobs left `running` by a dead worker.
 Jobs are enqueued in the transaction that needs them. Kinds: `embed_chapter`,
-`extract_chapter`, `judge_rules`.
+`extract_chapter`, `judge_rules`, `story_audit`.
 
 ## Observability and privacy
 

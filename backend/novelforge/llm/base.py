@@ -25,7 +25,7 @@ PRICES_PER_MTOK: dict[str, tuple[float, float]] = {
 
 
 class LLMError(Exception):
-    """kind: refusal | max_tokens | invalid_json | transport | config"""
+    """kind: refusal | max_tokens | invalid_json | transport | config | not_recorded (replay)"""
 
     def __init__(self, kind: str, message: str):
         super().__init__(f"{kind}: {message}")

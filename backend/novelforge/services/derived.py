@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 from novelforge.config import get_settings
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim
 from novelforge.core.extraction import extract_claims
-from novelforge.core.text import content_hash, split_passages, split_scenes
+from novelforge.core.text import cjk_search_text, content_hash, split_passages, split_scenes
 from novelforge.models import (
     Chapter,
     Character,
@@ -65,6 +65,7 @@ def rebuild_passages(session: Session, chapter: Chapter) -> None:
                 start=span.start,
                 end=span.end,
                 text=span.text,
+                search_text=cjk_search_text(span.text),
                 text_hash=content_hash(span.text),
             )
         )

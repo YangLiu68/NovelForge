@@ -54,7 +54,8 @@ def test_import_is_idempotent(client, session):
 
 def test_unknown_sample(client):
     assert client.post("/api/samples/nope/import").status_code == 404
-    assert client.get("/api/samples").json() == [{"name": "lanternfall"}]
+    names = [s["name"] for s in client.get("/api/samples").json()]
+    assert names == ["lanternfall", "qingshi-du", "xueye-dangpu", "xueye-dangpu-revised"]
 
 
 def test_every_claim_is_grounded_and_timed(client, sample_novel_id, session):

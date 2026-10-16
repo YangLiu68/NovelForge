@@ -35,6 +35,12 @@ for book in little-women anne-of-green-gables pride-and-prejudice the-secret-gar
   done
 done
 
+# Story logic on the Chinese samples: re-scored from the recorded qwen2.5:7b answers (no model
+# needed). With Ollama running, drop --replay to call the model for anything not recorded.
+for sample in xueye-dangpu qingshi-du xueye-dangpu-revised; do
+  uv run novelforge audit-story "$sample" --llm ollama:qwen2.5:7b --replay --out "$OUT"
+done
+
 # Contradiction detection with the memory ablation
 uv run novelforge bench-consistency "$C/syn-100-s7" --extractor rules --embedder fastembed --out "$OUT"
 uv run novelforge bench-consistency "$C/syn-1000-s7" --extractor rules --embedder fastembed --out "$OUT"

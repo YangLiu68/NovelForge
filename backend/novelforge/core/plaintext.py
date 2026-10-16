@@ -8,9 +8,12 @@ separated by blank lines.
 import re
 from dataclasses import dataclass
 
+from novelforge.core.lang import is_chinese
 from novelforge.core.text import normalize_body
 
 DEFAULT_HEADING = r"^(?:CHAPTER|Chapter) [A-Z0-9IVXLC][A-Za-z0-9-]*\.?(?:[ \t].*)?$"
+# 第一章 / 第12回 / 第一百零三章 标题 (full-width digits and spaces too).
+ZH_HEADING = r"^[ \t　]*第[0-9０-９零〇一二三四五六七八九十百千两]+[章回节](?:[ \t　：:].*)?$"
 _GUTENBERG_START = re.compile(r"^\*\*\* ?START OF (?:THE|THIS) PROJECT GUTENBERG.*$", re.M)
 _GUTENBERG_END = re.compile(r"^\*\*\* ?END OF (?:THE|THIS) PROJECT GUTENBERG.*$", re.M)
 _ILLUSTRATION = re.compile(r"\[Illustration[^\]]*\]", re.S)
@@ -33,8 +36,12 @@ def strip_gutenberg(text: str) -> str:
 def unwrap(text: str) -> str:
     """Join hard-wrapped lines inside each paragraph; paragraphs stay blank-line separated.
 
-    Lines that look laid out (indented verse, table rows) are kept as they are.
+    Lines that look laid out (indented verse, table rows) are kept as they are. Chinese text is
+    not hard-wrapped: each line is a paragraph (usually indented with full-width spaces).
     """
+    if is_chinese(text):
+        lines = [line.strip(" \t　") for line in text.split("\n")]
+        return "\n\n".join(line for line in lines if line)
     paragraphs = re.split(r"\n[ \t]*\n+", text)
     out = []
     for p in paragraphs:
@@ -59,6 +66,8 @@ def split_chapters(
     """
     text = normalize_body(_ILLUSTRATION.sub("", text))
     marks = list(re.finditer(heading, text, re.M))
+    if not marks and heading == DEFAULT_HEADING and is_chinese(text):
+        marks = list(re.finditer(ZH_HEADING, text, re.M))
     chapters = []
     for i, m in enumerate(marks):
         end = marks[i + 1].start() if i + 1 < len(marks) else len(text)
@@ -72,6 +81,6 @@ def split_chapters(
                 taken += 1
         body = normalize_body(unwrap("\n".join(rest)))
         if body:
-            title = " ".join(title_parts).rstrip(".]")
+            title = " ".join(title_parts).replace("　", " ").strip().rstrip(".]")
             chapters.append(TextChapter(len(chapters) + 1, title, body))
     return chapters

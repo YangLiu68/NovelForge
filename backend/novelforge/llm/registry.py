@@ -1,4 +1,4 @@
-"""Build an LLM from a spec: 'mock', 'anthropic[:model]', 'ollama:<model>'."""
+"""Build an LLM from a spec: 'mock', 'anthropic[:model]', 'ollama:<model>', 'replay:<spec>'."""
 
 from __future__ import annotations
 
@@ -18,8 +18,8 @@ def allowed_llm(requested: str | None) -> str:
     configured = get_settings().llm
     if requested is None or requested == configured:
         return configured
-    if requested == "mock":
-        return "mock"
+    if requested == "mock" or requested.startswith("replay:"):
+        return requested  # offline and free
     raise LLMError("config", f"LLM '{requested}' is not enabled; this server uses '{configured}'")
 
 
@@ -29,6 +29,12 @@ def get_llm(spec: str) -> LLM:
 
     settings = get_settings()
     kind, _, arg = spec.partition(":")
+    if kind == "replay":
+        from novelforge.llm.cache import ReplayLLM
+
+        if not arg:
+            raise LLMError("config", "replay needs the recorded LLM, e.g. replay:ollama:qwen2.5:7b")
+        return ReplayLLM(arg, settings.replay_dir)
     if kind == "mock":
         from novelforge.extraction.mock_responder import rules_backed_mock
 

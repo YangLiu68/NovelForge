@@ -40,6 +40,7 @@ def load_handlers() -> None:
     import novelforge.retrieval.index  # noqa: F401
     import novelforge.services.extraction_jobs  # noqa: F401
     import novelforge.services.rule_judge  # noqa: F401
+    import novelforge.services.story_audit  # noqa: F401
 
 
 def handler(kind: str) -> Callable[[Handler], Handler]:

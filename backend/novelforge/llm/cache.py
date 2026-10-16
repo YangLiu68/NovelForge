@@ -67,3 +67,44 @@ class CachingLLM:
 
     def stream_text(self, *args, **kwargs):
         return self.inner.stream_text(*args, **kwargs)
+
+
+class ReplayLLM:
+    """Answers only from recordings of another LLM (`replay:<llm spec>`); never calls a model.
+
+    Keys are computed exactly as CachingLLM records them, so a recorded run replays when the
+    prompts are byte-identical (same text, cast and prompt version). A prompt with no recording
+    raises `not_recorded`, which says so; nothing is made up.
+    """
+
+    local = True
+
+    def __init__(self, recorded: str, directory: Path):
+        self.recorded = recorded
+        self.name = f"replay:{recorded}"
+        self._entries: dict[str, dict[str, Any]] = {}
+        for path in sorted(directory.glob("*.jsonl")) if directory.exists() else []:
+            for line in path.read_text(encoding="utf-8").splitlines():
+                if line.strip():
+                    entry = json.loads(line)
+                    self._entries.setdefault(entry["key"], entry)
+
+    def generate_json(
+        self, system: str, prompt: str, schema: dict[str, Any], max_tokens: int = 16000
+    ) -> LLMResult:
+        blob = json.dumps([self.recorded, system, prompt, schema], sort_keys=True)
+        entry = self._entries.get(hashlib.sha256(blob.encode()).hexdigest())
+        if entry is None:
+            raise LLMError(
+                "not_recorded",
+                f"no recorded answer from {self.recorded} for this prompt; the text, cast or "
+                "prompt version differ from the recorded run, so run it with a live model",
+            )
+        if "error_kind" in entry:
+            raise LLMError(entry["error_kind"], entry["error_message"])
+        result = LLMResult(**{k: entry[k] for k in LLMResult.__dataclass_fields__ if k in entry})
+        result.cost_usd = 0.0  # replaying costs nothing; the recording keeps what it cost
+        return result
+
+    def stream_text(self, *args, **kwargs):
+        raise LLMError("config", "replay answers structured calls only")

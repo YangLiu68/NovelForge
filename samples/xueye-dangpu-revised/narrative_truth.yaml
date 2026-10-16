@@ -1,0 +1,110 @@
+# Labels for the revised 雪夜当铺: the six problems of the original are fixed here, so their
+# places are traps (reporting them again is a false alarm); the original's eight traps carry
+# over. Written by the NovelForge authors along with the revision. No problems are planted.
+problems: []
+
+traps:
+  # The six fixed problems.
+  - id: R1
+    character: 沈知微
+    chapter: 2
+    note: >-
+      给阿满二十文现在有前文铺垫（前世冻死那夜他给过她半个馒头，第 1 章），而且是一笔交易：
+      阿满替她盯二叔家的后门，后文三次回报。符合“不做亏本买卖”的人设。
+    evidence:
+      - {chapter: 2, text: "她蹲下来，把怀里的三十七文数出二十文，倒进了他的碗里。"}
+  - id: R2
+    character: 沈若兰
+    chapter: 3
+    note: 推人有利益动机：二叔许诺“你一走，陆家那门亲事就是我的”，她又倾心陆明川。
+    evidence:
+      - {chapter: 3, text: "走到池边，沈若兰忽然松开手，用力一推。"}
+  - id: R3
+    kind: knowledge
+    character: 沈知微
+    chapter: 5
+    note: 字码锁的两个字来自前世记忆：周掌柜醉酒时念了一夜亡妻的名字（第 1 章），第 4 章确认是亡妻的名字。
+    evidence:
+      - {chapter: 5, text: "她赌了一把。“青”，“雀”。锁“咔嗒”一声开了。"}
+      - {chapter: 5, text: "顾少东家让我来后堂取一样东西"}
+  - id: R4
+    kind: plot
+    forbid: [deus_ex_machina]
+    chapter: 7
+    note: 巡察使到场是女主自己布的局：第 6 章打听到他十五进城，托顾晏递了状纸和当票，故意在十五那天被抓。
+    evidence:
+      - {chapter: 7, text: "本官刚进城，就有人递了状纸。"}
+  - id: R5
+    kind: plot
+    forbid: [dangling_setup]
+    chapter: 1
+    note: 玉佩和“去城西找人”在第 8 章回收：裕丰钱庄的半块玉与缺口对上，取出母亲的存票和信。
+    evidence:
+      - {chapter: 1, text: "玉佩是母亲临终前亲手给她系上的，边上缺了一个小口。"}
+  - id: R6
+    kind: pacing
+    chapter: 6
+    note: 年市一章现在有新信息（巡察使十五进城）、行动（递状纸）和章末钩子（“十五。正好。”）。
+    evidence:
+      - {chapter: 6, text: "十五。正好。"}
+  # Carried over from the original.
+  - id: T1
+    character: 沈知微
+    chapter: 4
+    note: 五十文买地契下落的消息，原文写明“这笔买卖不亏”。
+    evidence:
+      - {chapter: 4, text: "又往他手里塞了五十文钱"}
+  - id: T2
+    character: 沈承业
+    chapter: 3
+    note: 赌债三百两，年前还不上要剁手。
+    evidence:
+      - {chapter: 3, text: "他就叫人把绸缎铺子的账本全搬去了自己屋里"}
+  - id: T3
+    character: 顾晏
+    chapter: 2
+    note: 无息借钱的原因第 7 章揭晓（她母亲救过他的命）：后文有解释。
+    evidence:
+      - {chapter: 2, text: "我可以另借你二两，不收利息，也不用抵押"}
+  - id: T4
+    kind: knowledge
+    character: 沈知微
+    chapter: 2
+    note: 盐价要跌是前世的记忆。
+    evidence:
+      - {chapter: 2, text: "正月里盐价要跌一半"}
+  - id: T5
+    character: 沈知微
+    chapter: 5
+    note: 拒绝春杏有理由（前世她第一个去报信讨赏）。
+    evidence:
+      - {chapter: 5, text: "“春杏，我不欠你的。”"}
+  - id: T6
+    character: 陆明川
+    chapter: 8
+    note: 告密有利益动机：陆家欠沈承业一百两。
+    evidence:
+      - {chapter: 8, text: "陆家欠我二叔一百两"}
+  - id: T7
+    kind: knowledge
+    character: 沈知微
+    chapter: 1
+    note: 二叔欠赌债、月底卖宅，是前世的记忆。
+    evidence:
+      - {chapter: 1, text: "前世，正是这个月底，二叔把沈家老宅连同绸缎铺子一起卖给了陆家"}
+  - id: T8
+    kind: knowledge
+    character: 沈知微
+    chapter: 8
+    note: 告密的经过来自顾晏的字条和阿满的盯梢。
+    evidence:
+      - {chapter: 8, text: "周记守夜的伙计是你表舅"}
+
+ambiguous:
+  - id: Z1
+    kind: plot
+    forbid: [dangling_setup]
+    chapter: 8
+    note: 母亲的信揭出“你父亲的死，不是意外”，是本卷结尾留给下一卷的悬念；在一部连载里不算没回收。
+    evidence:
+      - {chapter: 8, text: "你父亲的死，不是意外。"}
