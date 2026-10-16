@@ -69,7 +69,7 @@ jobs (timings are not benchmarks).
 
 | Check | Result |
 |---|---|
-| `audit-story --replay` on the three Chinese samples | dev 5/6 problems, 1/8 traps; held-out 2/6, 1/4; revised 0/14 traps (same as the recorded runs) |
+| `audit-story --replay` on the three Chinese samples | dev 4/6 problems, 1/8 traps; held-out 2/6, 1/4; revised 0/14 traps |
 | `eval-sample` (in memory and through the database, rules-v6) | 4 TP, 0 FP, 1 FN (pronoun plus indirect phrasing), 0 / 4 negatives flagged, citation precision 1.0 |
 | ruff check / ruff format --check | clean / 111 files formatted |
 | pytest | 193 passed in 54.2 s (machine under load) |
@@ -77,7 +77,7 @@ jobs (timings are not benchmarks).
 | Node unit tests | 16 / 16 passed |
 | vite build | succeeded (425 kB JS, 134 kB gzip) |
 | npm audit | 0 vulnerabilities |
-| Playwright | PENDING: queued for memory on the shared machine (last full run: 13 passed in 37.1 s, before the story-logic test) |
+| Playwright | 14 passed in 19.9 s |
 
 ## Not executed
 

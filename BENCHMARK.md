@@ -365,7 +365,7 @@ verdict on it. Issues on no label are listed for a person to judge, not counted 
 | draft (qwen2.5:3b) | verdict per beat, batched | 2 / 6 | 1 / 8 | 5 |
 | story-v1 | verdict per beat, batched | 1 / 6 | 0 / 8 | 6 |
 | story-v2 | sub-questions per beat, verdict computed in code; rescue check; payoff check per setup | 4 / 6 | 1 / 8 | 7 |
-| story-v3 (frozen `1860fc6`) | beats and chapter shape asked separately; setups carry a key word; a per-beat source check for secrets | 5 / 6 | 1 / 8 | 1 |
+| story-v3 (frozen `1860fc6`) | beats and chapter shape asked separately; setups carry a key word; a per-beat source check for secrets | 5 / 6, **4 / 6** after the fix below | 1 / 8 | 1 |
 
 Asked for a verdict directly (v1), the 7B model called 15 of the 18 judged beats consistent and
 cited nothing (it wrote note IDs into the motive text), so the code downgraded them to "not grounded"
@@ -374,6 +374,13 @@ choice that needs a reason? which note gives the reason? what does it go against
 the verdict by rule is what moved the numbers; the rule also refuses dislike as a motive, which
 is how "she just could not stand her" became villainy without cause. The dev numbers are tuned
 on the sample and are not a result.
+
+One of the five v3 hits was an accident. Reviewing the dev output after the held-out run showed
+the heroine's gift flagged as going against a note that said she was "kind-hearted", and that
+note had been read off the gift itself. Circular citations were already refused as reasons but
+not as conflicts; they now are (a code change, prompts untouched), and all three runs were
+re-scored from their recordings: the dev sample drops to 4/6, the held-out and revised numbers
+do not change. The fix came from the dev sample, so the held-out numbers below stay blind.
 
 ### Frozen prompts on the held-out and revised samples (one run each)
 

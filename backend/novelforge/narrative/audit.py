@@ -652,10 +652,10 @@ class StoryAuditor:
                 n = visible.get(nid)
                 if n is None:
                     checks.append(f"dropped {role} {nid}: not in the file shown for {b.id}")
-                elif role == "reason" and _same_passage(n, b):
-                    # A note read off the act itself ("kind-hearted", quoting the gift) cannot be
-                    # the reason for the act: that is circular.
-                    checks.append(f"dropped reason {nid}: it quotes the beat itself (circular)")
+                elif _same_passage(n, b):
+                    # A note read off the act itself ("kind-hearted", quoting the gift) can be
+                    # neither the reason for the act nor what it goes against: that is circular.
+                    checks.append(f"dropped {role} {nid}: it quotes the beat itself (circular)")
                 elif role == "reason" and _NO_REASON.search(f"{n.text} {n.quote or ''}"):
                     checks.append(f"dropped reason {nid}: dislike or whim is not a motive")
                 else:

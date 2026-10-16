@@ -26,7 +26,9 @@ suspense), for Chinese web novels.
 - **Samples.** Three original Chinese samples with labelled problems, traps and ambiguous cases:
   雪夜当铺 (dev), 青石渡 (held out) and a revision of 雪夜当铺 written from the audit's findings.
 - **Results with qwen2.5:7b** (the largest model that fits beside other jobs; Claude not run, no
-  key). Dev: v1 prompts 1/6 problems, v2 4/6, v3 5/6 with 1/8 traps. Frozen v3 (`1860fc6`) on
+  key). Dev: v1 prompts 1/6 problems, v2 4/6, v3 5/6 with 1/8 traps, 4/6 after a fix found while
+  reviewing the dev output (a "conflict" cited a note read off the act itself; such citations are
+  now refused, as they already were for reasons). Frozen v3 (`1860fc6`) on
   the held-out novel: 2/6 found (+1 with another diagnosis), 1/4 traps, about 5 noisy issues. On
   the revision: 0/14 fixed places flagged again. The held-out misses are reading errors (an
   invented motive citing the conflicting notes, a misattributed rescuer, a setup without a quote);

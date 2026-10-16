@@ -63,6 +63,8 @@ extraction and contradiction detection, including how much each kind of memory h
 | Facts by story day; red rings are facts in an open contradiction. | Plan, draft, check, then apply, revise or discard (mock model shown). |
 | ![Little Women in the review queue, with attributions explained](docs/images/review-real.png) | ![A pronoun-resolved fact highlighted in Little Women](docs/images/cited-span-real.png) |
 | *Little Women* imported with `import-text --book little-women`: facts reached through "She" or a sentence's subject say why. | "She had … sharp, gray eyes" is Jo's. Later in the paragraph, "A regular snow maiden, with blue eyes" (Amy) is a miss: the sentence has no subject to attach it to. |
+| ![Story logic: problems with the code's rationale, the model's words and the evidence](docs/images/story-problems.png) | ![Story logic: tension curve, hooks and setups](docs/images/story-pacing.png) |
+| Story logic on 雪夜当铺, replaying the recorded qwen2.5:7b run: each problem states how the verdict was reached and quotes the text. | The tension curve (flat chapters ringed), ending hooks, and whether each setup's key word comes back. |
 
 ## Quick start (no Docker needed)
 
