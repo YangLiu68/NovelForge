@@ -180,6 +180,9 @@ class Issue:
     evidence: list[Evidence]
     refs: list[str]
     fixes: list[str]
+    # How the verdict was reached, written by the code from the checked answers (the model's
+    # own words are in `explanation` and may disagree when a check overruled it).
+    rationale: str = ""
 
 
 @dataclass
@@ -972,6 +975,63 @@ class StoryAuditor:
                 out.append({"kind": "no_hook", "pulses": [p], "severity": 1})
         return out
 
+    def _why_character(self, j: Judgement, b: Beat, notes: dict[str, Note]) -> str:
+        zh = self.lang == "zh"
+        if j.verdict == "contradicts":
+            cited = [f"{c['note']}「{notes[c['note']].text}」" for c in j.conflicts]
+            joined = "、".join(cited) if zh else "; ".join(cited)
+            return (
+                f"与{joined}冲突，前文没有交代这样做的理由。"
+                if zh
+                else f"Goes against {joined}, and nothing earlier gives a reason."
+            )
+        dislike = any("dislike or whim" in c for c in j.checks)
+        if j.verdict == "malice_without_cause":
+            who = b.target or ("他人" if zh else "someone")
+            if zh:
+                extra = "；“看不顺眼”这类说法不算理由" if dislike else ""
+                return f"针对{who}，前文没有交代任何利益、恩怨或经历上的理由{extra}。"
+            extra = "; dislike or whim is not a reason" if dislike else ""
+            return f"Harms {who} with no interest, grudge or history behind it{extra}."
+        return (
+            "这是需要理由的选择，前文没有交代理由。"
+            if zh
+            else "A choice that needs a reason, and nothing earlier gives one."
+        )
+
+    def _why_plot(self, item: dict[str, Any]) -> str:
+        zh = self.lang == "zh"
+        refs = item.get("refs") or []
+        beat = self.audit.beat(refs[0]) if refs and refs[0].startswith("B") else None
+        kind = item["kind"]
+        if kind == "knowledge_leak" and beat is not None:
+            return (
+                f"用到的信息（{beat.secret}）在前面章节写过，但没有交代{beat.character}是怎么知道的。"
+                if zh
+                else f"Uses information set down earlier ({beat.secret}) with no source for "
+                f"how {beat.character} learned it."
+            )
+        if kind == "deus_ex_machina" and beat is not None:
+            return (
+                f"{beat.character}此前从未出场，却化解了这场危机。"
+                if zh
+                else f"{beat.character} has not appeared before and resolves the crisis."
+            )
+        if kind == "dangling_setup":
+            setup = next((x for x in self.audit.setups if x.id in refs), None)
+            if setup is not None and setup.key:
+                return (
+                    f"伏笔的关键词“{setup.key}”在之后的章节里没有再出现。"
+                    if zh
+                    else f'The setup\'s key word "{setup.key}" never comes back.'
+                )
+            return "后文没有回应这个伏笔。" if zh else "No later beat pays it off."
+        return (
+            "前后因果接不上（模型的判断，程序只核对了引用）。"
+            if zh
+            else "Cause and effect do not connect (the model's call; its citations are checked)."
+        )
+
     def assemble(self, plot: list[dict[str, Any]]) -> None:
         a = self.audit
         notes = {n.id: n for n in a.notes}
@@ -998,6 +1058,7 @@ class StoryAuditor:
                     evidence=ev,
                     refs=[b.id, *[c["note"] for c in j.conflicts]],
                     fixes=j.fixes,
+                    rationale=self._why_character(j, b, notes),
                 )
             )
         for item in plot:
@@ -1020,6 +1081,7 @@ class StoryAuditor:
                     evidence=ev,
                     refs=item["refs"],
                     fixes=[str(f).strip() for f in item.get("fixes") or [] if str(f).strip()][:3],
+                    rationale=self._why_plot(item),
                 )
             )
         for item in self._pacing_issues():
@@ -1059,6 +1121,7 @@ class StoryAuditor:
                     evidence=ev,
                     refs=[],
                     fixes=[],
+                    rationale=title,
                 )
             )
         family_order = {"character": 0, "plot": 1, "pacing": 2}

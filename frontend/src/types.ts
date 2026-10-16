@@ -393,6 +393,7 @@ export interface StoryIssue {
   evidence: StoryEvidence[];
   refs: string[];
   fixes: string[];
+  rationale?: string;
 }
 
 export interface StorySuggestion {

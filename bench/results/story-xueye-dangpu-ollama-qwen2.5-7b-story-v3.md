@@ -1,6 +1,6 @@
-*雪夜当铺* (`xueye-dangpu`): 8 chapters, 12 characters. LLM `replay:ollama:qwen2.5:7b`, prompts `story-v3`, 56 calls, 40,154 input / 9,871 output tokens, 1290.9 s in the model.
+*雪夜当铺* (`xueye-dangpu`): 8 chapters, 12 characters. LLM `replay:ollama:qwen2.5:7b`, prompts `story-v3`, 57 calls, 41,097 input / 10,544 output tokens, 1370.2 s in the model.
 
-Labelled problems found: **5 / 6**; traps set off: **1 / 8**; issues reported: 7 (1 not on a label).
+Labelled problems found: **5 / 6** (5 flagged at the right place with any diagnosis); traps set off: **1 / 8**; issues reported: 7 (1 not on a label).
 
 | Label | Kind | Result | Issues |
 |---|---|---|---|
@@ -29,4 +29,4 @@ Labelled problems found: **5 / 6**; traps set off: **1 / 8**; issues reported: 7
 | I6 | 1 | 为坏而坏 | 3 | 沈若兰 | 推沈知微进冰窟窿 |
 | I7 | 1 | 为坏而坏 | 8 | 沈知微 | 要求陈伯送客 |
 
-Grounding: 40 notes, 28 beats, 2 setups kept; quotes located by {'exact': 56, 'normalized': 4, 'sentence': 6, 'piece': 2}; rejected {'shape: setup quote not found': 9, 'notes: quote not found in the chapter': 8, 'beats: quote not found in the chapter': 1, 'plot: causality without a cause and an effect': 2}; verdicts changed by checks {'consistent -> unverified': 3, 'routine -> contradicts': 2, 'consistent -> malice_without_cause': 1}; errors 1.
+Grounding: 40 notes, 28 beats, 2 setups kept; quotes located by {'exact': 56, 'normalized': 4, 'sentence': 6, 'piece': 2}; rejected {'shape: setup quote not found': 9, 'notes: quote not found in the chapter': 8, 'beats: quote not found in the chapter': 1, 'plot: causality without a cause and an effect': 2}; verdicts changed by checks {'consistent -> unverified': 3, 'routine -> contradicts': 2, 'consistent -> malice_without_cause': 1}; errors 0.

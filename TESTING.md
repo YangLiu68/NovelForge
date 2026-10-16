@@ -16,7 +16,7 @@ Tests never call a hosted model and never need an API key: the LLM is the determ
 the embedder is the hash mock. Database tests create a fresh `novelforge_test` database per
 session and truncate tables before each test.
 
-## Backend tests (164)
+## Backend tests (193)
 
 | File | Covers |
 |---|---|
@@ -40,39 +40,44 @@ session and truncate tables before each test.
 | `test_story_api.py` | audits as jobs, reuse for unchanged text, stale chapters after an edit, the LLM allow-list, a recorded run replayed through the API with the same prompts as from files, replay refusing changed text |
 | `test_report.py`, `test_migrations.py` | sample report, threshold preview, edits clearing findings, character-sheet changes, CLI evaluation in memory vs database; migrations up and down |
 
-## Frontend unit tests (11)
+## Frontend unit tests (16)
 
 `src/spans.test.ts` (code points ↔ UTF-16, highlight segments, span links),
 `src/layout.test.ts` (force layout is deterministic, stays on canvas, pulls connected nodes
-together, centres small graphs with room for labels) and `src/resolved.test.ts` (the review
-note that explains a pronoun or sentence-subject attribution). Run with Node's built-in test
+together, centres small graphs with room for labels), `src/resolved.test.ts` (the review
+note that explains a pronoun or sentence-subject attribution) and `src/story.test.ts` (language
+detection, labels, the tension curve, beats per character, a revision suggestion turned into a
+draft-assistant goal). Run with Node's built-in test
 runner.
 
-## End-to-end tests (13)
+## End-to-end tests (14)
 
 `frontend/e2e/workspace.spec.ts`, real browser, real API, real PostgreSQL, mock LLM:
 import; every contradiction citation highlights its exact span; uncertain-statement preview;
 exact search; hybrid search with stage ranks; editing with conflicts and history; fixing text
 clears a finding; character-sheet canon; novel and chapter CRUD; review (accept, canon conflict,
 reject); dismissing a finding with a reason; the draft assistant from plan to applied chapter;
-the character graph and timeline with click-through to evidence.
+the character graph and timeline with click-through to evidence; the story-logic page replaying
+the recorded qwen2.5:7b audit of 雪夜当铺 (issue count, evidence opening its exact span, motives
+and pacing tabs, a suggestion opening the draft assistant with its goal).
 
 ## Latest results
 
-Run on 2026-10-15, Apple M4 / 16 GB / macOS 15.3, Python 3.12.10, Node 22.14, embedded PostgreSQL
+Run on 2026-10-16, Apple M4 / 16 GB / macOS 15.3, Python 3.12.10, Node 22.14, embedded PostgreSQL
 16.2 (pgserver), Chromium headless 140 (Playwright 1.55.1), on a machine shared with several other
 jobs (timings are not benchmarks).
 
 | Check | Result |
 |---|---|
+| `audit-story --replay` on the three Chinese samples | dev 5/6 problems, 1/8 traps; held-out 2/6, 1/4; revised 0/14 traps (same as the recorded runs) |
 | `eval-sample` (in memory and through the database, rules-v6) | 4 TP, 0 FP, 1 FN (pronoun plus indirect phrasing), 0 / 4 negatives flagged, citation precision 1.0 |
-| ruff check / ruff format --check | clean / 98 files formatted |
-| pytest | 164 passed in 84.8 s (machine under load) |
+| ruff check / ruff format --check | clean / 111 files formatted |
+| pytest | 193 passed in 54.2 s (machine under load) |
 | tsc | no errors |
-| Node unit tests | 11 / 11 passed |
-| vite build | succeeded (407 kB JS, 128 kB gzip) |
+| Node unit tests | 16 / 16 passed |
+| vite build | succeeded (425 kB JS, 134 kB gzip) |
 | npm audit | 0 vulnerabilities |
-| Playwright | 13 passed in 37.1 s |
+| Playwright | PENDING: queued for memory on the shared machine (last full run: 13 passed in 37.1 s, before the story-logic test) |
 
 ## Not executed
 

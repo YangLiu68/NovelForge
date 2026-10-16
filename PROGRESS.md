@@ -1,5 +1,41 @@
 # Progress log
 
+## 2026-10-16: story logic and Chinese
+
+The user asked for more than surface contradictions: check whether each character's actions
+have a motive that fits their background, personality and situation (a calculating heroine with
+no money should not give it away out of pity unless the story has prepared it), whether villains
+have reasons instead of being bad for its own sake, whether the plot holds, and where the story
+could be made more gripping (a setback that opens an opportunity, rebirth, a special advantage,
+suspense), for Chinese web novels.
+
+- **Chinese text.** Sentences, dialogue (“”「」『』), 第X章 headings and line-per-paragraph
+  plain text, character counts, bigram tokens, and full-text search that indexes Chinese bigrams
+  as ASCII tokens (PostgreSQL's parser drops Chinese characters under the C locale; migration
+  0008). The rule extractor stays English-only.
+- **Story-logic audit** (`backend/novelforge/narrative/`): character notes, beats and chapter
+  shape per chapter; per beat, grounded sub-questions with the verdict computed by rule; later
+  reveals; knowledge-source checks for secrets set down earlier; a rescue check for helpers never
+  seen before; setups paid off by their key word; pacing from the tension curve; a revision plan.
+  Every quote is located in the text and every cited ID checked; 45 outputs were refused in the
+  three frozen runs. Runs are background jobs stored with the chapter versions they read
+  (`story_audit`, migration 0007); `replay:<llm>` shows a recorded run without the model.
+- **UI.** "Story logic · 人物与故事线": problems with evidence and fixes, a revision plan whose
+  items open the draft assistant with the goal filled in, motives per character, a tension chart
+  with setups, character files and the record of what the checks changed.
+- **Samples.** Three original Chinese samples with labelled problems, traps and ambiguous cases:
+  雪夜当铺 (dev), 青石渡 (held out) and a revision of 雪夜当铺 written from the audit's findings.
+- **Results with qwen2.5:7b** (the largest model that fits beside other jobs; Claude not run, no
+  key). Dev: v1 prompts 1/6 problems, v2 4/6, v3 5/6 with 1/8 traps. Frozen v3 (`1860fc6`) on
+  the held-out novel: 2/6 found (+1 with another diagnosis), 1/4 traps, about 5 noisy issues. On
+  the revision: 0/14 fixed places flagged again. The held-out misses are reading errors (an
+  invented motive citing the conflicting notes, a misattributed rescuer, a setup without a quote);
+  three v4 rules are proposed in BENCHMARK.md and not applied, since they come from the held-out
+  sample.
+- **Process.** The first held-out run was stopped after 20 seconds, before any response was
+  recorded, when the dev run showed the v1 prompts did not work; the held-out sample was run
+  once, after v3 was frozen and committed.
+
 ## 2026-10-15 (evening): real prose, rules-v4 to v6
 
 The user asked for the project to keep being improved. The biggest open caveat was that every

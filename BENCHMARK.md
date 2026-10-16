@@ -335,6 +335,85 @@ to rules-v6 alike). The miss is a hair-colour change written as "Her hair, cropp
 year of the fever, had gone the red of rust": a pronoun plus a phrasing the rules do not read.
 The sample and the rules were written together, so this is a regression check, not a result.
 
+## 8. Story logic: motives, plot holes and pacing on Chinese samples
+
+The surface checks above compare stated facts. This benchmark measures the story-logic audit
+(ARCHITECTURE.md, "Story logic"): does each key action have a reason in the text that fits the
+character's background, personality and situation, do villains have reasons, does the plot hold
+(knowledge leaks, deus ex machina, dangling setups), and does the pacing sag. It needs an LLM, and
+the only one available was local: **qwen2.5:7b** (Q4_K_M, 4.7 GB, Ollama on the M4 GPU; temperature
+0, seed 0). Claude has not been run (no API key).
+
+**Samples.** Three original Chinese web-novel samples, eight chapters each, written and labelled by
+the assistant that built the audit (no second annotator):
+
+| Sample | Role | Labels |
+|---|---|---|
+| `samples/xueye-dangpu` 雪夜当铺 (3,062 characters) | development: prompts were changed after seeing its results | 6 problems (a calculating heroine with 37 coins gives 20 to a stranger out of pity; a cousin pushes her into a frozen pond "just because"; a combination lock opened with a code only two other people knew; an imperial envoy who happens to pass by; a dying mother's pendant never mentioned again; a chapter of New Year shopping) and 8 traps (look-alikes with a reason in the text: a bribe that buys information, an uncle with gambling debts, a loan explained five chapters later, knowledge from a past life...) |
+| `samples/qingshi-du` 青石渡 (1,989 characters) | **held out**: written before the dev runs were scored, run once with the frozen prompts | 6 problems of the same kinds in a different setting and wording, 4 traps, 2 ambiguous cases |
+| `samples/xueye-dangpu-revised` 雪夜当铺（修订版） (3,717 characters) | a revision of the dev sample written from the audit's findings | the 6 fixed places as traps plus the original 8 traps; no planted problems |
+
+**Scoring** (`narrative/score.py`). A problem is found when an issue of an accepted kind is in the
+labelled chapter, on the labelled character, with its quote in a labelled paragraph; an issue at
+the right place with a different diagnosis is reported separately. A trap is set off by a problem
+verdict on it. Issues on no label are listed for a person to judge, not counted as false alarms.
+
+### Prompt history on the development sample
+
+| Prompts | How the model is asked | Problems found | Traps set off | Issues on no label |
+|---|---|---|---|---|
+| draft (qwen2.5:3b) | verdict per beat, batched | 2 / 6 | 1 / 8 | 5 |
+| story-v1 | verdict per beat, batched | 1 / 6 | 0 / 8 | 6 |
+| story-v2 | sub-questions per beat, verdict computed in code; rescue check; payoff check per setup | 4 / 6 | 1 / 8 | 7 |
+| story-v3 (frozen `1860fc6`) | beats and chapter shape asked separately; setups carry a key word; a per-beat source check for secrets | 5 / 6 | 1 / 8 | 1 |
+
+Asked for a verdict directly (v1), the 7B model called 15 of the 18 judged beats consistent and
+cited nothing (it wrote note IDs into the motive text), so the code downgraded them to "not grounded"
+and almost nothing was found. Splitting the judgement into questions it can answer (is this a
+choice that needs a reason? which note gives the reason? what does it go against?) and computing
+the verdict by rule is what moved the numbers; the rule also refuses dislike as a motive, which
+is how "she just could not stand her" became villainy without cause. The dev numbers are tuned
+on the sample and are not a result.
+
+### Frozen prompts on the held-out and revised samples (one run each)
+
+| Sample | Problems found | Flagged at the place, other diagnosis | Traps set off | Issues on no label | Calls, tokens, model time |
+|---|---|---|---|---|---|
+| 青石渡 (held out) | **2 / 6** (the timid heroine stealing the ledger, flagged as against her character, which the label accepts; the flat chapter) | +1 (the classmate's malice called "against the character") | **1 / 4** | 5 | 51 calls, 33,420 in / 8,659 out, 1,066 s |
+| 雪夜当铺（修订版） | none planted | | **0 / 14** | 5 | 61 calls, 51,291 in / 11,538 out, 1,484 s |
+
+Commands: `novelforge audit-story qingshi-du --llm ollama:qwen2.5:7b` (and `xueye-dangpu-revised`),
+reports in `bench/results/story-*-story-v3.md`, every response in `bench/results/llm-cache/`.
+`--replay` re-scores a recording with the current code and loads no model.
+
+- **On unseen text the 7B model finds a third of the problems.** The held-out drop from 5/6 to 2/6
+  is the size of the tuning on the dev sample. The misses are reading errors the checks cannot
+  repair: for the heroine who slaps a warlord's son despite being written as timid, the model
+  invented a motive ("her uncle's threats humiliated her") and cited as its grounds the very notes
+  it also named as conflicts (the timid character sheet, her fear of troubling her uncle's
+  family), which the code accepted because the notes exist; the rescuer from overseas was attributed to the
+  warlord's son, who appears earlier, so the rescue check never ran; the dying father's letter was
+  extracted as a setup without a quote and rejected.
+- **The fixes are recognised.** On the revised sample none of the 14 traps is set off: the gift
+  that now repays a past-life kindness, the cousin with a marriage at stake, the code learned in a
+  past life, the envoy the heroine summoned herself, the pendant redeemed at a money shop, the
+  shopping chapter with a hook.
+- **Most extra issues are noise.** Of the 10 issues on no label across the two frozen runs, two
+  are defensible minor notes (two chapters of the revision end quietly). The other eight are
+  misreadings: two causality claims that contradict the text, four "against the character"
+  verdicts on routine scenes (hearing news, meeting the headmaster), and two "dangling setups"
+  that were paid off in other words (the warlord's moved ledger is found as "the blue ledger").
+- **The checks do their part.** Over the three frozen runs, 45 model outputs were refused (quotes
+  not in the text, setups without a quote, a cause without an effect) and 200 quotes were located
+  (174 exactly, 4 after punctuation normalisation, 11 as the real sentence of a stitched quote,
+  11 by sentence similarity). The computed verdict differs from the model's raw answers in 14
+  places: 6 cited reasons that were missing, circular or not shown (now "not grounded"), 6 beats
+  the model called routine while naming a conflicting note (now "against the character"), 1
+  dislike refused as a motive, 1 loan explained by a later reveal.
+- **Not measured: a capable model.** The prompts and checks are the same for Claude
+  (`--llm anthropic`); how far they get with a stronger reader is the open question, and the
+  held-out sample has to be replaced by a new one before it is used to judge another model.
+
 ## Reproducing
 
 ```bash
@@ -344,6 +423,7 @@ cd backend && uv run novelforge bench-consistency ../bench/corpora/syn-100-s7 --
 uv run novelforge bench-real the-secret-garden   # downloads the book once, scores the labels
 uv run novelforge bench-real anne-of-green-gables \
     --claims ../bench/results/real-claims/claims-anne-of-green-gables-rules-v4.jsonl  # a frozen version
+uv run novelforge audit-story qingshi-du --llm ollama:qwen2.5:7b --replay   # story logic, from the recording
 ```
 
 - Corpora are byte-identical for the same seed, chapter count, filler and generator version.
@@ -353,6 +433,18 @@ uv run novelforge bench-real anne-of-green-gables \
   Retrieval scores are deterministic; latencies vary with machine load.
 
 ## Known gaps and next steps
+
+- **Story logic has been measured with a 7B local model only** (section 8): a third of the
+  held-out problems found, one trap in four set off, and about five noisy issues per novel. The
+  checks keep its output grounded but cannot make it read better. Claude is the obvious next
+  run, on a fresh held-out sample. Three v4 rules are suggested by the held-out misses and not yet
+  applied (they would be tuned on it): a note cited both as the reason and as a conflict cannot be
+  the reason; a reason note must name the beat's target or share words with it, as later
+  explanations already must; a setup without a quote could be kept when its key word is in the
+  chapter.
+- **Chinese is supported for structure, search and the story-logic audit, not for the rule
+  extractor**: the attribute, age and location rules and the contradiction detectors are
+  English-only.
 
 - **No hosted-model run.** Claude is wired in (official SDK, structured outputs, fallbacks) and
   tested against a fake client, but no API key was available. `--extractor anthropic` runs every

@@ -66,6 +66,7 @@ const T = {
     sample: "示范",
     draft: "用这条方案改稿（写作助手：先出提纲，你批准后才起草）",
     secret: "用到的信息",
+    modelSaid: "模型原话：",
     setups: "伏笔",
     paid: "已回收",
     unpaid: "未回收",
@@ -106,6 +107,7 @@ const T = {
     sample: "Sample",
     draft: "Revise with this (draft assistant: plan first, drafts only after you approve)",
     secret: "Information used",
+    modelSaid: "The model said:",
     setups: "Setups",
     paid: "paid off",
     unpaid: "never paid off",
@@ -170,7 +172,14 @@ function IssueCard({ c, issue }: { c: Ctx; issue: StoryIssue }) {
         </span>
       </div>
       <p className="story-title">{issue.title}</p>
-      {issue.explanation && issue.explanation !== issue.title && <p>{issue.explanation}</p>}
+      {issue.rationale && issue.rationale !== issue.title && (
+        <p data-testid="story-rationale">{issue.rationale}</p>
+      )}
+      {issue.explanation && ![issue.title, issue.rationale].includes(issue.explanation) && (
+        <p className="muted small">
+          {c.t.modelSaid} {issue.explanation}
+        </p>
+      )}
       <ul className="evidence-list">
         {issue.evidence.map((e, i) => (
           <Quote key={i} c={c} e={e} role={e.role} />

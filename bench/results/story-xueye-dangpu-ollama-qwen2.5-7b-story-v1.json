@@ -2130,6 +2130,7 @@
     "problems_found": 1,
     "problems": 6,
     "recall": 0.167,
+    "located": 2,
     "by_kind": {
       "character": {
         "labelled": 2,
@@ -2147,11 +2148,10 @@
     "traps_set_off": 0,
     "traps": 8,
     "issues_reported": 8,
-    "issues_on_labels": 1,
+    "issues_on_labels": 2,
     "unlabelled_issues": [
       "I1",
       "I2",
-      "I3",
       "I4",
       "I5",
       "I6",
@@ -2162,31 +2162,38 @@
         "id": "P1",
         "kind": "character",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": []
       },
       {
         "id": "P2",
         "kind": "character",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": []
       },
       {
         "id": "P3",
         "kind": "plot",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": [
+          "I3"
+        ]
       },
       {
         "id": "P4",
         "kind": "plot",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": []
       },
       {
         "id": "P5",
         "kind": "plot",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": []
       },
       {
         "id": "P6",
@@ -2194,7 +2201,8 @@
         "found": true,
         "issues": [
           "I7"
-        ]
+        ],
+        "located_other_kind": []
       }
     ],
     "trap_rows": [
@@ -2285,5 +2293,6 @@
     "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-xueye-dangpu-ollama-qwen2.5-7b.jsonl",
     "hits": 0,
     "misses": 27
-  }
+  },
+  "rescored_with": "score.py at the story-v3 freeze (1860fc6) plus located_other_kind"
 }

@@ -14,6 +14,11 @@
   `corpora/real/` at run time), their cast lists and the hand labels; see
   [real/README.md](real/README.md). `results/real-claims/` keeps the claims of each frozen
   extractor version so old versions can be rescored without checking them out.
+- Story logic (BENCHMARK.md section 8) runs on the Chinese samples in `../samples/`
+  (`xueye-dangpu` dev, `qingshi-du` held out, `xueye-dangpu-revised`), labelled in each
+  sample's `narrative_truth.yaml`. `results/story-*-story-vN.*` are the reports per prompt
+  version; `novelforge audit-story SAMPLE --llm ollama:qwen2.5:7b --replay` re-scores the recorded
+  responses with the current code.
 
 | Corpus | Command | Used for |
 |---|---|---|

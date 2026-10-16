@@ -117,7 +117,9 @@ def to_markdown(report: dict[str, Any]) -> str:
     s = report.get("score")
     if s:
         lines += [
-            f"Labelled problems found: **{s['problems_found']} / {s['problems']}**; "
+            f"Labelled problems found: **{s['problems_found']} / {s['problems']}** "
+            f"({s.get('located', s['problems_found'])} flagged at the right place with any "
+            "diagnosis); "
             f"traps set off: **{s['traps_set_off']} / {s['traps']}**; "
             f"issues reported: {s['issues_reported']} "
             f"({len(s['unlabelled_issues'])} not on a label).",
@@ -127,6 +129,8 @@ def to_markdown(report: dict[str, Any]) -> str:
         ]
         for p in s["problem_rows"]:
             res = "found" if p["found"] else "missed"
+            if not p["found"] and p.get("located_other_kind"):
+                res = f"other diagnosis ({', '.join(p['located_other_kind'])})"
             lines.append(f"| {p['id']} | {p['kind']} | {res} | {', '.join(p['issues'])} |")
         for t in s["trap_rows"]:
             res = "set off" if t["set_off"] else "clean"

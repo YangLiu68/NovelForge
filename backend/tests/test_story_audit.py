@@ -765,3 +765,26 @@ def test_only_information_set_down_earlier_can_leak(mock):
     assert auditor._established(beat("暗柜的密码是梅花"))  # said in chapter 2
     assert not auditor._established(beat("十年前林晚的母亲救过周伯的命"))  # first said in chapter 3
     assert not auditor._established(beat("暗柜的密码是梅花", chapter=2))  # no earlier chapter
+
+
+def test_a_problem_flagged_with_another_diagnosis_is_reported_not_counted(mock):
+    a = audit_story(chapters(), CAST, mock)
+    truth = {
+        "problems": [
+            # The fixture calls the gift "contradicts"; this label only accepts "unmotivated".
+            {
+                "id": "P1",
+                "kind": "character",
+                "accept": ["unmotivated"],
+                "character": "林晚",
+                "chapter": 2,
+                "evidence": [{"chapter": 2, "text": "把十文钱全给了他"}],
+            },
+        ],
+        "traps": [],
+    }
+    s = score(a, truth, chapters())
+    row = s["problem_rows"][0]
+    assert not row["found"] and row["located_other_kind"]
+    assert s["problems_found"] == 0 and s["located"] == 1
+    assert row["located_other_kind"][0] not in s["unlabelled_issues"]

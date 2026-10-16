@@ -3,8 +3,11 @@
 **An evidence-grounded workspace for long fiction.** NovelForge reads a manuscript, extracts
 the facts it states (who has which eye colour, who is where on which day, who has died, who can
 swim, what the rules of the world are), and finds the places where the story contradicts
-itself. Every fact and every finding points at the exact words it came from, and nothing becomes
-canon until the author says so.
+itself. It also checks story logic: whether each character's key actions have a reason in the
+text that fits their background, personality and situation, whether villains have motives,
+whether the plot holds (knowledge leaks, rescues from nowhere, setups never paid off) and where
+the pacing sags, with revisions to fix it. Every fact and every finding points at the exact words
+it came from, and nothing becomes canon until the author says so. English and Chinese novels.
 
 It is not a chatbot wrapper. The core is a reproducible consistency benchmark: a seeded novel
 generator with planted contradictions and look-alike negatives, used to measure retrieval,
@@ -32,6 +35,16 @@ extraction and contradiction detection, including how much each kind of memory h
   resolved; fixed text resolves it automatically.
 - **Search**: hybrid retrieval, PostgreSQL full-text plus pgvector embeddings fused with
   reciprocal rank fusion, optional cross-encoder reranking, and per-result "why this ranked".
+- **Story logic** (人物与故事线): for every key action, the model answers grounded questions (is
+  this a choice that needs a reason? which earlier passage gives it? what does it go against?)
+  and the verdict is computed by rule: consistent, against the character, villainy without cause
+  ("she just could not stand her" is not a motive), unmotivated, or explained later by a planted
+  reveal. Plus knowledge leaks (a secret used without a source), rescues by someone never seen
+  before, setups whose key word never comes back, a tension curve with flat stretches and missing
+  hooks, and a revision plan (plant a setup, a setback that opens an opportunity, a reversal,
+  past-life memory, a cliffhanger) whose items open the draft assistant.
+- **Chinese**: sentence and dialogue handling (“”「」), 第X章 headings, character counts, bigram
+  search that works under any database locale, Chinese prompts and UI for the story-logic page.
 - **Draft**: a bounded plan → draft → check → revise workflow with human approval at each
   checkpoint, streamed over SSE with cancel and retry. The checker runs the contradiction
   detectors on the draft against the rest of the book and cites both sides.
@@ -104,6 +117,7 @@ local on an M4 laptop:
 | False alarms (structured) | **0** findings wrong, 0 of 148 negatives flagged; whole-novel check in 0.5 s |
 | Rule extractor (synthetic) | precision 1.0, recall 0.903 (rules-v6; v3 was 0.812); similes and implications are left to the LLM |
 | **Real prose**: 4 public-domain novels, 490,000 words, every claim hand-judged | on books held out from rule development: strict precision 0.78, recall of explicit identity facts 0.20 to 0.34 (v3: 0.04 to 0.09); **0 contradiction findings, so 0 false alarms** |
+| **Story logic** (qwen2.5:7b local, Chinese samples, prompts frozen before the held-out run) | held-out novel: **2 of 6** planted problems found (+1 at the right place with another diagnosis), **1 of 4** look-alike traps set off, about 5 noisy issues; after revising the dev novel from the audit, **0 of 14** fixed places flagged again. Claude not run |
 | Local LLM extractor (qwen2.5:3b, 15 chapters) | precision 0.667, recall 0.036: too weak to help; validation cut its false positives from 14 to 1. Claude is wired in but has not been run (no API key) |
 | Scale, 1.25 M words / 33,277 paragraphs | import 44 s, chapter save p50 247 ms, hybrid search p50 173 ms, report refresh 774 ms, 258 MB database (on a saturated shared machine) |
 
@@ -123,8 +137,8 @@ as misses.
 | `uv run novelforge migrate [head\|base]` | Apply or roll back migrations |
 | `uv run novelforge serve [--reload]` | Run the API (with an in-process job worker) |
 | `uv run novelforge worker [--once]` | Run background jobs in a separate process |
-| `uv run novelforge import-sample` / `import-corpus DIR` | Import the sample or a generated corpus |
-| `uv run novelforge import-text FILE --title T` / `--book little-women` | Import a plain-text novel (CHAPTER headings) or a public-domain test book |
+| `uv run novelforge import-sample [NAME]` / `import-corpus DIR` | Import a sample (`lanternfall`, `xueye-dangpu`, `qingshi-du`, `xueye-dangpu-revised`) or a generated corpus |
+| `uv run novelforge import-text FILE --title T` / `--book little-women` | Import a plain-text novel (CHAPTER or 第X章 headings) or a public-domain test book |
 | `uv run novelforge gen-corpus --chapters N --seed S [--filler F] --out DIR` | Generate a benchmark novel |
 | `uv run novelforge eval-sample` | Score the sample's contradiction report |
 | `uv run novelforge bench-retrieval DIR` | Retrieval: recall@k, MRR, nDCG, latency, tokens |
@@ -132,6 +146,7 @@ as misses.
 | `uv run novelforge bench-consistency DIR` | Contradiction detection with a memory ablation |
 | `uv run novelforge bench-load DIR` | Throughput, latency, memory, storage |
 | `uv run novelforge bench-real BOOK` | Precision and estimated recall on a public-domain novel (hand labels) |
+| `uv run novelforge audit-story SAMPLE --llm ollama:M\|anthropic [--replay]` | Story-logic audit of a sample, scored against its labels; `--replay` re-scores a recorded run without the model |
 | `uv run pytest` | Backend tests |
 
 From `frontend/`: `npm run dev`, `npm run typecheck`, `npm test`, `npm run build`, `npm run e2e`.
