@@ -1,6 +1,6 @@
 *雪夜当铺* (`xueye-dangpu`): 8 chapters, 12 characters. LLM `ollama:qwen2.5:3b`, prompts `story-v1`, 31 calls, 23,423 input / 8,808 output tokens, 634.3 s in the model.
 
-Labelled problems found: **2 / 6**; traps set off: **1 / 8**; issues reported: 8 (5 not on a label).
+Labelled problems found: **2 / 6** (2 flagged at the right place with any diagnosis); traps set off: **1 / 8**; issues reported: 8 (5 not on a label).
 
 | Label | Kind | Result | Issues |
 |---|---|---|---|

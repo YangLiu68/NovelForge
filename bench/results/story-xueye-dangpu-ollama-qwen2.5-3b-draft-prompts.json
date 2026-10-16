@@ -1769,6 +1769,7 @@
     "problems_found": 2,
     "problems": 6,
     "recall": 0.333,
+    "located": 2,
     "by_kind": {
       "character": {
         "labelled": 2,
@@ -1799,7 +1800,8 @@
         "id": "P1",
         "kind": "character",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": []
       },
       {
         "id": "P2",
@@ -1807,25 +1809,29 @@
         "found": true,
         "issues": [
           "I1"
-        ]
+        ],
+        "located_other_kind": []
       },
       {
         "id": "P3",
         "kind": "plot",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": []
       },
       {
         "id": "P4",
         "kind": "plot",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": []
       },
       {
         "id": "P5",
         "kind": "plot",
         "found": false,
-        "issues": []
+        "issues": [],
+        "located_other_kind": []
       },
       {
         "id": "P6",
@@ -1833,7 +1839,8 @@
         "found": true,
         "issues": [
           "I8"
-        ]
+        ],
+        "located_other_kind": []
       }
     ],
     "trap_rows": [
@@ -1889,7 +1896,8 @@
         "issues": [],
         "verdicts": []
       }
-    ]
+    ],
+    "ambiguous_rows": []
   },
   "grounding": {
     "notes_kept": 19,
@@ -1928,5 +1936,6 @@
     "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-xueye-dangpu-ollama-qwen2.5-3b.jsonl",
     "hits": 0,
     "misses": 31
-  }
+  },
+  "rescored_with": "score.py at the story-v3 freeze (1860fc6) plus located_other_kind"
 }
