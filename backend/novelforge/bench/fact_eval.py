@@ -11,6 +11,9 @@ value agree and its span overlaps an occurrence of the fact's text. Reported:
   contradiction)
 - modality accuracy on matched claims, and every wrong, missed and mis-modalled item
 
+`presence` claims (a character on stage, used only to catch a dead character acting) are not
+labelled and not scored; they are counted.
+
 The finding-level score on the same sample is `novelforge eval-sample`.
 """
 
@@ -22,6 +25,8 @@ from typing import Any
 from novelforge.core.domain import ChapterRef, CharacterRef
 from novelforge.core.extraction import extract_claims, extractor_for
 from novelforge.core.sample import load_folder
+
+UNSCORED = ("presence",)
 
 
 def _occurrences(body: str, text: str) -> list[tuple[int, int]]:
@@ -44,6 +49,8 @@ def run(folder: Path) -> dict[str, Any]:
     for c in novel.chapters:
         ref = ChapterRef(str(c.id), c.number, c.title, c.body, 1, c.story_day)
         claims += [(c.number, cl) for cl in extract_claims(ref, cast)]
+    unscored = [cl for _, cl in claims if cl.predicate in UNSCORED]
+    claims = [(n, cl) for n, cl in claims if cl.predicate not in UNSCORED]
 
     used: set[int] = set()
     rows = []
@@ -89,6 +96,7 @@ def run(folder: Path) -> dict[str, Any]:
         "extractor": extractor_for(next(iter(bodies.values()), "")),
         "facts": len(facts),
         "claims": len(rows),
+        "unscored_claims": len(unscored),
         "matched": len(matched),
         "precision": ratio(len(matched), len(rows)),
         "strict_precision": ratio(len(strict), len(rows)),

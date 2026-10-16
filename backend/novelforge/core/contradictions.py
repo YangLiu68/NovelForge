@@ -430,7 +430,7 @@ def _age_findings(character, group, evidence, chapter_by_id) -> list[Finding]:
     return out
 
 
-PRESENCE = ("location",)
+PRESENCE = ("location", "presence")  # presence: the Chinese extractor's “on stage” (坐在, 走进)
 
 
 def _is_presence(c: ExtractedClaim) -> bool:

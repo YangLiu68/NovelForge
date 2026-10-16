@@ -108,6 +108,7 @@ FAMILY = {
     "birthplace": "attribute",
     "age": "age",
     "location": "location",
+    "presence": "location",  # on stage in a scene (Chinese extractor)
     "status": "status",
 }
 
