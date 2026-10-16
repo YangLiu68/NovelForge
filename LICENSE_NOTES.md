@@ -6,9 +6,10 @@ NovelForge is released under the MIT License ([LICENSE](LICENSE)).
 
 ## Sample and benchmark text
 
-`samples/lanternfall/` (novel.yaml, three chapters, ground truth) and the two Chinese samples
-`samples/xueye-dangpu/` (雪夜当铺) and `samples/qingshi-du/` (青石渡), with their
-`narrative_truth.yaml` labels, were written originally for this project. They contain no
+`samples/lanternfall/` (novel.yaml, three chapters, ground truth) and the Chinese samples
+`samples/xueye-dangpu/` (雪夜当铺), its revision `samples/xueye-dangpu-revised/`,
+`samples/qingshi-du/` (青石渡) and `samples/wugang-xinzha/` (雾港信札), with their
+`narrative_truth.yaml` / `ground_truth.yaml` labels, were written originally for this project. They contain no
 third-party text; the web-novel conventions they use (rebirth, a pawnshop heir, a warlord's
 ledger) are genre tropes, not borrowed passages. The synthetic benchmark corpora are generator-produced
 and not committed (they regenerate from a seed). No copyrighted novel is committed.

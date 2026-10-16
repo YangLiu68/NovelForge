@@ -1,0 +1,34 @@
+# Original Chinese sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+# Planted continuity contradictions and look-alikes are labelled in ground_truth.yaml. This is the
+# development sample for the Chinese rule extractor (rules-zh); its held-out twin is scored once.
+slug: wugang-xinzha
+title: 雾港信札
+language: zh
+synopsis: >-
+  海燕号在雾港外的黑礁沉没，船主林伯年死在海上。林家三小姐林雪棠要找回那张被人涂改过的货单，
+  码头账房、老水手和船行老板都卷了进来。五年后，她在码头开了一家替人读信写信的信局。
+characters:
+  - name: 林雪棠
+    aliases: [雪棠, 三小姐, 林三小姐]
+    description: 林家三小姐，船主林伯年的女儿，刚从上海的女子中学回来。
+    attributes: {pronouns: she/her}
+  - name: 陈砚
+    aliases: [陈账房]
+    description: 雾港码头三号仓库的账房，十二岁来到雾港。
+    attributes: {pronouns: he/him, birthplace: 青州}
+  - name: 苏婉
+    aliases: [婉儿]
+    description: 林家的丫头，比林雪棠大三岁。
+    attributes: {pronouns: she/her}
+  - name: 周铁山
+    aliases: [老周]
+    description: 海燕号上唯一活着回来的水手。
+    attributes: {pronouns: he/him}
+  - name: 顾明远
+    aliases: [顾三爷]
+    description: 雾港最大的船行老板。
+    attributes: {pronouns: he/him}
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md

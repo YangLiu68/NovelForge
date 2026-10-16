@@ -41,6 +41,25 @@ def cmd_import_sample(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_eval_facts(args: argparse.Namespace) -> int:
+    from novelforge.bench.fact_eval import run, to_markdown
+    from novelforge.config import get_settings
+
+    folder = Path(args.name)
+    if not folder.is_dir():
+        folder = Path(get_settings().samples_dir) / args.name
+    result = run(folder)
+    if args.out:
+        args.out.mkdir(parents=True, exist_ok=True)
+        stem = args.out / f"facts-{result['sample']}-{result['extractor']}"
+        stem.with_suffix(".json").write_text(
+            json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        stem.with_suffix(".md").write_text(to_markdown(result), encoding="utf-8")
+    print(json.dumps(result, ensure_ascii=False, indent=2) if args.json else to_markdown(result))
+    return 0
+
+
 def cmd_eval_sample(args: argparse.Namespace) -> int:
     """Score the contradiction report against the sample's labelled ground truth.
 
@@ -51,12 +70,13 @@ def cmd_eval_sample(args: argparse.Namespace) -> int:
     from novelforge.core.contradictions import detect_contradictions
     from novelforge.core.domain import ChapterRef, CharacterRef
     from novelforge.core.evaluation import evaluate
-    from novelforge.core.extraction import EXTRACTOR, extract_claims
+    from novelforge.core.extraction import extract_claims, extractor_for
     from novelforge.core.sample import load_sample
 
     settings = get_settings()
     sample = load_sample(settings.samples_dir, args.name)
     bodies = {c.number: c.body for c in sample.chapters}
+    extractor = extractor_for(sample.chapters[0].body if sample.chapters else "")
     if args.db:
         from novelforge.db import get_sessionmaker
         from novelforge.services.importer import import_sample
@@ -87,7 +107,7 @@ def cmd_eval_sample(args: argparse.Namespace) -> int:
     result.update(
         {
             "sample": args.name,
-            "extractor": EXTRACTOR,
+            "extractor": extractor,
             "mode": "db" if args.db else "in-memory",
             "min_confidence": settings.report_min_confidence,
         }
@@ -96,7 +116,7 @@ def cmd_eval_sample(args: argparse.Namespace) -> int:
         print(json.dumps(result, indent=2))
         return 0
     print(
-        f"sample={args.name} extractor={EXTRACTOR} mode={result['mode']} "
+        f"sample={args.name} extractor={extractor} mode={result['mode']} "
         f"min_confidence={result['min_confidence']}"
     )
     print(
@@ -447,6 +467,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--db", action="store_true", help="run through the database")
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_eval_sample)
+
+    p = sub.add_parser("eval-facts", help="score extracted claims on a sample's labelled facts")
+    p.add_argument("name", help="sample name (samples/<name>) or a folder path")
+    p.add_argument("--json", action="store_true")
+    p.add_argument("--out", type=Path, help="also write <out>/facts-<sample>-<extractor>.json/.md")
+    p.set_defaults(func=cmd_eval_facts)
 
     p = sub.add_parser("gen-corpus", help="generate a synthetic benchmark corpus")
     p.add_argument("--chapters", type=int, default=100)

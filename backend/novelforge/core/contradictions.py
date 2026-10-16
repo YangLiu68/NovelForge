@@ -23,6 +23,8 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim
+from novelforge.core.findings_zh import to_chinese
+from novelforge.core.lang import is_chinese
 
 DAYS_PER_YEAR = 365.25
 
@@ -67,6 +69,9 @@ class Finding:
     suggestion: str
     evidence: list[Evidence] = field(default_factory=list)
     canon_value: str | None = None
+    # The numbers and values the wording is built from, so it can be rewritten in the novel's
+    # language (core/findings_zh.py). Not stored; the evidence carries the facts.
+    params: dict = field(default_factory=dict)
 
 
 # Words an author uses for one colour: "golden" and "yellow" hair do not contradict "blond".
@@ -219,6 +224,8 @@ def detect_contradictions(
             f.predicate,
         )
     )
+    if is_chinese("".join(c.body[:500] for c in chapters[:5])):
+        findings = [to_chinese(f) for f in findings]
     return findings
 
 
@@ -294,6 +301,7 @@ def _static_period(character, predicate, group, evidence, order, check_canon) ->
                     ),
                     evidence=[e for c in conflicting for e in evidence(c)],
                     canon_value=canon,
+                    params={"canon": canon, "value": value, "chapters": sorted(set(chapters))},
                 )
             )
         return out
@@ -327,6 +335,11 @@ def _static_period(character, predicate, group, evidence, order, check_canon) ->
                 f"character sheet."
             ),
             evidence=[e for c in all_claims for e in evidence(c)],
+            params={
+                "sides": [(v, sorted({order(c)[0] for c in cs})) for v, cs in ranked],
+                "keep": keep_value,
+                "others": sorted({order(c)[0] for c in others}),
+            },
         )
     ]
 
@@ -400,6 +413,18 @@ def _age_findings(character, group, evidence, chapter_by_id) -> list[Finding]:
                     f"as story time moves forward."
                 ),
                 evidence=evidence(a) + evidence(b),
+                params={
+                    "a": a.value,
+                    "a_day": a.effective_day,
+                    "ch_a": ch_a,
+                    "b": b.value,
+                    "b_day": b.effective_day,
+                    "ch_b": ch_b,
+                    "elapsed": elapsed_days,
+                    "allowed": sorted({youngest, oldest}),
+                    "years": delta_years,
+                    "forward": int(b.value) > int(a.value) and elapsed_days >= 0,
+                },  # fmt: skip
             )
         )
     return out
@@ -447,6 +472,13 @@ def _dead_active_findings(character, ordered, evidence, chapter_by_id) -> list[F
                     f"death later."
                 ),
                 evidence=evidence(death) + evidence(c),
+                params={
+                    "death_day": death.effective_day,
+                    "ch_death": ch_d,
+                    "day": c.effective_day,
+                    "ch": ch,
+                    "quote": c.spans[0].quote,
+                },  # fmt: skip
             )
         )
     return out
@@ -486,6 +518,15 @@ def _location_findings(character, locs, travel, evidence, chapter_by_id) -> list
                     f"correct the travel time on the Locations canon."
                 ),
                 evidence=evidence(a) + evidence(b),
+                params={
+                    "a": a.value,
+                    "a_day": a.effective_day,
+                    "ch_a": ch_a,
+                    "b": b.value,
+                    "ch_b": ch_b,
+                    "elapsed": elapsed,
+                    "need": need,
+                },  # fmt: skip
             )
         )
     return out
@@ -526,6 +567,13 @@ def _ability_findings(character, abilities, evidence, chapter_by_id) -> list[Fin
                             f"and {ch_u}, or change the action in chapter {ch_u}."
                         ),
                         evidence=evidence(cannot) + evidence(c),
+                        params={
+                            "skill": skill,
+                            "ch_cannot": ch_c,
+                            "day_cannot": cannot.effective_day,
+                            "ch_used": ch_u,
+                            "day_used": c.effective_day,
+                        },  # fmt: skip
                     )
                 )
     return out
