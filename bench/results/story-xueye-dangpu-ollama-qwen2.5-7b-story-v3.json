@@ -1358,25 +1358,16 @@
       {
         "beat": "B6",
         "model_verdict": "routine",
-        "verdict": "contradicts",
+        "verdict": "routine",
         "severity": 3,
         "reasoning": "这个行为与她的人设不符，显得突兀。",
         "motives": [],
-        "conflicts": [
-          {
-            "note": "N25",
-            "why": "心地善良"
-          }
-        ],
-        "fixes": [
-          "补充她在前世因心软而付出代价的经历，让她这次更加谨慎。",
-          "在前文交代她的父亲曾教过她施舍的重要性，但要强调她会权衡利弊后再做决定。",
-          "让这个行为给她带来某种好处或避免更大的损失，比如得到一个小乞丐的感激，从而获得一些额外的帮助。"
-        ],
+        "conflicts": [],
+        "fixes": [],
         "explained_by": null,
         "explained_why": null,
         "checks": [
-          "later explanation N39 names neither the beat's target nor anything in it"
+          "dropped conflict N25: it quotes the beat itself (circular)"
         ]
       },
       {
@@ -1787,45 +1778,6 @@
         "id": "I1",
         "family": "character",
         "kind": "contradicts",
-        "chapter": 2,
-        "chapters": [
-          2
-        ],
-        "character": "沈知微",
-        "severity": 3,
-        "title": "给了小乞丐二十文钱",
-        "explanation": "这个行为与她的人设不符，显得突兀。",
-        "evidence": [
-          {
-            "chapter": 2,
-            "start": 118,
-            "end": 141,
-            "quote": "把怀里的三十七文数出二十文，全倒进了他的碗里。",
-            "role": "beat"
-          },
-          {
-            "chapter": 2,
-            "start": 110,
-            "end": 141,
-            "quote": "沈知微心里一软，把怀里的三十七文数出二十文，全倒进了他的碗里。",
-            "role": "conflict"
-          }
-        ],
-        "refs": [
-          "B6",
-          "N25"
-        ],
-        "fixes": [
-          "补充她在前世因心软而付出代价的经历，让她这次更加谨慎。",
-          "在前文交代她的父亲曾教过她施舍的重要性，但要强调她会权衡利弊后再做决定。",
-          "让这个行为给她带来某种好处或避免更大的损失，比如得到一个小乞丐的感激，从而获得一些额外的帮助。"
-        ],
-        "rationale": "与N25「心地善良」冲突，前文没有交代这样做的理由。"
-      },
-      {
-        "id": "I2",
-        "family": "character",
-        "kind": "contradicts",
         "chapter": 4,
         "chapters": [
           4
@@ -1862,7 +1814,7 @@
         "rationale": "与N25「心地善良」冲突，前文没有交代这样做的理由。"
       },
       {
-        "id": "I3",
+        "id": "I2",
         "family": "plot",
         "kind": "deus_ex_machina",
         "chapter": 7,
@@ -1893,7 +1845,7 @@
         "rationale": "钦差大人此前从未出场，却化解了这场危机。"
       },
       {
-        "id": "I4",
+        "id": "I3",
         "family": "plot",
         "kind": "dangling_setup",
         "chapter": 1,
@@ -1920,7 +1872,7 @@
         "rationale": "伏笔的关键词“玉佩”在之后的章节里没有再出现。"
       },
       {
-        "id": "I5",
+        "id": "I4",
         "family": "pacing",
         "kind": "flat_stretch",
         "chapter": 5,
@@ -1953,7 +1905,7 @@
         "rationale": "第 5–6 章紧张度只有 2、1，章末没有钩子"
       },
       {
-        "id": "I6",
+        "id": "I5",
         "family": "character",
         "kind": "malice_without_cause",
         "chapter": 3,
@@ -1980,7 +1932,7 @@
         "rationale": "针对沈知微，前文没有交代任何利益、恩怨或经历上的理由；“看不顺眼”这类说法不算理由。"
       },
       {
-        "id": "I7",
+        "id": "I6",
         "family": "character",
         "kind": "malice_without_cause",
         "chapter": 8,
@@ -2007,59 +1959,7 @@
         "rationale": "针对陆明川，前文没有交代任何利益、恩怨或经历上的理由。"
       }
     ],
-    "suggestions": [
-      {
-        "targets": [
-          "I1",
-          "I2"
-        ],
-        "chapter": 2,
-        "technique": "setup",
-        "change": "在第2章中，沈知微施舍乞丐的行为可以作为她心地善良的伏笔。同时，在第4章中，沈知微请小六吃腊八粥并给他钱的情节也可以与她的性格设定相吻合。",
-        "why": "通过补伏笔的方式，让读者理解沈知微在关键时刻施舍乞丐和帮助小六的行为是出于她善良的本质。这样可以避免突兀感，并使人物形象更加立体。",
-        "sample": ""
-      },
-      {
-        "targets": [
-          "I3"
-        ],
-        "chapter": 7,
-        "technique": "blessing_in_disguise",
-        "change": "在第7章中，钦差大人突然出现并解救沈知微的情节可以改为她无意间发现了一张藏宝图。这张藏宝图让她找到了一个秘密仓库，里面藏着大量家产和证据。",
-        "why": "这样可以让读者感到惊喜，并且让情节更加合理。同时，这也为后续剧情埋下了伏笔，增加了故事的复杂性和可读性。",
-        "sample": ""
-      },
-      {
-        "targets": [
-          "I4"
-        ],
-        "chapter": 1,
-        "technique": "rewrite_motive",
-        "change": "在第1章中，母亲临终前亲手给沈知微系上的那块玉佩可以作为她与父亲关系的象征。这块玉佩不仅代表了母爱，还暗示着沈知微与家业之间的联系。",
-        "why": "通过改写动机的方式，让读者理解玉佩的意义，并且为后续剧情埋下伏笔。这样可以让故事更加引人入胜，同时也能更好地解释沈知微为何要清算家业。",
-        "sample": ""
-      },
-      {
-        "targets": [
-          "I5"
-        ],
-        "chapter": 6,
-        "technique": "cliffhanger",
-        "change": "在第6章中，可以增加一些紧张感。例如，在临川城年市上，沈知微和小桃遇到了一个可疑的陌生人，并且这个陌生人似乎对地契有所了解。",
-        "why": "通过设置悬念的方式，让读者产生好奇并期待后续剧情的发展。这样可以让故事更加跌宕起伏，同时也能提高读者的阅读兴趣。",
-        "sample": ""
-      },
-      {
-        "targets": [
-          "I6"
-        ],
-        "chapter": 3,
-        "technique": "cost_and_payoff",
-        "change": "在第3章中，沈若兰推沈知微落水的情节可以改为她为了阻止沈知微继承家业而采取的手段。同时，在后续章节中，沈若兰会因为这个行为受到惩罚。",
-        "why": "通过增加代价和回报的方式，让读者理解沈若兰的行为动机，并且为后续剧情埋下伏笔。这样可以让故事更加合理，同时也增加了人物之间的矛盾冲突。",
-        "sample": ""
-      }
-    ],
+    "suggestions": [],
     "rejected": [
       {
         "stage": "shape",
@@ -2296,35 +2196,36 @@
         }
       }
     ],
-    "errors": [],
+    "errors": [
+      "plan: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model"
+    ],
     "usage": {
-      "calls": 57,
+      "calls": 55,
       "calls_by_stage": {
         "notes": 8,
         "beats": 8,
         "shape": 8,
         "motives": 27,
-        "later": 2,
+        "later": 1,
         "plot": 1,
-        "rescue": 2,
-        "plan": 1
+        "rescue": 2
       },
-      "input_tokens": 41097,
-      "output_tokens": 10544,
+      "input_tokens": 39683,
+      "output_tokens": 9833,
       "cost_usd": 0.0,
-      "llm_seconds": 1370.2,
+      "llm_seconds": 1283.3,
       "seconds": 0.0
     }
   },
   "score": {
-    "problems_found": 5,
+    "problems_found": 4,
     "problems": 6,
-    "recall": 0.833,
-    "located": 5,
+    "recall": 0.667,
+    "located": 4,
     "by_kind": {
       "character": {
         "labelled": 2,
-        "found": 2
+        "found": 1
       },
       "plot": {
         "labelled": 3,
@@ -2337,19 +2238,17 @@
     },
     "traps_set_off": 1,
     "traps": 8,
-    "issues_reported": 7,
-    "issues_on_labels": 6,
+    "issues_reported": 6,
+    "issues_on_labels": 5,
     "unlabelled_issues": [
-      "I7"
+      "I6"
     ],
     "problem_rows": [
       {
         "id": "P1",
         "kind": "character",
-        "found": true,
-        "issues": [
-          "I1"
-        ],
+        "found": false,
+        "issues": [],
         "located_other_kind": []
       },
       {
@@ -2357,7 +2256,7 @@
         "kind": "character",
         "found": true,
         "issues": [
-          "I6"
+          "I5"
         ],
         "located_other_kind": []
       },
@@ -2373,7 +2272,7 @@
         "kind": "plot",
         "found": true,
         "issues": [
-          "I3"
+          "I2"
         ],
         "located_other_kind": []
       },
@@ -2382,7 +2281,7 @@
         "kind": "plot",
         "found": true,
         "issues": [
-          "I4"
+          "I3"
         ],
         "located_other_kind": []
       },
@@ -2391,7 +2290,7 @@
         "kind": "pacing",
         "found": true,
         "issues": [
-          "I5"
+          "I4"
         ],
         "located_other_kind": []
       }
@@ -2401,7 +2300,7 @@
         "id": "T1",
         "set_off": true,
         "issues": [
-          "I2"
+          "I1"
         ],
         "verdicts": [
           "contradicts"
@@ -2474,20 +2373,23 @@
     },
     "verdicts_changed_by_checks": {
       "consistent -> unverified": 3,
-      "routine -> contradicts": 2,
-      "consistent -> malice_without_cause": 1
+      "consistent -> malice_without_cause": 1,
+      "routine -> contradicts": 1
     },
-    "errors": []
+    "errors": [
+      "plan: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model"
+    ]
   },
   "environment": {
     "machine": "arm64",
     "python": "3.12.10",
-    "commit": "1860fc6"
+    "commit": "682170a"
   },
   "replayed": true,
   "cache": {
-    "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-xueye-dangpu-ollama-qwen2.5-7b.jsonl",
+    "path": "../bench/results/llm-cache/story-xueye-dangpu-ollama-qwen2.5-7b.jsonl",
     "hits": null,
     "misses": null
-  }
+  },
+  "checks_note": "re-scored from the recording after the circular-conflict fix (a note quoting the beat itself can no longer be cited as what it goes against); prompts unchanged"
 }

@@ -186,7 +186,7 @@ beat consistent and cited nothing (BENCHMARK.md section 8).
 |---|---|
 | Quote must be in the chapter: exact, normalised (curly/full-width punctuation, spacing), the longest real sentence of a stitched quote, or one sentence with ≥ 0.8 character overlap | otherwise dropped; the stored span is always the author's text |
 | Character must resolve to the cast (name or alias) | note dropped; a beat by an unlisted person is kept but not motive-checked |
-| A cited note must exist, be shown for that beat, and not quote the beat itself | citation dropped (a note read off the act cannot be its motive) |
+| A cited note must exist, be shown for that beat, and not quote the beat itself | citation dropped (a note read off the act can be neither its motive nor what it goes against) |
 | A reason that is dislike or whim, or a note saying so | not a reason |
 | An empty or failed answer for a beat | recorded as "no judgement", never guessed |
 | A later explanation must be a later note of the same character that names the beat's target or shares words with it | ignored otherwise; if accepted, the verdict becomes `delayed` |

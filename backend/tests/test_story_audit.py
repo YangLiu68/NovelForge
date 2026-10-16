@@ -788,3 +788,19 @@ def test_a_problem_flagged_with_another_diagnosis_is_reported_not_counted(mock):
     assert not row["found"] and row["located_other_kind"]
     assert s["problems_found"] == 0 and s["located"] == 1
     assert row["located_other_kind"][0] not in s["unlabelled_issues"]
+
+
+def test_a_note_read_off_the_act_is_not_what_it_goes_against(mock):
+    def against_itself(system, prompt, schema):
+        answer = motive_answer(prompt)
+        if "乞丐" in prompt.split("\n", 1)[0]:
+            # "Kind-hearted", read off the gift itself, as the thing the gift goes against.
+            answer = {**answer, "reason_notes": [], "against_notes": [circular_note(prompt)]}
+        return answer
+
+    mock.on_schema("motive_check", against_itself)
+    a = audit_story(chapters(), CAST, mock)
+    gift = next(j for j in a.judgements if "乞丐" in a.beat(j.beat).action)
+    assert gift.conflicts == []
+    assert any("dropped conflict" in c and "circular" in c for c in gift.checks)
+    assert gift.verdict == "unverified"  # a reason ("同情") was stated, none grounded
