@@ -59,6 +59,7 @@ def test_unknown_sample(client):
         "lanternfall",
         "linjiang-biaoqi",
         "qingshi-du",
+        "taiye-qiushen",
         "wugang-xinzha",
         "wuling-chashi",
         "xueye-dangpu",

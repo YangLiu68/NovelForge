@@ -1,0 +1,228 @@
+# Labelled ground truth for the 太液秋深 (taiye-qiushen) held-out sample.
+# `evidence[].text` and `facts[].text` must be exact substrings of that chapter's body.
+# A finding matches a contradiction when kind, subject and predicate all agree.
+# Story days: ch1 = 0, ch2 = 3, ch3 = 10, ch4 = 365.
+contradictions:
+  - id: G1
+    kind: attribute_conflict
+    subject: 裴照
+    predicate: eye_color
+    note: 第一章旁白说裴照的眼睛是灰色的，第三章旁白又写成褐色，人物表上没有眼睛颜色。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "裴照的眼睛是灰色的"}
+      - {chapter: 3, text: "裴照垂下那双褐色的眼睛"}
+  - id: G2
+    kind: attribute_conflict
+    subject: 李昀
+    predicate: handedness
+    note: 第一章说七殿下是左撇子、太傅打手心也没扳过来；第四章却说他自幼惯使右手。第四章只用代词“他”。
+    phrasing: pronoun
+    evidence:
+      - {chapter: 1, text: "七殿下是个左撇子"}
+      - {chapter: 4, text: "他自幼惯使右手"}
+  - id: G3
+    kind: canon_conflict
+    subject: 白昙
+    predicate: hair_color
+    note: 人物表和第一、二、四章都是赤褐色头发，第三章旁白却写成一头乌黑的长发，书中没有染发情节。
+    phrasing: direct
+    evidence:
+      # Evidence order fixed after scoring: the scorer reads the last item as the conflicting
+      # statement (BENCHMARK.md section 9); the writer had listed it first.
+      - {chapter: 1, text: "她的头发是赤褐色的"}
+      - {chapter: 3, text: "白昭仪那一头乌黑的长发"}
+  - id: G4
+    kind: canon_conflict
+    subject: 白昙
+    predicate: birthplace
+    note: 人物表和第一章都说她生在龟兹；第四章用“第一声啼哭落在于阗的沙地上”这种迂回说法，把出生地写成了于阗。
+    phrasing: indirect
+    evidence:
+      - {chapter: 4, text: "她的第一声啼哭，是落在于阗王城外的沙地上的"}
+      - {chapter: 1, text: "她生在龟兹"}
+  - id: G5
+    kind: canon_conflict
+    subject: 许青禾
+    predicate: handedness
+    note: 人物表和第一章都说青禾惯用左手；第三章拆袄子时旁白却说她惯用右手。
+    phrasing: direct
+    evidence:
+      # Evidence order fixed after scoring, as for G3.
+      - {chapter: 1, text: "她惯用左手"}
+      - {chapter: 3, text: "青禾惯用右手"}
+  - id: G6
+    kind: age_timeline
+    subject: 许青禾
+    predicate: age
+    note: 第0天十六岁，第365天（整一年后）成了二十岁，最多应是十七岁。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "许青禾今年十六"}
+      - {chapter: 4, text: "二十岁的许青禾"}
+  - id: G7
+    kind: dead_character_active
+    subject: 孙嬷嬷
+    predicate: status
+    note: 第二章孙嬷嬷被从废井里捞上来，旁白明说她死了；第三章（第10天）马球会上旁白却让她撑着伞站在白昭仪身后，不是梦、不是回忆。
+    phrasing: direct
+    evidence:
+      - {chapter: 2, text: "孙嬷嬷死了"}
+      - {chapter: 3, text: "孙嬷嬷撑着一把青绸伞站在她身后"}
+  - id: G8
+    kind: ability_conflict
+    subject: 许青禾
+    predicate: ability:read
+    note: 第一章说她一个字也不认得，孙嬷嬷也正因为她不识字才挑中她；十天后第三章她自己把孙嬷嬷的纸凑到窗下一行一行读下去，中间没有学认字的情节。两处都只用代词“她”。
+    phrasing: pronoun
+    evidence:
+      - {chapter: 1, text: "她一个字也不认得"}
+      - {chapter: 3, text: "她把那张纸凑到窗下，一行一行地读下去"}
+  - id: G9
+    kind: ability_conflict
+    subject: 李昀
+    predicate: ability:ride
+    note: 第一章说李昀不会骑马、连马厩都不肯靠近；第三章（十天后）他骑着枣红小马下场跑圈，中间没有学骑马。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "李昀不会骑马"}
+      - {chapter: 3, text: "李昀骑着那匹枣红小马"}
+
+# Things that look like contradictions but are not. Any finding on the same subject and
+# predicate counts as a false positive.
+negatives:
+  - id: N1
+    subject: 白昙
+    predicate: eye_color
+    note: >-
+      旁白始终是绿眼睛，与人物表一致。“蓝眼睛”是郑贵妃在对话里故意说错的话（旁白紧接着纠正）；
+      “几乎成了琥珀色”是灯影下的观感；“眼底下熬出两片青影”是熬夜的黑眼圈，不是眼睛颜色。
+    evidence:
+      - {chapter: 2, text: "白昭仪生了一双蓝眼睛"}
+      - {chapter: 3, text: "白昙的眼睛几乎成了琥珀色"}
+      - {chapter: 3, text: "眼底下熬出两片青影"}
+  - id: N2
+    subject: 李昀
+    predicate: age
+    note: 第0天九岁，第365天十岁，与一年的间隔相符；“那年他才四岁”是回忆生母坠马时的年纪。
+    evidence:
+      - {chapter: 1, text: "李昀今年九岁"}
+      - {chapter: 4, text: "李昀十岁了"}
+      - {chapter: 1, text: "那年他才四岁"}
+  - id: N3
+    subject: 李昀
+    predicate: status
+    note: 落水后一度没了呼吸，小内侍喊“没气了”，宫中也传他溺死，但旁白明说他还活着，此后一直在场。是濒死，不是死亡。
+    evidence:
+      - {chapter: 2, text: "小殿下没气了"}
+      - {chapter: 2, text: "有人说七殿下已经溺死"}
+      - {chapter: 2, text: "李昀还活着"}
+  - id: N4
+    subject: 李昀
+    predicate: ability:swim
+    note: 第二章不会凫水；第四章交代当年夏天裴照教了他两个多月，之后才游到对岸。先学后用，是正当的变化。
+    evidence:
+      - {chapter: 2, text: "李昀不会凫水"}
+      - {chapter: 4, text: "教他凫水"}
+      - {chapter: 4, text: "李昀一口气游到了对岸"}
+  - id: N5
+    subject: 郑令仪
+    predicate: hair_color
+    note: 第二章是一头乌发；第四章交代那是每隔三日用乌膏染出来的，打入冷宫后无人替她染，露出满头白发。书中写明了变化原因。
+    evidence:
+      - {chapter: 2, text: "郑贵妃一头乌发"}
+      - {chapter: 4, text: "郑氏的头发原来早就白了"}
+      - {chapter: 4, text: "替她细细染一遍，染得比墨还黑"}
+  - id: N6
+    subject: 裴照
+    predicate: hair_color
+    note: 句子以裴照开头，但“赤褐色的长辫”属于同句里的白昙；裴照自己的头发第一章写的是黑发，此外再无描写。
+    evidence:
+      - {chapter: 2, text: "裴照带着羽林军赶到时，白昙赤褐色的长辫已经散了半边"}
+      - {chapter: 1, text: "他生得高，一头黑发"}
+  - id: N7
+    subject: 孙嬷嬷
+    predicate: age
+    note: 今年六十一是当下年龄；“十三岁进宫”是过去的年纪，二者并不冲突。
+    evidence:
+      - {chapter: 1, text: "孙嬷嬷今年六十一"}
+      - {chapter: 1, text: "她十三岁进宫"}
+  - id: N8
+    subject: 许青禾
+    predicate: eye_color
+    note: 第一章是黑眼睛；第三章“眼睛都绿了”是饿极了的俗语比喻，不是眼睛颜色。
+    evidence:
+      - {chapter: 1, text: "她生着一双黑眼睛"}
+      - {chapter: 3, text: "青禾盯着那碟糕，眼睛都绿了"}
+  - id: N9
+    subject: 裴照
+    predicate: birthplace
+    note: 第一章“有人说他生在凉州”只是宫中传言（同句还有另一种说法）；第三章裴照自己在对话里说生在沙州。旁白从未断言他的出生地。
+    evidence:
+      - {chapter: 1, text: "有人说他生在凉州"}
+      - {chapter: 3, text: "我生在沙州"}
+
+# Every sentence that states one of the tracked predicates about a listed character.
+facts:
+  # ---- chapter 1 ----
+  - {chapter: 1, subject: 白昙, predicate: hair_color, value: red, text: "听说龟兹公主是红头发", modality: reported}
+  - {chapter: 1, subject: 许青禾, predicate: handedness, value: left, text: "她惯用左手", modality: asserted}
+  - {chapter: 1, subject: 许青禾, predicate: age, value: 16, text: "许青禾今年十六", modality: asserted}
+  - {chapter: 1, subject: 许青禾, predicate: birthplace, value: 明州, text: "许青禾今年十六，明州人", modality: asserted}
+  - {chapter: 1, subject: 许青禾, predicate: age, value: 7, text: "她七岁", modality: recalled}
+  - {chapter: 1, subject: 许青禾, predicate: "ability:swim", value: learned, text: "她七岁就能跟着哥哥们凫水", modality: recalled}
+  - {chapter: 1, subject: 许青禾, predicate: "ability:read", value: cannot, text: "她一个字也不认得", modality: asserted}
+  - {chapter: 1, subject: 孙嬷嬷, predicate: age, value: 61, text: "孙嬷嬷今年六十一", modality: asserted}
+  - {chapter: 1, subject: 孙嬷嬷, predicate: age, value: 13, text: "她十三岁进宫", modality: recalled}
+  - {chapter: 1, subject: 许青禾, predicate: eye_color, value: black, text: "她生着一双黑眼睛", modality: asserted}
+  - {chapter: 1, subject: 许青禾, predicate: "ability:read", value: cannot, text: "听说你不识字", modality: reported}
+  - {chapter: 1, subject: 白昙, predicate: hair_color, value: auburn, text: "她的头发是赤褐色的", modality: asserted}
+  - {chapter: 1, subject: 白昙, predicate: eye_color, value: green, text: "白昭仪的眼睛是绿的", modality: asserted}
+  - {chapter: 1, subject: 白昙, predicate: age, value: 19, text: "白昙今年十九岁", modality: asserted}
+  - {chapter: 1, subject: 白昙, predicate: birthplace, value: 龟兹, text: "她生在龟兹", modality: asserted}
+  - {chapter: 1, subject: 李昀, predicate: age, value: 9, text: "李昀今年九岁", modality: asserted}
+  - {chapter: 1, subject: 李昀, predicate: handedness, value: left, text: "七殿下是个左撇子", modality: asserted}
+  - {chapter: 1, subject: 白昙, predicate: "ability:read", value: cannot, text: "我认不得", modality: reported}
+  - {chapter: 1, subject: 李昀, predicate: "ability:ride", value: cannot, text: "李昀不会骑马", modality: asserted}
+  - {chapter: 1, subject: 李昀, predicate: age, value: 4, text: "那年他才四岁", modality: recalled}
+  - {chapter: 1, subject: 裴照, predicate: hair_color, value: black, text: "他生得高，一头黑发", modality: asserted}
+  - {chapter: 1, subject: 裴照, predicate: eye_color, value: grey, text: "裴照的眼睛是灰色的", modality: asserted}
+  - {chapter: 1, subject: 裴照, predicate: birthplace, value: 凉州, text: "有人说他生在凉州", modality: hedged}
+  # ---- chapter 2 ----
+  - {chapter: 2, subject: 郑令仪, predicate: hair_color, value: black, text: "郑贵妃一头乌发", modality: asserted}
+  - {chapter: 2, subject: 郑令仪, predicate: age, value: 38, text: "她今年三十有八", modality: asserted}
+  - {chapter: 2, subject: 白昙, predicate: eye_color, value: blue, text: "白昭仪生了一双蓝眼睛", modality: reported}
+  - {chapter: 2, subject: 白昙, predicate: eye_color, value: green, text: "昭仪的眼睛分明是绿的", modality: asserted}
+  - {chapter: 2, subject: 李昀, predicate: "ability:swim", value: cannot, text: "李昀不会凫水", modality: asserted}
+  - {chapter: 2, subject: 许青禾, predicate: "ability:swim", value: used, text: "她蹬开荷梗，游到那只手边上", modality: asserted}
+  - {chapter: 2, subject: 李昀, predicate: status, value: dead, text: "小殿下没气了", modality: reported}
+  - {chapter: 2, subject: 李昀, predicate: status, value: alive, text: "李昀还活着", modality: asserted}
+  - {chapter: 2, subject: 白昙, predicate: hair_color, value: auburn, text: "白昙赤褐色的长辫", modality: asserted}
+  - {chapter: 2, subject: 白昙, predicate: eye_color, value: green, text: "她没有哭，一双绿眼睛", modality: asserted}
+  - {chapter: 2, subject: 孙嬷嬷, predicate: status, value: dead, text: "孙嬷嬷没了", modality: reported}
+  - {chapter: 2, subject: 孙嬷嬷, predicate: status, value: dead, text: "孙嬷嬷死了", modality: asserted}
+  - {chapter: 2, subject: 李昀, predicate: status, value: dead, text: "有人说七殿下已经溺死", modality: hedged}
+  - {chapter: 2, subject: 孙嬷嬷, predicate: status, value: dead, text: "把孙嬷嬷也克死了", modality: hedged}
+  # ---- chapter 3 ----
+  - {chapter: 3, subject: 许青禾, predicate: handedness, value: right, text: "青禾惯用右手", modality: asserted}
+  - {chapter: 3, subject: 许青禾, predicate: "ability:read", value: used, text: "她把那张纸凑到窗下，一行一行地读下去", modality: asserted}
+  - {chapter: 3, subject: 裴照, predicate: eye_color, value: brown, text: "裴照垂下那双褐色的眼睛", modality: asserted}
+  - {chapter: 3, subject: 裴照, predicate: birthplace, value: 沙州, text: "我生在沙州", modality: reported}
+  - {chapter: 3, subject: 白昙, predicate: hair_color, value: black, text: "白昭仪那一头乌黑的长发", modality: asserted}
+  - {chapter: 3, subject: 李昀, predicate: "ability:ride", value: used, text: "李昀骑着那匹枣红小马", modality: asserted}
+  - {chapter: 3, subject: 白昙, predicate: eye_color, value: amber, text: "白昙的眼睛几乎成了琥珀色", modality: hedged}
+  # ---- chapter 4 ----
+  - {chapter: 4, subject: 许青禾, predicate: age, value: 20, text: "二十岁的许青禾", modality: asserted}
+  - {chapter: 4, subject: 李昀, predicate: age, value: 10, text: "李昀十岁了", modality: asserted}
+  - {chapter: 4, subject: 李昀, predicate: "ability:swim", value: learned, text: "教他凫水", modality: recalled}
+  - {chapter: 4, subject: 李昀, predicate: "ability:swim", value: used, text: "李昀一口气游到了对岸", modality: asserted}
+  - {chapter: 4, subject: 李昀, predicate: handedness, value: right, text: "他自幼惯使右手", modality: asserted}
+  - {chapter: 4, subject: 白昙, predicate: hair_color, value: auburn, text: "她重新编起了辫子，赤褐色的", modality: asserted}
+  - {chapter: 4, subject: 白昙, predicate: eye_color, value: green, text: "她那双绿眼睛", modality: asserted}
+  - {chapter: 4, subject: 白昙, predicate: age, value: 20, text: "白昙二十岁了", modality: asserted}
+  - {chapter: 4, subject: 白昙, predicate: birthplace, value: 于阗, text: "她的第一声啼哭，是落在于阗", modality: asserted}
+  - {chapter: 4, subject: 郑令仪, predicate: hair_color, value: white, text: "郑氏的头发原来早就白了", modality: asserted}
+  - {chapter: 4, subject: 郑令仪, predicate: hair_color, value: black, text: "替她细细染一遍，染得比墨还黑", modality: recalled}
+  - {chapter: 4, subject: 郑令仪, predicate: hair_color, value: white, text: "她就散着一头白发", modality: asserted}
+  - {chapter: 4, subject: 孙嬷嬷, predicate: status, value: dead, text: "孙嬷嬷死了", modality: reported}
+  - {chapter: 4, subject: 孙嬷嬷, predicate: status, value: dead, text: "孙嬷嬷已经死了一年", modality: asserted}
