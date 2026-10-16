@@ -1,0 +1,125 @@
+{
+  "findings": 7,
+  "true_positives": 5,
+  "false_positives": 2,
+  "duplicates": 0,
+  "false_negatives": 4,
+  "precision": 0.7143,
+  "recall_all": 0.5556,
+  "recall_detectable": 0.5556,
+  "negatives": 9,
+  "negatives_violated": 2,
+  "cited_spans": 7,
+  "cited_spans_correct": 7,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 7,
+  "labelled_spans_total": 7,
+  "citation_recall": 1.0,
+  "by_category": {
+    "abilities": {
+      "labelled": 2,
+      "detected": 1,
+      "fp": 0,
+      "recall": 0.5
+    },
+    "identity": {
+      "labelled": 5,
+      "detected": 3,
+      "fp": 1,
+      "recall": 0.6
+    },
+    "timeline": {
+      "labelled": 2,
+      "detected": 1,
+      "fp": 1,
+      "recall": 0.5
+    }
+  },
+  "matched": [
+    "G3",
+    "G4",
+    "G5",
+    "G7",
+    "G9"
+  ],
+  "missed": [
+    {
+      "id": "G1",
+      "category": "identity",
+      "kind": "attribute_conflict",
+      "reason": ""
+    },
+    {
+      "id": "G2",
+      "category": "identity",
+      "kind": "attribute_conflict",
+      "reason": ""
+    },
+    {
+      "id": "G6",
+      "category": "timeline",
+      "kind": "dead_character_active",
+      "reason": ""
+    },
+    {
+      "id": "G8",
+      "category": "abilities",
+      "kind": "ability_conflict",
+      "reason": ""
+    }
+  ],
+  "false_positive_findings": [
+    {
+      "kind": "attribute_conflict",
+      "subject": "\u82cf\u660e\u6f88",
+      "predicate": "hair_color",
+      "spans": [
+        [
+          3,
+          201,
+          215
+        ],
+        [
+          3,
+          201,
+          209
+        ],
+        [
+          3,
+          2108,
+          2123
+        ],
+        [
+          4,
+          500,
+          505
+        ]
+      ]
+    },
+    {
+      "kind": "age_timeline",
+      "subject": "\u82cf\u6000\u5c71",
+      "predicate": "age",
+      "spans": [
+        [
+          1,
+          713,
+          727
+        ],
+        [
+          1,
+          1280,
+          1289
+        ]
+      ]
+    }
+  ],
+  "violated_negatives": [
+    "N2",
+    "N7"
+  ],
+  "sample": "wuling-chashi",
+  "extractor": "rules-zh-v2",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}
