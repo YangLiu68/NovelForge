@@ -421,6 +421,64 @@ reports in `bench/results/story-*-story-v3.md`, every response in `bench/results
   (`--llm anthropic`); how far they get with a stronger reader is the open question, and the
   held-out sample has to be replaced by a new one before it is used to judge another model.
 
+## 9. Chinese continuity facts (rules-zh)
+
+The rule extractor reads Chinese chapters with `core/extraction_zh.py` (ARCHITECTURE.md,
+"Extraction") and feeds the same contradiction detectors as English. Each sample is labelled
+twice: every statement of a checked predicate about a listed character (`facts:`, asserted or
+not, scored by `novelforge eval-facts`: claim precision and recall), and planted contradictions
+with look-alike negatives (`novelforge eval-sample`: findings).
+
+**Protocol.** The development sample 雾港信札 (3 chapters) was written together with v1. Each
+held-out novel (4 chapters, about 7,700 characters, 9 contradictions, 9 negatives, 52 to 61
+facts) was written by a separate agent session. The session was told not to read the
+extractor, its tests or the other samples, and to report only counts. Its novel was then scored
+once with the version frozen before it arrived; the commit is noted in its `novel.yaml`. The
+failures on that novel produced the next version, which was scored on the next novel. Each
+held-out number is therefore blind for exactly one version, and the later rows on the same
+novel are not.
+
+| Sample | Version | Contradictions found | False findings | Negatives flagged | Claim precision (strict) | Claim recall (asserted facts) |
+|---|---|---|---|---|---|---|
+| 雾港信札 (dev) | v1, v2, v3 | 7 / 7 | 0 | 0 / 6 | 1.0 (1.0) | 0.903 (0.958) |
+| 临江镖旗 (镖局, held out for v1) | **v1, blind** | **3 / 9** | **2** | **1 / 9** | 0.833 (0.833) | 0.385 (0.405) |
+| | v2 / v3, seen | 6 / 9, 7 / 9 | 0 | 0 / 9 | 1.0 (1.0) | 0.75 (0.838) |
+| 雾岭茶事 (茶山, held out for v2) | **v2, blind** | **5 / 9** | **2** | **2 / 9** | 0.947 (0.868) | 0.59 (0.625) |
+| | v3, seen | 8 / 9 | 0 | 0 / 9 | 1.0 (0.974) | 0.639 (0.688) |
+| 太液秋深 (宫廷, held out for v3) | **v3, blind** | **5 / 9** | **3** | **3 / 9** | 1.0 (0.944) | 0.621 (0.70) |
+
+The v3 blind row counts two canon findings that were scored as false when they arrived. The
+scorer reads a label's last evidence item as the conflicting statement, and that writer had put
+the agreeing sentence last. Both findings cite the right sentence. Their labels' evidence order
+was fixed, with a comment in the file. As first scored the result was 3 / 9 with 5 false
+findings; that result is kept in `findings-taiye-qiushen-rules-zh-v3-as-labelled.json`.
+
+- **On unseen text the rules find about half of the planted contradictions** (v2 and v3), up from
+  a third (v1), and raise two or three false findings per novel. The extracted facts are almost
+  always right (blind precision 0.95 to 1.0); the false findings come from context the rules
+  miss around them. v1: 她 given to the wrong woman (这姑娘 stood between), and a lesson missed
+  because another name sat in the sentence (照雪跟着苏砚学会了骑马), so her later riding looked
+  impossible. v2: the old colour in 把一头黑发染成了银白色 read as current, and an age given to the
+  name after 跟着. v3: a skill learned by being taught (裴照教他凫水), hair revealed chapters later
+  to have been dyed all along, and a past age with its time word in front (那年他才四岁).
+- **Misses** are pronoun chains the resolver declines (two women in the previous sentence),
+  roundabout statements (她的第一声啼哭是落在于阗 for a birthplace, 墨一样的眼睛), an action
+  between the name and the stage verb (孙嬷嬷撑着一把青绸伞站在她身后), and idioms not in the lists
+  (一个字也不认得).
+- **Each version fixed its novel and the next novel brought new phrasings.** Blind recall of
+  facts went from 0.385 to about 0.6 and then stayed there. That is the long tail rules cannot
+  follow, and it is what the LLM extractor is for. The LLM extraction prompt is still English
+  and has not been run on Chinese.
+- **No false alarms on the story samples.** On 雪夜当铺, 青石渡 and the revision (24 chapters
+  not written for this check) v3 makes 6, 3 and 9 claims, mostly characters on stage. All were
+  checked by hand, and none raises a finding.
+- The held-out labels are the writing sessions' own; no second annotator checked them, and the
+  writers were not told the scorer's conventions (hence the evidence-order fix above).
+
+Commands: `novelforge eval-sample linjiang-biaoqi` and `novelforge eval-facts linjiang-biaoqi`
+(likewise `wugang-xinzha`, `wuling-chashi`, `taiye-qiushen`). Results are in
+`bench/results/findings-*-rules-zh-vN.json` and `facts-*-rules-zh-vN.{json,md}`.
+
 ## Reproducing
 
 ```bash
@@ -448,10 +506,14 @@ uv run novelforge audit-story qingshi-du --llm ollama:qwen2.5:7b --replay   # st
   applied (they would be tuned on it): a note cited both as the reason and as a conflict cannot be
   the reason; a reason note must name the beat's target or share words with it, as later
   explanations already must; a setup without a quote could be kept when its key word is in the
-  chapter.
-- **Chinese is supported for structure, search and the story-logic audit, not for the rule
-  extractor**: the attribute, age and location rules and the contradiction detectors are
-  English-only.
+  chapter. Checked against the recorded answers, the first would not find H1 on its own (the
+  invented motive also cites a second note that restates the conflict) and would add a false
+  alarm on the revision, where the model cites the cousin's real motive both as reason and as
+  conflict; it is not applied.
+- **Chinese continuity checks find about half of what is planted in unseen novels** (section 9),
+  with two or three false findings each. The next steps are a skill learned by being taught,
+  changes revealed after the fact, and time words before an age. Beyond that the LLM extractor
+  needs a Chinese prompt and a run.
 
 - **No hosted-model run.** Claude is wired in (official SDK, structured outputs, fallbacks) and
   tested against a fake client, but no API key was available. `--extractor anthropic` runs every
