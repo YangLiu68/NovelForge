@@ -57,6 +57,7 @@ def test_unknown_sample(client):
     names = [s["name"] for s in client.get("/api/samples").json()]
     assert names == [
         "lanternfall",
+        "linjiang-biaoqi",
         "qingshi-du",
         "wugang-xinzha",
         "xueye-dangpu",

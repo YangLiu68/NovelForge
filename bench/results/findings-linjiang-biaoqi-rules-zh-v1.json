@@ -1,0 +1,124 @@
+{
+  "findings": 5,
+  "true_positives": 3,
+  "false_positives": 2,
+  "duplicates": 0,
+  "false_negatives": 6,
+  "precision": 0.6,
+  "recall_all": 0.3333,
+  "recall_detectable": 0.3333,
+  "negatives": 9,
+  "negatives_violated": 1,
+  "cited_spans": 5,
+  "cited_spans_correct": 5,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 5,
+  "labelled_spans_total": 5,
+  "citation_recall": 1.0,
+  "by_category": {
+    "abilities": {
+      "labelled": 2,
+      "detected": 0,
+      "fp": 2,
+      "recall": 0.0
+    },
+    "identity": {
+      "labelled": 5,
+      "detected": 3,
+      "fp": 0,
+      "recall": 0.6
+    },
+    "timeline": {
+      "labelled": 2,
+      "detected": 0,
+      "fp": 0,
+      "recall": 0.0
+    }
+  },
+  "matched": [
+    "G1",
+    "G2",
+    "G3"
+  ],
+  "missed": [
+    {
+      "id": "G4",
+      "category": "identity",
+      "kind": "canon_conflict",
+      "reason": ""
+    },
+    {
+      "id": "G5",
+      "category": "identity",
+      "kind": "canon_conflict",
+      "reason": ""
+    },
+    {
+      "id": "G6",
+      "category": "timeline",
+      "kind": "age_timeline",
+      "reason": ""
+    },
+    {
+      "id": "G7",
+      "category": "timeline",
+      "kind": "dead_character_active",
+      "reason": ""
+    },
+    {
+      "id": "G8",
+      "category": "abilities",
+      "kind": "ability_conflict",
+      "reason": ""
+    },
+    {
+      "id": "G9",
+      "category": "abilities",
+      "kind": "ability_conflict",
+      "reason": ""
+    }
+  ],
+  "false_positive_findings": [
+    {
+      "kind": "ability_conflict",
+      "subject": "\u6797\u7167\u96ea",
+      "predicate": "ability:ride",
+      "spans": [
+        [
+          1,
+          1664,
+          1671
+        ],
+        [
+          2,
+          196,
+          217
+        ]
+      ]
+    },
+    {
+      "kind": "ability_conflict",
+      "subject": "\u6797\u7167\u96ea",
+      "predicate": "ability:ride",
+      "spans": [
+        [
+          1,
+          1664,
+          1671
+        ],
+        [
+          4,
+          35,
+          39
+        ]
+      ]
+    }
+  ],
+  "violated_negatives": [
+    "N6"
+  ],
+  "sample": "linjiang-biaoqi",
+  "extractor": "rules-zh-v1",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}

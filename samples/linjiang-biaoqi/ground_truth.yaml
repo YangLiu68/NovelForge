@@ -1,0 +1,213 @@
+# Labelled ground truth for the 临江镖旗 held-out sample (written independently of the extractor).
+# `evidence[].text` and `facts[].text` must be exact substrings of that chapter's body.
+# A finding matches a contradiction when kind, subject and predicate all agree.
+# story_day: ch1 = 0, ch2 = 15, ch3 = 725, ch4 = 731.
+contradictions:
+  - id: G1
+    kind: attribute_conflict
+    subject: 楚青萝
+    predicate: eye_color
+    note: 第一章叙述说楚青萝有一双碧绿的眼睛；第三章叙述却说她的眼睛是灰色的，中间没有任何交代。角色卡没有写眼睛颜色。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "楚青萝有一双碧绿的眼睛"}
+      - {chapter: 3, text: "青萝那双灰色的眼睛"}
+  - id: G2
+    kind: attribute_conflict
+    subject: 苏砚
+    predicate: handedness
+    note: 第一章说苏砚是左撇子，剑挂右腰好让左手拔；第四章却说苏砚惯用右手。角色卡没有写惯用手。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "苏砚是个左撇子"}
+      - {chapter: 4, text: "苏砚惯用右手"}
+  - id: G3
+    kind: canon_conflict
+    subject: 林照雪
+    predicate: hair_color
+    note: 角色卡写照雪是黑发；第三章她回屋拔下发簪，叙述说是一头棕色的长发。这一句只用"她"指代，前一句的主语是照雪。正文别处没有写她的发色。
+    phrasing: pronoun
+    evidence:
+      - {chapter: 3, text: "她拔下发簪，一头棕色的长发"}
+  - id: G4
+    kind: canon_conflict
+    subject: 苏砚
+    predicate: birthplace
+    note: 角色卡和第一章都说苏砚生在云州；第四章叙述却说苏砚生在江陵，还回忆十岁时在江陵码头被师父捡走。
+    phrasing: direct
+    evidence:
+      - {chapter: 4, text: "苏砚生在江陵"}
+  - id: G5
+    kind: canon_conflict
+    subject: 韩七
+    predicate: eye_color
+    note: 角色卡写韩七是琥珀色眼睛；第二章用比喻写成"墨一样的眼睛，黑沉沉的"，颜色词不紧挨名字，而是在下一句"那是一双……"里。
+    phrasing: indirect
+    evidence:
+      - {chapter: 2, text: "韩七才抬起眼来。那是一双墨一样的眼睛，黑沉沉的"}
+  - id: G6
+    kind: age_timeline
+    subject: 林照雪
+    predicate: age
+    note: 第0天照雪十七岁；第725天（两年后）却说她二十二了，按时间应是十八或十九岁。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "林照雪今年十七"}
+      - {chapter: 3, text: "照雪今年二十二了"}
+  - id: G7
+    kind: dead_character_active
+    subject: 周铁山
+    predicate: status
+    note: 老周在第二章中箭身亡并下葬，第三章也说他死了快两年；第四章他却以"周镖头"的称呼蹲在客栈门槛上抽旱烟、起身说话。
+    phrasing: direct
+    evidence:
+      - {chapter: 2, text: "老周死了"}
+      - {chapter: 4, text: "周镖头蹲在门槛上抽旱烟"}
+  - id: G8
+    kind: ability_conflict
+    subject: 楚青萝
+    predicate: ability:swim
+    note: 第一章叙述说楚青萝不会水，第三章她自己说到现在还是不会水；第四章她跳进江里游得极快，游到了对岸，中间从没学过。第四章的游泳句只用"她"指代。
+    phrasing: pronoun
+    evidence:
+      - {chapter: 1, text: "楚青萝不会水"}
+      - {chapter: 3, text: "我到现在还是不会水"}
+      - {chapter: 4, text: "她游得极快"}
+  - id: G9
+    kind: ability_conflict
+    subject: 韩七
+    predicate: ability:read
+    note: 第二章叙述说韩七不识字，拜帖要账房念给他听，第三章青萝也说他不识字；第四章韩七却自己展开信、借着火把一行一行看完。
+    phrasing: direct
+    evidence:
+      - {chapter: 2, text: "韩七不识字"}
+      - {chapter: 4, text: "韩七把那封信抖开，借着火把的光一行一行看下去"}
+
+# Look-alikes that are NOT contradictions. Any finding on the same subject and predicate
+# counts as a false positive.
+negatives:
+  - id: N1
+    subject: 苏砚
+    predicate: age
+    note: 第0天二十四岁，第725天二十六岁，与两年的间隔相符；第四章"他十岁那年"是回忆中的过去年龄。
+    evidence:
+      - {chapter: 1, text: "他二十四岁"}
+      - {chapter: 3, text: "苏砚今年二十六"}
+      - {chapter: 4, text: "他十岁那年"}
+  - id: N2
+    subject: 林照雪
+    predicate: eye_color
+    note: 第一章叙述说照雪的眼睛是深褐色，与角色卡一致；第二章"看上去竟像两粒琥珀"是楚青萝在火光下的观感和比喻，属于不确定的感知。
+    evidence:
+      - {chapter: 1, text: "照雪的眼睛是深褐色的"}
+      - {chapter: 2, text: "三小姐的眸子看上去竟像两粒琥珀"}
+  - id: N3
+    subject: 楚青萝
+    predicate: hair_color
+    note: 青萝原本是褐色头发（第一章、第三章），第三章照雪当面用乌发膏替她染黑，此后的黑发是合理变化。
+    evidence:
+      - {chapter: 1, text: "楚青萝的头发是褐色的"}
+      - {chapter: 3, text: "青萝的头发还是褐色的"}
+      - {chapter: 3, text: "青萝的头发已经染得乌黑"}
+  - id: N4
+    subject: 林守拙
+    predicate: status
+    note: 去年冬天大病，郎中叫预备后事，但"差点没熬过"表示没死；他之后下床、说话，自己也说"还没死呢"。
+    evidence:
+      - {chapter: 3, text: "林守拙差点没熬过那个冬天"}
+      - {chapter: 3, text: "我这把老骨头还没死呢"}
+  - id: N5
+    subject: 周铁山
+    predicate: age
+    note: 第一章五十三岁、走镖三十三年；第二章"二十岁那年进的长风镖局"是回忆中的过去年龄，两者吻合。
+    evidence:
+      - {chapter: 1, text: "周铁山今年五十三了"}
+      - {chapter: 2, text: "老周二十岁那年"}
+  - id: N6
+    subject: 林照雪
+    predicate: ability:ride
+    note: 第一章照雪不会骑马；第三章交代这两年跟苏砚学会了骑马，之后第三、四章她骑马都是合理的。第二章骑马的是楚青萝，不是照雪。
+    evidence:
+      - {chapter: 1, text: "三小姐不会骑马"}
+      - {chapter: 3, text: "照雪跟着苏砚学会了骑马"}
+      - {chapter: 4, text: "照雪骑马走在青萝身边"}
+  - id: N7
+    subject: 苏砚
+    predicate: eye_color
+    note: 这一句里的"灰沉沉"形容的是檐外的天色，不是苏砚的眼睛颜色；全书没有写苏砚的眼睛颜色。
+    evidence:
+      - {chapter: 1, text: "苏砚眯起眼睛，望着檐外灰沉沉的天"}
+  - id: N8
+    subject: 林守拙
+    predicate: handedness
+    note: 叙述明确说林守拙一辈子使右手刀；韩七两次说他是"左撇子"，都是对白里的错误说法，不是事实。
+    evidence:
+      - {chapter: 1, text: "林守拙一辈子使的都是右手刀"}
+      - {chapter: 2, text: "林守拙那个左撇子"}
+      - {chapter: 4, text: "林守拙那个左撇子"}
+  - id: N9
+    subject: 韩七
+    predicate: birthplace
+    note: 漠北和陇西都只是"有人说"的传闻，叙述明说他的来历没人说得清，没有任何肯定的出生地。
+    evidence:
+      - {chapter: 2, text: "有人说韩七生在漠北"}
+      - {chapter: 2, text: "也有人说他生在陇西"}
+
+# Every sentence that states a tracked predicate about a listed character, asserted or not.
+facts:
+  # ---- chapter 1 ----
+  - {chapter: 1, subject: 林照雪, predicate: age, value: 17, text: "林照雪今年十七", modality: asserted}
+  - {chapter: 1, subject: 林照雪, predicate: eye_color, value: brown, text: "照雪的眼睛是深褐色的", modality: asserted}
+  - {chapter: 1, subject: 林照雪, predicate: age, value: 10, text: "照雪十岁那年", modality: recalled}
+  - {chapter: 1, subject: 林守拙, predicate: handedness, value: right, text: "林守拙一辈子使的都是右手刀", modality: asserted}
+  - {chapter: 1, subject: 周铁山, predicate: age, value: 53, text: "周铁山今年五十三了", modality: asserted}
+  - {chapter: 1, subject: 苏砚, predicate: age, value: 24, text: "他二十四岁", modality: asserted}
+  - {chapter: 1, subject: 苏砚, predicate: birthplace, value: 云州, text: "苏砚生在云州", modality: asserted}
+  - {chapter: 1, subject: 苏砚, predicate: handedness, value: left, text: "苏砚是个左撇子", modality: asserted}
+  - {chapter: 1, subject: 楚青萝, predicate: hair_color, value: brown, text: "楚青萝的头发是褐色的", modality: asserted}
+  - {chapter: 1, subject: 楚青萝, predicate: eye_color, value: green, text: "楚青萝有一双碧绿的眼睛", modality: asserted}
+  - {chapter: 1, subject: 林守拙, predicate: "ability:read", value: used, text: "林守拙展开文书，凑在灯下看了许久", modality: asserted}
+  - {chapter: 1, subject: 韩七, predicate: "ability:read", value: cannot, text: "韩老七那厮，斗大的字不识一箩筐", modality: reported}
+  - {chapter: 1, subject: 楚青萝, predicate: "ability:swim", value: cannot, text: "楚青萝不会水", modality: asserted}
+  - {chapter: 1, subject: 楚青萝, predicate: birthplace, value: 疏勒, text: "她生在疏勒", modality: asserted}
+  - {chapter: 1, subject: 楚青萝, predicate: age, value: 7, text: "她生在疏勒，七岁那年", modality: recalled}
+  - {chapter: 1, subject: 林照雪, predicate: "ability:ride", value: cannot, text: "你连马都不会骑", modality: reported}
+  - {chapter: 1, subject: 林照雪, predicate: "ability:ride", value: cannot, text: "三小姐不会骑马", modality: asserted}
+  # ---- chapter 2 ----
+  - {chapter: 2, subject: 苏砚, predicate: "ability:ride", value: used, text: "苏砚骑马走在最前头", modality: asserted}
+  - {chapter: 2, subject: 周铁山, predicate: "ability:ride", value: used, text: "老周骑着他那匹老青骢", modality: asserted}
+  - {chapter: 2, subject: 楚青萝, predicate: "ability:ride", value: used, text: "楚青萝骑着一匹枣红马", modality: asserted}
+  - {chapter: 2, subject: 楚青萝, predicate: "ability:ride", value: used, text: "她骑马比镖局里谁都稳", modality: asserted}
+  - {chapter: 2, subject: 周铁山, predicate: age, value: 20, text: "老周二十岁那年", modality: recalled}
+  - {chapter: 2, subject: 林照雪, predicate: eye_color, value: amber, text: "三小姐的眸子看上去竟像两粒琥珀", modality: hedged}
+  - {chapter: 2, subject: 韩七, predicate: "ability:ride", value: used, text: "他骑在一匹通身乌黑的高头大马上", modality: asserted}
+  - {chapter: 2, subject: 韩七, predicate: birthplace, value: 漠北, text: "有人说韩七生在漠北", modality: hedged}
+  - {chapter: 2, subject: 韩七, predicate: birthplace, value: 陇西, text: "也有人说他生在陇西", modality: hedged}
+  - {chapter: 2, subject: 韩七, predicate: "ability:read", value: cannot, text: "韩七不识字", modality: asserted}
+  - {chapter: 2, subject: 韩七, predicate: eye_color, value: black, text: "韩七才抬起眼来。那是一双墨一样的眼睛，黑沉沉的", modality: asserted}
+  - {chapter: 2, subject: 林守拙, predicate: handedness, value: left, text: "林守拙那个左撇子", modality: reported}
+  - {chapter: 2, subject: 周铁山, predicate: status, value: dead, text: "老周死了", modality: asserted}
+  # ---- chapter 3 ----
+  - {chapter: 3, subject: 周铁山, predicate: status, value: dead, text: "老周死了快两年了", modality: asserted}
+  - {chapter: 3, subject: 林守拙, predicate: status, value: alive, text: "林守拙差点没熬过那个冬天", modality: recalled}
+  - {chapter: 3, subject: 林照雪, predicate: age, value: 22, text: "照雪今年二十二了", modality: asserted}
+  - {chapter: 3, subject: 林照雪, predicate: "ability:ride", value: learned, text: "照雪跟着苏砚学会了骑马", modality: asserted}
+  - {chapter: 3, subject: 林照雪, predicate: "ability:ride", value: used, text: "如今她骑着那匹白蹄乌", modality: asserted}
+  - {chapter: 3, subject: 苏砚, predicate: age, value: 26, text: "苏砚今年二十六", modality: asserted}
+  - {chapter: 3, subject: 林照雪, predicate: hair_color, value: brown, text: "她拔下发簪，一头棕色的长发", modality: asserted}
+  - {chapter: 3, subject: 楚青萝, predicate: eye_color, value: grey, text: "青萝那双灰色的眼睛", modality: asserted}
+  - {chapter: 3, subject: 韩七, predicate: "ability:read", value: cannot, text: "韩七不识字，账上写的是什么", modality: reported}
+  - {chapter: 3, subject: 楚青萝, predicate: hair_color, value: brown, text: "青萝的头发还是褐色的", modality: asserted}
+  - {chapter: 3, subject: 楚青萝, predicate: hair_color, value: black, text: "青萝的头发已经染得乌黑", modality: asserted}
+  - {chapter: 3, subject: 楚青萝, predicate: "ability:swim", value: cannot, text: "我到现在还是不会水", modality: reported}
+  - {chapter: 3, subject: 林守拙, predicate: status, value: alive, text: "我这把老骨头还没死呢", modality: reported}
+  # ---- chapter 4 ----
+  - {chapter: 4, subject: 林照雪, predicate: "ability:ride", value: used, text: "照雪骑马走在青萝身边", modality: asserted}
+  - {chapter: 4, subject: 苏砚, predicate: birthplace, value: 江陵, text: "苏砚生在江陵", modality: asserted}
+  - {chapter: 4, subject: 苏砚, predicate: age, value: 10, text: "他十岁那年", modality: recalled}
+  - {chapter: 4, subject: 韩七, predicate: "ability:read", value: used, text: "韩七把那封信抖开，借着火把的光一行一行看下去", modality: asserted}
+  - {chapter: 4, subject: 林守拙, predicate: handedness, value: left, text: "林守拙那个左撇子", modality: reported}
+  - {chapter: 4, subject: 苏砚, predicate: handedness, value: right, text: "苏砚惯用右手", modality: asserted}
+  - {chapter: 4, subject: 楚青萝, predicate: "ability:swim", value: used, text: "她游得极快", modality: asserted}
+  - {chapter: 4, subject: 林照雪, predicate: "ability:ride", value: used, text: "她从拴马桩上扯下一匹马，翻身上去，打马冲上了江堤", modality: asserted}
+  - {chapter: 4, subject: 周铁山, predicate: status, value: alive, text: "周镖头蹲在门槛上抽旱烟", modality: asserted}
