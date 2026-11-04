@@ -2,8 +2,9 @@
 
 ## 2026-11-03 (later): fixing what the Claude runs showed
 
-The user asked to fix every remaining problem. Spent on OpenRouter this round: about $1.9
-(total $5.4 of the account's $10).
+The user asked to fix every remaining problem. Spent on OpenRouter this round: $2.38 recorded
+($5.89 recorded in all; the account showed $0.61 of its $10 left afterwards, the difference
+being calls that failed before an answer was recorded).
 
 - **Story logic, code side** (`checks-v4`, then `checks-v5`, prompts unchanged): one finding per
   scene and per beat, reveals not judged as acts, setups paid off in other words found by the
