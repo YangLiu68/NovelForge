@@ -1,0 +1,76 @@
+{
+  "findings": 10,
+  "true_positives": 9,
+  "false_positives": 1,
+  "duplicates": 0,
+  "false_negatives": 0,
+  "precision": 0.9,
+  "recall_all": 1.0,
+  "recall_detectable": 1.0,
+  "negatives": 9,
+  "negatives_violated": 1,
+  "cited_spans": 15,
+  "cited_spans_correct": 15,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 15,
+  "labelled_spans_total": 19,
+  "citation_recall": 0.7895,
+  "by_category": {
+    "abilities": {
+      "labelled": 1,
+      "detected": 1,
+      "fp": 1,
+      "recall": 1.0
+    },
+    "identity": {
+      "labelled": 6,
+      "detected": 6,
+      "fp": 0,
+      "recall": 1.0
+    },
+    "timeline": {
+      "labelled": 2,
+      "detected": 2,
+      "fp": 0,
+      "recall": 1.0
+    }
+  },
+  "matched": [
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G9"
+  ],
+  "missed": [],
+  "false_positive_findings": [
+    {
+      "kind": "ability_conflict",
+      "subject": "\u5c09\u8fdf\u5170",
+      "predicate": "ability:ride",
+      "spans": [
+        [
+          1,
+          1662,
+          1677
+        ],
+        [
+          2,
+          411,
+          441
+        ]
+      ]
+    }
+  ],
+  "violated_negatives": [
+    "N4"
+  ],
+  "sample": "tuoling-guoqi",
+  "extractor": "llm:openrouter:anthropic/claude-opus-5.5",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}

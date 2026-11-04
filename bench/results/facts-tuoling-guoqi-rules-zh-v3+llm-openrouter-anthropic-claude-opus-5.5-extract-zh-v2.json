@@ -1,0 +1,202 @@
+{
+  "sample": "tuoling-guoqi",
+  "extractor": "rules-zh-v3+llm:openrouter:anthropic/claude-opus-5.5",
+  "llm_usage": {
+    "calls": 4,
+    "input_tokens": 19746,
+    "output_tokens": 8794,
+    "cost_usd": 0.0,
+    "rejected": 3,
+    "prompt_version": "extract-zh-v2-96a9225a",
+    "rejected_items": [
+      {
+        "chapter": 1,
+        "fact": {
+          "subject": "world",
+          "kind": "death",
+          "value": "康拂延死在西州",
+          "object": "",
+          "quote": "她父亲康拂延死在西州",
+          "modality": "recalled",
+          "confidence": 0.9,
+          "day_offset": 0
+        },
+        "reason": "unknown subject"
+      },
+      {
+        "chapter": 4,
+        "fact": {
+          "subject": "裴照",
+          "kind": "location",
+          "value": "高昌",
+          "object": "",
+          "quote": "我在城南那家邸店里等驼队，等到六月底",
+          "modality": "reported",
+          "confidence": 0.7,
+          "day_offset": 0
+        },
+        "reason": "value not in quote"
+      },
+      {
+        "chapter": 4,
+        "fact": {
+          "subject": "康米娜",
+          "kind": "location",
+          "value": "沙州",
+          "object": "",
+          "quote": "她站在驼队的最前头，红头发在晨光里烧着",
+          "modality": "asserted",
+          "confidence": 0.6,
+          "day_offset": 0
+        },
+        "reason": "value not in quote"
+      }
+    ],
+    "errors": []
+  },
+  "facts": 56,
+  "claims": 55,
+  "unscored_claims": 40,
+  "unscored_by_predicate": {
+    "ability:dye": 1,
+    "ability:sogdian": 1,
+    "causal": 1,
+    "event": 14,
+    "foreshadowing": 2,
+    "location": 5,
+    "presence": 15,
+    "world_rule": 1
+  },
+  "matched": 51,
+  "precision": 0.927,
+  "strict_precision": 0.927,
+  "recall": 0.911,
+  "recall_asserted": 0.952,
+  "modality_accuracy": 1.0,
+  "by_predicate": {
+    "ability": {
+      "facts": 11,
+      "found": 9,
+      "claims": 12
+    },
+    "age": {
+      "facts": 12,
+      "found": 11,
+      "claims": 11
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 5,
+      "claims": 5
+    },
+    "eye_color": {
+      "facts": 8,
+      "found": 8,
+      "claims": 8
+    },
+    "hair_color": {
+      "facts": 11,
+      "found": 10,
+      "claims": 11
+    },
+    "handedness": {
+      "facts": 4,
+      "found": 4,
+      "claims": 4
+    },
+    "status": {
+      "facts": 5,
+      "found": 4,
+      "claims": 4
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 1,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "used",
+      "modality": "reported",
+      "quote": "兰娘子骑马",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 2,
+      "subject": "裴照",
+      "predicate": "hair_color",
+      "value": "white",
+      "modality": "asserted",
+      "quote": "裴照头一个跑过去，跪在白发",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 2,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "used",
+      "modality": "asserted",
+      "quote": "尉迟兰已经能自己控着缰绳，绕着驼队歇脚的那片沙窝子小跑一圈了",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 4,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "used",
+      "modality": "asserted",
+      "quote": "尉迟兰是骑马来的，骑",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [],
+  "missed": [
+    {
+      "chapter": 2,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "learned",
+      "text": "尉迟兰已经能自己控着缰绳",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "卫长庚",
+      "predicate": "age",
+      "value": 70,
+      "text": "老卫七十岁的人了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "石小满",
+      "predicate": "status",
+      "value": "alive",
+      "text": "他还活着",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "你连骆驼都爬不上去",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "康米娜",
+      "predicate": "hair_color",
+      "value": "red",
+      "text": "她站在驼队的最前头，红头发",
+      "modality": "asserted"
+    }
+  ]
+}

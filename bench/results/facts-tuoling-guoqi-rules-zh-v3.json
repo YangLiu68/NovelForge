@@ -1,0 +1,252 @@
+{
+  "sample": "tuoling-guoqi",
+  "extractor": "rules-zh-v3",
+  "llm_usage": {},
+  "facts": 56,
+  "claims": 39,
+  "unscored_claims": 8,
+  "unscored_by_predicate": {
+    "presence": 8
+  },
+  "matched": 36,
+  "precision": 0.923,
+  "strict_precision": 0.923,
+  "recall": 0.643,
+  "recall_asserted": 0.762,
+  "modality_accuracy": 1.0,
+  "by_predicate": {
+    "ability": {
+      "facts": 11,
+      "found": 5,
+      "claims": 7
+    },
+    "age": {
+      "facts": 12,
+      "found": 6,
+      "claims": 6
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 3,
+      "claims": 3
+    },
+    "eye_color": {
+      "facts": 8,
+      "found": 8,
+      "claims": 8
+    },
+    "hair_color": {
+      "facts": 11,
+      "found": 6,
+      "claims": 7
+    },
+    "handedness": {
+      "facts": 4,
+      "found": 4,
+      "claims": 4
+    },
+    "status": {
+      "facts": 5,
+      "found": 4,
+      "claims": 4
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 1,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "used",
+      "modality": "reported",
+      "quote": "兰娘子骑马",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 2,
+      "subject": "裴照",
+      "predicate": "hair_color",
+      "value": "white",
+      "modality": "asserted",
+      "quote": "裴照头一个跑过去，跪在白发",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 4,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "used",
+      "modality": "asserted",
+      "quote": "尉迟兰是骑马来的，骑",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "石小满",
+      "predicate": "hair_color",
+      "value": "black",
+      "text": "小满的头发又黑又硬",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "康米娜",
+      "predicate": "hair_color",
+      "value": "black",
+      "text": "她的头发是黑的",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "裴照",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "裴照翻身上了马",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "安鹤年",
+      "predicate": "age",
+      "value": 67,
+      "text": "安鹤年六十七了",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "learned",
+      "text": "尉迟兰已经能自己控着缰绳",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "卫长庚",
+      "predicate": "age",
+      "value": 70,
+      "text": "老卫七十岁的人了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "卫长庚",
+      "predicate": "age",
+      "value": 58,
+      "text": "我五十八",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "石小满",
+      "predicate": "status",
+      "value": "alive",
+      "text": "他还活着",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "安鹤年",
+      "predicate": "hair_color",
+      "value": "white",
+      "text": "白发苍苍的安鹤年",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "卫长庚",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "我一个字不认",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "卫长庚",
+      "predicate": "age",
+      "value": 58,
+      "text": "我都五十八了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "石小满",
+      "predicate": "ability:swim",
+      "value": "cannot",
+      "text": "我不会水",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "康米娜",
+      "predicate": "hair_color",
+      "value": "black",
+      "text": "你这头黑发",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "尉迟兰",
+      "predicate": "birthplace",
+      "value": "龟兹",
+      "text": "她是龟兹生人",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "尉迟兰",
+      "predicate": "birthplace",
+      "value": "于阗",
+      "text": "我生在于阗",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "石小满",
+      "predicate": "age",
+      "value": 18,
+      "text": "小满十八了",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "卫长庚",
+      "predicate": "age",
+      "value": 59,
+      "text": "卫长庚五十九了",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "你连骆驼都爬不上去",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "卫长庚",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "老卫眯起眼睛，就着日头，一行一行地念了下去",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "康米娜",
+      "predicate": "hair_color",
+      "value": "red",
+      "text": "她站在驼队的最前头，红头发",
+      "modality": "asserted"
+    }
+  ]
+}

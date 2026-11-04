@@ -1,0 +1,231 @@
+# Labelled ground truth for the 驼铃过碛 held-out sample.
+# `evidence[].text` and `facts[].text` must be exact substrings of that chapter's body.
+# A finding matches a contradiction when kind, subject and predicate all agree.
+# Story days: ch1 = 0, ch2 = 11, ch3 = 38, ch4 = 430.
+contradictions:
+  - id: G1
+    kind: attribute_conflict
+    subject: 裴照
+    predicate: eye_color
+    note: 第一章叙述说裴照的眼睛是褐色的，第三章叙述却写成灰眼睛；角色卡上没有眼睛颜色。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "裴照的眼睛是褐色的"}
+      - {chapter: 3, text: "裴照那双灰眼睛"}
+  - id: G2
+    kind: attribute_conflict
+    subject: 尉迟兰
+    predicate: hair_color
+    note: >-
+      第一章尉迟兰的头发乌黑；第三章她明确拒绝染发；第四章却写她一头褐发，且只用代词“她”指代。
+    phrasing: pronoun
+    evidence:
+      - {chapter: 1, text: "尉迟兰的头发乌黑"}
+      - {chapter: 4, text: "她解下头巾抖了抖沙，一头褐发"}
+  - id: G3
+    kind: attribute_conflict
+    subject: 石小满
+    predicate: handedness
+    note: 第一章小满是右撇子，第四章叙述又说他是左撇子，其间没有任何改用左手的交代。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "小满是个右撇子"}
+      - {chapter: 4, text: "小满是个左撇子"}
+  - id: G4
+    kind: canon_conflict
+    subject: 康米娜
+    predicate: eye_color
+    note: 角色卡与第一章都是绿眼睛；第二章叙述写成“米娜那双蓝眼睛”。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "米娜的眼睛是绿的"}
+      - {chapter: 2, text: "米娜那双蓝眼睛"}
+  - id: G5
+    kind: canon_conflict
+    subject: 康米娜
+    predicate: birthplace
+    note: 角色卡与第一章都说她生在碎叶；第三章叙述却说“她生在疏勒”，只用代词指代。
+    phrasing: pronoun
+    evidence:
+      - {chapter: 1, text: "康米娜生在碎叶"}
+      - {chapter: 3, text: "她生在疏勒"}
+  - id: G6
+    kind: canon_conflict
+    subject: 卫长庚
+    predicate: handedness
+    note: 角色卡与第一章都说卫长庚是左撇子；第三章叙述却说“老卫是个右撇子”（用别名）。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "卫长庚是个左撇子"}
+      - {chapter: 3, text: "老卫是个右撇子"}
+  - id: G7
+    kind: age_timeline
+    subject: 石小满
+    predicate: age
+    note: 第0天十五岁，第430天（约一年零两个月后）却已十八岁，与经过的时间不符。
+    phrasing: direct
+    evidence:
+      - {chapter: 1, text: "石小满十五岁"}
+      - {chapter: 4, text: "小满十八了"}
+  - id: G8
+    kind: dead_character_active
+    subject: 安鹤年
+    predicate: status
+    note: 安鹤年在第二章黑风中死去并被埋在烽燧下（第三章也说他已死）；第四章叙述却让他蹲在井台边给驼夫挑刺、骂人。
+    phrasing: direct
+    evidence:
+      - {chapter: 2, text: "安鹤年死了"}
+      - {chapter: 4, text: "安鹤年蹲在井台边上，捏着一根针，正给一个新驼夫挑脚底板上扎进去的骆驼刺"}
+  - id: G9
+    kind: ability_conflict
+    subject: 卫长庚
+    predicate: ability:read
+    note: >-
+      第一章卫长庚不识字，第三章他亲口拒绝学字；第四章却自己展开信纸、一行一行念出来，
+      识字能力只能从念信的动作推断出来。
+    phrasing: indirect
+    evidence:
+      - {chapter: 1, text: "卫长庚不识字"}
+      - {chapter: 3, text: "我一个字不认"}
+      - {chapter: 4, text: "老卫眯起眼睛，就着日头，一行一行地念了下去"}
+
+# Things that look like contradictions but are not. Any finding on the same subject and
+# predicate counts as a false positive.
+negatives:
+  - id: N1
+    subject: 卫长庚
+    predicate: age
+    note: >-
+      第0天五十八、第430天五十九，与时间相符；第二章小满说“七十岁的人了”是对白里的玩笑，
+      老卫当场纠正“我五十八”。
+    evidence:
+      - {chapter: 1, text: "卫长庚今年五十八"}
+      - {chapter: 2, text: "老卫七十岁的人了"}
+      - {chapter: 2, text: "我五十八"}
+      - {chapter: 3, text: "我都五十八了"}
+      - {chapter: 4, text: "卫长庚五十九了"}
+  - id: N2
+    subject: 康米娜
+    predicate: age
+    note: “七岁那年”是回忆；第0天二十三、第430天二十四，与时间相符。
+    evidence:
+      - {chapter: 1, text: "康米娜生在碎叶，七岁那年"}
+      - {chapter: 1, text: "米娜今年二十三"}
+      - {chapter: 4, text: "康米娜今年二十四"}
+  - id: N3
+    subject: 石小满
+    predicate: status
+    note: 黑风后众人“都以为小满死了”只是误以为；他被刨出来时还活着，后来也一直在场。
+    evidence:
+      - {chapter: 2, text: "所有人都以为小满死了"}
+      - {chapter: 2, text: "小满还活着"}
+  - id: N4
+    subject: 尉迟兰
+    predicate: ability:ride
+    note: 第一章不会骑马；第二章在碛里由老卫教了五天学会；之后第三、四章骑马是正当的变化。第四章小满的话是回忆初见时的情形。
+    evidence:
+      - {chapter: 1, text: "尉迟兰不会骑马"}
+      - {chapter: 2, text: "尉迟兰就是这样学会骑马的"}
+      - {chapter: 3, text: "尉迟兰骑着裴照那匹青骢马"}
+      - {chapter: 4, text: "尉迟兰是骑马来的"}
+      - {chapter: 4, text: "你连骆驼都爬不上去"}
+  - id: N5
+    subject: 尉迟兰
+    predicate: birthplace
+    note: 角色卡和第一章都是于阗；第三章何老汉说她是龟兹生人，是对白里的错话，她当场纠正“我生在于阗”。
+    evidence:
+      - {chapter: 1, text: "尉迟兰生在于阗"}
+      - {chapter: 3, text: "她是龟兹生人"}
+      - {chapter: 3, text: "我生在于阗"}
+  - id: N6
+    subject: 裴照
+    predicate: hair_color
+    note: 裴照头发乌黑；第二章同一句里的“白发苍苍”属于安鹤年，不是裴照。
+    evidence:
+      - {chapter: 1, text: "他头发乌黑"}
+      - {chapter: 2, text: "跪在白发苍苍的安鹤年身边"}
+  - id: N7
+    subject: 安鹤年
+    predicate: eye_color
+    note: 安鹤年是灰眼睛；第二章“映出两点绿光，像夜里蹲在沙梁上的狼”是火光的倒影和比喻，不是眼睛颜色。
+    evidence:
+      - {chapter: 1, text: "安鹤年的眼睛是灰色的"}
+      - {chapter: 2, text: "安鹤年那双灰眼睛里竟映出两点绿光"}
+  - id: N8
+    subject: 康米娜
+    predicate: hair_color
+    note: 第一章黑发；第三章在高昌用指甲花当场染成红色；第四章红发，并交代今年开春又染过，属于书中写明的正当变化。
+    evidence:
+      - {chapter: 1, text: "她的头发是黑的"}
+      - {chapter: 3, text: "指甲花把她的头发染成了红色"}
+      - {chapter: 4, text: "她那一头红发是去年在高昌染的"}
+  - id: N9
+    subject: 尉迟兰
+    predicate: eye_color
+    note: 尉迟兰是琥珀色眼睛；第二章“天暗下来以后……看上去几乎是黑的”是昏暗里的观感，属于含糊的知觉。
+    evidence:
+      - {chapter: 1, text: "尉迟兰的眼睛是琥珀色的"}
+      - {chapter: 2, text: "尉迟兰的眼睛看上去几乎是黑的"}
+
+# Every sentence that states a tracked predicate about a listed character (recall ground truth).
+facts:
+  # chapter 1
+  - {chapter: 1, subject: 卫长庚, predicate: age, value: 58, text: "卫长庚今年五十八", modality: asserted}
+  - {chapter: 1, subject: 卫长庚, predicate: handedness, value: left, text: "卫长庚是个左撇子", modality: asserted}
+  - {chapter: 1, subject: 石小满, predicate: age, value: 15, text: "石小满十五岁", modality: asserted}
+  - {chapter: 1, subject: 石小满, predicate: handedness, value: right, text: "小满是个右撇子", modality: asserted}
+  - {chapter: 1, subject: 石小满, predicate: hair_color, value: black, text: "小满的头发又黑又硬", modality: asserted}
+  - {chapter: 1, subject: 康米娜, predicate: eye_color, value: green, text: "米娜的眼睛是绿的", modality: asserted}
+  - {chapter: 1, subject: 康米娜, predicate: hair_color, value: black, text: "她的头发是黑的", modality: asserted}
+  - {chapter: 1, subject: 康米娜, predicate: birthplace, value: 碎叶, text: "康米娜生在碎叶", modality: asserted}
+  - {chapter: 1, subject: 康米娜, predicate: age, value: 7, text: "康米娜生在碎叶，七岁那年", modality: recalled}
+  - {chapter: 1, subject: 康米娜, predicate: age, value: 23, text: "米娜今年二十三", modality: asserted}
+  - {chapter: 1, subject: 尉迟兰, predicate: birthplace, value: 于阗, text: "尉迟兰生在于阗", modality: asserted}
+  - {chapter: 1, subject: 尉迟兰, predicate: age, value: 10, text: "尉迟兰生在于阗，十岁", modality: recalled}
+  - {chapter: 1, subject: 尉迟兰, predicate: hair_color, value: black, text: "尉迟兰的头发乌黑", modality: asserted}
+  - {chapter: 1, subject: 尉迟兰, predicate: eye_color, value: amber, text: "尉迟兰的眼睛是琥珀色的", modality: asserted}
+  - {chapter: 1, subject: 裴照, predicate: eye_color, value: brown, text: "裴照的眼睛是褐色的", modality: asserted}
+  - {chapter: 1, subject: 裴照, predicate: hair_color, value: black, text: "他头发乌黑", modality: asserted}
+  - {chapter: 1, subject: 裴照, predicate: "ability:ride", value: used, text: "裴照翻身上了马", modality: asserted}
+  - {chapter: 1, subject: 尉迟兰, predicate: "ability:ride", value: cannot, text: "尉迟兰不会骑马", modality: asserted}
+  - {chapter: 1, subject: 卫长庚, predicate: "ability:read", value: cannot, text: "卫长庚不识字", modality: asserted}
+  - {chapter: 1, subject: 安鹤年, predicate: age, value: 67, text: "安鹤年六十七了", modality: asserted}
+  - {chapter: 1, subject: 安鹤年, predicate: hair_color, value: white, text: "他一头白发", modality: asserted}
+  - {chapter: 1, subject: 安鹤年, predicate: eye_color, value: grey, text: "安鹤年的眼睛是灰色的", modality: asserted}
+  # chapter 2
+  - {chapter: 2, subject: 尉迟兰, predicate: "ability:ride", value: learned, text: "尉迟兰已经能自己控着缰绳", modality: asserted}
+  - {chapter: 2, subject: 尉迟兰, predicate: "ability:ride", value: learned, text: "尉迟兰就是这样学会骑马的", modality: asserted}
+  - {chapter: 2, subject: 卫长庚, predicate: age, value: 70, text: "老卫七十岁的人了", modality: reported}
+  - {chapter: 2, subject: 卫长庚, predicate: age, value: 58, text: "我五十八", modality: reported}
+  - {chapter: 2, subject: 安鹤年, predicate: eye_color, value: grey, text: "安鹤年那双灰眼睛", modality: asserted}
+  - {chapter: 2, subject: 康米娜, predicate: eye_color, value: blue, text: "米娜那双蓝眼睛", modality: asserted}
+  - {chapter: 2, subject: 尉迟兰, predicate: eye_color, value: black, text: "尉迟兰的眼睛看上去几乎是黑的", modality: hedged}
+  - {chapter: 2, subject: 石小满, predicate: status, value: dead, text: "所有人都以为小满死了", modality: hedged}
+  - {chapter: 2, subject: 石小满, predicate: status, value: alive, text: "小满还活着", modality: asserted}
+  - {chapter: 2, subject: 石小满, predicate: status, value: alive, text: "他还活着", modality: reported}
+  - {chapter: 2, subject: 安鹤年, predicate: hair_color, value: white, text: "白发苍苍的安鹤年", modality: asserted}
+  - {chapter: 2, subject: 安鹤年, predicate: status, value: dead, text: "安鹤年死了", modality: asserted}
+  # chapter 3
+  - {chapter: 3, subject: 卫长庚, predicate: handedness, value: right, text: "老卫是个右撇子", modality: asserted}
+  - {chapter: 3, subject: 卫长庚, predicate: "ability:read", value: cannot, text: "我一个字不认", modality: reported}
+  - {chapter: 3, subject: 卫长庚, predicate: age, value: 58, text: "我都五十八了", modality: reported}
+  - {chapter: 3, subject: 石小满, predicate: "ability:swim", value: cannot, text: "我不会水", modality: reported}
+  - {chapter: 3, subject: 裴照, predicate: eye_color, value: grey, text: "裴照那双灰眼睛", modality: asserted}
+  - {chapter: 3, subject: 尉迟兰, predicate: "ability:ride", value: used, text: "尉迟兰骑着裴照那匹青骢马", modality: asserted}
+  - {chapter: 3, subject: 康米娜, predicate: hair_color, value: black, text: "你这头黑发", modality: reported}
+  - {chapter: 3, subject: 康米娜, predicate: birthplace, value: 疏勒, text: "她生在疏勒", modality: asserted}
+  - {chapter: 3, subject: 尉迟兰, predicate: birthplace, value: 龟兹, text: "她是龟兹生人", modality: reported}
+  - {chapter: 3, subject: 尉迟兰, predicate: birthplace, value: 于阗, text: "我生在于阗", modality: reported}
+  - {chapter: 3, subject: 康米娜, predicate: hair_color, value: red, text: "把她的头发染成了红色", modality: asserted}
+  - {chapter: 3, subject: 安鹤年, predicate: status, value: dead, text: "安鹤年死了快一个月了", modality: asserted}
+  # chapter 4
+  - {chapter: 4, subject: 石小满, predicate: age, value: 18, text: "小满十八了", modality: asserted}
+  - {chapter: 4, subject: 石小满, predicate: handedness, value: left, text: "小满是个左撇子", modality: asserted}
+  - {chapter: 4, subject: 卫长庚, predicate: age, value: 59, text: "卫长庚五十九了", modality: asserted}
+  - {chapter: 4, subject: 康米娜, predicate: age, value: 24, text: "康米娜今年二十四", modality: asserted}
+  - {chapter: 4, subject: 康米娜, predicate: hair_color, value: red, text: "她那一头红发", modality: asserted}
+  - {chapter: 4, subject: 尉迟兰, predicate: "ability:ride", value: used, text: "尉迟兰是骑马来的", modality: asserted}
+  - {chapter: 4, subject: 尉迟兰, predicate: hair_color, value: brown, text: "她解下头巾抖了抖沙，一头褐发", modality: asserted}
+  - {chapter: 4, subject: 尉迟兰, predicate: "ability:ride", value: cannot, text: "你连骆驼都爬不上去", modality: reported}
+  - {chapter: 4, subject: 卫长庚, predicate: "ability:read", value: used, text: "老卫眯起眼睛，就着日头，一行一行地念了下去", modality: asserted}
+  - {chapter: 4, subject: 康米娜, predicate: hair_color, value: red, text: "她站在驼队的最前头，红头发", modality: asserted}

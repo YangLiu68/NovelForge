@@ -1,0 +1,41 @@
+# Original Chinese held-out sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+# Written by a separate agent that did not see the extractors, the prompts or the other Chinese samples;
+# scored once against rules-zh-v3 and the Claude prompt extract-zh-v2 after they were frozen (commit
+# fbf67ff), see BENCHMARK.md section 9.
+slug: tuoling-guoqi
+title: 驼铃过碛
+language: zh
+synopsis: >-
+  粟特萨宝康拂延死在西州，女儿康米娜接过驼队的铜印，带着老驼头卫长庚、捡来的驼童石小满、
+  于阗译语人尉迟兰、都督府书记裴照和老郎中安鹤年，从沙州出发，横穿八百里莫贺延碛去高昌。
+  一场黑风过后，驼队少了一个人；一年以后，他们又一次从沙州出发。
+characters:
+  - name: 康米娜
+    aliases: [米娜, 少萨宝, 米娜姐, 米娜丫头]
+    description: 粟特萨宝康拂延的女儿，父亲死后接掌驼队。精于算账，沉得住气。
+    attributes: {eye_color: green, birthplace: 碎叶, pronouns: she/her}
+  - name: 卫长庚
+    aliases: [老卫, 卫老爹, 卫驼头]
+    description: 驼队的驼头，在莫贺延碛上走了三十多年，认得碛里每一口井。
+    attributes: {handedness: left, pronouns: he/him}
+  - name: 石小满
+    aliases: [小满, 石头]
+    description: 卫长庚从城隍庙后墙根底下捡回来的驼童。
+    attributes: {pronouns: he/him}
+  - name: 尉迟兰
+    aliases: [兰娘子]
+    description: 沙州都督府的译语人，通粟特话、吐蕃话。
+    attributes: {birthplace: 于阗, pronouns: she/her}
+  - name: 裴照
+    aliases: [裴书记]
+    description: 沙州都督府书记，奉命押送一匣文书去西州。
+    attributes: {pronouns: he/him}
+  - name: 安鹤年
+    aliases: [安先生]
+    description: 随驼队西行的老郎中，康拂延的旧交。
+    attributes: {pronouns: he/him}
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md
+  - ch04.md

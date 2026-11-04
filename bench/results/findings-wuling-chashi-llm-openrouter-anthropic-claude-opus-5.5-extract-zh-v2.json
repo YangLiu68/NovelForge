@@ -1,0 +1,56 @@
+{
+  "findings": 9,
+  "true_positives": 9,
+  "false_positives": 0,
+  "duplicates": 0,
+  "false_negatives": 0,
+  "precision": 1.0,
+  "recall_all": 1.0,
+  "recall_detectable": 1.0,
+  "negatives": 9,
+  "negatives_violated": 0,
+  "cited_spans": 15,
+  "cited_spans_correct": 15,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 15,
+  "labelled_spans_total": 15,
+  "citation_recall": 1.0,
+  "by_category": {
+    "abilities": {
+      "labelled": 2,
+      "detected": 2,
+      "fp": 0,
+      "recall": 1.0
+    },
+    "identity": {
+      "labelled": 5,
+      "detected": 5,
+      "fp": 0,
+      "recall": 1.0
+    },
+    "timeline": {
+      "labelled": 2,
+      "detected": 2,
+      "fp": 0,
+      "recall": 1.0
+    }
+  },
+  "matched": [
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G9"
+  ],
+  "missed": [],
+  "false_positive_findings": [],
+  "violated_negatives": [],
+  "sample": "wuling-chashi",
+  "extractor": "llm:openrouter:anthropic/claude-opus-5.5",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}

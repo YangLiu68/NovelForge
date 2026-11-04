@@ -1,0 +1,222 @@
+{
+  "sample": "taiye-qiushen",
+  "extractor": "llm:openrouter:anthropic/claude-opus-5.5",
+  "llm_usage": {
+    "calls": 4,
+    "input_tokens": 20233,
+    "output_tokens": 10344,
+    "cost_usd": 0.0,
+    "rejected": 3,
+    "prompt_version": "extract-zh-v2-96a9225a",
+    "rejected_items": [
+      {
+        "chapter": 1,
+        "fact": {
+          "subject": "许青禾",
+          "kind": "location",
+          "value": "承香殿",
+          "object": "",
+          "quote": "青禾跟在孙嬷嬷身后进了殿",
+          "modality": "asserted",
+          "confidence": 0.85,
+          "day_offset": 0
+        },
+        "reason": "value not in quote"
+      },
+      {
+        "chapter": 2,
+        "fact": {
+          "subject": "郑令仪",
+          "kind": "age",
+          "value": "38",
+          "object": "",
+          "quote": "她今年三十有八",
+          "modality": "asserted",
+          "confidence": 0.9,
+          "day_offset": 0
+        },
+        "reason": "value not in quote"
+      },
+      {
+        "chapter": 4,
+        "fact": {
+          "subject": "郑令仪",
+          "kind": "location",
+          "value": "静思院",
+          "object": "",
+          "quote": "郑氏坐在窗下，背对着门，听见动静也没回头",
+          "modality": "asserted",
+          "confidence": 0.7,
+          "day_offset": 0
+        },
+        "reason": "value not in quote"
+      }
+    ],
+    "errors": []
+  },
+  "facts": 58,
+  "claims": 51,
+  "unscored_claims": 39,
+  "unscored_by_predicate": {
+    "ability:write": 1,
+    "causal": 1,
+    "event": 15,
+    "foreshadowing": 9,
+    "location": 2,
+    "presence": 11
+  },
+  "matched": 49,
+  "precision": 0.961,
+  "strict_precision": 0.941,
+  "recall": 0.845,
+  "recall_asserted": 0.925,
+  "modality_accuracy": 0.98,
+  "by_predicate": {
+    "ability": {
+      "facts": 11,
+      "found": 10,
+      "claims": 10
+    },
+    "age": {
+      "facts": 11,
+      "found": 9,
+      "claims": 9
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 4,
+      "claims": 5
+    },
+    "eye_color": {
+      "facts": 9,
+      "found": 9,
+      "claims": 9
+    },
+    "hair_color": {
+      "facts": 10,
+      "found": 9,
+      "claims": 9
+    },
+    "handedness": {
+      "facts": 4,
+      "found": 4,
+      "claims": 4
+    },
+    "status": {
+      "facts": 8,
+      "found": 4,
+      "claims": 5
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 2,
+      "subject": "孙嬷嬷",
+      "predicate": "status",
+      "value": "dead",
+      "modality": "reported",
+      "quote": "她是天擦黑时看不清路，失脚栽下去的",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 4,
+      "subject": "白昙",
+      "predicate": "birthplace",
+      "value": "于阗王城外",
+      "modality": "asserted",
+      "quote": "她的第一声啼哭，是落在于阗王城外的沙地上的",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [
+    {
+      "chapter": 4,
+      "subject": "李昀",
+      "predicate": "ability:swim",
+      "value": "learned",
+      "modality": "asserted",
+      "quote": "裴照每天黄昏都在那片浅湾里教他凫水",
+      "resolved": null,
+      "fact": 46,
+      "gold_modality": "recalled"
+    }
+  ],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "许青禾",
+      "predicate": "age",
+      "value": 7,
+      "text": "她七岁",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "许青禾",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "text": "听说你不识字",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "郑令仪",
+      "predicate": "age",
+      "value": 38,
+      "text": "她今年三十有八",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "李昀",
+      "predicate": "status",
+      "value": "dead",
+      "text": "小殿下没气了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "孙嬷嬷",
+      "predicate": "status",
+      "value": "dead",
+      "text": "孙嬷嬷没了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "孙嬷嬷",
+      "predicate": "status",
+      "value": "dead",
+      "text": "把孙嬷嬷也克死了",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 4,
+      "subject": "白昙",
+      "predicate": "birthplace",
+      "value": "于阗",
+      "text": "她的第一声啼哭，是落在于阗",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "郑令仪",
+      "predicate": "hair_color",
+      "value": "white",
+      "text": "她就散着一头白发",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "孙嬷嬷",
+      "predicate": "status",
+      "value": "dead",
+      "text": "孙嬷嬷死了",
+      "modality": "reported"
+    }
+  ]
+}
