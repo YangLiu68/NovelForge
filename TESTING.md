@@ -86,7 +86,7 @@ jobs (timings are not benchmarks).
 | Node unit tests | 17 / 17 passed |
 | vite build | succeeded (425 kB JS, 134 kB gzip) |
 | npm audit | 0 vulnerabilities |
-| Playwright | 14 passed in 15.0 s |
+| Playwright | 14 passed in 21.5 s (after the story-page estimate and Claude replay option) |
 
 ## Not executed
 
