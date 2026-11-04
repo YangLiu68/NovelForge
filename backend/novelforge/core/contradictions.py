@@ -167,7 +167,19 @@ def detect_contradictions(
 
     groups: dict[tuple[str, str], list[ExtractedClaim]] = defaultdict(list)
     by_subject: dict[str, list[ExtractedClaim]] = defaultdict(list)
+    # A memory of learning a skill ("那年夏天裴照教他凫水", told after he swims) still means it
+    # was learned: it cannot create a finding, only clear one.
+    learned_before: dict[str, list[ExtractedClaim]] = defaultdict(list)
     for claim in claims:
+        if (
+            claim.confidence >= min_confidence
+            and claim.modality == "recalled"
+            and claim.predicate.startswith("ability:")
+            and claim.value == "learned"
+            and claim.chapter_id in chapter_by_id
+            and claim.subject_id in character_by_id
+        ):
+            learned_before[claim.subject_id].append(claim)
         if (
             claim.confidence >= min_confidence
             and claim.modality in modalities
@@ -194,7 +206,8 @@ def detect_contradictions(
             key=lambda c: (c.effective_day, chapter_by_id[c.chapter_id].number, c.spans[0].start),
         )
 
-    for subject_id, subject_claims in by_subject.items():
+    for subject_id in set(by_subject) | set(learned_before):
+        subject_claims = by_subject.get(subject_id, [])
         character = character_by_id[subject_id]
         ordered = timed(subject_claims)
         findings.extend(_dead_active_findings(character, ordered, evidence, chapter_by_id))
@@ -207,10 +220,19 @@ def detect_contradictions(
                 chapter_by_id,
             )
         )
+        recalled = [c for c in learned_before.get(subject_id, []) if c.effective_day is not None]
         findings.extend(
             _ability_findings(
                 character,
-                [c for c in ordered if c.predicate.startswith("ability:")],
+                sorted(
+                    [c for c in ordered if c.predicate.startswith("ability:")] + recalled,
+                    # A recalled learning happened before its chapter's present action.
+                    key=lambda c: (
+                        c.effective_day,
+                        chapter_by_id[c.chapter_id].number,
+                        -1 if c in recalled else c.spans[0].start,
+                    ),
+                ),
                 evidence,
                 chapter_by_id,
             )
@@ -258,6 +280,20 @@ def _static_findings(character, predicate, group, evidence, order) -> list[Findi
     return out
 
 
+def _place_key(predicate: str, canon: str | None, group: list[ExtractedClaim]):
+    """For birthplaces, a place written with more detail agrees with the place it starts with
+    ("云州城外的一个小渡口" is in 云州, "Harrowgate Hall" in Harrowgate). Others: unchanged."""
+    if predicate != "birthplace":
+        return lambda value: value
+    known = sorted({v for v in (canon or "", *(c.value for c in group)) if len(v) >= 2}, key=len)
+
+    def key(value: str) -> str:
+        folded = value.casefold()
+        return next((k for k in known if folded.startswith(k.casefold())), value)
+
+    return key
+
+
 def _static_period(character, predicate, group, evidence, order, check_canon) -> list[Finding]:
     label = PREDICATES[predicate]["label"]
     category = PREDICATES[predicate]["category"]
@@ -269,8 +305,9 @@ def _static_period(character, predicate, group, evidence, order, check_canon) ->
     # ("golden" == "blond"); the first spelling seen is the one shown.
     by_value: dict[str, list[ExtractedClaim]] = defaultdict(list)
     shown: dict[str, str] = {}
+    place = _place_key(predicate, canon, group)
     for claim in group:
-        key = same_value_key(predicate, claim.value)
+        key = same_value_key(predicate, place(claim.value))
         by_value[key].append(claim)
         shown.setdefault(key, claim.value)
 

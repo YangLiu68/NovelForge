@@ -1,4 +1,5 @@
-"""Build an LLM from a spec: 'mock', 'anthropic[:model]', 'ollama:<model>', 'replay:<spec>'."""
+"""Build an LLM from a spec: 'mock', 'anthropic[:model]', 'openrouter:<model>', 'ollama:<model>',
+'replay:<spec>'."""
 
 from __future__ import annotations
 
@@ -43,6 +44,19 @@ def get_llm(spec: str) -> LLM:
         from novelforge.llm.anthropic_backend import AnthropicLLM
 
         return AnthropicLLM(model=arg or "claude-opus-5-5", effort=settings.llm_effort)
+    if kind == "openrouter":
+        from novelforge.llm.openrouter_backend import OpenRouterLLM
+
+        if not arg:
+            raise LLMError(
+                "config", "openrouter needs a model, e.g. openrouter:anthropic/claude-opus-5.5"
+            )
+        return OpenRouterLLM(
+            model=arg,
+            api_key=settings.openrouter_api_key,
+            url=settings.openrouter_url,
+            effort=settings.llm_effort,
+        )
     if kind == "ollama":
         from novelforge.llm.ollama_backend import OllamaLLM
 

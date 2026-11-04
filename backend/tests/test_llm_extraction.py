@@ -14,6 +14,7 @@ from novelforge.llm.anthropic_backend import AnthropicLLM
 from novelforge.llm.base import LLMError, cost
 from novelforge.llm.mock import MockLLM
 from novelforge.llm.ollama_backend import OllamaLLM
+from novelforge.llm.openrouter_backend import OpenRouterLLM, price_key
 
 MARA = CharacterRef("m", "Mara Venn", ("the cartographer",))
 TOMAS = CharacterRef("t", "Tomas Hale")
@@ -229,6 +230,91 @@ def test_ollama_backend_json_and_stream():
     assert chunks[-1].done and chunks[-1].result.output_tokens == 4
 
 
+def _openrouter(handler):
+    return OpenRouterLLM(
+        "anthropic/claude-opus-5.5", "sk-or-test", "http://or.test/api/v1",
+        transport=httpx.MockTransport(handler),
+    )  # fmt: skip
+
+
+def test_openrouter_backend_json_and_stream():
+    seen = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        body = json.loads(request.content)
+        seen.append(body)
+        assert request.headers["authorization"] == "Bearer sk-or-test"
+        assert body["model"] == "anthropic/claude-opus-5.5"
+        assert body["provider"] == {"require_parameters": True}
+        if body.get("stream"):
+            events = [
+                {"choices": [{"delta": {"content": "Fog "}}]},
+                {"choices": [{"delta": {"content": "rolled in."}, "finish_reason": "stop"}]},
+                {
+                    "choices": [],
+                    "usage": {"prompt_tokens": 40, "completion_tokens": 4, "cost": 0.01},
+                },
+            ]
+            text = (
+                ": OPENROUTER PROCESSING\n\n"
+                + "".join(f"data: {json.dumps(e)}\n\n" for e in events)
+                + "data: [DONE]\n\n"
+            )
+            return httpx.Response(200, text=text)
+        fmt = body["response_format"]
+        assert fmt["type"] == "json_schema" and fmt["json_schema"]["strict"] is True
+        assert "title" not in fmt["json_schema"]["schema"]
+        return httpx.Response(
+            200,
+            json={
+                "id": "gen-1",
+                "model": "anthropic/claude-opus-5.5",
+                "choices": [{"message": {"content": '{"facts": []}'}, "finish_reason": "stop"}],
+                "usage": {"prompt_tokens": 1200, "completion_tokens": 300},
+            },
+        )
+
+    llm = _openrouter(handler)
+    result = llm.generate_json("s", "p", SCHEMA)
+    assert result.data == {"facts": []} and result.request_id == "gen-1"
+    # No billed cost in the response: fall back to the local price table.
+    assert result.cost_usd == pytest.approx(1200 / 1e6 * 4 + 300 / 1e6 * 20)
+    assert seen[0]["reasoning"] == {"effort": "medium"}
+    chunks = list(llm.stream_text("s", "p"))
+    assert "".join(c.text for c in chunks) == "Fog rolled in."
+    final = chunks[-1].result
+    assert chunks[-1].done and final.output_tokens == 4 and final.cost_usd == 0.01
+
+
+def _choice(content, finish):
+    return {"choices": [{"message": {"content": content}, "finish_reason": finish}]}
+
+
+@pytest.mark.parametrize(
+    "status,payload,kind",
+    [
+        (200, _choice("{", "length"), "max_tokens"),
+        (200, _choice("", "content_filter"), "refusal"),
+        (200, _choice("{not json", "stop"), "invalid_json"),
+        (401, {"error": {"code": 401, "message": "No auth"}}, "config"),
+        (402, {"error": {"code": 402, "message": "Insufficient credits"}}, "config"),
+        (429, {"error": {"code": 429, "message": "Rate limited"}}, "transport"),
+    ],
+)
+def test_openrouter_backend_errors(status, payload, kind):
+    llm = _openrouter(lambda request: httpx.Response(status, json=payload))
+    with pytest.raises(LLMError) as exc:
+        llm.generate_json("s", "p", SCHEMA)
+    assert exc.value.kind == kind
+
+
+def test_openrouter_needs_a_key_and_maps_prices():
+    with pytest.raises(LLMError) as exc:
+        OpenRouterLLM("anthropic/claude-opus-5.5", "")
+    assert exc.value.kind == "config"
+    assert price_key("anthropic/claude-opus-5.5") == "claude-opus-5-5"
+
+
 def test_mock_stream_cancel():
     import threading
 
@@ -306,3 +392,84 @@ def test_caching_llm_replays_repeatable_failures_only(tmp_path):
     with pytest.raises(LLMError):
         CachingLLM(down, tmp_path / "t.jsonl").generate_json("s", "p", SCHEMA)
     assert not (tmp_path / "t.jsonl").exists()
+
+
+XUE = CharacterRef("x", "林雪棠", ("雪棠",), {"pronoun": "she"})
+ZH = ChapterRef("z1", 2, "雾港", "林雪棠今年十七岁，一双琥珀色的眼睛。\n\n她惯用左手。", 1, 10)
+
+
+def test_chinese_chapters_get_the_chinese_prompt_and_schema():
+    from novelforge.extraction.prompt import PROMPT_VERSION_ZH, SYSTEM_ZH, user_prompt
+
+    llm = MockLLM()
+    llm.queue_json({"facts": []})
+    run = extract_with_llm(ZH, [XUE], llm)
+    call = llm.calls[0]
+    system, prompt, schema = call["system"], call["prompt"], call["schema"]
+    assert system == SYSTEM_ZH and run.prompt_version == PROMPT_VERSION_ZH
+    assert "presence" in schema["properties"]["facts"]["items"]["properties"]["kind"]["enum"]
+    assert user_prompt(ZH, [XUE], ZH.body).startswith("人物：\n- 林雪棠（又称：雪棠）")
+    assert "故事第 10 天" in prompt
+
+
+def test_chinese_values_are_normalised_and_grounded():
+    llm = MockLLM()
+    llm.queue_json(
+        {
+            "facts": [
+                fact(subject="林雪棠", kind="age", value="17", quote="林雪棠今年十七岁"),
+                fact(subject="雪棠", kind="eye_color", value="琥珀色", quote="一双琥珀色的眼睛"),
+                fact(subject="林雪棠", kind="handedness", value="left", quote="她惯用左手"),
+                fact(subject="林雪棠", kind="presence", value="present", quote="她惯用左手"),
+                # Values the quote does not state.
+                fact(subject="林雪棠", kind="age", value="18", quote="林雪棠今年十七岁"),
+                fact(subject="林雪棠", kind="eye_color", value="碧绿", quote="一双琥珀色的眼睛"),
+                fact(subject="林雪棠", kind="eye_color", value="像秋水", quote="一双琥珀色的眼睛"),
+            ]
+        }
+    )
+    run = extract_with_llm(ZH, [XUE], llm)
+    got = {(c.predicate, c.value) for c in run.claims}
+    assert got == {("age", "17"), ("eye_color", "amber"), ("handedness", "left"),
+                   ("presence", "present")}  # fmt: skip
+    assert sorted(r["reason"] for r in run.rejected) == [
+        "malformed value", "value not in quote", "value not in quote",
+    ]  # fmt: skip
+
+
+def test_presence_is_chinese_only():
+    llm = MockLLM()
+    llm.queue_json({"facts": [fact(kind="presence", value="present")]})
+    run = extract_with_llm(CH, [MARA, TOMAS], llm)
+    assert run.claims == [] and run.rejected[0]["reason"] == "unknown kind"
+
+
+def test_rules_backed_mock_reads_the_chinese_prompt():
+    run = extract_with_llm(ZH, [XUE], rules_backed_mock())
+    rules = extract_claims(ZH, [XUE])
+    as_set = lambda cs: {(c.predicate, c.value, c.modality, c.spans[0].start) for c in cs}  # noqa: E731
+    assert run.rejected == [] and as_set(run.claims) <= as_set(rules)
+    assert ("eye_color", "amber") in {(c.predicate, c.value) for c in run.claims}
+
+
+def test_chinese_windows_count_characters():
+    body = "\n\n".join("林" * 400 for _ in range(4))
+    assert len(windows(body, max_words=500)) == 2
+
+
+def test_a_hair_change_the_text_explains_is_marked():
+    body = "沈鸢原本一头黑发。\n\n后来沈鸢那头染过的发剪掉了，如今是一头银发。"
+    ch = ChapterRef("z2", 3, "", body, 1, 5)
+    cast = [CharacterRef("s", "沈鸢")]
+    llm = MockLLM()
+    llm.queue_json(
+        {
+            "facts": [
+                fact(subject="沈鸢", kind="hair_color", value="黑", quote="沈鸢原本一头黑发"),
+                fact(subject="沈鸢", kind="hair_color", value="银", object="change",
+                     quote="如今是一头银发"),
+            ]
+        }
+    )  # fmt: skip
+    run = extract_with_llm(ch, cast, llm)
+    assert [c.details.get("change", False) for c in run.claims] == [False, True]

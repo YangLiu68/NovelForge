@@ -8,6 +8,7 @@ that fails is kept in `rejected` with the reason instead of being stored.
 
 from __future__ import annotations
 
+import re
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -15,9 +16,17 @@ from typing import Any
 
 from novelforge.core.domain import ChapterRef, CharacterRef, ExtractedClaim, Span
 from novelforge.core.extraction import CLAIM_NAMESPACE, surface_forms
+from novelforge.core.lang import is_chinese
 from novelforge.core.text import number_to_words, split_passages
-from novelforge.extraction.prompt import PROMPT_VERSION, SYSTEM, user_prompt
-from novelforge.extraction.schema import KINDS, MODALITIES, SCHEMA, SUBJECTLESS, to_predicate
+from novelforge.extraction.prompt import PROMPT_VERSION, system_for, user_prompt
+from novelforge.extraction.schema import (
+    KINDS_ZH,
+    MODALITIES,
+    SCHEMA,
+    SCHEMA_ZH,
+    SUBJECTLESS,
+    to_predicate,
+)
 from novelforge.extraction.verify import locate
 from novelforge.llm.base import LLM, LLMError
 
@@ -33,6 +42,7 @@ class ExtractionRun:
     output_tokens: int = 0
     cost_usd: float | None = 0.0
     latency_ms: float = 0.0
+    prompt_version: str = PROMPT_VERSION
 
     def summary(self) -> dict[str, Any]:
         reasons: dict[str, int] = {}
@@ -40,7 +50,7 @@ class ExtractionRun:
             reasons[r["reason"]] = reasons.get(r["reason"], 0) + 1
         return {
             "extractor": self.extractor,
-            "prompt_version": PROMPT_VERSION,
+            "prompt_version": self.prompt_version,
             "claims": len(self.claims),
             "rejected": len(self.rejected),
             "rejected_by_reason": reasons,
@@ -54,12 +64,14 @@ class ExtractionRun:
 
 
 def windows(body: str, max_words: int) -> list[tuple[int, int]]:
-    """Consecutive paragraph groups of at most ~max_words words, as body offsets."""
+    """Consecutive paragraph groups of at most ~max_words words, as body offsets. Chinese text
+    has no spaces; two characters count as a word."""
     out: list[tuple[int, int]] = []
     start = end = None
     words = 0
+    zh = is_chinese(body)
     for p in split_passages(body):
-        n = len(p.text.split())
+        n = len(p.text) // 2 if zh else len(p.text.split())
         if start is not None and words + n > max_words:
             out.append((start, end))
             start, words = None, 0
@@ -72,11 +84,16 @@ def windows(body: str, max_words: int) -> list[tuple[int, int]]:
     return out or [(0, len(body))]
 
 
+# A hair colour whose quote dyes the hair, or that the model marks as a change the text explains
+# (object "change"), starts a new period as the rule extractors mark it: the colour before it is
+# not contradicted.
+_DYE = re.compile(r"(?:染|漂)(?:成|了|得)|\b(?:dyed|coloured|colored|bleached)\b", re.I)
+
 # Kinds whose value is a literal that the quote must contain (value grounding).
 GROUNDED = {"eye_color", "hair_color", "handedness", "birthplace", "location", "age"}
 
 
-def value_grounded(predicate: str, value: str, quote: str) -> bool:
+def value_grounded(predicate: str, value: str, quote: str, raw: str = "") -> bool:
     """Does the quote actually state this value? A real quote with an unrelated value ("Jorin
     could not swim" offered as evidence that Jorin is at the harbour) is rejected.
 
@@ -85,6 +102,8 @@ def value_grounded(predicate: str, value: str, quote: str) -> bool:
     """
     if predicate not in GROUNDED:
         return True
+    if is_chinese(quote):
+        return _grounded_zh(predicate, value, quote, raw)
     q = quote.lower().replace("-", " ")
     if predicate == "age":
         n = int(value)
@@ -96,6 +115,23 @@ def value_grounded(predicate: str, value: str, quote: str) -> bool:
     return value.lower().replace("-", " ") in q
 
 
+def _grounded_zh(predicate: str, value: str, quote: str, raw: str) -> bool:
+    from novelforge.core.extraction_zh import CN_NUM, parse_cn_number
+
+    if predicate == "age":
+        return any(
+            (int(m) if m.isdigit() else parse_cn_number(m)) == int(value)
+            for m in re.findall(CN_NUM, quote)
+        )
+    if predicate == "handedness":
+        return {"left": "左", "right": "右"}[value] in quote
+    if predicate in ("eye_color", "hair_color"):
+        # The colour word as the model copied it (琥珀色 -> 琥珀) must be in the quote.
+        word = raw.strip().removesuffix("色")
+        return bool(word) and word in quote
+    return value in quote
+
+
 def extract_with_llm(
     chapter: ChapterRef,
     characters: list[CharacterRef],
@@ -103,8 +139,14 @@ def extract_with_llm(
     max_words: int = 1500,
     check_values: bool = True,
 ) -> ExtractionRun:
-    run = ExtractionRun(extractor=f"llm:{llm.name}")
+    system, version = system_for(chapter.body)
+    zh = is_chinese(chapter.body)
+    run = ExtractionRun(extractor=f"llm:{llm.name}", prompt_version=version)
     lookup = {f.text.lower(): f.character for f in surface_forms(characters)}
+    if zh:
+        from novelforge.core.extraction_zh import surface_forms_zh
+
+        lookup.update({form: c for form, c in surface_forms_zh(characters).items()})
     seen: set[tuple[str, int, int, str]] = set()
     parts = windows(chapter.body, max_words)
     started = time.perf_counter()
@@ -112,7 +154,7 @@ def extract_with_llm(
         prompt = user_prompt(chapter, characters, chapter.body[ws:we], (i, len(parts)))
         run.calls += 1
         try:
-            result = llm.generate_json(SYSTEM, prompt, SCHEMA, max_tokens=8000)
+            result = llm.generate_json(system, prompt, SCHEMA_ZH if zh else SCHEMA, max_tokens=8000)
         except LLMError as exc:
             if exc.kind in ("transport", "config"):
                 raise  # retried by the job queue
@@ -127,11 +169,13 @@ def extract_with_llm(
             run.errors.append(f"window {i}: response has no 'facts' list")
             continue
         for fact in facts:
-            claim, reason = _to_claim(chapter, fact, lookup, run.extractor, (ws, we))
+            claim, reason = _to_claim(chapter, fact, lookup, run.extractor, (ws, we), zh)
             if (
                 claim is not None
                 and check_values
-                and not value_grounded(claim.predicate, claim.value, claim.spans[0].quote)
+                and not value_grounded(
+                    claim.predicate, claim.value, claim.spans[0].quote, claim.raw_value
+                )
             ):
                 claim, reason = None, "value not in quote"
             if claim is None:
@@ -153,11 +197,13 @@ def extract_with_llm(
     return run
 
 
-def _to_claim(chapter, fact, lookup, extractor, window) -> tuple[ExtractedClaim | None, str]:
+def _to_claim(
+    chapter, fact, lookup, extractor, window, zh=False
+) -> tuple[ExtractedClaim | None, str]:
     if not isinstance(fact, dict):
         return None, "not an object"
     kind = fact.get("kind")
-    if kind not in KINDS:
+    if kind not in KINDS_ZH or (kind == "presence" and not zh):
         return None, "unknown kind"
     modality = fact.get("modality") if fact.get("modality") in MODALITIES else "asserted"
     subject_text = str(fact.get("subject", "")).strip()
@@ -167,7 +213,7 @@ def _to_claim(chapter, fact, lookup, extractor, window) -> tuple[ExtractedClaim 
         character = lookup.get(" ".join(subject_text.lower().split()[:2]))
     if character is None and kind not in SUBJECTLESS:
         return None, "unknown subject"
-    mapped = to_predicate(kind, str(fact.get("value", "")), str(fact.get("object", "")))
+    mapped = to_predicate(kind, str(fact.get("value", "")), str(fact.get("object", "")), zh)
     if mapped is None:
         return None, "malformed value"
     predicate, value = mapped
@@ -202,6 +248,10 @@ def _to_claim(chapter, fact, lookup, extractor, window) -> tuple[ExtractedClaim 
     obj = str(fact.get("object", "")).strip()
     if obj:
         details["object"] = obj
+    if predicate == "hair_color" and (
+        obj.lower() == "change" or _DYE.search(chapter.body[start:end])
+    ):
+        details["change"] = True
     return (
         ExtractedClaim(
             id=str(uuid.uuid5(CLAIM_NAMESPACE, key)),

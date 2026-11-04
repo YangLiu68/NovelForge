@@ -132,3 +132,38 @@ def test_undated_statements_are_ordered_by_chapter_around_a_change():
     # Chapter 1 has no story day; the dye happens in chapter 2. Chapter 1 belongs before it.
     texts = ["Mara's hair was black.", "That week Mara dyed her hair red.", "Mara's hair was red."]
     assert run(texts, days=[None, 5, 9]) == []
+
+
+def _claim(ch, pred, value, start, modality="asserted", day=0, subject="t"):
+    from novelforge.core.domain import ExtractedClaim, Span
+
+    return ExtractedClaim(
+        id=f"{ch}-{pred}-{value}-{start}", chapter_id=f"c{ch}", chapter_version=1,
+        subject_id=subject, subject_text=subject, predicate=pred, value=value, raw_value=value,
+        modality=modality, confidence=0.9, effective_day=day, time_certainty="chapter_day",
+        extractor="test", spans=(Span(f"c{ch}", 1, start, start + 4, "xxxx"),),
+    )  # fmt: skip
+
+
+def _detect(claims, n=3):
+    chapters = [ChapterRef(f"c{i}", i, f"Ch {i}", "x" * 500, 1, 0) for i in range(1, n + 1)]
+    return detect_contradictions(claims, chapters, [MARA, TOMAS])
+
+
+def test_a_more_detailed_birthplace_agrees_with_the_sheet():
+    # "born outside Varrow, at a small ferry" is in Varrow; Hollin is not.
+    assert _detect([_claim(1, "birthplace", "Varrow, at the ferry", 10)]) == []
+    [f] = _detect([_claim(1, "birthplace", "Hollin", 10)])
+    assert f.kind == "canon_conflict"
+
+
+def test_a_recalled_lesson_told_after_the_act_still_counts():
+    cannot = _claim(1, "ability:swim", "cannot", 10)
+    used = _claim(3, "ability:swim", "used", 100)
+    [f] = _detect([cannot, used])
+    assert f.kind == "ability_conflict"
+    # Chapter 3 swims, then remembers being taught that summer: no finding.
+    lesson = _claim(3, "ability:swim", "learned", 300, modality="recalled")
+    assert _detect([cannot, used, lesson]) == []
+    # A memory can clear a finding but never create one.
+    assert _detect([_claim(1, "ability:swim", "learned", 10, modality="recalled")]) == []

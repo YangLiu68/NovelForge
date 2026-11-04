@@ -13,7 +13,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from novelforge.extraction.prompt import PROMPT_VERSION
+from novelforge.extraction.prompt import PROMPT_VERSION, system_for
 from novelforge.extraction.runner import extract_with_llm
 from novelforge.jobs import SkipJob, enqueue, handler
 from novelforge.llm.registry import get_llm
@@ -22,7 +22,8 @@ from novelforge.services.derived import chapter_ref, character_refs, persist_cla
 
 
 def extraction_key(chapter: Chapter, llm_spec: str) -> str:
-    return f"extract:{chapter.id}:{chapter.version}:{llm_spec}:{PROMPT_VERSION}"
+    version = system_for(chapter.body)[1] if chapter.body else PROMPT_VERSION
+    return f"extract:{chapter.id}:{chapter.version}:{llm_spec}:{version}"
 
 
 def enqueue_llm_extraction(session: Session, chapter: Chapter, llm_spec: str) -> None:
@@ -36,8 +37,10 @@ def enqueue_llm_extraction(session: Session, chapter: Chapter, llm_spec: str) ->
 
 
 def max_words_for(llm_spec: str) -> int:
-    # Small local models get small windows (short, bounded JSON); Claude reads whole chapters.
-    return 6000 if llm_spec.startswith("anthropic") else 500
+    # Small local models get small windows (short, bounded JSON); hosted models read whole chapters.
+    # A replay must cut the same windows as the run it replays.
+    hosted = llm_spec.removeprefix("replay:").startswith(("anthropic", "openrouter"))
+    return 6000 if hosted else 500
 
 
 @handler("extract_chapter")
