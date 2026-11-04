@@ -1,4 +1,4 @@
-*The Secret Garden* (Frances Hodgson Burnett; v5 held-out book): 27 chapters, 80,312 words, 16 characters listed. Extractor `llm:openrouter:anthropic/claude-haiku-5.5`, 0.5 s, 59 claims.
+*The Secret Garden* (Frances Hodgson Burnett; v5 held-out book): 27 chapters, 80,312 words, 16 characters listed. Extractor `llm:openrouter:anthropic/claude-haiku-5.5`, 0.36 s, 59 claims.
 
 Source https://www.gutenberg.org/cache/epub/113/pg113.txt (sha256 matches the labelled file).
 

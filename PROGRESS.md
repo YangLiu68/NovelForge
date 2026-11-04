@@ -1,5 +1,37 @@
 # Progress log
 
+## 2026-11-03 (later): fixing what the Claude runs showed
+
+The user asked to fix every remaining problem. Spent on OpenRouter this round: about $1.9
+(total $5.4 of the account's $10).
+
+- **Story logic, code side** (`checks-v4`, then `checks-v5`, prompts unchanged): one finding per
+  scene and per beat, reveals not judged as acts, setups paid off in other words found by the
+  model's payoff question, quiet chapter endings as cliffhanger suggestions rather than
+  problems; then later explanations that name a third person, long character files that keep
+  the notes about the beat, harm with no reason as villainy without cause. On 青石渡 Claude's
+  unlabelled issues went from 11 to 3 with no find lost.
+- **A second story held-out**, 青崖问剑, written by a separate agent and scored once (frozen
+  `caf042d`): Opus 5.5 4/6 problems, 0/6 traps by hand, $1.49; Haiku 5.5 3/6, 0/6, $0.049.
+  checks-v5 came from its misses (seen): 5/6 and 4/6.
+- **English with Claude Haiku 5.5**: synthetic extraction P 0.982 R 0.961 (rules 1.0 / 0.884);
+  contradictions 10/12 alone, **12/12 with the rules, 0 false findings**, including the
+  world-rule violation (the judge now drops quotes that describe a failed attempt); on *The
+  Secret Garden* (blind for the LLM) recall 0.316 against the rules' 0.184, every claim
+  hand-labelled; on *Anne of Green Gables* 0.426 against 0.213, fact precision 0.93. Smaller
+  windows (`LLM_WINDOW_WORDS=1500`) raised recall on the first book (0.474) and lowered it on
+  the second (0.340): not a lever, the default stays a whole chapter.
+- **Models compared** on the Chinese held-out: Haiku 9/9 for $0.011, Sonnet 7/9 for $0.084,
+  Opus 9/9 for $0.255.
+- **Product**: a cost estimate before every run (`/api/novels/{id}/llm-estimate`, calibrated on
+  the recorded runs, shown on the story page), the recorded Claude audit as a replay option,
+  colour values that must be colour words (similes stay refused), `bench-real --llm`,
+  `bench-consistency --with-rules`, `LLM_WINDOW_WORDS`.
+- 291 backend tests, 17 frontend unit tests.
+- **Still open**: the labels are all the assistant's (no second annotator); the story audit is
+  measured on two held-out novels of six problems each; the direct Anthropic SDK backend has
+  never called the API; nothing is pushed, so CI and Docker have not run.
+
 ## 2026-11-03: Claude through OpenRouter
 
 The user supplied an OpenRouter key (saved to `.env` through a hidden-input dialog; it never

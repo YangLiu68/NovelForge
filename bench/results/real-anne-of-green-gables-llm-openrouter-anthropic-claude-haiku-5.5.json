@@ -1,0 +1,446 @@
+{
+  "book": "anne-of-green-gables",
+  "title": "Anne of Green Gables",
+  "author": "L. M. Montgomery",
+  "role": "v4 held-out",
+  "source": {
+    "url": "https://www.gutenberg.org/cache/epub/45/pg45.txt",
+    "sha256": "89a5e9fb2e0bb44562a969785385366f94e1da736aebee7d9cdf459eb0b5f9f6",
+    "matches_manifest": true
+  },
+  "extractor": "llm:openrouter:anthropic/claude-haiku-5.5",
+  "claims_from": null,
+  "llm_usage": {
+    "calls": 38,
+    "input_tokens": 261012,
+    "output_tokens": 97114,
+    "cost_usd": 0.0,
+    "prompt_version": "extract-v1-4f244d4b",
+    "window_words": 6000,
+    "unscored": {
+      "relationship": 32,
+      "event": 196,
+      "foreshadowing": 30,
+      "world_rule": 6,
+      "location": 13,
+      "causal": 27
+    },
+    "rejected": {
+      "value not in quote": 5,
+      "malformed value": 6,
+      "quote not found": 4
+    }
+  },
+  "sheet_pronouns": true,
+  "chapters": 38,
+  "words": 101964,
+  "characters": 23,
+  "seconds": 0.27,
+  "claims": 46,
+  "precision": {
+    "overall": {
+      "correct": 41,
+      "modality": 2,
+      "wrong": 3,
+      "unlabelled": 0,
+      "fact_precision": 0.9348,
+      "strict_precision": 0.8913
+    },
+    "asserted_only": {
+      "correct": 17,
+      "modality": 2,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 0.8947
+    },
+    "ability": {
+      "correct": 8,
+      "modality": 0,
+      "wrong": 1,
+      "unlabelled": 0,
+      "fact_precision": 0.8889,
+      "strict_precision": 0.8889
+    },
+    "age": {
+      "correct": 10,
+      "modality": 2,
+      "wrong": 1,
+      "unlabelled": 0,
+      "fact_precision": 0.9231,
+      "strict_precision": 0.7692
+    },
+    "birthplace": {
+      "correct": 1,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "eye_color": {
+      "correct": 7,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "hair_color": {
+      "correct": 13,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "status": {
+      "correct": 2,
+      "modality": 0,
+      "wrong": 1,
+      "unlabelled": 0,
+      "fact_precision": 0.6667,
+      "strict_precision": 0.6667
+    }
+  },
+  "by_modality": {
+    "asserted": {
+      "correct": 17,
+      "modality": 2
+    },
+    "hedged": {
+      "correct": 2
+    },
+    "reported": {
+      "correct": 22,
+      "wrong": 3
+    }
+  },
+  "errors": {
+    "modality": 2,
+    "word_sense": 1,
+    "wrong_value": 1,
+    "condition": 1
+  },
+  "recall": {
+    "candidate_sentences": 151,
+    "unlabelled_sentences": 0,
+    "all": {
+      "facts": 47,
+      "found": 20,
+      "recall": 0.4255
+    },
+    "hair_color": {
+      "facts": 24,
+      "found": 8,
+      "recall": 0.3333
+    },
+    "asserted": {
+      "facts": 29,
+      "found": 13,
+      "recall": 0.4483
+    },
+    "eye_color": {
+      "facts": 16,
+      "found": 7,
+      "recall": 0.4375
+    },
+    "birthplace": {
+      "facts": 1,
+      "found": 0,
+      "recall": 0.0
+    },
+    "age": {
+      "facts": 6,
+      "found": 5,
+      "recall": 0.8333
+    }
+  },
+  "missed_examples": [
+    {
+      "chapter": 2,
+      "sentence": "He may have been quite right in thinking so, for he was an odd-looking personage, with an ungainly figure and long iron-gray hair that touched his stooping shoulders, and a full, soft brown beard which he had worn ever since he was twenty.",
+      "subject": "Matthew Cuthbert",
+      "predicate": "hair_color",
+      "value": "grey",
+      "asserted": true
+    },
+    {
+      "chapter": 2,
+      "sentence": "I don’t mind the other things so much--the freckles and the green eyes and my skinniness.",
+      "subject": "Anne Shirley",
+      "predicate": "eye_color",
+      "value": "green",
+      "asserted": false
+    },
+    {
+      "chapter": 2,
+      "sentence": "But I _cannot_ imagine that red hair away.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 5,
+      "sentence": "“And I was born in Bolingbroke, Nova Scotia.",
+      "subject": "Anne Shirley",
+      "predicate": "birthplace",
+      "value": "Bolingbroke",
+      "asserted": false
+    },
+    {
+      "chapter": 8,
+      "sentence": "Her pointed freckled face and solemn gray eyes peered back at her.",
+      "subject": "Anne Shirley",
+      "predicate": "eye_color",
+      "value": "grey",
+      "asserted": true
+    },
+    {
+      "chapter": 9,
+      "sentence": "I’m sure I don’t know why you should lose your temper like that just because Mrs. Lynde said you were red-haired and homely.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 10,
+      "sentence": "It can’t be denied your hair is terrible red; but I knew a girl once--went to school with her, in fact--whose hair was every mite as red as yours when she was young, but when she grew up it darkened to a real handsome auburn.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 15,
+      "sentence": "“Nonsense,” said Diana, whose black eyes and glossy tresses had played such havoc with the hearts of Avonlea schoolboys that her name figured on the porch walls in half a dozen take-notices.",
+      "subject": "Diana Barry",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": true
+    },
+    {
+      "chapter": 15,
+      "sentence": "He was a tall boy, with curly brown hair, roguish hazel eyes, and a mouth twisted into a teasing smile.",
+      "subject": "Gilbert Blythe",
+      "predicate": "hair_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 15,
+      "sentence": "He was a tall boy, with curly brown hair, roguish hazel eyes, and a mouth twisted into a teasing smile.",
+      "subject": "Gilbert Blythe",
+      "predicate": "eye_color",
+      "value": "hazel",
+      "asserted": true
+    },
+    {
+      "chapter": 15,
+      "sentence": "She _should_ look at him, that red-haired Shirley girl with the little pointed chin and the big eyes that weren’t like the eyes of any other girl in Avonlea school.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 17,
+      "sentence": "Diana, wilt thou give me a lock of thy jet-black tresses in parting to treasure forevermore?”",
+      "subject": "Diana Barry",
+      "predicate": "hair_color",
+      "value": "black",
+      "asserted": false
+    },
+    {
+      "chapter": 17,
+      "sentence": "Now Gilbert was head of the spelling class; now Anne, with a toss of her long red braids, spelled him down.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 18,
+      "sentence": "“I’m perfectly happy--yes, in spite of my red hair.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 21,
+      "sentence": "These stood or fell by the judgment of the fathers and mothers in Israel; but a certain small, red-haired girl who sat meekly in the corner of the old Cuthbert pew also had her opinions about them and discussed the same in full with Matthew, Marilla always declining from principle to criticize ministers in any shape or form.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 23,
+      "sentence": "Anne tossed her red braids.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 23,
+      "sentence": "Diana says she has the loveliest fair curly hair and such fascinating eyes.",
+      "subject": "Miss Stacy",
+      "predicate": "hair_color",
+      "value": "fair",
+      "asserted": false
+    },
+    {
+      "chapter": 28,
+      "sentence": "Ruby ought to be Elaine because she is so fair and has such lovely long golden hair--Elaine had ‘all her bright hair streaming down,’ you know.",
+      "subject": "Ruby Gillis",
+      "predicate": "hair_color",
+      "value": "golden",
+      "asserted": false
+    },
+    {
+      "chapter": 28,
+      "sentence": "Anne had sat among the stumps and wept, not without an eye to the romance of it; but she was speedily consoled, for, after all, as she and Diana said, big girls of thirteen, going on fourteen, were too old for such childish amusements as playhouses, and there were more fascinating sports to be found about the pond.",
+      "subject": "Diana Barry",
+      "predicate": "age",
+      "value": "13",
+      "asserted": true
+    },
+    {
+      "chapter": 30,
+      "sentence": "But she had learned to love this slim, gray-eyed girl with an affection all the deeper and stronger from its very undemonstrativeness.",
+      "subject": "Anne Shirley",
+      "predicate": "eye_color",
+      "value": "grey",
+      "asserted": true
+    },
+    {
+      "chapter": 30,
+      "sentence": "He’s such a funny-looking boy with that big fat face, and his little blue eyes, and his ears sticking out like flaps.",
+      "subject": "Moody Spurgeon MacPherson",
+      "predicate": "eye_color",
+      "value": "blue",
+      "asserted": false
+    },
+    {
+      "chapter": 32,
+      "sentence": "But she did hope fervently that she would be among the first ten at least, so that she might see Matthew’s kindly brown eyes gleam with pride in her achievement.",
+      "subject": "Matthew Cuthbert",
+      "predicate": "eye_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 34,
+      "sentence": "Anne was conscious of a pang of loneliness when she found herself in a room with fifty other students, not one of whom she knew, except the tall, brown-haired boy across the room; and knowing him in the fashion she did, did not help her much, as she reflected pessimistically.",
+      "subject": "Gilbert Blythe",
+      "predicate": "hair_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 35,
+      "sentence": "She had large, bright-blue eyes, a brilliant complexion, and a plump showy figure.",
+      "subject": "Ruby Gillis",
+      "predicate": "eye_color",
+      "value": "blue",
+      "asserted": true
+    },
+    {
+      "chapter": 35,
+      "sentence": "The latter was, as she admitted, growing old, but her black eyes were not dim nor the vigor of her tongue in the least abated.",
+      "subject": "Josephine Barry",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": true
+    },
+    {
+      "chapter": 37,
+      "sentence": "In the parlor lay Matthew Cuthbert in his coffin, his long gray hair framing his placid face on which there was a little kindly smile as if he but slept, dreaming pleasant dreams.",
+      "subject": "Matthew Cuthbert",
+      "predicate": "hair_color",
+      "value": "grey",
+      "asserted": true
+    },
+    {
+      "chapter": 37,
+      "sentence": "My freckles are really gone; and people are nice enough to tell me my hair is auburn now--all but Josie Pye.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "auburn",
+      "asserted": false
+    }
+  ],
+  "findings": {
+    "total": 0,
+    "true": 0,
+    "false": 0,
+    "unlabelled": 0,
+    "rows": []
+  },
+  "wrong_examples": [
+    {
+      "chapter": 9,
+      "subject": "Marilla Cuthbert",
+      "predicate": "age",
+      "value": "50",
+      "modality": "asserted",
+      "quote": "Marilla was every day of fifty before the sting had gone out of that memory.",
+      "verdict": "modality",
+      "error": "modality: should be not asserted",
+      "note": "'every day of fifty before the sting had gone': her age at a later, past time; labelled for the claude-haiku-5.5 run (2026-11-03)"
+    },
+    {
+      "chapter": 15,
+      "subject": "Anne Shirley",
+      "predicate": "status",
+      "value": "alive",
+      "modality": "reported",
+      "quote": "Isn’t it good just to be alive on a day like this?",
+      "verdict": "wrong",
+      "error": "word_sense",
+      "note": "'good just to be alive on a day like this' is delight, not a status; labelled for the claude-haiku-5.5 run (2026-11-03)"
+    },
+    {
+      "chapter": 25,
+      "subject": "Anne Shirley",
+      "predicate": "age",
+      "value": "13",
+      "modality": "reported",
+      "quote": "She’s only thirteen in March.",
+      "verdict": "wrong",
+      "error": "wrong_value",
+      "note": "'only thirteen in March': she turns thirteen in March; labelled for the claude-haiku-5.5 run (2026-11-03)"
+    },
+    {
+      "chapter": 28,
+      "subject": "Anne Shirley",
+      "predicate": "age",
+      "value": "13",
+      "modality": "asserted",
+      "quote": "big girls of thirteen, going on fourteen, were too old",
+      "verdict": "modality",
+      "error": "modality: should be not asserted",
+      "note": "'as she and Diana said': their words; labelled for the claude-haiku-5.5 run (2026-11-03)"
+    },
+    {
+      "chapter": 38,
+      "subject": "Marilla Cuthbert",
+      "predicate": "ability:read",
+      "value": "cannot",
+      "modality": "reported",
+      "quote": "if I give up all reading and sewing entirely and any kind of work that strains the eyes",
+      "verdict": "wrong",
+      "error": "condition",
+      "note": "the oculist's condition ('if I give up all reading'), not an inability; labelled for the claude-haiku-5.5 run (2026-11-03)"
+    }
+  ],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "d919ba0"
+  }
+}
