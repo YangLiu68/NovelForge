@@ -56,11 +56,15 @@ def cmd_eval_facts(args: argparse.Namespace) -> int:
     if args.out:
         args.out.mkdir(parents=True, exist_ok=True)
         safe = result["extractor"].replace(":", "-").replace("/", "-")
-        stem = args.out / f"facts-{result['sample']}-{safe}"
-        stem.with_suffix(".json").write_text(
+        version = result["llm_usage"].get("prompt_version", "")
+        # "extract-zh-v2-96a9225a" -> "-extract-zh-v2": LLM results name their prompt version.
+        tag = f"-{version.rsplit('-', 1)[0]}" if version else ""
+        # Not with_suffix: a model name like "claude-opus-5.5" has a dot of its own.
+        stem = f"facts-{result['sample']}-{safe}{tag}"
+        (args.out / f"{stem}.json").write_text(
             json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
-        stem.with_suffix(".md").write_text(to_markdown(result), encoding="utf-8")
+        (args.out / f"{stem}.md").write_text(to_markdown(result), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2) if args.json else to_markdown(result))
     return 0
 

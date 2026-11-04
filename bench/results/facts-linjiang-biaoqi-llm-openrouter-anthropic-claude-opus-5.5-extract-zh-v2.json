@@ -1,0 +1,211 @@
+{
+  "sample": "linjiang-biaoqi",
+  "extractor": "llm:openrouter:anthropic/claude-opus-5.5",
+  "llm_usage": {
+    "calls": 4,
+    "input_tokens": 19476,
+    "output_tokens": 10483,
+    "cost_usd": 0.0,
+    "rejected": 1,
+    "prompt_version": "extract-zh-v2-96a9225a",
+    "rejected_items": [
+      {
+        "chapter": 1,
+        "fact": {
+          "subject": "韩七",
+          "kind": "location",
+          "value": "黑松岭",
+          "object": "",
+          "quote": "岭上盘着韩七的马帮",
+          "modality": "asserted",
+          "confidence": 0.7,
+          "day_offset": 0
+        },
+        "reason": "value not in quote"
+      }
+    ],
+    "errors": []
+  },
+  "facts": 52,
+  "claims": 43,
+  "unscored_claims": 50,
+  "unscored_by_predicate": {
+    "causal": 3,
+    "event": 16,
+    "foreshadowing": 6,
+    "location": 3,
+    "presence": 11,
+    "relationship": 9,
+    "world_rule": 2
+  },
+  "matched": 41,
+  "precision": 0.953,
+  "strict_precision": 0.93,
+  "recall": 0.788,
+  "recall_asserted": 0.811,
+  "modality_accuracy": 0.976,
+  "by_predicate": {
+    "ability": {
+      "facts": 19,
+      "found": 13,
+      "claims": 13
+    },
+    "age": {
+      "facts": 9,
+      "found": 7,
+      "claims": 7
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 4,
+      "claims": 5
+    },
+    "eye_color": {
+      "facts": 5,
+      "found": 5,
+      "claims": 5
+    },
+    "hair_color": {
+      "facts": 4,
+      "found": 4,
+      "claims": 4
+    },
+    "handedness": {
+      "facts": 5,
+      "found": 5,
+      "claims": 5
+    },
+    "status": {
+      "facts": 5,
+      "found": 3,
+      "claims": 4
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 1,
+      "subject": "林照雪",
+      "predicate": "status",
+      "value": "dead",
+      "modality": "recalled",
+      "quote": "照雪十岁那年，娘得痨病撒手去了",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 1,
+      "subject": "苏砚",
+      "predicate": "birthplace",
+      "value": "云州城外的一个小渡口",
+      "modality": "asserted",
+      "quote": "苏砚生在云州城外的一个小渡口",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [
+    {
+      "chapter": 3,
+      "subject": "楚青萝",
+      "predicate": "hair_color",
+      "value": "brown",
+      "modality": "recalled",
+      "quote": "青萝的头发还是褐色的",
+      "resolved": null,
+      "fact": 39,
+      "gold_modality": "asserted"
+    }
+  ],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "林照雪",
+      "predicate": "age",
+      "value": 10,
+      "text": "照雪十岁那年",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "苏砚",
+      "predicate": "birthplace",
+      "value": "云州",
+      "text": "苏砚生在云州",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "林守拙",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "林守拙展开文书，凑在灯下看了许久",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 1,
+      "subject": "楚青萝",
+      "predicate": "age",
+      "value": 7,
+      "text": "她生在疏勒，七岁那年",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "你连马都不会骑",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "楚青萝",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "楚青萝骑着一匹枣红马",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "韩七",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "他骑在一匹通身乌黑的高头大马上",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "林守拙",
+      "predicate": "status",
+      "value": "alive",
+      "text": "林守拙差点没熬过那个冬天",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 3,
+      "subject": "林照雪",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "如今她骑着那匹白蹄乌",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "韩七",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "韩七把那封信抖开，借着火把的光一行一行看下去",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "周铁山",
+      "predicate": "status",
+      "value": "alive",
+      "text": "周镖头蹲在门槛上抽旱烟",
+      "modality": "asserted"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "findings": 8,
+  "true_positives": 7,
+  "false_positives": 1,
+  "duplicates": 0,
+  "false_negatives": 2,
+  "precision": 0.875,
+  "recall_all": 0.7778,
+  "recall_detectable": 0.7778,
+  "negatives": 9,
+  "negatives_violated": 1,
+  "cited_spans": 11,
+  "cited_spans_correct": 11,
+  "citation_precision": 1.0,
+  "labelled_spans_covered": 11,
+  "labelled_spans_total": 14,
+  "citation_recall": 0.7857,
+  "by_category": {
+    "abilities": {
+      "labelled": 1,
+      "detected": 0,
+      "fp": 0,
+      "recall": 0.0
+    },
+    "identity": {
+      "labelled": 6,
+      "detected": 6,
+      "fp": 1,
+      "recall": 1.0
+    },
+    "timeline": {
+      "labelled": 2,
+      "detected": 1,
+      "fp": 0,
+      "recall": 0.5
+    }
+  },
+  "matched": [
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G8"
+  ],
+  "missed": [
+    {
+      "id": "G7",
+      "category": "timeline",
+      "kind": "age_timeline",
+      "reason": ""
+    },
+    {
+      "id": "G9",
+      "category": "abilities",
+      "kind": "ability_conflict",
+      "reason": ""
+    }
+  ],
+  "false_positive_findings": [
+    {
+      "kind": "attribute_conflict",
+      "subject": "\u88f4\u7167",
+      "predicate": "hair_color",
+      "spans": [
+        [
+          1,
+          1483,
+          1488
+        ],
+        [
+          2,
+          1860,
+          1873
+        ]
+      ]
+    }
+  ],
+  "violated_negatives": [
+    "N6"
+  ],
+  "sample": "tuoling-guoqi",
+  "extractor": "rules-zh-v3",
+  "mode": "in-memory",
+  "min_confidence": 0.6
+}

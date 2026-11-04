@@ -1,0 +1,160 @@
+{
+  "sample": "wugang-xinzha",
+  "extractor": "llm:openrouter:anthropic/claude-opus-5.5",
+  "llm_usage": {
+    "calls": 3,
+    "input_tokens": 8678,
+    "output_tokens": 6502,
+    "cost_usd": 0.0,
+    "rejected": 0,
+    "prompt_version": "extract-zh-v2-96a9225a",
+    "rejected_items": [],
+    "errors": []
+  },
+  "facts": 31,
+  "claims": 35,
+  "unscored_claims": 28,
+  "unscored_by_predicate": {
+    "ability:sail": 1,
+    "ability:write": 1,
+    "event": 12,
+    "foreshadowing": 7,
+    "presence": 6,
+    "relationship": 1
+  },
+  "matched": 29,
+  "precision": 0.829,
+  "strict_precision": 0.829,
+  "recall": 0.935,
+  "recall_asserted": 1.0,
+  "modality_accuracy": 1.0,
+  "by_predicate": {
+    "ability": {
+      "facts": 5,
+      "found": 5,
+      "claims": 5
+    },
+    "age": {
+      "facts": 7,
+      "found": 7,
+      "claims": 7
+    },
+    "birthplace": {
+      "facts": 1,
+      "found": 1,
+      "claims": 1
+    },
+    "eye_color": {
+      "facts": 5,
+      "found": 5,
+      "claims": 5
+    },
+    "hair_color": {
+      "facts": 6,
+      "found": 6,
+      "claims": 6
+    },
+    "handedness": {
+      "facts": 2,
+      "found": 2,
+      "claims": 2
+    },
+    "location": {
+      "facts": 2,
+      "found": 1,
+      "claims": 6
+    },
+    "status": {
+      "facts": 3,
+      "found": 2,
+      "claims": 3
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 1,
+      "subject": "林雪棠",
+      "predicate": "location",
+      "value": "海关钟楼底下",
+      "modality": "asserted",
+      "quote": "林雪棠站在海关钟楼底下，把大衣领子竖了起来。",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 1,
+      "subject": "陈砚",
+      "predicate": "location",
+      "value": "码头账房",
+      "modality": "asserted",
+      "quote": "码头账房在三号仓库的二楼",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 1,
+      "subject": "林雪棠",
+      "predicate": "location",
+      "value": "渔村",
+      "modality": "asserted",
+      "quote": "林雪棠去了一趟渔村，找到了周铁山",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 1,
+      "subject": "周铁山",
+      "predicate": "status",
+      "value": "alive",
+      "modality": "asserted",
+      "quote": "周铁山是海燕号上唯一活着回来的水手",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 2,
+      "subject": "陈砚",
+      "predicate": "location",
+      "value": "码头",
+      "modality": "asserted",
+      "quote": "陈砚在码头等她",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    },
+    {
+      "chapter": 2,
+      "subject": "苏婉",
+      "predicate": "location",
+      "value": "岸上",
+      "modality": "asserted",
+      "quote": "苏婉留在岸上",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "周铁山",
+      "predicate": "status",
+      "value": "dead",
+      "modality": "hedged",
+      "text": "他年轻时在南洋跑过船，听说十几岁就死过一回"
+    },
+    {
+      "chapter": 2,
+      "subject": "陈砚",
+      "predicate": "location",
+      "value": "雾港",
+      "modality": "recalled",
+      "text": "陈砚生在临江县，十二岁跟着叔叔来到雾港"
+    }
+  ]
+}

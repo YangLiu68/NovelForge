@@ -1,0 +1,201 @@
+{
+  "sample": "wuling-chashi",
+  "extractor": "llm:openrouter:anthropic/claude-opus-5.5",
+  "llm_usage": {
+    "calls": 4,
+    "input_tokens": 19960,
+    "output_tokens": 8700,
+    "cost_usd": 0.0,
+    "rejected": 1,
+    "prompt_version": "extract-zh-v2-96a9225a",
+    "rejected_items": [
+      {
+        "chapter": 1,
+        "fact": {
+          "subject": "苏怀山",
+          "kind": "location",
+          "value": "苏家老宅",
+          "object": "",
+          "quote": "苏怀山就坐在檐下的藤椅里",
+          "modality": "asserted",
+          "confidence": 0.8,
+          "day_offset": 0
+        },
+        "reason": "value not in quote"
+      }
+    ],
+    "errors": []
+  },
+  "facts": 61,
+  "claims": 47,
+  "unscored_claims": 46,
+  "unscored_by_predicate": {
+    "ability:roll_tea": 1,
+    "ability:stir_fry_tea": 1,
+    "causal": 4,
+    "event": 18,
+    "foreshadowing": 3,
+    "presence": 6,
+    "relationship": 11,
+    "world_rule": 2
+  },
+  "matched": 47,
+  "precision": 1.0,
+  "strict_precision": 1.0,
+  "recall": 0.77,
+  "recall_asserted": 0.875,
+  "modality_accuracy": 1.0,
+  "by_predicate": {
+    "ability": {
+      "facts": 19,
+      "found": 11,
+      "claims": 11
+    },
+    "age": {
+      "facts": 12,
+      "found": 10,
+      "claims": 10
+    },
+    "birthplace": {
+      "facts": 4,
+      "found": 4,
+      "claims": 4
+    },
+    "eye_color": {
+      "facts": 6,
+      "found": 6,
+      "claims": 6
+    },
+    "hair_color": {
+      "facts": 12,
+      "found": 10,
+      "claims": 10
+    },
+    "handedness": {
+      "facts": 2,
+      "found": 2,
+      "claims": 2
+    },
+    "status": {
+      "facts": 6,
+      "found": 4,
+      "claims": 4
+    }
+  },
+  "wrong": [],
+  "modality_errors": [],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "叶芙",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "叶芙往后退了半步：“我不会骑马",
+      "modality": "reported"
+    },
+    {
+      "chapter": 1,
+      "subject": "岩温",
+      "predicate": "ability:swim",
+      "value": "cannot",
+      "text": "他说，“我不会水",
+      "modality": "reported"
+    },
+    {
+      "chapter": 1,
+      "subject": "苏怀山",
+      "predicate": "age",
+      "value": 16,
+      "text": "他十六岁那年",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 2,
+      "subject": "叶芙",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "叶芙骑着白马",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "苏怀山",
+      "predicate": "status",
+      "value": "alive",
+      "text": "趁我还活着",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "何景行",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "何景行没再多问，拆开随身带来的牛皮纸袋，抽出几页纸，清了清嗓子，一条一条地念下去",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "何景行",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "何律师亲口念的",
+      "modality": "reported"
+    },
+    {
+      "chapter": 3,
+      "subject": "苏晚棠",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "苏晚棠没吭声，把合同拿过去，一页一页翻着看",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "苏晚棠",
+      "predicate": "age",
+      "value": 3,
+      "text": "苏晚棠生在大理，三岁那年",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 3,
+      "subject": "何景行",
+      "predicate": "status",
+      "value": "dead",
+      "text": "都以为何景行已经死",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 3,
+      "subject": "叶芙",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "她是伏在马背上",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "叶芙",
+      "predicate": "hair_color",
+      "value": "black",
+      "text": "叶芙的头发看上去几乎是黑的",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 3,
+      "subject": "苏明澈",
+      "predicate": "hair_color",
+      "value": "silver",
+      "text": "苏明澈站在门口，那头银白的头发",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "苏明澈",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "苏明澈翻了翻本子，报了个数",
+      "modality": "asserted"
+    }
+  ]
+}
