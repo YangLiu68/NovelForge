@@ -187,7 +187,8 @@ def _llm_claims(chapters, cast, llm) -> tuple[list[ExtractedClaim], str, dict[st
             else:
                 unscored[c.predicate.split(":")[0]] += 1
     usage.update(
-        prompt_version=version, unscored=dict(unscored), rejected=dict(rejected)
+        prompt_version=version, window_words=max_words_for(llm.name),
+        unscored=dict(unscored), rejected=dict(rejected),
     )  # fmt: skip
     return claims, f"llm:{llm.name.removeprefix('replay:')}", usage
 

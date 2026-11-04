@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import {
   beatsByCharacter,
+  estimateLabel,
   isChinese,
   kindLabel,
   revisionGoal,
@@ -10,7 +11,7 @@ import {
   severityLabel,
   tensionCurve,
 } from "./story.ts";
-import type { StoryAuditResult, StoryPulse } from "./types.ts";
+import type { LlmEstimate, StoryAuditResult, StoryPulse } from "./types.ts";
 
 const pulse = (chapter: number, tension: number, hook = false): StoryPulse => ({
   chapter,
@@ -109,4 +110,19 @@ test("a suggestion becomes a draft-assistant goal", () => {
   assert.equal(goal, "修改方案（补伏笔）：在第 1 章补一段她讨过饭的经历\n目的：让施舍有来由");
   const long = revisionGoal("en", { targets: [], chapter: 1, technique: "cut", change: "x".repeat(5000), why: "", sample: "" });
   assert.equal(long.length, 4000);
+});
+
+test("estimateLabel says what a run will cost, or that it is free or unpriced", () => {
+  const e: LlmEstimate = {
+    llm: "openrouter:anthropic/claude-opus-5.5", task: "story", language: "zh", chapters: 8,
+    calls: 66, input_tokens: 90000, output_tokens: 38000, free: false,
+    cost_usd: 1.12, low_usd: 0.56, high_usd: 2.24, basis: "",
+  };
+  assert.equal(estimateLabel("zh", e), "约 66 次模型调用，预计 $1.12（$0.56–$2.24，按已记录的运行估算）");
+  assert.equal(
+    estimateLabel("en", { ...e, cost_usd: 0.012, low_usd: 0.006, high_usd: 0.024 }),
+    "about 66 model calls, about $0.012 ($0.006–$0.024, from recorded runs)",
+  );
+  assert.match(estimateLabel("zh", { ...e, free: true, cost_usd: 0 }), /不收费/);
+  assert.match(estimateLabel("en", { ...e, cost_usd: null }), /price is unknown/);
 });

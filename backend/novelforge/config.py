@@ -47,6 +47,8 @@ class Settings(BaseSettings):
     openrouter_url: str = "https://openrouter.ai/api/v1"
     llm_effort: str = "medium"  # Claude effort: low | medium | high | xhigh | max
     llm_extraction: bool = False
+    # Words per LLM extraction window; 0 = the default for the model (6000 hosted, 500 local).
+    llm_window_words: int = 0
     # Recorded LLM answers (bench/results/llm-cache/*.jsonl) that "replay:<llm>" answers from:
     # a real model's run on unchanged text can be shown on a machine without that model.
     replay_dir: Path = REPO_ROOT / "bench" / "results" / "llm-cache"

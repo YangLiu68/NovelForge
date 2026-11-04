@@ -56,6 +56,7 @@ def run(
     max_chapters: int | None = None,
     database: str = "novelforge_bench_consistency",
     cache_dir: Path | None = None,
+    with_rules: bool = False,
 ) -> dict[str, Any]:
     """`cache_dir`: record (and reuse) the LLM's extraction and judge answers there, so a paid
     model is paid once; extraction answers are shared with `bench-extraction` on the corpus."""
@@ -87,7 +88,7 @@ def run(
 
         t = time.perf_counter()
         report["extraction"] = _extract(
-            session, chapters, extractor, _cache(cache_dir, corpus.name, extractor)
+            session, chapters, extractor, _cache(cache_dir, corpus.name, extractor), with_rules
         )
         session.commit()
         report["extraction"]["seconds"] = round(time.perf_counter() - t, 2)
@@ -150,7 +151,11 @@ def _cache(cache_dir: Path | None, corpus: str, extractor: str, part: str = "") 
 
 
 def _extract(
-    session: Session, chapters: list[Chapter], extractor: str, cache: Path | None = None
+    session: Session,
+    chapters: list[Chapter],
+    extractor: str,
+    cache: Path | None = None,
+    with_rules: bool = False,
 ) -> dict[str, Any]:
     if extractor == "rules":
         return {"extractor": EXTRACTOR, "note": "claims extracted during import"}
@@ -167,14 +172,16 @@ def _extract(
         "claims": 0,
         "rejected": 0,
         "errors": 0,
+        "with_rules": with_rules,
     }
     novel_id = chapters[0].novel_id
     cast = character_refs(session, novel_id)
     for chapter in chapters:
         run = extract_with_llm(chapter_ref(chapter), cast, llm, max_words=max_words_for(extractor))
         persist_claims(session, chapter, run.claims, run.extractor)
-        # The LLM run replaces the rule claims for this benchmark arm.
-        persist_claims(session, chapter, [], "rules-%")
+        if not with_rules:
+            # The LLM run replaces the rule claims for this benchmark arm.
+            persist_claims(session, chapter, [], "rules-%")
         totals["calls"] += run.calls
         totals["input_tokens"] += run.input_tokens
         totals["output_tokens"] += run.output_tokens

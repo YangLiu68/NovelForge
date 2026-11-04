@@ -543,16 +543,29 @@ class StoryAuditor:
             )
         )
 
-    def _file_for(self, character: str, upto: int) -> list[Note]:
+    def _file_for(self, character: str, upto: int, focus: str = "") -> list[Note]:
         """The character's notes visible at chapter `upto`: sheet, then text notes up to it,
-        plus other characters' relationship notes that name them."""
+        plus other characters' relationship notes that name them.
+
+        A long file is cut to 24 text notes. The cut keeps the notes that speak to `focus` (the
+        beat or the secret: shared words, Chinese bigrams; names left out) before the most recent
+        ones, so the chapter-1 line that says how she learned a secret is not dropped from the
+        file shown for chapter 8."""
         own = [
             n
             for n in self.audit.notes
             if n.character == character and (n.chapter is None or n.chapter <= upto)
         ]
         sheet = [n for n in own if n.chapter is None]
-        text = [n for n in own if n.chapter is not None][-24:]
+        text = [n for n in own if n.chapter is not None]
+        if len(text) > 24:
+            names = {t for f in self._names for t in tokens(f)}
+            want = set(tokens(focus)) - names
+            hit = [n for n in text if want & (set(tokens(f"{n.text} {n.quote or ''}")) - names)]
+            keep = {n.id for n in hit[-12:]}
+            rest = [n for n in text if n.id not in keep]
+            keep |= {n.id for n in rest[len(rest) - (24 - len(keep)) :]}
+            text = [n for n in text if n.id in keep]
         forms = [character] + [f for f, name in self._names.items() if name == character]
         about = [
             n
@@ -567,7 +580,7 @@ class StoryAuditor:
 
     def motives_stage(self, ch: ChapterRef) -> None:
         for b in [b for b in self.audit.beats if b.chapter == ch.number and b.listed]:
-            notes = self._file_for(b.character, ch.number)
+            notes = self._file_for(b.character, ch.number, f"{b.action} {b.quote} {b.target}")
             lines = [
                 f"{self.L['beat']} {self._beat_line(b)}",
                 f"  {self.L['quote']}{self._colon}{self._q(b.quote)}",
@@ -592,7 +605,7 @@ class StoryAuditor:
             for b in self.audit.beats
             if b.chapter == ch.number and b.listed and b.uses_secret and self._established(b)
         ]:
-            notes = self._file_for(b.character, ch.number)
+            notes = self._file_for(b.character, ch.number, b.secret)
             before = ch.body[max(0, b.start - 1500) : b.start]
             lines = [
                 f"{self.L['beat']} {self._beat_line(b)}",
@@ -753,9 +766,11 @@ class StoryAuditor:
             )
             if any(len(f) >= 2 and f in text for f in forms):
                 return True
+        # The actor's own names do not count (any later note about them names them); a third
+        # person named both in the act and in the note does (向云姑行礼 / 云姑救过他的命).
         own = set(tokens(f"{b.action} {b.quote}"))
-        names = {t for f in self._names for t in tokens(f)}
-        return bool((set(tokens(text)) & own) - names)
+        actor = {t for f, name in self._names.items() if name == b.character for t in tokens(f)}
+        return bool((set(tokens(text)) & own) - actor)
 
     def _plot_prompt(self, beats: list[Beat], setups: list[Setup], known: list[Note]) -> str:
         ch = self.L["chapter"]
@@ -1340,14 +1355,18 @@ def _squash(text: str) -> str:
 
 def _verdict(choice: bool, grounded: bool, stated: bool, hostile: bool, against: bool) -> str:
     """The rule a reader applies, in order: an everyday action needs no reason; a reason the
-    text gives (a cited note) settles it; acting against the character without one is a
+    text gives (a cited note) settles it; harming someone with no reason stated at all is
+    villainy for its own sake; acting against the character without a grounded reason is a
     contradiction; a reason the model states but cannot ground is unverified (not counted);
-    harming someone with no reason at all is villainy for its own sake; anything else that
-    needs a reason and has none is unmotivated."""
+    anything else that needs a reason and has none is unmotivated."""
     if not choice:
         return "routine"
     if grounded:
         return "consistent"
+    if hostile and not stated:
+        # Harm with no reason at all is villainy for its own sake, whatever note it also goes
+        # against ("素不相识" is a note, and the very point).
+        return "malice_without_cause"
     if against:
         return "contradicts"
     if stated:

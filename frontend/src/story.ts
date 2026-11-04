@@ -1,7 +1,13 @@
 // Labels and pure helpers for the story-logic page. The page speaks the novel's language: a
 // Chinese novel gets Chinese labels, everything else English.
 
-import type { StoryAuditResult, StoryNote, StoryPulse, StorySuggestion } from "./types";
+import type {
+  LlmEstimate,
+  StoryAuditResult,
+  StoryNote,
+  StoryPulse,
+  StorySuggestion,
+} from "./types";
 
 export type Lang = "zh" | "en";
 
@@ -191,4 +197,19 @@ export function revisionGoal(lang: Lang, s: StorySuggestion): string {
       ? [`修改方案（${techniqueLabel(lang, s.technique)}）：${s.change}`, s.why && `目的：${s.why}`, s.sample && `示范：${s.sample}`]
       : [`Revision (${techniqueLabel(lang, s.technique)}): ${s.change}`, s.why && `Why: ${s.why}`, s.sample && `Sample: ${s.sample}`];
   return parts.filter(Boolean).join("\n").slice(0, 4000);
+}
+
+/** One line for the cost of a run before it starts, e.g. "约 66 次模型调用，预计 $1.12（…）". */
+export function estimateLabel(lang: Lang, e: LlmEstimate): string {
+  const usd = (x: number) => `$${x < 0.1 ? x.toFixed(3) : x.toFixed(2)}`;
+  if (lang === "zh") {
+    const calls = `约 ${e.calls} 次模型调用`;
+    if (e.free) return `${calls}，不收费（本地、回放或模拟）`;
+    if (e.cost_usd === null) return `${calls}，这个模型的价格未知`;
+    return `${calls}，预计 ${usd(e.cost_usd)}（${usd(e.low_usd!)}–${usd(e.high_usd!)}，按已记录的运行估算）`;
+  }
+  const calls = `about ${e.calls} model calls`;
+  if (e.free) return `${calls}, free (local, replay or mock)`;
+  if (e.cost_usd === null) return `${calls}; this model's price is unknown`;
+  return `${calls}, about ${usd(e.cost_usd)} (${usd(e.low_usd!)}–${usd(e.high_usd!)}, from recorded runs)`;
 }

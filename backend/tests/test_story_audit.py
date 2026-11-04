@@ -888,3 +888,37 @@ def test_the_beat_that_reveals_an_earlier_reason_is_not_a_flaw(mock):
     auditor._reveals()
     assert a.judgements[1].verdict == "consistent" and a.judgements[1].fixes == []
     assert "explains B2" in a.judgements[1].checks[-1]
+
+
+def test_harm_with_no_reason_is_malice_even_against_a_cited_note():
+    from novelforge.narrative.audit import _verdict
+
+    # choice, grounded, stated, hostile, against
+    assert _verdict(True, False, False, True, True) == "malice_without_cause"
+    assert _verdict(True, False, False, False, True) == "contradicts"
+    assert _verdict(True, False, True, True, True) == "contradicts"  # a reason, just not grounded
+    assert _verdict(True, True, False, True, True) == "consistent"
+
+
+def test_a_later_note_naming_the_person_the_act_involves_explains_it(mock):
+    from novelforge.narrative.audit import Beat, Note, StoryAuditor
+
+    cast = [CastMember("顾长风", (), ""), CastMember("云姑", (), "")]
+    auditor = StoryAuditor(chapters(), cast, mock)
+    bow = Beat("B1", 2, "顾长风", True, "远远向云姑躬身行礼", "q", 0, 5, False, "", "", "exact")
+    debt = Note("N9", "顾长风", "background", "七年前云姑救回他性命，他一直想还这份情", 7)
+    about_him = Note("N8", "顾长风", "personality", "顾长风后来成了掌门", 7)
+    assert auditor._relevant(debt, bow)  # 云姑 is in both
+    assert not auditor._relevant(about_him, bow)  # only the actor's own name is shared
+
+
+def test_a_long_file_keeps_the_notes_about_the_beat(mock):
+    from novelforge.narrative.audit import Note, StoryAuditor
+
+    auditor = StoryAuditor(chapters(), CAST, mock)
+    source = Note("N1", "林晚", "knowledge", "林晚在后山亲眼撞见周伯卖丹药", 1)
+    filler = [Note(f"N{i}", "林晚", "situation", f"第{i}天她去集市买米", 2) for i in range(2, 40)]
+    auditor.audit.notes = [source, *filler]
+    shown = auditor._file_for("林晚", 3, focus="周伯卖丹药的事")
+    assert source in shown and len(shown) == 24
+    assert auditor._file_for("林晚", 3)[0] is not source  # without a focus: the latest 24

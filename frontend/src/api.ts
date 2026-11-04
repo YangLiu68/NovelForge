@@ -8,6 +8,7 @@ import type {
   GraphEdge,
   GraphNode,
   JobStats,
+  LlmEstimate,
   Novel,
   Report,
   ReviewPage,
@@ -142,6 +143,11 @@ export const api = {
   listStoryAudits: (novelId: string) =>
     request<StoryAuditRun[]>("GET", `/api/novels/${novelId}/story-audits`),
   getStoryAudit: (id: string) => request<StoryAuditRun>("GET", `/api/story-audits/${id}`),
+  llmEstimate: (novelId: string, task: "story" | "extract", llm?: string) =>
+    request<LlmEstimate>(
+      "GET",
+      `/api/novels/${novelId}/llm-estimate?task=${task}${llm ? `&llm=${encodeURIComponent(llm)}` : ""}`,
+    ),
   approvePlan: (id: string, plan: string) =>
     request<WorkflowRun>("POST", `/api/workflows/${id}/approve-plan`, { plan }),
   decide: (id: string, action: "apply" | "revise" | "discard", force = false) =>
