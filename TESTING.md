@@ -99,7 +99,9 @@ jobs (timings are not benchmarks).
   for which Playwright 1.55 has no browsers, so the runners are pinned to `ubuntu-24.04`.
 - **Docker Compose**: the CI job builds both images, starts the stack and runs
   `scripts/compose-smoke.sh` (API health, migrations, the English sample's 4 and the Chinese
-  sample's 7 planted findings with Chinese explanations, the frontend and its `/api` proxy).
+  sample's 7 planted findings with Chinese explanations, the frontend and its `/api` proxy). The
+  same script passed on the development Mac (Colima 2 CPU / 2 GiB VM, Docker Compose 5.7.0,
+  2026-11-04): images built, three containers healthy, every check passed.
 
 ## Not executed
 
