@@ -16,10 +16,15 @@ uv run novelforge gen-corpus --chapters 1000 --seed 7 --filler 25 --out "$C/load
 # Sample smoke check (three hand-written chapters)
 uv run novelforge eval-sample --json > "$OUT/sample-lanternfall-rules-v6.json"
 
-# Chinese continuity facts: the dev sample and three held-out novels (rules-zh)
-for sample in wugang-xinzha linjiang-biaoqi wuling-chashi taiye-qiushen; do
+# Chinese continuity facts: the dev sample and four held-out novels (rules-zh), and Claude
+# re-scored from its recorded answers (no key needed; BENCHMARK.md section 9)
+CLAUDE="openrouter:anthropic/claude-opus-5.5"
+for sample in wugang-xinzha linjiang-biaoqi wuling-chashi taiye-qiushen tuoling-guoqi; do
   uv run novelforge eval-sample "$sample" --json > "$OUT/findings-$sample-rules-zh-v3.json"
   uv run novelforge eval-facts "$sample" --out "$OUT" > /dev/null
+  uv run novelforge eval-sample "$sample" --llm "$CLAUDE" --replay --json \
+    > "$OUT/findings-$sample-llm-openrouter-anthropic-claude-opus-5.5-extract-zh-v2.json"
+  uv run novelforge eval-facts "$sample" --llm "$CLAUDE" --replay --out "$OUT" > /dev/null
 done
 
 # Retrieval: mock embedder, then real local models (bge-small + MiniLM cross-encoder)

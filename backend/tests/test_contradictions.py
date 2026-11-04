@@ -167,3 +167,13 @@ def test_a_recalled_lesson_told_after_the_act_still_counts():
     assert _detect([cannot, used, lesson]) == []
     # A memory can clear a finding but never create one.
     assert _detect([_claim(1, "ability:swim", "learned", 10, modality="recalled")]) == []
+
+
+def test_practice_during_the_lesson_chapter_is_not_a_use_before_learning():
+    cannot = _claim(1, "ability:ride", "cannot", 10)
+    practice = _claim(2, "ability:ride", "used", 100)
+    learned = _claim(2, "ability:ride", "learned", 300)
+    assert _detect([cannot, practice, learned]) == []
+    # A use in a chapter with no lesson is still reported.
+    [f] = _detect([cannot, _claim(2, "ability:ride", "used", 100)])
+    assert f.kind == "ability_conflict"

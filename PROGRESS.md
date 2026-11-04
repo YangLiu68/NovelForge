@@ -1,5 +1,31 @@
 # Progress log
 
+## 2026-11-03: Claude through OpenRouter
+
+The user supplied an OpenRouter key (saved to `.env` through a hidden-input dialog; it never
+passed through the conversation or the repository). Everything below ran live once, with every
+answer recorded so it re-scores offline; total billed $3.51.
+
+- **Backend** `openrouter:<model>` (`llm/openrouter_backend.py`): strict JSON-schema output,
+  reasoning effort, provider routing that refuses to drop the schema, billed cost per call.
+- **Story logic on Claude** (frozen story-v3 prompts, held-out 青石渡): 3/6 problems, 0/4 traps,
+  11 issues on no label, 7 of them wrong or weak by hand (qwen2.5:7b: 2/6, 1/4). $1.24.
+- **Chinese LLM extraction**: a Chinese prompt (`extract-zh-v2`), developed on the four earlier
+  samples, plus three detector fixes found there (a dyed or explained hair change, a more
+  detailed birthplace, a remembered lesson). Frozen in `fbf67ff`; a fourth novel 驼铃过碛, written
+  by a separate agent, scored once: **Claude 9/9 contradictions with 1 false finding, claims P
+  0.98 R 0.857; rules-zh-v3 7/9 with 1, P 0.923 R 0.643**. The false finding (riding practice
+  shown before the sentence that says she learned) was then fixed in the detector; re-scored,
+  Claude makes no false finding on any of the five Chinese samples (seen).
+- **Rules plus Claude is worse than Claude alone** on Chinese (it keeps the rules' false
+  findings), so `REPORT_PREFER_LLM` reports the model's claims in chapters it has read; off by
+  default until English is measured.
+- Also: `eval-facts` / `eval-sample --llm SPEC [--with-rules] [--replay]`, replays cut the same
+  windows as the recorded run, scored predicates are exactly the labelled ones, `.env.example`
+  lists the real model settings. Backend 277 tests, Playwright 14/14.
+- **Not done**: English benchmarks and real prose with Claude; a fresh held-out story-logic
+  sample; the direct Anthropic SDK backend has still not called the real API.
+
 ## 2026-10-16 (later): Chinese continuity facts (rules-zh)
 
 The contradiction checks (eye and hair colour, age against elapsed time, the dead reappearing,

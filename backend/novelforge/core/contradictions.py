@@ -577,12 +577,16 @@ def _ability_findings(character, abilities, evidence, chapter_by_id) -> list[Fin
     for predicate, events in by_skill.items():
         skill = predicate.split(":", 1)[1]
         cannot: ExtractedClaim | None = None
+        # A chapter that says the skill was learned is the lesson: practice shown before that
+        # sentence ("on the fifth day she rode a lap ... that is how she learned") is not a use
+        # before learning.
+        taught = {c.chapter_id for c in events if c.value == "learned"}
         for c in events:
             if c.value == "cannot":
                 cannot = c
             elif c.value == "learned":
                 cannot = None
-            elif c.value == "used" and cannot is not None:
+            elif c.value == "used" and cannot is not None and c.chapter_id not in taught:
                 ch_c = chapter_by_id[cannot.chapter_id].number
                 ch_u = chapter_by_id[c.chapter_id].number
                 out.append(

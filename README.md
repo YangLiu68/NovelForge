@@ -21,7 +21,8 @@ extraction and contradiction detection, including how much each kind of memory h
   based on a stale version is refused, never silently merged).
 - **Extract**: a deterministic rule extractor runs on every save (a 186,000-word novel in about
   2 s). It follows "her grey eyes" back to a name only when exactly one character fits, and
-  abstains otherwise. An LLM extractor (Claude, a local Ollama model, or an offline mock) runs
+  abstains otherwise. An LLM extractor (Claude through the Anthropic SDK or OpenRouter, a local Ollama model, or an
+  offline mock) runs
   as an idempotent background job with a strict JSON schema. Every quote is verified against
   the text, and every literal value against its quote; facts that fail are rejected with a
   reason.
@@ -45,8 +46,9 @@ extraction and contradiction detection, including how much each kind of memory h
   past-life memory, a cliffhanger) whose items open the draft assistant.
 - **Chinese**: sentence and dialogue handling (“”「」), 第X章 headings, character counts, bigram
   search that works under any database locale, a Chinese rule extractor (琥珀色的眼睛, 今年五十三了,
-  不会水, 她 resolved only when unambiguous) feeding the same contradiction checks with findings
-  explained in Chinese, and Chinese prompts and UI for the story-logic page.
+  不会水, 她 resolved only when unambiguous) and a Chinese prompt for the LLM extractor, feeding the
+  same contradiction checks with findings explained in Chinese, and Chinese prompts and UI for
+  the story-logic page.
 - **Draft**: a bounded plan → draft → check → revise workflow with human approval at each
   checkpoint, streamed over SSE with cancel and retry. The checker runs the contradiction
   detectors on the draft against the rest of the book and cites both sides.
@@ -94,12 +96,16 @@ npm run dev                              # http://localhost:5173
 uv sync --extra localdb --extra embeddings --extra anthropic
 EMBEDDER=fastembed RERANKER=cross-encoder uv run novelforge serve   # local CPU models (~150 MB)
 LLM=anthropic LLM_EXTRACTION=true uv run novelforge serve           # Claude (claude-opus-5-5)
+LLM=openrouter:anthropic/claude-opus-5.5 LLM_EXTRACTION=true uv run novelforge serve  # via OpenRouter
 LLM=ollama:qwen2.5:7b LLM_EXTRACTION=true uv run novelforge serve   # a local Ollama model
 ```
 
-Claude uses the Anthropic SDK's usual credentials (`ANTHROPIC_API_KEY` or `ant auth login`).
-With `LLM=anthropic`, manuscript text is sent to Anthropic; the default (`mock`) sends nothing
-anywhere. All settings are in [.env.example](.env.example).
+Claude uses the Anthropic SDK's usual credentials (`ANTHROPIC_API_KEY` or `ant auth login`);
+OpenRouter reads `OPENROUTER_API_KEY` (put it in `.env`, which git ignores). With a hosted model,
+manuscript text is sent to that service; the default (`mock`) sends nothing anywhere. For
+Chinese novels with Claude, `REPORT_PREFER_LLM=true` reports the model's facts in chapters it has
+read instead of adding the rules' (fewer false findings, section 9 of BENCHMARK.md). All settings
+are in [.env.example](.env.example).
 
 ### Docker Compose
 
@@ -123,9 +129,9 @@ local on an M4 laptop:
 | False alarms (structured) | **0** findings wrong, 0 of 148 negatives flagged; whole-novel check in 0.5 s |
 | Rule extractor (synthetic) | precision 1.0, recall 0.903 (rules-v6; v3 was 0.812); similes and implications are left to the LLM |
 | **Real prose**: 4 public-domain novels, 490,000 words, every claim hand-judged | on books held out from rule development: strict precision 0.78, recall of explicit identity facts 0.20 to 0.34 (v3: 0.04 to 0.09); **0 contradiction findings, so 0 false alarms** |
-| **Chinese continuity checks** (rules-zh; 3 held-out novels written by separate agent sessions, each scored once with the version frozen before it) | planted contradictions found on unseen novels: v1 **3 / 9**, v2 **5 / 9**, v3 **5 / 9**, with 2 to 3 false findings per novel; extracted facts 95 to 100% correct, about 60% of stated facts found |
-| **Story logic** (qwen2.5:7b local, Chinese samples, prompts frozen before the held-out run) | held-out novel: **2 of 6** planted problems found (+1 at the right place with another diagnosis), **1 of 4** look-alike traps set off, about 5 noisy issues; after revising the dev novel from the audit, **0 of 14** fixed places flagged again. Claude not run |
-| Local LLM extractor (qwen2.5:3b, 15 chapters) | precision 0.667, recall 0.036: too weak to help; validation cut its false positives from 14 to 1. Claude is wired in but has not been run (no API key) |
+| **Chinese continuity checks** (held-out novels written by separate agent sessions, each scored once with the version frozen before it) | rules: v1 **3 / 9**, v2 **5 / 9**, v3 **5 / 9** and **7 / 9** planted contradictions found, 1 to 3 false findings per novel. **Claude Opus 5.5** (Chinese prompt, via OpenRouter) on the newest novel: **9 / 9**, 1 false finding; facts 98% correct, 86% found (rules 64%); $0.25 |
+| **Story logic** (Chinese samples, prompts frozen before the held-out run) | held-out novel, **Claude Opus 5.5**: **3 of 6** planted problems found (+2 at the right place with another diagnosis), **0 of 4** traps set off, 11 issues on no label (7 wrong or weak); qwen2.5:7b local: 2 of 6, 1 of 4 traps. After revising the dev novel from the audit, qwen flags **0 of 14** fixed places again |
+| Local LLM extractor (qwen2.5:3b, 15 chapters) | precision 0.667, recall 0.036: too weak to help; validation cut its false positives from 14 to 1. Claude has been run on Chinese only (row above); the English benchmarks are unmeasured with it |
 | Scale, 1.25 M words / 33,277 paragraphs | import 44 s, chapter save p50 247 ms, hybrid search p50 173 ms, report refresh 774 ms, 258 MB database (on a saturated shared machine) |
 
 The synthetic corpus is templated, so its numbers measure the pipeline against known answers,
@@ -144,16 +150,17 @@ as misses.
 | `uv run novelforge migrate [head\|base]` | Apply or roll back migrations |
 | `uv run novelforge serve [--reload]` | Run the API (with an in-process job worker) |
 | `uv run novelforge worker [--once]` | Run background jobs in a separate process |
-| `uv run novelforge import-sample [NAME]` / `import-corpus DIR` | Import a sample (`lanternfall`, `xueye-dangpu`, `qingshi-du`, `xueye-dangpu-revised`) or a generated corpus |
+| `uv run novelforge import-sample [NAME]` / `import-corpus DIR` | Import a sample (`lanternfall`; Chinese: `wugang-xinzha`, `linjiang-biaoqi`, `wuling-chashi`, `taiye-qiushen`, `tuoling-guoqi`, `xueye-dangpu`, `qingshi-du`, `xueye-dangpu-revised`) or a generated corpus |
 | `uv run novelforge import-text FILE --title T` / `--book little-women` | Import a plain-text novel (CHAPTER or 第X章 headings) or a public-domain test book |
 | `uv run novelforge gen-corpus --chapters N --seed S [--filler F] --out DIR` | Generate a benchmark novel |
-| `uv run novelforge eval-sample` | Score the sample's contradiction report |
+| `uv run novelforge eval-sample [NAME] [--llm SPEC [--with-rules] [--replay]]` | Score a sample's contradiction report (rules, an LLM, or both; `--replay` answers from the recording) |
+| `uv run novelforge eval-facts NAME [--llm SPEC ...] [--out DIR]` | Claim precision and recall on a sample's labelled facts |
 | `uv run novelforge bench-retrieval DIR` | Retrieval: recall@k, MRR, nDCG, latency, tokens |
 | `uv run novelforge bench-extraction DIR --extractor rules\|mock\|ollama:M\|anthropic` | Extraction precision/recall per fact type |
 | `uv run novelforge bench-consistency DIR` | Contradiction detection with a memory ablation |
 | `uv run novelforge bench-load DIR` | Throughput, latency, memory, storage |
 | `uv run novelforge bench-real BOOK` | Precision and estimated recall on a public-domain novel (hand labels) |
-| `uv run novelforge audit-story SAMPLE --llm ollama:M\|anthropic [--replay]` | Story-logic audit of a sample, scored against its labels; `--replay` re-scores a recorded run without the model |
+| `uv run novelforge audit-story SAMPLE --llm ollama:M\|anthropic\|openrouter:M [--replay]` | Story-logic audit of a sample, scored against its labels; `--replay` re-scores a recorded run without the model |
 | `uv run pytest` | Backend tests |
 
 From `frontend/`: `npm run dev`, `npm run typecheck`, `npm test`, `npm run build`, `npm run e2e`.

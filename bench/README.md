@@ -21,9 +21,11 @@
   responses with the current code.
 
 - Chinese continuity facts (BENCHMARK.md section 9) run on `../samples/wugang-xinzha` (dev) and
-  the held-out `linjiang-biaoqi`, `wuling-chashi`, `taiye-qiushen`, labelled in each sample's
-  `ground_truth.yaml` (`contradictions`, `negatives`, `facts`). `results/findings-*-rules-zh-vN`
-  and `results/facts-*-rules-zh-vN` are the scores per extractor version.
+  the held-out `linjiang-biaoqi`, `wuling-chashi`, `taiye-qiushen`, `tuoling-guoqi`, labelled in
+  each sample's `ground_truth.yaml` (`contradictions`, `negatives`, `facts`).
+  `results/findings-*-rules-zh-vN` and `results/facts-*-rules-zh-vN` are the scores per rules
+  version; `*-llm-openrouter-anthropic-claude-opus-5.5-extract-zh-v2` are Claude's, re-scored from
+  `results/llm-cache/facts-*.jsonl` with `--replay`.
 
 | Corpus | Command | Used for |
 |---|---|---|

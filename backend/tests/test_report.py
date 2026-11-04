@@ -80,3 +80,17 @@ def test_cli_eval_db_matches_in_memory(database_url, capsys):
     assert {k: v for k, v in mem.items() if k not in strip} == {
         k: v for k, v in db.items() if k not in strip
     }
+
+
+def test_prefer_llm_keeps_the_models_claims_where_it_read():
+    from types import SimpleNamespace as C
+
+    from novelforge.services.report import prefer_llm
+
+    claims = [
+        C(chapter_id=1, extractor="rules-zh-v3", status="proposed"),  # dropped: the LLM read ch 1
+        C(chapter_id=1, extractor="rules-zh-v3", status="accepted"),  # the author's: kept
+        C(chapter_id=1, extractor="llm:openrouter:anthropic/claude-opus-5.5", status="proposed"),
+        C(chapter_id=2, extractor="rules-zh-v3", status="proposed"),  # no LLM run yet: kept
+    ]
+    assert prefer_llm(claims) == claims[1:]
