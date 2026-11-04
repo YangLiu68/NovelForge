@@ -1,6 +1,5 @@
 # Full local stack: PostgreSQL 16 + pgvector, API, and the built frontend behind nginx.
-# NOTE: written for Docker Compose v2 but not run on the development machine (no container
-# runtime there). CI validates and builds it; see TESTING.md.
+# CI builds it, starts it and uses it (scripts/compose-smoke.sh); see TESTING.md.
 services:
   db:
     image: pgvector/pgvector:pg16
