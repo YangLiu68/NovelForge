@@ -88,14 +88,25 @@ jobs (timings are not benchmarks).
 | npm audit | 0 vulnerabilities |
 | Playwright | 14 passed in 21.5 s (after the story-page estimate and Claude replay option) |
 
+## Continuous integration and deployment
+
+- **GitHub Actions** (`.github/workflows/ci.yml`, public repository
+  [YangLiu68/NovelForge](https://github.com/YangLiu68/NovelForge)): backend (ruff, pytest against
+  PostgreSQL 16 + pgvector, sample evaluation in memory and through the database, a retrieval
+  smoke test), frontend (typecheck, unit tests, build), Playwright end to end, and Docker
+  Compose. First green run 2026-11-04 (`ced12aa`): all four jobs passed, Playwright 14 passed in
+  24.5 s. The first run failed only in the e2e job: `ubuntu-latest` had become Ubuntu 26.04,
+  for which Playwright 1.55 has no browsers, so the runners are pinned to `ubuntu-24.04`.
+- **Docker Compose**: the CI job builds both images, starts the stack and runs
+  `scripts/compose-smoke.sh` (API health, migrations, the English sample's 4 and the Chinese
+  sample's 7 planted findings with Chinese explanations, the frontend and its `/api` proxy).
+
 ## Not executed
 
-- **GitHub Actions**: the workflow (backend, frontend, e2e, compose jobs) parses but has not run,
-  because the repository has not been pushed.
-- **Docker Compose**: no container runtime on the development machine; CI validates and builds it.
-- **Claude through the Anthropic SDK**: the direct backend is tested against a fake client
-  (request shape, structured output, fallbacks, stop reasons, cost) but has not called the real
-  API (no Anthropic key). Claude has run through OpenRouter (rows above): Chinese samples with
-  Haiku, Sonnet and Opus 5.5, English with Haiku 5.5 on the 100-chapter synthetic novel and two
-  public-domain books. The 1,000-chapter corpus and the other two books have not been run with
-  an LLM (cost).
+- **Anthropic's own API**: the Anthropic backend has run for real only against an
+  Anthropic-compatible endpoint (OpenRouter's Messages API, through `ANTHROPIC_BASE_URL`):
+  structured output, effort, streaming and an extraction run (P 0.90, R 0.871 on 雾港信札). Its
+  server-side refusal fallbacks, which only Anthropic's API offers, are sent only when the
+  client points there and have not been exercised (no Anthropic key).
+- **LLM runs at full scale**: the 1,000-chapter corpus and two of the four real books have not
+  been run with an LLM (cost).

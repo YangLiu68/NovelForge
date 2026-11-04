@@ -1,5 +1,7 @@
 # NovelForge
 
+[![ci](https://github.com/YangLiu68/NovelForge/actions/workflows/ci.yml/badge.svg)](https://github.com/YangLiu68/NovelForge/actions/workflows/ci.yml)
+
 **An evidence-grounded workspace for long fiction.** NovelForge reads a manuscript, extracts
 the facts it states (who has which eye colour, who is where on which day, who has died, who can
 swim, what the rules of the world are), and finds the places where the story contradicts
@@ -100,7 +102,8 @@ LLM=openrouter:anthropic/claude-opus-5.5 LLM_EXTRACTION=true uv run novelforge s
 LLM=ollama:qwen2.5:7b LLM_EXTRACTION=true uv run novelforge serve   # a local Ollama model
 ```
 
-Claude uses the Anthropic SDK's usual credentials (`ANTHROPIC_API_KEY` or `ant auth login`);
+Claude uses the Anthropic SDK's usual credentials (`ANTHROPIC_API_KEY` or `ant auth login`), or
+any Anthropic-compatible endpoint through `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN`;
 OpenRouter reads `OPENROUTER_API_KEY` (put it in `.env`, which git ignores). With a hosted model,
 manuscript text is sent to that service; the default (`mock`) sends nothing anywhere. For
 Chinese novels with Claude, `REPORT_PREFER_LLM=true` reports the model's facts in chapters it has
@@ -113,7 +116,9 @@ are in [.env.example](.env.example).
 docker compose up --build               # UI http://localhost:8080, API http://localhost:8000
 ```
 
-Written and validated in CI; not run on the development machine (no container runtime there).
+CI builds the images, starts the stack and uses it ([scripts/compose-smoke.sh](scripts/compose-smoke.sh):
+health, migrations, an English and a Chinese sample imported with their planted findings, the
+frontend and its `/api` proxy); the same script runs locally.
 
 ## Benchmarks
 

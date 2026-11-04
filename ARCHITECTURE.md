@@ -103,7 +103,8 @@ Two extractors produce the same `Claim` shape.
 
 Backends (`llm/`): `mock` (deterministic; for extraction it is backed by the rule extractor so
 the whole LLM path runs offline), `anthropic` (official SDK, `claude-opus-5-5`, JSON-schema
-structured outputs, `fallbacks="default"` for refusals, cost from a price table), `openrouter`
+structured outputs, `fallbacks="default"` for refusals when the client talks to Anthropic's API,
+cost from a price table; `ANTHROPIC_BASE_URL` points it at any Anthropic-compatible endpoint), `openrouter`
 (hosted models through OpenRouter's chat-completions API: strict `json_schema` output,
 `reasoning.effort`, `provider.require_parameters` so no provider silently drops the schema, the
 billed cost from `usage.cost`), and `ollama` (native API with schema-constrained output and a hard
@@ -299,6 +300,6 @@ content, so labels survive extractor versions; `--claims` scores a frozen versio
 
 ## Local database without Docker
 
-The development machine has no container runtime, so `pgserver` (PostgreSQL 16.2 + pgvector
-0.6.2 as a pip package) runs a private server in `./.pgdata` on a Unix socket. It is used when
+Development needs no container runtime: `pgserver` (PostgreSQL 16.2 + pgvector 0.6.2 as a pip
+package) runs a private server in `./.pgdata` on a Unix socket. It is used when
 `DATABASE_URL` is empty; CI and Docker Compose use the `pgvector/pgvector:pg16` image.

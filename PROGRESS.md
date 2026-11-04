@@ -1,5 +1,21 @@
 # Progress log
 
+## 2026-11-04: published; CI, Docker and the Anthropic SDK path run for real
+
+The user asked to push and to run what had never run.
+
+- **GitHub**: public repository [YangLiu68/NovelForge](https://github.com/YangLiu68/NovelForge),
+  history scanned for keys first (none), local paths removed from committed reports. CI green on
+  `ced12aa`: backend, frontend, Playwright (14 passed) and Docker Compose. The first run's e2e
+  failure was the runner image (`ubuntu-latest` = 26.04, unsupported by Playwright 1.55);
+  runners are pinned to 24.04.
+- **Docker Compose** now runs in CI and is used, not only built: `scripts/compose-smoke.sh`
+  checks health, migrations, both samples' planted findings (Chinese explanations included), the
+  frontend and its API proxy.
+- **Anthropic SDK backend** ran against a real Anthropic-compatible endpoint (OpenRouter's
+  Messages API): structured output, effort, streaming, an extraction run. Refusal fallbacks are
+  now sent only to Anthropic's own API, which is still untested (no Anthropic key).
+
 ## 2026-11-03 (later): fixing what the Claude runs showed
 
 The user asked to fix every remaining problem. Spent on OpenRouter this round: $2.38 recorded
