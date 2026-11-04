@@ -48,10 +48,15 @@ def cmd_eval_facts(args: argparse.Namespace) -> int:
     folder = Path(args.name)
     if not folder.is_dir():
         folder = Path(get_settings().samples_dir) / args.name
-    result = run(folder)
+    from novelforge.bench.fact_eval import llm_for
+
+    spec = getattr(args, "llm", None)
+    llm = llm_for(folder.name, spec, args.replay) if spec else None
+    result = run(folder, llm, with_rules=getattr(args, "with_rules", False) or llm is None)
     if args.out:
         args.out.mkdir(parents=True, exist_ok=True)
-        stem = args.out / f"facts-{result['sample']}-{result['extractor']}"
+        safe = result["extractor"].replace(":", "-").replace("/", "-")
+        stem = args.out / f"facts-{result['sample']}-{safe}"
         stem.with_suffix(".json").write_text(
             json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
@@ -99,7 +104,14 @@ def cmd_eval_sample(args: argparse.Namespace) -> int:
             ChapterRef(str(c.id), c.number, c.title, c.body, 1, c.story_day)
             for c in sample.chapters
         ]
-        claims = [cl for ch in chapters for cl in extract_claims(ch, characters)]
+        if getattr(args, "llm", None):
+            from novelforge.bench.fact_eval import llm_for, sample_claims
+
+            llm = llm_for(args.name, args.llm, args.replay)
+            numbered, extractor, _ = sample_claims(chapters, characters, llm, args.with_rules)
+            claims = [cl for _, cl in numbered]
+        else:
+            claims = [cl for ch in chapters for cl in extract_claims(ch, characters)]
         findings = detect_contradictions(
             claims, chapters, characters, min_confidence=settings.report_min_confidence
         )
@@ -450,6 +462,12 @@ def cmd_e2e_server(args: argparse.Namespace) -> int:
     return cmd_serve(argparse.Namespace(host=args.host, port=args.port, reload=False))
 
 
+def _llm_args(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--llm", help="score an LLM's claims, e.g. openrouter:anthropic/claude-opus-5.5")
+    p.add_argument("--with-rules", action="store_true", help="LLM claims plus the rule extractor's")
+    p.add_argument("--replay", action="store_true", help="answer from the recorded --llm run")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="novelforge")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -466,12 +484,14 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("name", nargs="?", default="lanternfall")
     p.add_argument("--db", action="store_true", help="run through the database")
     p.add_argument("--json", action="store_true")
+    _llm_args(p)
     p.set_defaults(func=cmd_eval_sample)
 
     p = sub.add_parser("eval-facts", help="score extracted claims on a sample's labelled facts")
     p.add_argument("name", help="sample name (samples/<name>) or a folder path")
     p.add_argument("--json", action="store_true")
     p.add_argument("--out", type=Path, help="also write <out>/facts-<sample>-<extractor>.json/.md")
+    _llm_args(p)
     p.set_defaults(func=cmd_eval_facts)
 
     p = sub.add_parser("gen-corpus", help="generate a synthetic benchmark corpus")

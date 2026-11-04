@@ -62,10 +62,54 @@ SCHEMA = {
 }
 
 
-def to_predicate(kind: str, value: str, obj: str) -> tuple[str, str] | None:
+# Chinese chapters add `presence` (on stage), which the Chinese rule extractor also emits so a
+# dead character acting is caught without a place name. The English schema is unchanged, so
+# recorded English runs still replay.
+KINDS_ZH = [*KINDS, "presence"]
+SCHEMA_ZH = {
+    **SCHEMA,
+    "properties": {
+        "facts": {
+            **SCHEMA["properties"]["facts"],
+            "items": {
+                **SCHEMA["properties"]["facts"]["items"],
+                "properties": {
+                    **SCHEMA["properties"]["facts"]["items"]["properties"],
+                    "kind": {"type": "string", "enum": KINDS_ZH},
+                },
+            },
+        }
+    },
+}
+
+
+def _zh_colour(kind: str, value: str) -> str | None:
+    """A Chinese colour word as written (琥珀色, 乌黑) -> the canonical value the rules use."""
+    # The rule extractor's tables (that file is frozen as rules-zh-v3, so they are read, not moved).
+    from novelforge.core.extraction_zh import _EYE_COLOURS as EYE
+    from novelforge.core.extraction_zh import _HAIR_COLOURS as HAIR
+
+    table = EYE if kind == "eye_color" else HAIR
+    if value.lower() in set(table.values()):
+        return value.lower()
+    word = next((w for w in sorted(table, key=len, reverse=True) if w in value), None)
+    return table[word] if word else None
+
+
+def to_predicate(kind: str, value: str, obj: str, zh: bool = False) -> tuple[str, str] | None:
     """Map an LLM fact onto (predicate, value). None means the fact is malformed."""
     value = value.strip()
     obj = obj.strip().lower()
+    if zh and kind in ("eye_color", "hair_color"):
+        colour = _zh_colour(kind, value)
+        return (kind, colour) if colour else None
+    if zh and kind == "age":
+        from novelforge.core.extraction_zh import parse_cn_number
+
+        n = int(value) if value.isdigit() else parse_cn_number(value.removesuffix("岁"))
+        return ("age", str(n)) if n is not None and 0 < n <= 130 else None
+    if zh and kind == "presence":
+        return "presence", "present"
     if kind in ("eye_color", "hair_color"):
         v = value.lower()
         return kind, {"gray": "grey", "blonde": "blond"}.get(v, v)

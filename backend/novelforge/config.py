@@ -36,9 +36,12 @@ class Settings(BaseSettings):
     jobs_in_process: bool = True
 
     # LLM: "mock" (offline, deterministic), "anthropic[:model]" (Claude; default
-    # claude-opus-5-5), "ollama:<model>" (local). LLM extraction runs as a background job after
-    # every chapter save when llm_extraction is on.
+    # claude-opus-5-5), "openrouter:<model>" (hosted models through OpenRouter, e.g.
+    # openrouter:anthropic/claude-opus-5.5; key in OPENROUTER_API_KEY), "ollama:<model>" (local).
+    # LLM extraction runs as a background job after every chapter save when llm_extraction is on.
     llm: str = "mock"
+    openrouter_api_key: str = ""
+    openrouter_url: str = "https://openrouter.ai/api/v1"
     llm_effort: str = "medium"  # Claude effort: low | medium | high | xhigh | max
     llm_extraction: bool = False
     # Recorded LLM answers (bench/results/llm-cache/*.jsonl) that "replay:<llm>" answers from:

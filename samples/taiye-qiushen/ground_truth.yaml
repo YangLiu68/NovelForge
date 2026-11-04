@@ -39,8 +39,10 @@ contradictions:
     note: 人物表和第一章都说她生在龟兹；第四章用“第一声啼哭落在于阗的沙地上”这种迂回说法，把出生地写成了于阗。
     phrasing: indirect
     evidence:
-      - {chapter: 4, text: "她的第一声啼哭，是落在于阗王城外的沙地上的"}
+      # Evidence order fixed when Claude was scored (2026-11-03), as for G3 and G5: the writer
+      # had listed the conflicting statement first. No rules version found G4 either way.
       - {chapter: 1, text: "她生在龟兹"}
+      - {chapter: 4, text: "她的第一声啼哭，是落在于阗王城外的沙地上的"}
   - id: G5
     kind: canon_conflict
     subject: 许青禾
