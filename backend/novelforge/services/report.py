@@ -5,6 +5,7 @@ import uuid
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
+from novelforge.config import get_settings
 from novelforge.core.contradictions import Finding, detect_contradictions
 from novelforge.core.domain import ExtractedClaim, Span
 from novelforge.models import Chapter, Claim
@@ -26,6 +27,19 @@ def load_claims(session: Session, novel_id: uuid.UUID) -> list[Claim]:
             .order_by(Claim.chapter_id, Claim.predicate)
         )
     )
+
+
+def prefer_llm(claims: list[Claim]) -> list[Claim]:
+    """In chapters an LLM has read (it left claims on the current text), keep its claims and drop
+    the rule extractor's; claims the author accepted always stay. Measured on the Chinese samples
+    with Claude: the model alone made no false findings where model plus rules made one per
+    novel (BENCHMARK.md section 9). Off by default (REPORT_PREFER_LLM)."""
+    read = {c.chapter_id for c in claims if c.extractor.startswith("llm:")}
+    return [
+        c
+        for c in claims
+        if c.chapter_id not in read or c.extractor.startswith("llm:") or c.status == "accepted"
+    ]
 
 
 def to_extracted(claim: Claim) -> ExtractedClaim:
@@ -61,7 +75,10 @@ def contradiction_report(
     chapters = [
         chapter_ref(c) for c in session.scalars(select(Chapter).where(Chapter.novel_id == novel_id))
     ]
-    claims = [to_extracted(c) for c in load_claims(session, novel_id)]
+    rows = load_claims(session, novel_id)
+    if get_settings().report_prefer_llm:
+        rows = prefer_llm(rows)
+    claims = [to_extracted(c) for c in rows]
     findings = detect_contradictions(
         claims,
         chapters,

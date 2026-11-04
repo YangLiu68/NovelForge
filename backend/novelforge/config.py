@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     samples_dir: Path = REPO_ROOT / "samples"
     # Claims below this confidence are kept but left out of the contradiction report.
     report_min_confidence: float = 0.6
+    # In chapters an LLM has read, report its claims instead of the rule extractor's (accepted
+    # claims always count). Better with Claude on the Chinese samples; unmeasured on English.
+    report_prefer_llm: bool = False
     cors_origins: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
     log_level: str = "INFO"
 

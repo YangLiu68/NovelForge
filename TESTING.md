@@ -16,7 +16,7 @@ Tests never call a hosted model and never need an API key: the LLM is the determ
 the embedder is the hash mock. Database tests create a fresh `novelforge_test` database per
 session and truncate tables before each test.
 
-## Backend tests (259)
+## Backend tests (277)
 
 | File | Covers |
 |---|---|
@@ -25,12 +25,12 @@ session and truncate tables before each test.
 | `test_extraction_zh.py` | Chinese numerals (ranges refused); every predicate next to a name; one subject across clauses; look-alikes (another person's eyes or hair, 七八岁, a birthday, 红了眼睛, 差点冻死, 死了丈夫, 她过世的母亲, intention, generic places); modality (dialogue, perception and rumour scope, conditions, dreams, 那年, an age as a time adverbial, 像从前一样); pronouns only when unambiguous (gender, previous sentence across a paragraph, chains, a person noun in between); dyeing as a change; presence; Chinese finding wording; the v2 and v3 phrasings; the dev sample's scores |
 | `test_coref.py` | pronoun and "with"-phrase attribution and every abstention (two candidates, unknown pronouns, person noun, dialogue, plural "they"), nearest-sentence rule, feature lists, ages in apposition, word sense and negation, hedge scope, time clauses, titles, sentence breaks after "Mrs.", pronoun inference, colour families |
 | `test_real_text.py` | Gutenberg stripping, unwrapping, chapter split; the real-prose scorer end to end offline (labels, to-do list, precision, recall) |
-| `test_contradictions.py` | attribute and canon conflicts, thresholds, ages vs elapsed days, dead characters (flashback, memory, unknown time), travel times, abilities |
+| `test_contradictions.py` | attribute and canon conflicts, thresholds, ages vs elapsed days, dead characters (flashback, memory, unknown time), travel times, abilities; a more detailed birthplace agreeing with the sheet; a remembered lesson clearing (never creating) an ability conflict; practice in the lesson chapter |
 | `test_api_crud.py`, `test_concurrency.py` | CRUD, 404/409/422, revisions, stale saves rejected without changes, two concurrent writers |
 | `test_import.py` | deterministic and idempotent import; every claim's span slices the text to its quote; a plain-text novel imports with pronoun attribution |
 | `test_search.py`, `test_retrieval.py` | highlights, phrases, scoping, edits; Chinese words, phrases and OR queries with highlights; hash embedder; every retrieval mode returns grounded hits; OR semantics for questions; stage ranks; HNSW agrees with exact search |
 | `test_jobs.py` | idempotent enqueue, success/skip/retry/fail, four concurrent workers run each job once, stale-job recovery, cache-aware embedding, stale versions skipped |
-| `test_llm_extraction.py` | quote locator, windows, validation and rejection reasons, day offsets, rule-backed mock, strict schema, cost table, Anthropic request shape (structured output, fallbacks, effort) and stop reasons, Ollama JSON and streaming, cancellation, rejecting values not in their quote, record-and-replay cache (repeatable failures replayed, transport errors not) |
+| `test_llm_extraction.py` | quote locator, windows, validation and rejection reasons, day offsets, rule-backed mock, strict schema, cost table, Anthropic request shape (structured output, fallbacks, effort) and stop reasons, Ollama JSON and streaming, OpenRouter request shape (strict schema, effort, provider routing), SSE streaming, billed or table cost and error mapping, cancellation, rejecting values not in their quote, record-and-replay cache (repeatable failures replayed, transport errors not); the Chinese prompt and schema, colour words and numerals normalised and grounded in the quote, `presence` only for Chinese, the mock reading the Chinese prompt, character windows, an explained hair change marked |
 | `test_review.py` | review queue, accept into canon with audit, refusal to overwrite canon, explicit replace, reject, decisions surviving re-extraction, batch accept, idempotent LLM extraction jobs, scenes |
 | `test_findings.py` | stored findings, dismiss needs a reason and survives edits, auto-resolve and reopen, manual resolve, uncertain preview not stored, LLM rule judge with verified quotes |
 | `test_workflows.py` | plan → approve → draft → apply, critic citing both sides, bounded revisions, refusal to overwrite newer edits, new-chapter runs, discard, cancel mid-stream then retry, SSE replay, retryable failures, LLM allow-list |
@@ -39,7 +39,7 @@ session and truncate tables before each test.
 | `test_review_fixes.py` | regressions for the independent code review: stale LLM claims after edits, shared quotes, chapter-scoped decisions and edited values, concurrent report refreshes, preview thresholds, double accept, re-arming failed jobs, double step start and restart recovery, finalisation failures, non-adjacent ages, one-to-one benchmark matching, nulls in PATCH, case-insensitive places, length-changing lowercase, undated statements ordered by chapter around an attribute change |
 | `test_story_audit.py` | story-logic audit on a scripted model: quotes located (exact, normalised, stitched, sentence), cast resolution, circular motives dropped, verdict downgrades (unverified, unmotivated), skipped beats asked again, later reveals (and unrelated ones refused), plot references, hooks at the chapter end, pacing, plan targets, failures recorded, the scorer, the Chinese samples' labels |
 | `test_story_api.py` | audits as jobs, reuse for unchanged text, stale chapters after an edit, the LLM allow-list, a recorded run replayed through the API with the same prompts as from files, replay refusing changed text |
-| `test_report.py`, `test_migrations.py` | sample report, threshold preview, edits clearing findings, character-sheet changes, CLI evaluation in memory vs database; migrations up and down |
+| `test_report.py`, `test_migrations.py` | sample report, threshold preview, edits clearing findings, character-sheet changes, CLI evaluation in memory vs database, preferring the LLM's claims in chapters it read; migrations up and down |
 
 ## Frontend unit tests (16)
 
@@ -64,27 +64,32 @@ and pacing tabs, a suggestion opening the draft assistant with its goal).
 
 ## Latest results
 
-Run on 2026-10-16, Apple M4 / 16 GB / macOS 15.3, Python 3.12.10, Node 22.14, embedded PostgreSQL
+Run on 2026-11-03, Apple M4 / 16 GB / macOS 15.3, Python 3.12.10, Node 22.14, embedded PostgreSQL
 16.2 (pgserver), Chromium headless 140 (Playwright 1.55.1), on a machine shared with several other
 jobs (timings are not benchmarks).
 
 | Check | Result |
 |---|---|
-| `audit-story --replay` on the three Chinese samples | dev 4/6 problems, 1/8 traps; held-out 2/6, 1/4; revised 0/14 traps |
-| `eval-sample` / `eval-facts` on the Chinese samples (rules-zh-v3) | dev 7/7, 0 false; held out (blind, one version each) v1 3/9, v2 5/9, v3 5/9 with 2, 2, 3 false findings; claim precision 0.95 to 1.0 |
+| `audit-story --replay` on the three Chinese samples (qwen2.5:7b) | dev 4/6 problems, 1/8 traps; held-out 2/6, 1/4; revised 0/14 traps |
+| `audit-story qingshi-du --llm openrouter:anthropic/claude-opus-5.5` (live, once) | 3/6 problems, 0/4 traps, 11 issues on no label; 68 calls, $1.24 |
+| `eval-sample` / `eval-facts` on the Chinese samples (rules-zh-v3) | dev 7/7, 0 false; held out (blind, one version each) v1 3/9, v2 5/9, v3 5/9, 7/9 with 2, 2, 3, 1 false findings; claim precision 0.92 to 1.0 |
+| the same with `--llm openrouter:anthropic/claude-opus-5.5` (live, then `--replay`) | 驼铃过碛 blind: 9/9, 1 false; claims P 0.98, R 0.857 ($0.25). After the lesson fix, all five samples 0 false findings (seen) |
+| OpenRouter smoke test (Claude Haiku 5.5, live) | structured JSON, streaming and billed cost returned |
 | `eval-sample` (in memory and through the database, rules-v6) | 4 TP, 0 FP, 1 FN (pronoun plus indirect phrasing), 0 / 4 negatives flagged, citation precision 1.0 |
-| ruff check / ruff format --check | clean / 106 files formatted |
-| pytest | 259 passed (machine under load) |
+| ruff check / ruff format --check | clean / 116 files formatted |
+| pytest | 277 passed |
 | tsc | no errors |
 | Node unit tests | 16 / 16 passed |
 | vite build | succeeded (425 kB JS, 134 kB gzip) |
 | npm audit | 0 vulnerabilities |
-| Playwright | 14 passed in 22.9 s |
+| Playwright | 14 passed in 15.0 s |
 
 ## Not executed
 
 - **GitHub Actions**: the workflow (backend, frontend, e2e, compose jobs) parses but has not run,
   because the repository has not been pushed.
 - **Docker Compose**: no container runtime on the development machine; CI validates and builds it.
-- **Claude**: the Anthropic backend is tested against a fake client (request shape, structured
-  output, fallbacks, stop reasons, cost) but has not called the real API (no key was available).
+- **Claude through the Anthropic SDK**: the direct backend is tested against a fake client
+  (request shape, structured output, fallbacks, stop reasons, cost) but has not called the real
+  API (no Anthropic key). Claude has run through OpenRouter (rows above), on Chinese samples
+  only; the English benchmarks have not been run with it.

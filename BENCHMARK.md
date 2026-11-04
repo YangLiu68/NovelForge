@@ -340,9 +340,10 @@ The sample and the rules were written together, so this is a regression check, n
 The surface checks above compare stated facts. This benchmark measures the story-logic audit
 (ARCHITECTURE.md, "Story logic"): does each key action have a reason in the text that fits the
 character's background, personality and situation, do villains have reasons, does the plot hold
-(knowledge leaks, deus ex machina, dangling setups), and does the pacing sag. It needs an LLM, and
-the only one available was local: **qwen2.5:7b** (Q4_K_M, 4.7 GB, Ollama on the M4 GPU; temperature
-0, seed 0). Claude has not been run (no API key).
+(knowledge leaks, deus ex machina, dangling setups), and does the pacing sag. It needs an LLM. The
+prompts were developed with a local model, **qwen2.5:7b** (Q4_K_M, 4.7 GB, Ollama on the M4 GPU;
+temperature 0, seed 0); the frozen prompts were later run once with **Claude Opus 5.5** through
+OpenRouter (`--llm openrouter:anthropic/claude-opus-5.5`, effort medium).
 
 **Samples.** Three original Chinese web-novel samples, eight chapters each, written and labelled by
 the assistant that built the audit (no second annotator):
@@ -388,6 +389,11 @@ do not change. The fix came from the dev sample, so the held-out numbers below s
 |---|---|---|---|---|---|
 | 青石渡 (held out) | **2 / 6** (the timid heroine stealing the ledger, flagged as against her character, which the label accepts; the flat chapter) | +1 (the classmate's malice called "against the character") | **1 / 4** | 5 | 51 calls, 33,420 in / 8,659 out, 1,066 s |
 | 雪夜当铺（修订版） | none planted | | **0 / 14** | 5 | 61 calls, 51,291 in / 11,538 out, 1,484 s |
+| 青石渡, **Claude Opus 5.5** (2026-11-03) | **3 / 6** (the timid heroine's slap; the ledger opened with a secret she never learned; the flat chapter) | +2 (the classmate's malice called "against the character"; the rich relative from nowhere flagged as a mystery and as a headmaster acting out of character) | **0 / 4** | 11 | 68 calls, 104,224 in / 41,211 out, 657 s, **$1.24** |
+
+The Claude run used the same prompts and checks as the qwen runs (story-v3, frozen `1860fc6`;
+nothing was changed after the held-out qwen run, the v4 rules below were not applied). It is not
+a fresh sample, as planned earlier: the author of the checks had read how qwen failed on it.
 
 Commands: `novelforge audit-story qingshi-du --llm ollama:qwen2.5:7b` (and `xueye-dangpu-revised`),
 reports in `bench/results/story-*-story-v3.md`, every response in `bench/results/llm-cache/`.
@@ -417,11 +423,21 @@ reports in `bench/results/story-*-story-v3.md`, every response in `bench/results
   places: 6 cited reasons that were missing, circular or not shown (now "not grounded"), 6 beats
   the model called routine while naming a conflicting note (now "against the character"), 1
   dislike refused as a motive, 1 loan explained by a later reveal.
-- **Not measured: a capable model.** The prompts and checks are the same for Claude
-  (`--llm anthropic`); how far they get with a stronger reader is the open question, and the
-  held-out sample has to be replaced by a new one before it is used to judge another model.
+- **Claude reads better and stays off the traps, and the noise remains.** On 青石渡 it finds 3 of
+  6 (qwen 2), puts 2 more at the right place with another diagnosis, and sets off none of the 4
+  traps (qwen 1): it accepts the aunt's money worries, the headmaster's later-explained favour,
+  the itinerary the heroine copied herself. It misses the dying father's letter that never comes
+  back (H5), as qwen did. Two more issues fall on the ambiguous case (the warlord's son
+  tormenting a flower seller, called villainy without cause). Of its 11 issues on no label,
+  judged by hand: 4 restate a labelled problem at another beat of the same scene (the slap's
+  aftermath, the secret compartment as "cause and effect" and as an "unsolved mystery"), and 7
+  are wrong or weak: 4 "no hook" chapter endings that do
+  end on a question or a theft, the headmaster's favour called out of character in the chapter
+  that explains it, a minor "unmotivated" note the model itself rates as harmless, and the moved
+  ledger as a "dangling setup" because its key word 私账 comes back as 账册. Two of those seven
+  come from the code's rules (the key-word payoff check, the computed verdict), not the model.
 
-## 9. Chinese continuity facts (rules-zh)
+## 9. Chinese continuity facts (rules-zh and Claude)
 
 The rule extractor reads Chinese chapters with `core/extraction_zh.py` (ARCHITECTURE.md,
 "Extraction") and feeds the same contradiction detectors as English. Each sample is labelled
@@ -475,9 +491,70 @@ findings; that result is kept in `findings-taiye-qiushen-rules-zh-v3-as-labelled
 - The held-out labels are the writing sessions' own; no second annotator checked them, and the
   writers were not told the scorer's conventions (hence the evidence-order fix above).
 
+### Claude through OpenRouter (2026-11-03)
+
+The LLM extractor got a Chinese prompt (`extraction/prompt.py`, `SYSTEM_ZH`): quotes measured in
+characters, colour words copied as written and mapped in code to the canonical values (so the
+quote can be checked to contain them), Chinese modality cues, a `presence` kind, and the traps
+the rules fell into spelled out as instructions (a modifier owned by someone else, ranges like
+七八岁, an age told as a memory, being taught a skill). Every answer goes through the same
+checks as English: the quote must be in the chapter, the value in the quote, the subject a
+listed character. Model: Claude Opus 5.5 (`--llm openrouter:anthropic/claude-opus-5.5`, effort
+medium), one call per chapter, every answer recorded in `bench/results/llm-cache/`.
+
+**Protocol.** The prompt was written after the rules' failure analysis above, so the four
+earlier samples are development data for it. Prompt v1 was run on them; the misses produced
+prompt v2 (explained hair changes are marked: 剪掉染过的头发, a colour revealed to have been
+dyed) and three code fixes (a dyed colour in the quote is a change; a more detailed birthplace
+agrees with the place it starts with, 云州城外的一个小渡口 is in 云州; a remembered lesson clears an
+ability conflict). Version frozen in `fbf67ff` (`extract-zh-v2-96a9225a`). A fourth novel,
+驼铃过碛 (沙漠商队, 4 chapters, 7,539 characters, 9 contradictions, 9 negatives, 56 facts), was
+written by a separate agent that saw neither the extractors, the prompts nor the other Chinese
+samples, and scored once with the rules, Claude, and both. Scoring counts the predicates the
+writers were asked to label exhaustively (colours, handedness, birthplace, age, dead or alive,
+swim, ride, read); the LLM's other claims (places, other skills, events, relationships) are
+counted, not scored.
+
+| Sample | Extractor | Contradictions found | False findings | Negatives flagged | Claim precision (strict) | Claim recall (asserted facts) |
+|---|---|---|---|---|---|---|
+| **驼铃过碛 (held out)** | rules-zh-v3, **blind** | **7 / 9** | **1** | **1 / 9** | 0.923 (0.923) | 0.643 (0.762) |
+| | **Claude, blind** | **9 / 9** | **1** | **1 / 9** | **0.98 (0.98)** | **0.857 (0.952)** |
+| | rules + Claude, blind | 9 / 9 | 2 | 2 / 9 | 0.927 (0.927) | 0.911 (0.952) |
+| 雾港信札 (dev) | Claude v2, seen | 7 / 7 | 0 | 0 / 6 | 0.829 (0.829) | 0.935 (1.0) |
+| 临江镖旗 | Claude v2, seen | 8 / 9 | 0 | 0 / 9 | 0.953 (0.93) | 0.788 (0.811) |
+| 雾岭茶事 | Claude v2, seen | 9 / 9 | 0 | 0 / 9 | 1.0 (1.0) | 0.77 (0.875) |
+| 太液秋深 | Claude v2, seen | 9 / 9 | 0 | 0 / 9 | 0.961 (0.941) | 0.845 (0.925) |
+
+- **Claude finds every planted contradiction in the unseen novel** where the rules find 7, and
+  reads 86% of the stated facts (asserted: 95%) at 98% precision with every modality right. Its
+  one false finding is the detector's: the riding lessons show her riding a lap on the fifth
+  day, and the sentence that says she learned (尉迟兰就是这样学会骑马的) comes after it, so the use
+  looked earlier than the learning. The rules' false finding is 白发苍苍 read as 裴照's hair when it
+  belongs to the old man beside him.
+- **Rules plus Claude is worse than Claude alone** on these samples: the union keeps the rules'
+  false findings (one per novel) and adds nothing Claude missed. `REPORT_PREFER_LLM=true` makes
+  the app's report use the model's claims in chapters it has read (accepted claims always
+  count); it is off by default because English with Claude is unmeasured.
+- **After the held-out run** the lesson case was fixed in the detector (a chapter that says the
+  skill was learned is the lesson; its practice is not a use before learning). Re-scored from
+  the recordings, Claude alone then makes **0 false findings on all five Chinese samples** (7/7,
+  8/9, 9/9, 9/9, 9/9); that row is seen, not blind. None of the three detector changes moves
+  the generated 1,000-chapter English corpus (the same 67 findings).
+- **The dev precision of 0.83 on 雾港信札** is mostly true facts the labels do not cover (that
+  sample also labels `location`, and only partly). Run-to-run variation is real: with the same
+  prompt the model once took 韩七把那封信抖开…一行一行看下去 as reading and once did not (临江镖旗
+  G9, found with v1, missed with v2).
+- **Cost** (OpenRouter's billed amount): $0.25 for the held-out novel (4 calls, about 2,000
+  characters each), $1.76 for the two development rounds, $3.51 in all with the story audit.
+- The label-order convention bit once more: 太液秋深 G4 listed the conflicting sentence first.
+  It was fixed as G3 and G5 were (no rules version found G4 either way), and the new writer was
+  told the convention.
+
 Commands: `novelforge eval-sample linjiang-biaoqi` and `novelforge eval-facts linjiang-biaoqi`
-(likewise `wugang-xinzha`, `wuling-chashi`, `taiye-qiushen`). Results are in
-`bench/results/findings-*-rules-zh-vN.json` and `facts-*-rules-zh-vN.{json,md}`.
+(likewise `wugang-xinzha`, `wuling-chashi`, `taiye-qiushen`, `tuoling-guoqi`); add
+`--llm openrouter:anthropic/claude-opus-5.5 [--with-rules] --replay` to re-score Claude from the
+recordings without a key. Results are in `bench/results/findings-*.json` and
+`facts-*.{json,md}`.
 
 ## Reproducing
 
@@ -499,10 +576,11 @@ uv run novelforge audit-story qingshi-du --llm ollama:qwen2.5:7b --replay   # st
 
 ## Known gaps and next steps
 
-- **Story logic has been measured with a 7B local model only** (section 8): a third of the
-  held-out problems found, one trap in four set off, and about five noisy issues per novel. The
-  checks keep its output grounded but cannot make it read better. Claude is the obvious next
-  run, on a fresh held-out sample. Three v4 rules are suggested by the held-out misses and not yet
+- **Story logic: Claude finds half of the held-out problems and sets off no trap, but about 11
+  issues per novel are on no label** (section 8; qwen2.5:7b: a third, one trap in four, five
+  noisy issues). The noise, not the reading, is now the limit: four of Claude's seven wrong
+  issues are chapter-end hook ratings, and two come from the code's own rules. A fresh held-out
+  story sample is still needed. Three v4 rules are suggested by the held-out misses and not yet
   applied (they would be tuned on it): a note cited both as the reason and as a conflict cannot be
   the reason; a reason note must name the beat's target or share words with it, as later
   explanations already must; a setup without a quote could be kept when its key word is in the
@@ -510,14 +588,13 @@ uv run novelforge audit-story qingshi-du --llm ollama:qwen2.5:7b --replay   # st
   invented motive also cites a second note that restates the conflict) and would add a false
   alarm on the revision, where the model cites the cousin's real motive both as reason and as
   conflict; it is not applied.
-- **Chinese continuity checks find about half of what is planted in unseen novels** (section 9),
-  with two or three false findings each. The next steps are a skill learned by being taught,
-  changes revealed after the fact, and time words before an age. Beyond that the LLM extractor
-  needs a Chinese prompt and a run.
-
-- **No hosted-model run.** Claude is wired in (official SDK, structured outputs, fallbacks) and
-  tested against a fake client, but no API key was available. `--extractor anthropic` runs every
-  benchmark unchanged.
+- **Chinese continuity: rules find about half of what is planted in unseen novels, Claude all of
+  it in the one unseen novel scored** (section 9). One held-out novel is a small sample; the
+  next one should be written before any further change, and English with Claude (real prose,
+  `bench-real`) is unmeasured.
+- **Hosted models only through OpenRouter.** Claude runs through OpenRouter
+  (`llm/openrouter_backend.py`); the direct Anthropic SDK backend is tested against a fake client
+  only (no Anthropic key). The English benchmarks have not been run with Claude.
 - **Small local model only.** The one LLM run is qwen2.5:3b on 15 chapters (section 5), which
   is far below the rule baseline; it tests the pipeline and its guardrails, not LLM extraction.
   It has not been run on the real-prose books.

@@ -12,7 +12,7 @@ React + TypeScript (Vite)  ──/api──▶  FastAPI (sync SQLAlchemy 2)  ─
                                        drafting/    plan → draft → critique workflow
                                        narrative/   story logic: character files, beats,
                                                     motives, plot holes, pacing, revision plan
-                                       llm/         mock | Anthropic SDK | Ollama behind one interface
+                                       llm/         mock | Anthropic SDK | OpenRouter | Ollama, one interface
                                        jobs.py      PostgreSQL job queue + worker thread
                                        core/        pure logic: text, rules extractor, detectors,
                                                     evaluation (no DB, no web)
@@ -103,9 +103,19 @@ Two extractors produce the same `Claim` shape.
 
 Backends (`llm/`): `mock` (deterministic; for extraction it is backed by the rule extractor so
 the whole LLM path runs offline), `anthropic` (official SDK, `claude-opus-5-5`, JSON-schema
-structured outputs, `fallbacks="default"` for refusals, cost from a price table), and `ollama`
-(native API with schema-constrained output and a hard output cap). Every call reports tokens and
-cost; unknown prices are reported as unknown, never guessed.
+structured outputs, `fallbacks="default"` for refusals, cost from a price table), `openrouter`
+(hosted models through OpenRouter's chat-completions API: strict `json_schema` output,
+`reasoning.effort`, `provider.require_parameters` so no provider silently drops the schema, the
+billed cost from `usage.cost`), and `ollama` (native API with schema-constrained output and a hard
+output cap). Every call reports tokens and cost; unknown prices are reported as unknown, never
+guessed. `replay:<llm>` answers only from recorded calls (`llm/cache.py`), so a paid run is paid
+for once and re-scored offline.
+
+Chinese chapters get their own prompt (`SYSTEM_ZH`, version `extract-zh-v2`): quotes measured
+in characters, colour words copied as written and mapped in code to the canonical values so the
+quote can be checked to contain them, Chinese modality cues, a `presence` kind, and an explained
+hair change marked as a change. Windows count two characters as a word. The English schema and
+prompt are untouched, so recorded English runs still replay.
 
 ## Review and canon
 
@@ -124,10 +134,10 @@ a confidence threshold, with facts from several extractors de-duplicated:
 
 | Category | Check |
 |---|---|
-| identity | `attribute_conflict` (two statements disagree), `canon_conflict` (text vs character sheet); an explicit change starts a new period, so "dyed her hair red" is not an inconsistency; words for one colour agree ("golden", "yellow", "blond") |
+| identity | `attribute_conflict` (two statements disagree), `canon_conflict` (text vs character sheet); an explicit change starts a new period, so "dyed her hair red" is not an inconsistency; words for one colour agree ("golden", "yellow", "blond"); a more detailed birthplace agrees with the place it starts with (云州城外的一个小渡口 is in 云州) |
 | timeline | `age_timeline` (ages vs elapsed story days), `dead_character_active` (present after death) |
 | location | `location_conflict` (two places closer in time than the travel time between them) |
-| abilities | `ability_conflict` (a skill used after "cannot" without learning it) |
+| abilities | `ability_conflict` (a skill used after "cannot" without learning it); a remembered lesson told after the act still counts as learning, and a chapter that says the skill was learned is the lesson, so its practice is not a use before learning |
 | world rules | `world_rule_violation`: hybrid retrieval of candidate passages per rule, then an LLM judge with verified quotes (`services/rule_judge.py`) |
 
 Claims with unknown story time are never used for time-based checks; flashbacks set before a
@@ -234,9 +244,12 @@ draft assistant, so a revision still goes through plan approval and a checked dr
   migration 0008): PostgreSQL's parser under the C locale (pgserver) treats Chinese characters as
   spaces, so plain bigrams would index nothing. Queries get the same encoding, so a quoted
   phrase matches adjacent bigrams; highlights are computed in Python.
-- Facts are read by `rules-zh-v3` (see Extraction), so the contradiction report, the canon checks
-  on the character sheet and the draft critic work on Chinese text. Finding explanations are
-  still written in English around Chinese quotes. The story-logic audit (LLM) covers motives,
+- Facts are read by `rules-zh-v3` and, with an LLM configured, by the Chinese LLM prompt (see
+  Extraction), so the contradiction report, the canon checks on the character sheet and the draft
+  critic work on Chinese text. Findings on a Chinese novel are explained in Chinese
+  (`core/findings_zh.py`, built from each finding's values). `REPORT_PREFER_LLM` makes the report
+  use the model's claims in chapters it has read instead of adding the rules' (measured better
+  with Claude on Chinese, BENCHMARK.md section 9). The story-logic audit (LLM) covers motives,
   plot and pacing.
 
 ## Graph and timeline

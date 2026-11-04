@@ -14,8 +14,11 @@ nf gen-corpus --chapters 1000 --seed 7 --out "$C/syn-1000-s7"
 nf gen-corpus --chapters 100 --seed 7 --filler 25 --out "$C/load-100-s7"
 nf gen-corpus --chapters 1000 --seed 7 --filler 25 --out "$C/load-1000-s7"
 nf eval-sample --json > "$OUT/sample-lanternfall-rules-v6.json"
-for s in wugang-xinzha linjiang-biaoqi wuling-chashi taiye-qiushen; do  # Chinese facts, rules-zh
+for s in wugang-xinzha linjiang-biaoqi wuling-chashi taiye-qiushen tuoling-guoqi; do  # Chinese facts
   nf eval-sample "$s" --json > "$OUT/findings-$s-rules-zh-v3.json"; nf eval-facts "$s" --out "$OUT" > /dev/null
+  CL=(--llm openrouter:anthropic/claude-opus-5.5 --replay)  # Claude, from its recording
+  nf eval-sample "$s" "${CL[@]}" --json > "$OUT/findings-$s-llm-openrouter-anthropic-claude-opus-5.5-extract-zh-v2.json"
+  nf eval-facts "$s" "${CL[@]}" --out "$OUT" > /dev/null
 done
 
 $RQ run -c 1 -m 1 -t 2 -w "novelforge bench: retrieval 100 hash" -- \

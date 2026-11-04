@@ -9,7 +9,8 @@ NovelForge is released under the MIT License ([LICENSE](LICENSE)).
 `samples/lanternfall/` (novel.yaml, three chapters, ground truth) and the Chinese samples
 `samples/xueye-dangpu/` (雪夜当铺), its revision `samples/xueye-dangpu-revised/`,
 `samples/qingshi-du/` (青石渡), `samples/wugang-xinzha/` (雾港信札) and `samples/linjiang-biaoqi/`
-(临江镖旗), `samples/wuling-chashi/` (雾岭茶事) and `samples/taiye-qiushen/` (太液秋深), written by
+(临江镖旗), `samples/wuling-chashi/` (雾岭茶事), `samples/taiye-qiushen/` (太液秋深) and
+`samples/tuoling-guoqi/` (驼铃过碛), written by
 separate agent sessions as held-out tests, with their
 `narrative_truth.yaml` / `ground_truth.yaml` labels, were written originally for this project. They contain no
 third-party text; the web-novel conventions they use (rebirth, a pawnshop heir, a warlord's
@@ -90,5 +91,6 @@ and are not redistributed here:
 | cross-encoder/ms-marco-MiniLM-L-6-v2 (Xenova ONNX export, via fastembed) | `RERANKER=cross-encoder` | Apache-2.0 | ~80 MB, CPU |
 | Qwen2.5 3B Instruct (Ollama `qwen2.5:3b`) | Local LLM evaluation runs | Qwen Research License | Non-commercial research terms; used only for local measurement, not shipped |
 | Claude (`claude-opus-5-5`) | `LLM=anthropic` | Anthropic commercial terms | Needs the user's own credentials; manuscript text leaves the machine |
+| Models through OpenRouter (e.g. `anthropic/claude-opus-5.5`) | `LLM=openrouter:<model>` | OpenRouter's terms and the model provider's | Needs the user's own `OPENROUTER_API_KEY`; manuscript text goes to OpenRouter and the provider. The recorded answers in `bench/results/llm-cache/` are model output on the project's own samples |
 
 Hosted providers' terms apply to whoever supplies the key. The default stays local.
