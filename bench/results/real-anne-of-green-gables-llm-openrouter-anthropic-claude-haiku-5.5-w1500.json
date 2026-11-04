@@ -1,0 +1,441 @@
+{
+  "book": "anne-of-green-gables",
+  "title": "Anne of Green Gables",
+  "author": "L. M. Montgomery",
+  "role": "v4 held-out",
+  "source": {
+    "url": "https://www.gutenberg.org/cache/epub/45/pg45.txt",
+    "sha256": "89a5e9fb2e0bb44562a969785385366f94e1da736aebee7d9cdf459eb0b5f9f6",
+    "matches_manifest": true
+  },
+  "extractor": "llm:openrouter:anthropic/claude-haiku-5.5",
+  "claims_from": null,
+  "llm_usage": {
+    "calls": 88,
+    "input_tokens": 347838,
+    "output_tokens": 179781,
+    "cost_usd": 0.0,
+    "prompt_version": "extract-v1-4f244d4b",
+    "window_words": 1500,
+    "unscored": {
+      "event": 426,
+      "foreshadowing": 49,
+      "relationship": 45,
+      "causal": 48,
+      "location": 21,
+      "world_rule": 11
+    },
+    "rejected": {
+      "value not in quote": 9,
+      "malformed value": 7,
+      "quote not found": 3,
+      "unknown subject": 1
+    }
+  },
+  "sheet_pronouns": true,
+  "chapters": 38,
+  "words": 101964,
+  "characters": 23,
+  "seconds": 0.45,
+  "claims": 48,
+  "precision": {
+    "overall": {
+      "correct": 9,
+      "modality": 1,
+      "wrong": 1,
+      "unlabelled": 37,
+      "fact_precision": 0.9091,
+      "strict_precision": 0.8182
+    },
+    "asserted_only": {
+      "correct": 4,
+      "modality": 1,
+      "wrong": 0,
+      "unlabelled": 0,
+      "fact_precision": 1.0,
+      "strict_precision": 0.8
+    },
+    "ability": {
+      "correct": 1,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 7,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "age": {
+      "correct": 1,
+      "modality": 0,
+      "wrong": 1,
+      "unlabelled": 12,
+      "fact_precision": 0.5,
+      "strict_precision": 0.5
+    },
+    "birthplace": {
+      "correct": 0,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 1,
+      "fact_precision": null,
+      "strict_precision": null
+    },
+    "eye_color": {
+      "correct": 2,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 4,
+      "fact_precision": 1.0,
+      "strict_precision": 1.0
+    },
+    "hair_color": {
+      "correct": 5,
+      "modality": 1,
+      "wrong": 0,
+      "unlabelled": 8,
+      "fact_precision": 1.0,
+      "strict_precision": 0.8333
+    },
+    "status": {
+      "correct": 0,
+      "modality": 0,
+      "wrong": 0,
+      "unlabelled": 5,
+      "fact_precision": null,
+      "strict_precision": null
+    }
+  },
+  "by_modality": {
+    "asserted": {
+      "correct": 4,
+      "modality": 1
+    },
+    "reported": {
+      "correct": 5,
+      "wrong": 1
+    }
+  },
+  "errors": {
+    "modality": 1,
+    "wrong_value": 1
+  },
+  "recall": {
+    "candidate_sentences": 151,
+    "unlabelled_sentences": 0,
+    "all": {
+      "facts": 47,
+      "found": 16,
+      "recall": 0.3404
+    },
+    "hair_color": {
+      "facts": 24,
+      "found": 6,
+      "recall": 0.25
+    },
+    "asserted": {
+      "facts": 29,
+      "found": 8,
+      "recall": 0.2759
+    },
+    "eye_color": {
+      "facts": 16,
+      "found": 6,
+      "recall": 0.375
+    },
+    "birthplace": {
+      "facts": 1,
+      "found": 0,
+      "recall": 0.0
+    },
+    "age": {
+      "facts": 6,
+      "found": 4,
+      "recall": 0.6667
+    }
+  },
+  "missed_examples": [
+    {
+      "chapter": 2,
+      "sentence": "He may have been quite right in thinking so, for he was an odd-looking personage, with an ungainly figure and long iron-gray hair that touched his stooping shoulders, and a full, soft brown beard which he had worn ever since he was twenty.",
+      "subject": "Matthew Cuthbert",
+      "predicate": "hair_color",
+      "value": "grey",
+      "asserted": true
+    },
+    {
+      "chapter": 2,
+      "sentence": "She wore a faded brown sailor hat and beneath the hat, extending down her back, were two braids of very thick, decidedly red hair.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 2,
+      "sentence": "But I _cannot_ imagine that red hair away.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 3,
+      "sentence": "But when her eyes fell on the odd little figure in the stiff, ugly dress, with the long braids of red hair and the eager, luminous eyes, she stopped short in amazement.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 5,
+      "sentence": "“And I was born in Bolingbroke, Nova Scotia.",
+      "subject": "Anne Shirley",
+      "predicate": "birthplace",
+      "value": "Bolingbroke",
+      "asserted": false
+    },
+    {
+      "chapter": 9,
+      "sentence": "I’m sure I don’t know why you should lose your temper like that just because Mrs. Lynde said you were red-haired and homely.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 10,
+      "sentence": "My hair is red and I’m freckled and skinny and ugly.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 10,
+      "sentence": "It can’t be denied your hair is terrible red; but I knew a girl once--went to school with her, in fact--whose hair was every mite as red as yours when she was young, but when she grew up it darkened to a real handsome auburn.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 12,
+      "sentence": "She was a tall black-eyed, black-haired woman, with a very resolute mouth.",
+      "subject": "Mrs. Barry",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": true
+    },
+    {
+      "chapter": 12,
+      "sentence": "She was a tall black-eyed, black-haired woman, with a very resolute mouth.",
+      "subject": "Mrs. Barry",
+      "predicate": "hair_color",
+      "value": "black",
+      "asserted": true
+    },
+    {
+      "chapter": 12,
+      "sentence": "She was a very pretty little girl, with her mother’s black eyes and hair, and rosy cheeks, and the merry expression which was her inheritance from her father.",
+      "subject": "Diana Barry",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": true
+    },
+    {
+      "chapter": 15,
+      "sentence": "“Nonsense,” said Diana, whose black eyes and glossy tresses had played such havoc with the hearts of Avonlea schoolboys that her name figured on the porch walls in half a dozen take-notices.",
+      "subject": "Diana Barry",
+      "predicate": "eye_color",
+      "value": "black",
+      "asserted": true
+    },
+    {
+      "chapter": 15,
+      "sentence": "He was a tall boy, with curly brown hair, roguish hazel eyes, and a mouth twisted into a teasing smile.",
+      "subject": "Gilbert Blythe",
+      "predicate": "hair_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 15,
+      "sentence": "He was a tall boy, with curly brown hair, roguish hazel eyes, and a mouth twisted into a teasing smile.",
+      "subject": "Gilbert Blythe",
+      "predicate": "eye_color",
+      "value": "hazel",
+      "asserted": true
+    },
+    {
+      "chapter": 15,
+      "sentence": "She _should_ look at him, that red-haired Shirley girl with the little pointed chin and the big eyes that weren’t like the eyes of any other girl in Avonlea school.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 17,
+      "sentence": "Diana, wilt thou give me a lock of thy jet-black tresses in parting to treasure forevermore?”",
+      "subject": "Diana Barry",
+      "predicate": "hair_color",
+      "value": "black",
+      "asserted": false
+    },
+    {
+      "chapter": 17,
+      "sentence": "Now Gilbert was head of the spelling class; now Anne, with a toss of her long red braids, spelled him down.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 18,
+      "sentence": "“I’m perfectly happy--yes, in spite of my red hair.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": false
+    },
+    {
+      "chapter": 21,
+      "sentence": "These stood or fell by the judgment of the fathers and mothers in Israel; but a certain small, red-haired girl who sat meekly in the corner of the old Cuthbert pew also had her opinions about them and discussed the same in full with Matthew, Marilla always declining from principle to criticize ministers in any shape or form.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 23,
+      "sentence": "Anne tossed her red braids.",
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "asserted": true
+    },
+    {
+      "chapter": 23,
+      "sentence": "Diana says she has the loveliest fair curly hair and such fascinating eyes.",
+      "subject": "Miss Stacy",
+      "predicate": "hair_color",
+      "value": "fair",
+      "asserted": false
+    },
+    {
+      "chapter": 28,
+      "sentence": "Ruby ought to be Elaine because she is so fair and has such lovely long golden hair--Elaine had ‘all her bright hair streaming down,’ you know.",
+      "subject": "Ruby Gillis",
+      "predicate": "hair_color",
+      "value": "golden",
+      "asserted": false
+    },
+    {
+      "chapter": 28,
+      "sentence": "Anne had sat among the stumps and wept, not without an eye to the romance of it; but she was speedily consoled, for, after all, as she and Diana said, big girls of thirteen, going on fourteen, were too old for such childish amusements as playhouses, and there were more fascinating sports to be found about the pond.",
+      "subject": "Anne Shirley",
+      "predicate": "age",
+      "value": "13",
+      "asserted": true
+    },
+    {
+      "chapter": 28,
+      "sentence": "Anne had sat among the stumps and wept, not without an eye to the romance of it; but she was speedily consoled, for, after all, as she and Diana said, big girls of thirteen, going on fourteen, were too old for such childish amusements as playhouses, and there were more fascinating sports to be found about the pond.",
+      "subject": "Diana Barry",
+      "predicate": "age",
+      "value": "13",
+      "asserted": true
+    },
+    {
+      "chapter": 28,
+      "sentence": "Gilbert glanced up and, much to his amazement, beheld a little white scornful face looking down upon him with big, frightened but also scornful gray eyes.",
+      "subject": "Anne Shirley",
+      "predicate": "eye_color",
+      "value": "grey",
+      "asserted": true
+    },
+    {
+      "chapter": 28,
+      "sentence": "She had an odd, newly awakened consciousness under all her outraged dignity that the half-shy, half-eager expression in Gilbert’s hazel eyes was something that was very good to see.",
+      "subject": "Gilbert Blythe",
+      "predicate": "eye_color",
+      "value": "hazel",
+      "asserted": true
+    },
+    {
+      "chapter": 30,
+      "sentence": "But she had learned to love this slim, gray-eyed girl with an affection all the deeper and stronger from its very undemonstrativeness.",
+      "subject": "Anne Shirley",
+      "predicate": "eye_color",
+      "value": "grey",
+      "asserted": true
+    },
+    {
+      "chapter": 30,
+      "sentence": "He’s such a funny-looking boy with that big fat face, and his little blue eyes, and his ears sticking out like flaps.",
+      "subject": "Moody Spurgeon MacPherson",
+      "predicate": "eye_color",
+      "value": "blue",
+      "asserted": false
+    },
+    {
+      "chapter": 32,
+      "sentence": "But she did hope fervently that she would be among the first ten at least, so that she might see Matthew’s kindly brown eyes gleam with pride in her achievement.",
+      "subject": "Matthew Cuthbert",
+      "predicate": "eye_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 34,
+      "sentence": "Anne was conscious of a pang of loneliness when she found herself in a room with fifty other students, not one of whom she knew, except the tall, brown-haired boy across the room; and knowing him in the fashion she did, did not help her much, as she reflected pessimistically.",
+      "subject": "Gilbert Blythe",
+      "predicate": "hair_color",
+      "value": "brown",
+      "asserted": true
+    },
+    {
+      "chapter": 35,
+      "sentence": "She had large, bright-blue eyes, a brilliant complexion, and a plump showy figure.",
+      "subject": "Ruby Gillis",
+      "predicate": "eye_color",
+      "value": "blue",
+      "asserted": true
+    }
+  ],
+  "findings": {
+    "total": 0,
+    "true": 0,
+    "false": 0,
+    "unlabelled": 0,
+    "rows": []
+  },
+  "wrong_examples": [
+    {
+      "chapter": 8,
+      "subject": "Anne Shirley",
+      "predicate": "hair_color",
+      "value": "red",
+      "modality": "asserted",
+      "quote": "It’s bad enough to have red hair myself",
+      "verdict": "modality",
+      "error": "modality: should be not asserted",
+      "note": "dialogue; labelled for the claude-haiku-5.5 run (2026-11-03)"
+    },
+    {
+      "chapter": 25,
+      "subject": "Anne Shirley",
+      "predicate": "age",
+      "value": "13",
+      "modality": "reported",
+      "quote": "She’s only thirteen in March.",
+      "verdict": "wrong",
+      "error": "wrong_value",
+      "note": "'only thirteen in March': she turns thirteen in March; labelled for the claude-haiku-5.5 run (2026-11-03)"
+    }
+  ],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "d919ba0"
+  }
+}

@@ -371,6 +371,29 @@ held-out measurements; later versions on the same books are in `bench/results/re
   gives Anne eyes that "looked green in some lights and moods and gray in others"; the rules
   extracted neither colour, so the report stayed silent where an LLM extractor would need the
   author to mark the variation.
+- **An LLM reads twice as much, at the same precision on identity facts.** Claude Haiku 5.5
+  (`novelforge bench-real BOOK --llm openrouter:anthropic/claude-haiku-5.5`, the English prompt
+  unchanged since section 5, one call per chapter), run once on two books it had never been tried
+  on, every claim it made labelled by hand like the rules' (47 and 46 new labels):
+
+  | Book | Recall, all facts (rules-v6) | Recall, narrator-stated (rules-v6) | Identity claims right | All claims: fact / strict precision | Cost |
+  |---|---|---|---|---|---|
+  | *The Secret Garden* | **12 / 38** (7) | **7 / 25** (6) | 14 / 14 | 0.79 / 0.70 | $0.048 |
+  | *Anne of Green Gables* | **20 / 47** (10) | **13 / 29** (10) | 35 / 37 | 0.93 / 0.89 | $0.075 |
+
+  Identity facts (colours, ages, birthplaces, deaths) are almost always right; the two misses
+  on *Anne* are "thirteen in March" read as thirteen now and "good just to be alive" read as a
+  status. The weak family is abilities (fact precision 0.70 on *The Secret Garden*): intentions
+  read as acts ("I am going to run"), praise read as a skill ("can make a flower grow out of a
+  brick walk"), a voyage read as sailing, and odd skills (dress, knit, whistle) the checks do not
+  use. Neither book produced a contradiction finding, so still no false alarm on real prose;
+  *Anne*'s red hair that "could be called auburn now" stayed a question, as it should.
+- **Window size is not a lever.** Reading a whole chapter, Haiku kept the plot (94 events in *The
+  Secret Garden*) and dropped passing descriptions ("Basil was a little boy with impudent blue
+  eyes"). 1,500-word windows (`LLM_WINDOW_WORDS=1500`) raised recall there to 18 / 38 (fact
+  precision 0.86, labelled) but lowered it on *Anne* to 16 / 47, so the default stays a whole
+  chapter. The difference between the two books is as large as the effect: a single run per
+  setting cannot separate the window from run-to-run variation.
 - **Pronouns on the sheet matter less on real chapters.** Without sheet pronouns, rules-v6
   infers them per chapter and finds 14 of the 15 *Little Women* facts it finds with them, 5 of 10
   in *Anne* and 5 of 6 in *The Secret Garden*, still with no wrong fact. On the synthetic
@@ -718,33 +741,26 @@ uv run novelforge audit-story qingshi-du --llm ollama:qwen2.5:7b --replay   # st
 
 ## Known gaps and next steps
 
-- **Story logic: Claude finds half of the held-out problems and sets off no trap, but about 11
-  issues per novel are on no label** (section 8; qwen2.5:7b: a third, one trap in four, five
-  noisy issues). The noise, not the reading, is now the limit: four of Claude's seven wrong
-  issues are chapter-end hook ratings, and two come from the code's own rules. A fresh held-out
-  story sample is still needed. Three v4 rules are suggested by the held-out misses and not yet
-  applied (they would be tuned on it): a note cited both as the reason and as a conflict cannot be
-  the reason; a reason note must name the beat's target or share words with it, as later
-  explanations already must; a setup without a quote could be kept when its key word is in the
-  chapter. Checked against the recorded answers, the first would not find H1 on its own (the
-  invented motive also cites a second note that restates the conflict) and would add a false
-  alarm on the revision, where the model cites the cousin's real motive both as reason and as
-  conflict; it is not applied.
+- **Story logic is measured on two held-out novels of six problems each** (section 8). Claude
+  Opus finds 3 and 4 of 6 and sets off no trap (by hand); Haiku 3 of 6 for a thirtieth of the
+  price. What it still gets wrong: a villain with no motive filed as "against the character"
+  (now villainy, checks-v5, seen), a knowledge leak reported as "cause and effect" in the wrong
+  chapter, and routine acts (an elder arresting on evidence) called out of character. checks-v5
+  was fixed on 青崖问剑, so it needs a third held-out novel; twelve problems are too few to rank
+  versions closely. The v4 rules proposed after the first held-out run were not applied.
 - **Chinese continuity: rules find about half of what is planted in unseen novels, Claude all of
-  it in the one unseen novel scored** (section 9). One held-out novel is a small sample; the
-  next one should be written before any further change, and English with Claude (real prose,
-  `bench-real`) is unmeasured.
-- **Hosted models only through OpenRouter.** Claude runs through OpenRouter
-  (`llm/openrouter_backend.py`); the direct Anthropic SDK backend is tested against a fake client
-  only (no Anthropic key). The English benchmarks have not been run with Claude.
-- **Small local model only.** The one LLM run is qwen2.5:3b on 15 chapters (section 5), which
-  is far below the rule baseline; it tests the pipeline and its guardrails, not LLM extraction.
-  It has not been run on the real-prose books.
-- **World rules are undetected without an LLM.** All 28 planted rule violations at 1,000 chapters
-  are missed by the rule baseline; the LLM judge is the only path.
-- **Rules read a fifth to a third of real prose.** On held-out novels the rules find 20 to 34%
-  of explicitly stated identity facts (section 6). Real-prose recall is what an LLM run should be
-  judged on: `bench-real` scores any extractor's claims against the same labels.
+  it in the one unseen novel scored** (section 9). One held-out novel is a small sample.
+- **Hosted models only through OpenRouter.** The direct Anthropic SDK backend is tested against a
+  fake client only (no Anthropic key). English with Claude is measured with Haiku 5.5 on the
+  100-chapter synthetic novel and two real books; the 1,000-chapter corpus and the other two
+  books are not (cost), nor any larger model on English.
+- **Real prose with an LLM: twice the rules' recall, still under half.** Haiku finds 32 to 43% of
+  the stated identity facts the keyword filter can see (rules 18 to 21%); identity claims are
+  almost always right, abilities much less (intentions and praise read as acts). One run per
+  book: the window-size experiment showed differences between runs as large as the effect.
+- **World rules need the LLM judge.** All 28 planted rule violations at 1,000 chapters are missed
+  by the rules; on 100 chapters the Haiku judge finds the one planted (section 3). The judge has
+  not been run at 1,000 chapters.
 - **Contradiction detection on real prose is unmeasured.** No version raised a finding on the
   four novels, so there is no real-prose detection recall. Measuring it needs a manuscript with
   known continuity errors (an author's draft, or errors planted in real text).

@@ -342,7 +342,11 @@ def cmd_bench_real(args: argparse.Namespace) -> int:
             if args.replay
             else CachingLLM(get_llm(args.llm), cache_dir / f"real-{args.book}-{safe}.jsonl")
         )
-        claims_out = Path(args.out) / "real-claims" / f"claims-{args.book}-llm-{safe}.jsonl"
+        from novelforge.services.extraction_jobs import max_words_for
+
+        window = max_words_for(args.llm)
+        tag = "" if window == 6000 else f"-w{window}"
+        claims_out = Path(args.out) / "real-claims" / f"claims-{args.book}-llm-{safe}{tag}.jsonl"
     report, todo = real_text.run(
         args.book,
         Path(args.manifest) if args.manifest else root / "real" / "books.yaml",

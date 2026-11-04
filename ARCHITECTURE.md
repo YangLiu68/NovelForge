@@ -111,6 +111,14 @@ output cap). Every call reports tokens and cost; unknown prices are reported as 
 guessed. `replay:<llm>` answers only from recorded calls (`llm/cache.py`), so a paid run is paid
 for once and re-scored offline.
 
+`LLM_WINDOW_WORDS` sets the window for hosted models (default: up to 6,000 words, a long
+chapter). Smaller windows were tried because Haiku, reading a whole chapter, dropped passing
+descriptions in *The Secret Garden*; 1,500 words raised recall there (0.32 to 0.47) and lowered
+it on *Anne of Green Gables* (0.43 to 0.34), so the default is unchanged (BENCHMARK.md section 6).
+Before a run, `GET /api/novels/{id}/llm-estimate`
+(`llm/estimate.py`) gives calls, tokens and a cost range calibrated on the recorded runs; the
+story page shows it next to the model choice.
+
 Chinese chapters get their own prompt (`SYSTEM_ZH`, version `extract-zh-v2`): quotes measured
 in characters, colour words copied as written and mapped in code to the canonical values so the
 quote can be checked to contain them, Chinese modality cues, a `presence` kind, and an explained
@@ -138,7 +146,7 @@ a confidence threshold, with facts from several extractors de-duplicated:
 | timeline | `age_timeline` (ages vs elapsed story days), `dead_character_active` (present after death) |
 | location | `location_conflict` (two places closer in time than the travel time between them) |
 | abilities | `ability_conflict` (a skill used after "cannot" without learning it); a remembered lesson told after the act still counts as learning, and a chapter that says the skill was learned is the lesson, so its practice is not a use before learning |
-| world rules | `world_rule_violation`: hybrid retrieval of candidate passages per rule, then an LLM judge with verified quotes (`services/rule_judge.py`) |
+| world rules | `world_rule_violation`: hybrid retrieval of candidate passages per rule, then an LLM judge with verified quotes (`services/rule_judge.py`); a quote that describes a failed attempt ("tried to … but", 试图…却, 没能) is dropped whatever the judge says |
 
 Claims with unknown story time are never used for time-based checks; flashbacks set before a
 death, memories, failed attempts at a forbidden act and dialogue are not contradictions.
