@@ -2994,7 +2994,7 @@
   },
   "replayed": true,
   "cache": {
-    "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-qingshi-du-openrouter-anthropic-claude-opus-5.5.jsonl",
+    "path": "bench/results/llm-cache/story-qingshi-du-openrouter-anthropic-claude-opus-5.5.jsonl",
     "hits": null,
     "misses": null
   }

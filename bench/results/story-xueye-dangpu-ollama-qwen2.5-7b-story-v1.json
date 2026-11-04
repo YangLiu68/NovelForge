@@ -2290,7 +2290,7 @@
     "commit": "5854cb3"
   },
   "cache": {
-    "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-xueye-dangpu-ollama-qwen2.5-7b.jsonl",
+    "path": "bench/results/llm-cache/story-xueye-dangpu-ollama-qwen2.5-7b.jsonl",
     "hits": 0,
     "misses": 27
   },

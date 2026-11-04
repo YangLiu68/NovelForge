@@ -19,20 +19,44 @@ from novelforge.llm.base import LLMError, LLMResult, StreamChunk, cost
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
 
 
+def _price_key(model: str) -> str:
+    """Behind a proxy the model may be named "anthropic/claude-haiku-5.5"; prices are keyed
+    "claude-haiku-5-5"."""
+    return model.rpartition("/")[2].replace(".", "-")
+
+
 class AnthropicLLM:
     local = False
 
-    def __init__(self, model: str = "claude-opus-5-5", effort: str = "medium", client=None):
+    def __init__(
+        self,
+        model: str = "claude-opus-5-5",
+        effort: str = "medium",
+        client=None,
+        fallbacks: bool | None = None,
+    ):
         if client is None:
             try:
                 import anthropic
             except ImportError as exc:  # pragma: no cover - depends on the install
                 raise LLMError("config", "install the extra: uv sync --extra anthropic") from exc
+            # ANTHROPIC_BASE_URL / ANTHROPIC_AUTH_TOKEN are read by the SDK itself, so the same
+            # backend runs against an Anthropic-compatible endpoint (OpenRouter's, for one).
             client = anthropic.Anthropic()
         self.client = client
         self.model = model
         self.effort = effort
         self.name = f"anthropic:{model}"
+        # Server-side refusal fallbacks are an Anthropic API feature; other endpoints that speak
+        # the Messages API reject or misread the parameter, so it is off when the client points
+        # elsewhere (unless asked for explicitly).
+        if fallbacks is None:
+            host = str(getattr(client, "base_url", "") or "")
+            fallbacks = not host or "anthropic.com" in host
+        self.fallbacks = fallbacks
+
+    def _extra(self) -> dict[str, Any]:
+        return {"betas": [FALLBACK_BETA], "fallbacks": "default"} if self.fallbacks else {}
 
     def _errors(self):
         import anthropic
@@ -48,8 +72,7 @@ class AnthropicLLM:
             response = self.client.beta.messages.create(
                 model=self.model,
                 max_tokens=max_tokens,
-                betas=[FALLBACK_BETA],
-                fallbacks="default",
+                **self._extra(),
                 system=system,
                 messages=[{"role": "user", "content": prompt}],
                 output_config={
@@ -78,7 +101,9 @@ class AnthropicLLM:
             output_tokens=usage.output_tokens,
             latency_ms=(time.perf_counter() - started) * 1000,
             stop_reason=response.stop_reason,
-            cost_usd=cost(self.model, usage.input_tokens, usage.output_tokens, local=False),
+            cost_usd=cost(
+                _price_key(self.model), usage.input_tokens, usage.output_tokens, local=False
+            ),
             request_id=getattr(response, "_request_id", None),
         )
 
@@ -95,8 +120,7 @@ class AnthropicLLM:
             with self.client.beta.messages.stream(
                 model=self.model,
                 max_tokens=max_tokens,
-                betas=[FALLBACK_BETA],
-                fallbacks="default",
+                **self._extra(),
                 system=system,
                 messages=[{"role": "user", "content": prompt}],
                 output_config={"effort": self.effort},
@@ -139,7 +163,9 @@ class AnthropicLLM:
                 output_tokens=usage.output_tokens,
                 latency_ms=(time.perf_counter() - started) * 1000,
                 stop_reason=final.stop_reason,
-                cost_usd=cost(self.model, usage.input_tokens, usage.output_tokens, local=False),
+                cost_usd=cost(
+                    _price_key(self.model), usage.input_tokens, usage.output_tokens, local=False
+                ),
             ),
         )
 

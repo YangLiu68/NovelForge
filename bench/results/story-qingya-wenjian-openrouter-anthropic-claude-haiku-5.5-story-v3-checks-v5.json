@@ -3125,7 +3125,7 @@
   },
   "replayed": false,
   "cache": {
-    "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-qingya-wenjian-openrouter-anthropic-claude-haiku-5.5.jsonl",
+    "path": "bench/results/llm-cache/story-qingya-wenjian-openrouter-anthropic-claude-haiku-5.5.jsonl",
     "hits": 61,
     "misses": 5
   }
