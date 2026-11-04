@@ -490,3 +490,15 @@ def test_a_simile_is_not_a_colour():
     run = extract_with_llm(ch, [MARA, TOMAS], llm)
     assert [(c.subject_id, c.value) for c in run.claims] == [("t", "grey")]
     assert [r["reason"] for r in run.rejected] == ["malformed value"]
+
+
+def test_anthropic_fallbacks_only_against_anthropics_api():
+    client, calls = _fake_anthropic()
+    assert AnthropicLLM(client=client).fallbacks  # no base URL: the SDK's default, Anthropic
+    client.base_url = "https://openrouter.ai/api"
+    llm = AnthropicLLM(model="anthropic/claude-haiku-5.5", client=client)
+    result = llm.generate_json("s", "p", SCHEMA)
+    assert not llm.fallbacks and "fallbacks" not in calls and "betas" not in calls
+    assert result.cost_usd == pytest.approx(1200 / 1e6 * 0.1 + 300 / 1e6 * 0.5)
+    client.base_url = "https://api.anthropic.com"
+    assert AnthropicLLM(client=client).fallbacks

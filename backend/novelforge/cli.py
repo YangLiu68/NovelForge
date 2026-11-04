@@ -416,7 +416,10 @@ def cmd_audit_story(args: argparse.Namespace) -> int:
         return 1
     report["replayed"] = bool(args.replay)
     report["cache"] = {
-        "path": str(cache),
+        # Relative to the repository, so a committed report names no local directory.
+        "path": str(cache.resolve().relative_to(BACKEND_DIR.parent))
+        if cache.resolve().is_relative_to(BACKEND_DIR.parent)
+        else cache.name,
         "hits": getattr(llm, "hits", None),
         "misses": getattr(llm, "misses", None),
     }

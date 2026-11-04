@@ -2494,7 +2494,7 @@
   },
   "replayed": true,
   "cache": {
-    "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-xueye-dangpu-revised-ollama-qwen2.5-7b.jsonl",
+    "path": "bench/results/llm-cache/story-xueye-dangpu-revised-ollama-qwen2.5-7b.jsonl",
     "hits": null,
     "misses": null
   }
