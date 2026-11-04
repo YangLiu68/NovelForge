@@ -205,7 +205,8 @@ function SuggestionCard({ c, s }: { c: Ctx; s: StorySuggestion }) {
       <div className="finding-head">
         <span className="badge modality-asserted">{techniqueLabel(c.lang, s.technique)}</span>
         <span className="muted small">
-          {chapterLabel(c.lang, s.chapter)} · {c.t.fixesIssues}{" "}
+          {chapterLabel(c.lang, s.chapter)}
+          {s.targets.length > 0 && <> · {c.t.fixesIssues} </>}
           {s.targets.map((id) => (
             <a key={id} href={`#${id}`} className="story-target">
               {id}

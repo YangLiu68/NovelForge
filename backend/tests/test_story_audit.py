@@ -532,6 +532,23 @@ def test_the_chinese_sample_and_its_labels_load():
     assert s["problems_found"] == 0 and s["traps_set_off"] == 0
 
 
+@pytest.mark.parametrize(
+    "name", ["xueye-dangpu", "qingshi-du", "xueye-dangpu-revised", "qingya-wenjian"]
+)
+def test_every_story_label_quotes_its_chapter(name):
+    import yaml
+
+    folder = Path(__file__).resolve().parents[2] / "samples" / name
+    chs, _ = sample_inputs(load_folder(folder))
+    truth = yaml.safe_load((folder / "narrative_truth.yaml").read_text(encoding="utf-8"))
+    by_number = {c.number: c.body for c in chs}
+    items = truth["problems"] + truth["traps"] + (truth.get("ambiguous") or [])
+    assert len({i["id"] for i in items}) == len(items)
+    for item in items:
+        for e in item["evidence"]:
+            assert e["text"] in by_number[e["chapter"]], (name, item["id"], e["text"])
+
+
 def test_quotes_stitched_from_several_sentences_keep_the_real_one():
     from novelforge.extraction.verify import locate_sentence
 

@@ -1,0 +1,191 @@
+{
+  "sample": "tuoling-guoqi",
+  "extractor": "llm:openrouter:anthropic/claude-haiku-5.5",
+  "llm_usage": {
+    "calls": 4,
+    "input_tokens": 19746,
+    "output_tokens": 17896,
+    "cost_usd": 0.010922,
+    "rejected": 1,
+    "prompt_version": "extract-zh-v2-96a9225a",
+    "rejected_items": [
+      {
+        "chapter": 1,
+        "fact": {
+          "subject": "安鹤年",
+          "kind": "location",
+          "value": "关外大柳树",
+          "object": "",
+          "quote": "安鹤年果然在关外的大柳树底下等着",
+          "modality": "asserted",
+          "confidence": 0.9,
+          "day_offset": 0
+        },
+        "reason": "value not in quote"
+      }
+    ],
+    "errors": []
+  },
+  "facts": 56,
+  "claims": 47,
+  "unscored_claims": 17,
+  "unscored_by_predicate": {
+    "causal": 1,
+    "event": 4,
+    "foreshadowing": 2,
+    "location": 1,
+    "presence": 7,
+    "world_rule": 2
+  },
+  "matched": 46,
+  "precision": 0.979,
+  "strict_precision": 0.957,
+  "recall": 0.821,
+  "recall_asserted": 0.905,
+  "modality_accuracy": 0.978,
+  "by_predicate": {
+    "ability": {
+      "facts": 11,
+      "found": 8,
+      "claims": 9
+    },
+    "age": {
+      "facts": 12,
+      "found": 9,
+      "claims": 9
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 5,
+      "claims": 5
+    },
+    "eye_color": {
+      "facts": 8,
+      "found": 8,
+      "claims": 8
+    },
+    "hair_color": {
+      "facts": 11,
+      "found": 9,
+      "claims": 9
+    },
+    "handedness": {
+      "facts": 4,
+      "found": 4,
+      "claims": 4
+    },
+    "status": {
+      "facts": 5,
+      "found": 3,
+      "claims": 3
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 2,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "used",
+      "modality": "asserted",
+      "quote": "尉迟兰已经能自己控着缰绳，绕着驼队歇脚的那片沙窝子小跑一圈了",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [
+    {
+      "chapter": 3,
+      "subject": "康米娜",
+      "predicate": "hair_color",
+      "value": "black",
+      "modality": "recalled",
+      "quote": "你这头黑发",
+      "resolved": null,
+      "fact": 40,
+      "gold_modality": "reported"
+    }
+  ],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "康米娜",
+      "predicate": "age",
+      "value": 7,
+      "text": "康米娜生在碎叶，七岁那年",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "尉迟兰",
+      "predicate": "age",
+      "value": 10,
+      "text": "尉迟兰生在于阗，十岁",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "裴照",
+      "predicate": "ability:ride",
+      "value": "used",
+      "text": "裴照翻身上了马",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "learned",
+      "text": "尉迟兰已经能自己控着缰绳",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "卫长庚",
+      "predicate": "age",
+      "value": 70,
+      "text": "老卫七十岁的人了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "石小满",
+      "predicate": "status",
+      "value": "dead",
+      "text": "所有人都以为小满死了",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "石小满",
+      "predicate": "status",
+      "value": "alive",
+      "text": "他还活着",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "安鹤年",
+      "predicate": "hair_color",
+      "value": "white",
+      "text": "白发苍苍的安鹤年",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "你连骆驼都爬不上去",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "康米娜",
+      "predicate": "hair_color",
+      "value": "red",
+      "text": "她站在驼队的最前头，红头发",
+      "modality": "asserted"
+    }
+  ]
+}

@@ -83,6 +83,16 @@ SCHEMA_ZH = {
 }
 
 
+_EYE_WORDS = {"grey", "green", "blue", "brown", "hazel", "amber", "black", "violet"}
+# The rule extractor's colour words and the colour families the detectors already merge, so an
+# LLM value always means the same thing as a rule value ("dark" eyes is not a colour here).
+_COLOURS = {
+    "eye_color": _EYE_WORDS,
+    "hair_color": {"black", "brown", "blond", "red", "auburn", "grey", "white", "silver",
+                   "copper", "chestnut", "golden", "fair", "yellow", "flaxen", "ginger"},
+}  # fmt: skip
+
+
 def _zh_colour(kind: str, value: str) -> str | None:
     """A Chinese colour word as written (琥珀色, 乌黑) -> the canonical value the rules use."""
     # The rule extractor's tables (that file is frozen as rules-zh-v3, so they are read, not moved).
@@ -111,8 +121,10 @@ def to_predicate(kind: str, value: str, obj: str, zh: bool = False) -> tuple[str
     if zh and kind == "presence":
         return "presence", "present"
     if kind in ("eye_color", "hair_color"):
-        v = value.lower()
-        return kind, {"gray": "grey", "blonde": "blond"}.get(v, v)
+        v = {"gray": "grey", "blonde": "blond"}.get(value.lower(), value.lower())
+        # A colour word, not a comparison copied as the value ("deep water", "old honey"): the
+        # colour a simile implies is not stated, so it is not a fact (strict, like the rules).
+        return (kind, v) if v in _COLOURS[kind] else None
     if kind == "handedness":
         v = value.lower().replace("-handed", "").strip()
         return (kind, v) if v in ("left", "right") else None

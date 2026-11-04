@@ -233,7 +233,7 @@ What this says about a 1.25-million-word manuscript on a laptop:
   paragraph for names on each request; caching it per chapter version is the obvious next step.
 - These timings are an upper bound for an idle M4.
 
-## 5. LLM extraction with a small local model
+## 5. LLM extraction: a small local model, then Claude
 
 Command: `novelforge bench-extraction bench/corpora/syn-40-s7 --extractor ollama:qwen2.5:3b
 --max-chapters 15` (commit `51fa460`). No API key was available, and the largest model this
@@ -267,10 +267,34 @@ called the model only for the two failed calls (281 s) and reproduced every numb
 - **The last column is a replay.** Every response, including the two failed calls, is
   recorded in `bench/results/llm-cache/`; this column re-scores the same responses with the
   check off and loads no model.
-- **Not measured: a capable model.** `--extractor anthropic` runs the same benchmark against
-  Claude (`claude-opus-5-5`); it has not been run, so how much of the implication gap in
-  section 2, and of the much larger real-prose gap in section 6, an LLM closes is still an open
-  question.
+### Claude Haiku 5.5 through OpenRouter (2026-11-03)
+
+Command: `novelforge bench-extraction bench/corpora/syn-100-s7 --extractor
+openrouter:anthropic/claude-haiku-5.5` (the English prompt `extract-v1`, unchanged since the qwen
+run; effort medium; one call per chapter). 100 calls, 197,699 input / 118,242 output tokens,
+**$0.079** billed, 505 s.
+
+| Predicate | Rules-v6 found / false | Haiku found / false | Haiku precision / recall |
+|---|---|---|---|
+| **overall** | 251 / 0 of 284 (recall 0.884) | **273 / 5** | **0.982 / 0.961** |
+| handedness | 8 / 0 of 33 | **33 / 0** | 1.0 / 1.0 |
+| eye colour | 23 / 0 of 31 | 23 / 0 | 1.0 / 0.742 |
+| hair colour | 24 / 0 of 24 | 23 / 0 | 1.0 / 0.958 |
+| location | 105 / 0 | 103 / 5 | 0.954 / 0.981 |
+| age, birthplace, abilities, deaths | all 91 / 0 | all 91 / 0 | 1.0 / 1.0 |
+| world rules, foreshadowing, causal links (unscored kinds) | 0 of 4, 0 of 14, 0 of 8 | **4 of 4, 14 of 14, 8 of 8** | |
+
+- **The model reads the implications the rules cannot**: "wrote with her left hand" is
+  handedness (rules 8 of 33, Haiku 33 of 33), and it states every world rule, setup and causal
+  link the generator planted, which the rules never produce.
+- **Similes are still refused, by design.** All eight eye colours given only as a comparison
+  ("eyes the colour of deep water") are missed by both. The first run counted them as eight
+  false facts, because Haiku copied the comparison as the value ("deep water"), which the value
+  check let through since the words are in the quote. LLM colour values must now be colour words
+  (`extraction/schema.py`); the eight are rejected as malformed and the replayed score above has
+  no false colour.
+- The five false locations are scene-setting lines that name a place, as with qwen.
+- Cost per 1,000 words of manuscript: about $0.005 with Haiku 5.5.
 
 ## 6. Real prose: four public-domain novels
 

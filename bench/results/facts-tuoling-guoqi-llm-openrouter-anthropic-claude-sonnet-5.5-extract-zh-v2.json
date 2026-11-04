@@ -1,0 +1,199 @@
+{
+  "sample": "tuoling-guoqi",
+  "extractor": "llm:openrouter:anthropic/claude-sonnet-5.5",
+  "llm_usage": {
+    "calls": 4,
+    "input_tokens": 19746,
+    "output_tokens": 4457,
+    "cost_usd": 0.084062,
+    "rejected": 2,
+    "prompt_version": "extract-zh-v2-96a9225a",
+    "rejected_items": [
+      {
+        "chapter": 2,
+        "fact": {
+          "subject": "卫长庚",
+          "kind": "ability_used",
+          "value": "靠闻风预判黑风将至",
+          "object": "",
+          "quote": "“闻风。”老卫说，“明天晌午以前，要起黑风。”",
+          "modality": "reported",
+          "confidence": 0.3,
+          "day_offset": 0
+        },
+        "reason": "malformed value"
+      },
+      {
+        "chapter": 4,
+        "fact": {
+          "subject": "康米娜",
+          "kind": "ability_used",
+          "value": "自己捣叶子染发",
+          "object": "",
+          "quote": "她照着曹阿婆教的法子，自己捣叶子，又染了一遍",
+          "modality": "asserted",
+          "confidence": 0.5,
+          "day_offset": 0
+        },
+        "reason": "malformed value"
+      }
+    ],
+    "errors": []
+  },
+  "facts": 56,
+  "claims": 46,
+  "unscored_claims": 6,
+  "unscored_by_predicate": {
+    "event": 2,
+    "foreshadowing": 1,
+    "location": 2,
+    "presence": 1
+  },
+  "matched": 45,
+  "precision": 0.978,
+  "strict_precision": 0.978,
+  "recall": 0.804,
+  "recall_asserted": 0.905,
+  "modality_accuracy": 1.0,
+  "by_predicate": {
+    "ability": {
+      "facts": 11,
+      "found": 8,
+      "claims": 8
+    },
+    "age": {
+      "facts": 12,
+      "found": 9,
+      "claims": 9
+    },
+    "birthplace": {
+      "facts": 5,
+      "found": 4,
+      "claims": 4
+    },
+    "eye_color": {
+      "facts": 8,
+      "found": 7,
+      "claims": 7
+    },
+    "hair_color": {
+      "facts": 11,
+      "found": 10,
+      "claims": 10
+    },
+    "handedness": {
+      "facts": 4,
+      "found": 4,
+      "claims": 4
+    },
+    "status": {
+      "facts": 5,
+      "found": 3,
+      "claims": 4
+    }
+  },
+  "wrong": [
+    {
+      "chapter": 1,
+      "subject": "康米娜",
+      "predicate": "status",
+      "value": "dead",
+      "modality": "asserted",
+      "quote": "去年冬天，她父亲康拂延死在西州",
+      "resolved": null,
+      "fact": null,
+      "gold_modality": null
+    }
+  ],
+  "modality_errors": [],
+  "missed": [
+    {
+      "chapter": 1,
+      "subject": "康米娜",
+      "predicate": "age",
+      "value": 7,
+      "text": "康米娜生在碎叶，七岁那年",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 1,
+      "subject": "尉迟兰",
+      "predicate": "age",
+      "value": 10,
+      "text": "尉迟兰生在于阗，十岁",
+      "modality": "recalled"
+    },
+    {
+      "chapter": 2,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "learned",
+      "text": "尉迟兰已经能自己控着缰绳",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 2,
+      "subject": "卫长庚",
+      "predicate": "age",
+      "value": 70,
+      "text": "老卫七十岁的人了",
+      "modality": "reported"
+    },
+    {
+      "chapter": 2,
+      "subject": "尉迟兰",
+      "predicate": "eye_color",
+      "value": "black",
+      "text": "尉迟兰的眼睛看上去几乎是黑的",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "石小满",
+      "predicate": "status",
+      "value": "dead",
+      "text": "所有人都以为小满死了",
+      "modality": "hedged"
+    },
+    {
+      "chapter": 2,
+      "subject": "石小满",
+      "predicate": "status",
+      "value": "alive",
+      "text": "小满还活着",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 3,
+      "subject": "尉迟兰",
+      "predicate": "birthplace",
+      "value": "龟兹",
+      "text": "她是龟兹生人",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "尉迟兰",
+      "predicate": "ability:ride",
+      "value": "cannot",
+      "text": "你连骆驼都爬不上去",
+      "modality": "reported"
+    },
+    {
+      "chapter": 4,
+      "subject": "卫长庚",
+      "predicate": "ability:read",
+      "value": "used",
+      "text": "老卫眯起眼睛，就着日头，一行一行地念了下去",
+      "modality": "asserted"
+    },
+    {
+      "chapter": 4,
+      "subject": "康米娜",
+      "predicate": "hair_color",
+      "value": "red",
+      "text": "她站在驼队的最前头，红头发",
+      "modality": "asserted"
+    }
+  ]
+}
