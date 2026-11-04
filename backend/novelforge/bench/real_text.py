@@ -160,6 +160,48 @@ def dump_claims(claims: list[ExtractedClaim], path: Path) -> None:
     path.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
 
 
+# LLM claims scored on real prose: the families the recall estimate covers, plus abilities. The
+# model's places, events and relationships are counted, not labelled (there are hundreds).
+LLM_SCORED = ("eye_color", "hair_color", "age", "birthplace", "handedness", "status")
+
+
+def _llm_claims(chapters, cast, llm) -> tuple[list[ExtractedClaim], str, dict[str, Any]]:
+    from novelforge.extraction.runner import extract_with_llm
+    from novelforge.services.extraction_jobs import max_words_for
+
+    claims: list[ExtractedClaim] = []
+    usage: dict[str, Any] = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0}
+    unscored: Counter[str] = Counter()
+    rejected: Counter[str] = Counter()
+    version = ""
+    for ch in chapters:
+        run = extract_with_llm(ch, cast, llm, max_words=max_words_for(llm.name))
+        version = run.prompt_version
+        for k in ("calls", "input_tokens", "output_tokens"):
+            usage[k] += getattr(run, k)
+        usage["cost_usd"] = round(usage["cost_usd"] + (run.cost_usd or 0.0), 6)
+        rejected.update(r["reason"] for r in run.rejected)
+        for c in run.claims:
+            if c.predicate in LLM_SCORED or c.predicate.startswith("ability:"):
+                claims.append(c)
+            else:
+                unscored[c.predicate.split(":")[0]] += 1
+    usage.update(
+        prompt_version=version, unscored=dict(unscored), rejected=dict(rejected)
+    )  # fmt: skip
+    return claims, f"llm:{llm.name.removeprefix('replay:')}", usage
+
+
+def save_claims(claims: list[ExtractedClaim], path: Path) -> None:
+    from dataclasses import asdict
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "".join(json.dumps(asdict(c), ensure_ascii=False) + "\n" for c in claims),
+        encoding="utf-8",
+    )
+
+
 def load_claims(path: Path) -> list[ExtractedClaim]:
     out = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -188,6 +230,8 @@ def run(
     labels_dir: Path,
     sheet_pronouns: bool = True,
     claims_file: Path | None = None,
+    llm=None,
+    claims_out: Path | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """(report, unlabelled items). Unlabelled items carry context for a reviewer.
 
@@ -204,9 +248,14 @@ def run(
     started = time.perf_counter()
     claims: list[ExtractedClaim] = []
     extractor = EXTRACTOR
+    llm_usage: dict[str, Any] = {}
     if claims_file is not None:
         claims = load_claims(claims_file)
         extractor = claims[0].extractor if claims else "unknown"
+    elif llm is not None:
+        claims, extractor, llm_usage = _llm_claims(chapters, cast, llm)
+        if claims_out is not None:
+            save_claims(claims, claims_out)
     else:
         for ch in chapters:
             claims += extract_claims(ch, cast)
@@ -359,6 +408,7 @@ def run(
         "source": {"url": book["url"], "sha256": sha, "matches_manifest": sha == book["sha256"]},
         "extractor": extractor,
         "claims_from": claims_file.name if claims_file else None,
+        "llm_usage": llm_usage or None,
         "sheet_pronouns": sheet_pronouns,
         "chapters": len(chapters),
         "words": sum(len(c.body.split()) for c in chapters),

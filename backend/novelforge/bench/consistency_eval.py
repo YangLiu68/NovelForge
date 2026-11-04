@@ -55,7 +55,10 @@ def run(
     k: int = 5,
     max_chapters: int | None = None,
     database: str = "novelforge_bench_consistency",
+    cache_dir: Path | None = None,
 ) -> dict[str, Any]:
+    """`cache_dir`: record (and reuse) the LLM's extraction and judge answers there, so a paid
+    model is paid once; extraction answers are shared with `bench-extraction` on the corpus."""
     gt = yaml.safe_load((corpus / "ground_truth.yaml").read_text(encoding="utf-8"))
     url = recreate_database(base_url, database)
     migrate(url)
@@ -83,7 +86,9 @@ def run(
         numbers = {c.number for c in chapters}
 
         t = time.perf_counter()
-        report["extraction"] = _extract(session, chapters, extractor)
+        report["extraction"] = _extract(
+            session, chapters, extractor, _cache(cache_dir, corpus.name, extractor)
+        )
         session.commit()
         report["extraction"]["seconds"] = round(time.perf_counter() - t, 2)
 
@@ -98,8 +103,9 @@ def run(
         for system in systems:
             t = time.perf_counter()
             findings, context = _system_findings(
-                session, novel.id, chapters, system, embedder, k, extractor
-            )
+                session, novel.id, chapters, system, embedder, k, extractor,
+                _cache(cache_dir, corpus.name, extractor, "-judge"),
+            )  # fmt: skip
             elapsed = time.perf_counter() - t
             result = evaluate(findings, gt_scoped, bodies).as_dict()
             result.update({"seconds": round(elapsed, 2), **context})
@@ -130,14 +136,28 @@ def _scope(gt: dict, numbers: set[int]) -> dict:
     }
 
 
-def _extract(session: Session, chapters: list[Chapter], extractor: str) -> dict[str, Any]:
+def _llm(extractor: str, cache: Path | None):
+    from novelforge.llm.cache import CachingLLM
+    from novelforge.llm.registry import get_llm
+
+    llm = get_llm(extractor)
+    return CachingLLM(llm, cache) if cache is not None and not llm.local else llm
+
+
+def _cache(cache_dir: Path | None, corpus: str, extractor: str, part: str = "") -> Path | None:
+    safe = extractor.replace("/", "_").replace(":", "-")
+    return None if cache_dir is None else cache_dir / f"{corpus}{part}-{safe}.jsonl"
+
+
+def _extract(
+    session: Session, chapters: list[Chapter], extractor: str, cache: Path | None = None
+) -> dict[str, Any]:
     if extractor == "rules":
         return {"extractor": EXTRACTOR, "note": "claims extracted during import"}
     from novelforge.extraction.runner import extract_with_llm
-    from novelforge.llm.registry import get_llm
     from novelforge.services.extraction_jobs import max_words_for
 
-    llm = get_llm(extractor)
+    llm = _llm(extractor, cache)
     totals: dict[str, Any] = {
         "extractor": f"llm:{llm.name}",
         "calls": 0,
@@ -166,7 +186,7 @@ def _extract(session: Session, chapters: list[Chapter], extractor: str) -> dict[
     return totals
 
 
-def _system_findings(session, novel_id, chapters, system, embedder, k, extractor):
+def _system_findings(session, novel_id, chapters, system, embedder, k, extractor, judge_cache=None):
     refs = [chapter_ref(c) for c in chapters]
     number = {r.id: r.number for r in refs}
     cast = character_refs(session, novel_id)
@@ -184,7 +204,7 @@ def _system_findings(session, novel_id, chapters, system, embedder, k, extractor
         findings = detect(claims)
         context = {"avg_context_claims": len(claims)}
         if extractor != "rules":
-            findings = findings + _judge_findings(session, novel_id, extractor)
+            findings = findings + _judge_findings(session, novel_id, extractor, judge_cache)
         return findings, context
 
     # Passage index: which claims each passage holds (for retrieval-based memory).
@@ -224,12 +244,13 @@ def _system_findings(session, novel_id, chapters, system, embedder, k, extractor
     return list(seen.values()), {"avg_context_claims": avg}
 
 
-def _judge_findings(session: Session, novel_id: uuid.UUID, extractor: str) -> list[dict]:
-    from novelforge.llm.registry import get_llm
+def _judge_findings(
+    session: Session, novel_id: uuid.UUID, extractor: str, cache: Path | None = None
+) -> list[dict]:
     from novelforge.models import StoredFinding
     from novelforge.services.rule_judge import judge_novel
 
-    judge_novel(session, novel_id, get_llm(extractor))
+    judge_novel(session, novel_id, _llm(extractor, cache))
     session.commit()
     return [
         {

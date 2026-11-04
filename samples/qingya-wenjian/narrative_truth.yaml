@@ -1,0 +1,159 @@
+# Ground-truth labels for the held-out story-logic sample 青崖问剑 (qingya-wenjian).
+# Written independently of the audit; used to score its frozen version once.
+problems:
+  - id: H1
+    kind: character
+    accept: [contradicts, unmotivated]
+    character: 苏小棠
+    chapter: 7
+    note: >-
+      苏小棠被立为胆小怕事、从不违反门规、把每块灵石都攒给病娘买药的人（第1、4章反复写她数灵石、包好藏在枕下），
+      第七章却独自夜里溜下山进赌坊，把三年的药钱押在斗鸡上输光，还笑嘻嘻满不在乎。此前没有任何铺垫，此后也没有任何解释，与人设和处境都相违。
+    evidence:
+      - {chapter: 7, text: "把攒了三年、留给娘买续脉膏的灵石全押在一场斗鸡上"}
+      - {chapter: 7, text: "“输了就输了，”她把一粒花生抛进嘴里"}
+      - {chapter: 1, text: "那是她攒给山下病娘的药钱，一块也舍不得花"}
+      - {chapter: 4, text: "等我再攒二十块灵石，就能托人给她捎一副续脉膏"}
+  - id: H2
+    kind: character
+    accept: [malice_without_cause, unmotivated]
+    character: 韩烈
+    chapter: 2
+    note: >-
+      韩烈与沈清禾、云姑素不相识，和裴照雪也无往来，文中没有任何利益、旧怨或受人指使，
+      却路过时故意把云姑守了一冬的凝露草一株株碾进泥里，只丢下一句“看着碍眼”，此后再未出现、也无交代，是为坏而坏。
+    evidence:
+      - {chapter: 2, text: "抬脚便踩了进去，一株一株碾进泥里"}
+      - {chapter: 2, text: "清禾与他从未说过一句话，云姑也不认得他"}
+      - {chapter: 2, text: "“看着碍眼。”他笑了一声"}
+  - id: H3
+    kind: plot
+    accept: [knowledge_leak, unmotivated, contradicts]
+    character: 裴照雪
+    chapter: 6
+    note: >-
+      云姑左手经脉已断、真气用不到三成，是第五章黄昏在闩死门窗、背靠断崖的药房里只对清禾一人说的，
+      并言明谁也没说过、连掌门都不知道。裴照雪当时不在场，也没有任何偷听或旁人转述的交代，第六章却当面一口说出，还据此出手。知情来源缺失。
+    evidence:
+      - {chapter: 6, text: "你左手的经脉十年前就断了，真气使不出三成，还想护谁"}
+      - {chapter: 5, text: "这事我谁也没说过，连掌门都不知道"}
+      - {chapter: 5, text: "云姑把清禾叫进药房，亲手闩上门窗"}
+  - id: H4
+    kind: plot
+    accept: [deus_ex_machina]
+    chapter: 3
+    note: >-
+      清禾悬在北崖绝壁、藤根将断的危机，由一个此前从未出现的灰袍中年人突然伸手解决；此人无名无姓、一言不发，
+      救完便消失在风雪里，此后全书再未提起，也没交代他为何恰好在崖顶。
+    evidence:
+      - {chapter: 3, text: "一只手从崖顶伸下来，攥住了她的手腕"}
+      - {chapter: 3, text: "那是个披灰袍的中年人，清禾从未见过他"}
+      - {chapter: 3, text: "转身踏进风雪里，连脚印都没留下"}
+  - id: H5
+    kind: plot
+    accept: [dangling_setup]
+    chapter: 5
+    note: >-
+      云姑郑重交给清禾一只上了铜锁的乌木小匣，叮嘱大比前无论如何不许打开、大比过后自然明白里头是什么。
+      这一悬念被着重铺设，但第六章云姑遇险、第八章大比结束，匣子都再没出现，里头是什么始终没有交代。
+    evidence:
+      - {chapter: 5, text: "云姑又从柜底取出一只乌木小匣，匣上挂着一把铜锁"}
+      - {chapter: 5, text: "大比之前，无论出了什么事都不许打开"}
+      - {chapter: 5, text: "等大比过了，你自然明白里头是什么"}
+  - id: H6
+    kind: pacing
+    accept: [flat_stretch, no_hook]
+    chapter: 4
+    note: >-
+      第三章坠崖遇险、第五章深夜栽赃，夹在中间的第四章只有下雨、补衣、煮粥、晾药、洗脚、早睡，
+      没有冲突，主线（破境、应对栽赃）毫无推进，结尾平静入睡，没有任何钩子，节奏明显塌了一块。
+    evidence:
+      - {chapter: 4, text: "一早便下起雨来，药圃去不成了"}
+      - {chapter: 4, text: "两人就着咸菜喝了粥。雨一阵紧一阵慢"}
+      - {chapter: 4, text: "夜里没有风，灯芯爆了一下，屋里便暗了"}
+traps:
+  - id: T1
+    character: 沈清禾
+    chapter: 8
+    note: >-
+      谨慎隐忍、从不出头、说话都不大声的清禾，在名字被划掉后当众闯上问剑台、向全宗陈情，看似违背人设；
+      但第一章她重生醒来便立誓“照旧低头做人，直到大比那日，站上问剑台当着全宗上下说出来”，是早有铺垫的计划，不是性格突变。
+    evidence:
+      - {chapter: 8, text: "清禾拨开人群，一步一步走上了问剑台"}
+      - {chapter: 1, text: "她会照旧低头做人，谁也不得罪——直到大比那日"}
+      - {chapter: 1, text: "那一日，她要站上问剑台，当着全宗上下"}
+  - id: T2
+    character: 裴照雪
+    chapter: 5
+    note: >-
+      裴照雪深夜潜入，往清禾药篓里塞失窃丹经、往水壶里下散功散，手段狠毒，但动机早已写明：
+      半月前清禾撞见她私卖宗门培元丹，她怕败露，要除掉清禾（第一章、第八章均点明），不是为坏而坏。
+    evidence:
+      - {chapter: 5, text: "她在床尾的药篓里塞了一样东西"}
+      - {chapter: 5, text: "又拔开清禾床头水壶的塞子，抖进一包粉末"}
+      - {chapter: 1, text: "她撞见裴照雪把宗门的培元丹一瓶瓶卖给山下的药商"}
+      - {chapter: 8, text: "她要除掉弟子，为的就是这个"}
+  - id: T3
+    kind: knowledge
+    character: 沈清禾
+    chapter: 5
+    note: >-
+      清禾提前知道大比前三日夜里会有人往药篓塞丹经，并预先在药篓口抹粉、和衣装睡；
+      这一信息来源明确，是第一章写明的前世记忆（前世正是这一夜被栽赃），不属于知情来源缺失。
+    evidence:
+      - {chapter: 5, text: "当夜三更，清禾和衣躺着，一动不动"}
+      - {chapter: 5, text: "前世那场栽赃，就发生在今夜"}
+      - {chapter: 1, text: "大比前三日的夜里，裴照雪把藏经阁失窃的那页《青崖丹经》塞进了她的药篓"}
+  - id: T4
+    character: 顾长风
+    chapter: 3
+    note: >-
+      第三章窗台上出现无落款的聚气丹，第六章冷傲、从不插手外门事的顾长风又出手护住云姑师徒，当时看似无缘无故；
+      但第二章已埋下他向云姑躬身行礼的细节，第七章他亲口说明七年前中蛇毒被云姑救回、这份情一直想还，属延迟揭示，动机完整。
+    evidence:
+      - {chapter: 3, text: "窗台上多了一只青瓷小瓶，里头是三粒聚气丹"}
+      - {chapter: 7, text: "七年前我在药谷中了蛇毒，是云姑守了我一夜"}
+      - {chapter: 2, text: "恰好路过，远远朝云姑躬身一礼"}
+  - id: T5
+    kind: plot
+    forbid: [deus_ex_machina]
+    character: 顾长风
+    chapter: 6
+    note: >-
+      第六章裴照雪第三掌将到、云姑旧伤迸裂的危机，由顾长风以剑鞘挡下化解；但顾长风第二章已出场并向云姑行礼，
+      第七章又交代他欠云姑救命之恩，不是凭空出现、用完即走的救星。
+    evidence:
+      - {chapter: 6, text: "一柄连鞘长剑横在两人之间，硬生生把那一掌挡了回去"}
+      - {chapter: 2, text: "内门首席顾长风恰好路过"}
+      - {chapter: 7, text: "这份情一直没机会还，你是她的徒弟"}
+  - id: T6
+    kind: plot
+    forbid: [dangling_setup]
+    character: 沈清禾
+    chapter: 2
+    note: >-
+      第二章云姑郑重交给清禾的“追魂粉”（沾上衣料多日不散，灵犀草汁一抹泛幽蓝光）并非悬空：
+      第五章清禾把“那层看不见的粉”抹在药篓口，第七章捣好“一盅碧绿的草汁”，第八章泼在残页和裴照雪袖口上显出蓝光定案。
+      回收时没再用“追魂粉”这个名字，但就是同一件道具。
+    evidence:
+      - {chapter: 2, text: "要验时拿灵犀草汁一抹，便会泛出幽蓝的光"}
+      - {chapter: 5, text: "药篓口那层看不见的粉，是她白日里亲手抹上的"}
+      - {chapter: 8, text: "裴照雪的右袖口上，慢慢也浮出一圈同样的蓝光"}
+ambiguous:
+  - id: A1
+    character: 裴照雪
+    chapter: 8
+    note: >-
+      裴照雪被蓝光当众指证后立刻认罪“是我又如何”。她心高气傲、自恃身份，人证物证俱在时不屑抵赖，可以算合乎性格；
+      但她同时最重颜面，又有内门长老的祖父撑腰，按理应先抵赖推脱，这么痛快认下也可以算动机不足。两种判断都说得通。
+    evidence:
+      - {chapter: 8, text: "“是我又如何？我裴照雪做事，从不抵赖。”"}
+  - id: A2
+    character: 沈清禾
+    chapter: 3
+    note: >-
+      一向谨慎、凡事先留退路的清禾，谁也不告诉、天不亮独自攀北崖绝壁采冰魄草。文中给了处境上的理由（炼气四层进不了前十、
+      冰魄草只长在北崖），可以算合乎处境的冒险；但她毫无准备、不留任何后路，也可以算与谨慎的人设不符。
+    evidence:
+      - {chapter: 3, text: "她谁也没告诉，天不亮便独自上了山"}
+      - {chapter: 3, text: "能破境的冰魄草，只长在北崖的绝壁上"}

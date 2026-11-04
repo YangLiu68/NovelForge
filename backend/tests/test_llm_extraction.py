@@ -473,3 +473,20 @@ def test_a_hair_change_the_text_explains_is_marked():
     )  # fmt: skip
     run = extract_with_llm(ch, cast, llm)
     assert [c.details.get("change", False) for c in run.claims] == [False, True]
+
+
+def test_a_simile_is_not_a_colour():
+    body = "Mara had eyes the colour of deep water. Tomas had gray eyes."
+    ch = ChapterRef("c9", 1, "", body, 1, 0)
+    llm = MockLLM()
+    llm.queue_json(
+        {
+            "facts": [
+                fact(value="deep water", quote="Mara had eyes the colour of deep water"),
+                fact(subject="Tomas Hale", value="gray", quote="Tomas had gray eyes"),
+            ]
+        }
+    )
+    run = extract_with_llm(ch, [MARA, TOMAS], llm)
+    assert [(c.subject_id, c.value) for c in run.claims] == [("t", "grey")]
+    assert [r["reason"] for r in run.rejected] == ["malformed value"]

@@ -1,0 +1,276 @@
+{
+  "corpus": "syn-100-s7",
+  "generator": {
+    "name": "novelforge.bench.generate",
+    "version": 4,
+    "seed": 7,
+    "chapters": 100
+  },
+  "extractor": "llm:openrouter:anthropic/claude-haiku-5.5",
+  "value_check": true,
+  "sheet_pronouns": true,
+  "cache": {
+    "file": "syn-100-s7-openrouter-anthropic_claude-haiku-5.5.jsonl",
+    "hits": 100,
+    "misses": 0
+  },
+  "chapters": 100,
+  "seconds": 0.06,
+  "claims": 603,
+  "scored": {
+    "overall": {
+      "tp": 273,
+      "fp": 5,
+      "fn": 11,
+      "precision": 0.982,
+      "recall": 0.9613,
+      "f1": 0.9715
+    },
+    "ability": {
+      "tp": 28,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "age": {
+      "tp": 32,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "birthplace": {
+      "tp": 27,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "eye_color": {
+      "tp": 23,
+      "fp": 0,
+      "fn": 8,
+      "precision": 1.0,
+      "recall": 0.7419,
+      "f1": 0.8519
+    },
+    "hair_color": {
+      "tp": 23,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.9583,
+      "f1": 0.9787
+    },
+    "handedness": {
+      "tp": 33,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "location": {
+      "tp": 103,
+      "fp": 5,
+      "fn": 2,
+      "precision": 0.9537,
+      "recall": 0.981,
+      "f1": 0.9671
+    },
+    "status": {
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "recall_by_template": {
+    "ability/cannot": {
+      "found": 17,
+      "total": 17
+    },
+    "ability/learned": {
+      "found": 11,
+      "total": 11
+    },
+    "age/apposition": {
+      "found": 10,
+      "total": 10
+    },
+    "age/at_n": {
+      "found": 6,
+      "total": 6
+    },
+    "age/was_n": {
+      "found": 6,
+      "total": 6
+    },
+    "age/year_old": {
+      "found": 10,
+      "total": 10
+    },
+    "birthplace/apposition": {
+      "found": 6,
+      "total": 6
+    },
+    "birthplace/born_in": {
+      "found": 8,
+      "total": 8
+    },
+    "birthplace/grew_up": {
+      "found": 13,
+      "total": 13
+    },
+    "eye_color/colour_of": {
+      "found": 0,
+      "total": 8
+    },
+    "eye_color/name_had": {
+      "found": 4,
+      "total": 4
+    },
+    "eye_color/name_were": {
+      "found": 9,
+      "total": 9
+    },
+    "eye_color/no_mistaking": {
+      "found": 5,
+      "total": 5
+    },
+    "eye_color/pronoun": {
+      "found": 5,
+      "total": 5
+    },
+    "hair_color/after_change": {
+      "found": 0,
+      "total": 1
+    },
+    "hair_color/dyed": {
+      "found": 1,
+      "total": 1
+    },
+    "hair_color/name_had": {
+      "found": 8,
+      "total": 8
+    },
+    "hair_color/name_was": {
+      "found": 8,
+      "total": 8
+    },
+    "hair_color/pronoun": {
+      "found": 6,
+      "total": 6
+    },
+    "handedness/being": {
+      "found": 15,
+      "total": 15
+    },
+    "handedness/name_was": {
+      "found": 8,
+      "total": 8
+    },
+    "handedness/wrote_with": {
+      "found": 10,
+      "total": 10
+    },
+    "location/location": {
+      "found": 103,
+      "total": 105
+    },
+    "status/death": {
+      "found": 4,
+      "total": 4
+    }
+  },
+  "location_day_accuracy": {
+    "correct": 103,
+    "total": 103
+  },
+  "negative_modality": {
+    "asserted": 0,
+    "not_asserted": 5
+  },
+  "world_rule_statements": {
+    "found": 4,
+    "total": 4,
+    "recall": 1.0
+  },
+  "foreshadowing_setups": {
+    "found": 14,
+    "total": 14,
+    "recall": 1.0
+  },
+  "causal_links": {
+    "found": 8,
+    "total": 8,
+    "recall": 1.0
+  },
+  "unscored_claims": {
+    "foreshadowing": 39,
+    "world_rule": 7,
+    "event": 261,
+    "causal": 9,
+    "status": 2,
+    "ability:used": 2
+  },
+  "usage": {
+    "calls": 100,
+    "input_tokens": 197699,
+    "output_tokens": 118242,
+    "cost_usd": 0.07889090000000003,
+    "rejected": 8,
+    "rejected_by_reason": {
+      "malformed value": 8
+    },
+    "errors": []
+  },
+  "false_positive_examples": [
+    {
+      "chapter": 12,
+      "predicate": "location",
+      "value": "the quay",
+      "subject": "Havik Wexholt",
+      "quote": "Havik stacked crates on the quay."
+    },
+    {
+      "chapter": 13,
+      "predicate": "location",
+      "value": "lighthouse stair",
+      "subject": "Wysa Marford",
+      "quote": "Wysa climbed the lighthouse stair."
+    },
+    {
+      "chapter": 34,
+      "predicate": "location",
+      "value": "lighthouse stair",
+      "subject": "Dawen Wexshaw",
+      "quote": "Dawen climbed the lighthouse stair."
+    },
+    {
+      "chapter": 48,
+      "predicate": "location",
+      "value": "Blackmere",
+      "subject": "Isalis Briner",
+      "quote": "Some time later, in Blackmere."
+    },
+    {
+      "chapter": 84,
+      "predicate": "location",
+      "value": "lighthouse stair",
+      "subject": "Isavik Ashner",
+      "quote": "Isavik climbed the lighthouse stair."
+    }
+  ],
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "5ca610f"
+  }
+}

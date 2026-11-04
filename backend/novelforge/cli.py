@@ -307,6 +307,7 @@ def cmd_bench_consistency(args: argparse.Namespace) -> int:
         embedder_spec=args.embedder,
         k=args.k,
         max_chapters=args.max_chapters,
+        cache_dir=Path(args.out) / "llm-cache",
     )
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -327,6 +328,19 @@ def cmd_bench_real(args: argparse.Namespace) -> int:
     from novelforge.bench import real_text
 
     root = BACKEND_DIR.parent / "bench"
+    llm, claims_out = None, None
+    if args.llm:
+        from novelforge.llm.cache import CachingLLM, ReplayLLM
+        from novelforge.llm.registry import get_llm
+
+        safe = args.llm.replace(":", "-").replace("/", "-")
+        cache_dir = Path(args.out) / "llm-cache"
+        llm = (
+            ReplayLLM(args.llm, cache_dir)
+            if args.replay
+            else CachingLLM(get_llm(args.llm), cache_dir / f"real-{args.book}-{safe}.jsonl")
+        )
+        claims_out = Path(args.out) / "real-claims" / f"claims-{args.book}-llm-{safe}.jsonl"
     report, todo = real_text.run(
         args.book,
         Path(args.manifest) if args.manifest else root / "real" / "books.yaml",
@@ -334,13 +348,18 @@ def cmd_bench_real(args: argparse.Namespace) -> int:
         root / "real" / "labels",
         sheet_pronouns=not args.no_sheet_pronouns,
         claims_file=Path(args.claims) if args.claims else None,
+        llm=llm,
+        claims_out=claims_out,
     )
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     suffix = "" if report["sheet_pronouns"] else "-inferred-pronouns"
-    path = out / f"real-{report['book']}-{report['extractor']}{suffix}.json"
+    safe_extractor = report["extractor"].replace(":", "-").replace("/", "-")
+    path = out / f"real-{report['book']}-{safe_extractor}{suffix}.json"
     path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-    path.with_suffix(".md").write_text(real_text.to_markdown(report) + "\n", encoding="utf-8")
+    (out / f"real-{report['book']}-{safe_extractor}{suffix}.md").write_text(
+        real_text.to_markdown(report) + "\n", encoding="utf-8"
+    )
     print(real_text.to_markdown(report))
     print(f"\nsaved {path}")
     if todo:
@@ -566,6 +585,10 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("bench-real", help="precision on a public-domain novel (hand labels)")
     p.add_argument("book", help="book id from bench/real/books.yaml")
+    p.add_argument(
+        "--llm", help="score an LLM's claims, e.g. openrouter:anthropic/claude-haiku-5.5"
+    )
+    p.add_argument("--replay", action="store_true", help="answer from the recorded --llm run")
     p.add_argument("--manifest", default=None)
     p.add_argument("--todo", default=None, help="where to write unlabelled items (JSONL)")
     p.add_argument(

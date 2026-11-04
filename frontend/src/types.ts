@@ -394,6 +394,8 @@ export interface StoryIssue {
   refs: string[];
   fixes: string[];
   rationale?: string;
+  /** Titles (or kinds) of findings folded into this one: the same scene or the same beat. */
+  merged?: string[];
 }
 
 export interface StorySuggestion {

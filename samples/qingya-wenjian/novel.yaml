@@ -1,0 +1,61 @@
+# Original Chinese held-out sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
+# Held-out sample for the story-logic audit, written by a separate agent that saw neither the audit,
+# its prompts nor the other samples; scored once with story-v3 prompts and checks-v4 (frozen in the
+# commit that added this sample), see BENCHMARK.md section 8. Labels in narrative_truth.yaml.
+slug: qingya-wenjian
+title: 青崖问剑
+language: zh
+synopsis: >-
+  青崖宗外门弟子沈清禾前世被同门裴照雪栽赃盗经，废去修为、逐出山门，死在山下雪夜。
+  她重生回到外门大比前十日，一边隐忍不发，一边等着大比那天当众翻案。
+characters:
+  - name: 沈清禾
+    aliases: [清禾, 清禾姐, 沈师妹]
+    description: >-
+      女主，十六岁，青崖宗外门弟子，孤女，被掌管药圃的云姑收为徒弟。前世在外门大比前三日被裴照雪栽赃盗取丹经残页，
+      废去修为、逐出山门，死在山下；如今重生回到大比前十日，记得前世发生的事。
+      人设：谨慎隐忍，凡事谋定后动、先留退路，从不在人前出头，说话从不大声。
+      处境：修为卡在炼气四层，大比须进前十才能入内门。
+    attributes: {pronouns: she/her}
+  - name: 苏小棠
+    aliases: [小棠]
+    description: >-
+      沈清禾的同屋师妹，十五岁，山下农户出身。人设：胆小怕事，见了执法堂的人都不敢抬头，从不违反门规。
+      处境：家里穷，娘常年腿疾，她把每一块灵石都攒下来给娘买药，一块也舍不得乱花。
+    attributes: {pronouns: she/her}
+  - name: 云姑
+    aliases: [师父]
+    description: >-
+      掌管外门药圃的老药婆，沈清禾的师父。人设：严厉寡言，护短，把药圃里的灵草看得比命还重。
+      处境：外门里没有靠山，药圃是她半生的心血。
+    attributes: {pronouns: she/her}
+  - name: 裴照雪
+    aliases: [裴师姐]
+    description: >-
+      外门弟子第一人，内门裴长老的孙女。人设：表面温婉，心高气傲，最重颜面。
+      处境：半月前私下把宗门的培元丹卖给山下药商，被沈清禾撞见，怕事情败露，一心要把沈清禾赶出宗门。
+    attributes: {pronouns: she/her}
+  - name: 韩烈
+    aliases: []
+    description: >-
+      执法堂巡山弟子，出身寻常，平日只管巡山。与沈清禾、云姑素不相识，和裴照雪也没有往来。
+    attributes: {pronouns: he/him}
+  - name: 顾长风
+    aliases: [顾师兄]
+    description: >-
+      内门首席弟子，剑道天才。人设：冷傲寡言，从不正眼看外门弟子，也从不插手外门之事。
+    attributes: {pronouns: he/him}
+  - name: 秦长老
+    aliases: [执法长老]
+    description: >-
+      青崖宗执法长老。人设：铁面无私，只认证据，不凭一面之词定罪。
+    attributes: {pronouns: he/him}
+chapters:
+  - ch01.md
+  - ch02.md
+  - ch03.md
+  - ch04.md
+  - ch05.md
+  - ch06.md
+  - ch07.md
+  - ch08.md
