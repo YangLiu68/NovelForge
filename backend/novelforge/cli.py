@@ -393,7 +393,9 @@ def cmd_audit_story(args: argparse.Namespace) -> int:
         "misses": getattr(llm, "misses", None),
     }
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"story-{folder.name}-{safe_llm}-{report['audit']['prompt_version']}.json"
+    version = report["audit"]["prompt_version"]
+    checks = report["audit"].get("checks_version")
+    path = out / f"story-{folder.name}-{safe_llm}-{version}{f'-{checks}' if checks else ''}.json"
     path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     path.with_suffix(".md").write_text(story_eval.to_markdown(report) + "\n", encoding="utf-8")
     print(story_eval.to_markdown(report))

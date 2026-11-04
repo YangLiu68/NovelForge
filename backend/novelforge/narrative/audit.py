@@ -183,6 +183,9 @@ class Issue:
     # How the verdict was reached, written by the code from the checked answers (the model's
     # own words are in `explanation` and may disagree when a check overruled it).
     rationale: str = ""
+    # Other findings folded into this one: further beats of the same scene, or other diagnoses
+    # of the same beat ("cause and effect" next to a knowledge leak).
+    merged: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -212,6 +215,7 @@ class StoryAudit:
     rejected: list[dict[str, Any]] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     usage: dict[str, Any] = field(default_factory=dict)
+    checks_version: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -269,6 +273,7 @@ class StoryAuditor:
             prompt_version=P.PROMPT_VERSION,
             chapters=[{"number": c.number, "title": c.title} for c in self.chapters],
             cast=[m.name for m in self.cast],
+            checks_version=P.CHECKS_VERSION,
         )
 
     # ------------------------------------------------------------------ helpers
@@ -843,11 +848,12 @@ class StoryAuditor:
             later = [c for c in self.chapters if c.number > setup.chapter]
             if not later:
                 continue  # planted in the last chapter: an open ending, not a dangling setup
-            if setup.key:
-                # Punctuation inside a word is typography: “青”，“雀” is still 青雀.
-                if any(_squash(setup.key) in _squash(c.body) for c in later):
-                    continue
-            elif self._paid_by_model(setup):
+            # Punctuation inside a word is typography: “青”，“雀” is still 青雀.
+            if setup.key and any(_squash(setup.key) in _squash(c.body) for c in later):
+                continue
+            # The key word may come back in other words (私账 as 账册): a miss is not proof, so
+            # the model is asked which later beat pays the setup off.
+            if self._paid_by_model(setup):
                 continue
             out.append(
                 {
@@ -948,6 +954,54 @@ class StoryAuditor:
                     change=str(item["change"]).strip(),
                     why=str(item.get("why", "")).strip(),
                     sample=str(item.get("sample", "") or "").strip(),
+                )
+            )
+
+    def _reveals(self) -> None:
+        """A beat whose words are the later explanation of an earlier act (“许校长告诉程歌，她父亲
+        替自己交过学费”, which explains the fee waiver chapters before) states its own reason: it
+        is the reveal, not an unexplained act."""
+        explaining = {
+            j.explained_by: j.beat for j in self.audit.judgements if j.explained_by is not None
+        }
+        notes = {n.id: n for n in self.audit.notes}
+        for j in self.audit.judgements:
+            if j.verdict not in PROBLEM_VERDICTS:
+                continue
+            b = self.audit.beat(j.beat)
+            for nid, earlier in explaining.items():
+                n = notes.get(nid)
+                if n is not None and earlier != b.id and _same_passage(n, b):
+                    j.checks.append(
+                        f"reveal: the beat states {nid}, which explains {earlier}; not a flaw"
+                    )
+                    j.verdict, j.fixes = "consistent", []
+                    break
+
+    def _hook_suggestions(self) -> None:
+        """Chapters that end without a hook become revision suggestions (a cliffhanger to add),
+        not problems: a quiet ending is a craft choice the author can strengthen, not a logic
+        flaw. Flat stretches stay problems."""
+        flat = {c for i in self.audit.issues if i.kind == "flat_stretch" for c in i.chapters}
+        last = self.chapters[-1].number if self.chapters else None
+        for p in self.audit.pulses:
+            if p.hook or not p.tension or p.chapter == last or p.chapter in flat:
+                continue
+            zh = self.lang == "zh"
+            self.audit.suggestions.append(
+                Suggestion(
+                    targets=[],
+                    chapter=p.chapter,
+                    technique="cliffhanger",
+                    change=(
+                        f"第 {p.chapter} 章的结尾平稳收住，可以在最后一两句留一个悬念、危机或反转，"
+                        "让读者想立刻看下一章。"
+                        if zh
+                        else f"Chapter {p.chapter} ends quietly; end it on a question, a danger "
+                        "or a reversal so the reader turns the page."
+                    ),
+                    why=p.summary,
+                    sample="",
                 )
             )
 
@@ -1085,6 +1139,8 @@ class StoryAuditor:
                 )
             )
         for item in self._pacing_issues():
+            if item["kind"] == "no_hook":
+                continue  # a revision suggestion, not a flaw (see _hook_suggestions)
             ps = item["pulses"]
             ev = []
             for p in ps:
@@ -1124,6 +1180,7 @@ class StoryAuditor:
                     rationale=title,
                 )
             )
+        rows = _merge_rows(rows, self.lang)
         family_order = {"character": 0, "plot": 1, "pacing": 2}
         rows.sort(key=lambda r: (-r["severity"], family_order[r["family"]], r["chapter"]))
         a.issues = [Issue(id=f"I{i}", **r) for i, r in enumerate(rows, start=1)]
@@ -1142,11 +1199,13 @@ class StoryAuditor:
             self.leak_stage(ch)
         self.progress("later explanations")
         self.later_stage()
+        self._reveals()
         self.progress("plot")
         plot = self.plot_stage()
         self.assemble(plot)
         self.progress("revision plan")
         self.plan_stage()
+        self._hook_suggestions()
         u = self._usage
         self.audit.usage = {
             "calls": u.calls,
@@ -1166,6 +1225,91 @@ _NOTHING = {"", "无", "没有", "暂无", "none", "n/a", "nothing", "-", "—"}
 def _nothing_to_empty(value: Any) -> str:
     text = str(value or "").strip()
     return "" if text.lower().strip("。.") in _NOTHING else text
+
+
+# Code-checked plot findings outrank the model's own "cause and effect" call when they share a beat.
+_PLOT_RANK = {"knowledge_leak": 0, "deus_ex_machina": 1, "dangling_setup": 2}
+
+
+def _merge_rows(rows: list[dict[str, Any]], lang: str) -> list[dict[str, Any]]:
+    """Fold findings that describe one problem into one row.
+
+    - Character findings with the same verdict on the same character in the same chapter are
+      one scene (she slaps him, scolds him, helps the girl up and walks off): one finding with
+      every beat as evidence. "Against the character" findings fold only when they go against
+      at least one shared note.
+    - Plot findings that cite the same beat are one problem with several diagnoses; the
+      code-checked kind (a knowledge leak, a rescue from nowhere) is kept, the others listed.
+    """
+
+    def fold(into: dict[str, Any], other: dict[str, Any], label: str) -> None:
+        seen = {(e.chapter, e.start, e.end, e.role) for e in into["evidence"]}
+        into["evidence"] += [
+            e for e in other["evidence"] if (e.chapter, e.start, e.end, e.role) not in seen
+        ]
+        into["refs"] += [r for r in other["refs"] if r not in into["refs"]]
+        into["chapters"] = sorted(set(into["chapters"]) | set(other["chapters"]))
+        into["severity"] = max(into["severity"], other["severity"])
+        into["fixes"] = into["fixes"] or other["fixes"]
+        into.setdefault("merged", []).append(label)
+
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        target = None
+        if row["family"] == "character":
+            notes = {r for r in row["refs"][1:]}
+            for prev in out:
+                same_scene = prev["family"] == "character" and (
+                    prev["character"],
+                    prev["chapter"],
+                    prev["kind"],
+                ) == (row["character"], row["chapter"], row["kind"])
+                shared = row["kind"] != "contradicts" or notes & set(prev["refs"][1:])
+                if same_scene and shared:
+                    target = prev
+                    break
+            if target is not None:
+                fold(target, row, row["title"])
+                continue
+        elif row["family"] == "plot":
+            beats = {r for r in row["refs"] if r.startswith("B")}
+            for prev in out:
+                if prev["family"] == "plot" and beats & {
+                    r for r in prev["refs"] if r.startswith("B")
+                }:
+                    target = prev
+                    break
+            if target is not None:
+                # Keep the better-checked diagnosis on top.
+                if _PLOT_RANK.get(row["kind"], 9) < _PLOT_RANK.get(target["kind"], 9):
+                    keep = dict(row)
+                    keep["evidence"], keep["refs"] = list(row["evidence"]), list(row["refs"])
+                    old = dict(target)
+                    target.clear()
+                    target.update(keep)
+                    fold(target, old, old["kind"])
+                else:
+                    fold(target, row, row["kind"])
+                continue
+        row = dict(row)
+        row["evidence"], row["refs"] = list(row["evidence"]), list(row["refs"])
+        out.append(row)
+    for row in out:
+        if row.get("merged"):
+            n, also = len(row["merged"]), "、".join(row["merged"])
+            if row["family"] == "character":
+                row["rationale"] += (
+                    f"（同一场戏里还有 {n} 处同样的问题：{also}）"
+                    if lang == "zh"
+                    else f" (the same scene has {n} more: {'; '.join(row['merged'])})"
+                )
+            else:
+                row["rationale"] += (
+                    f"（同一处也被判为：{also}）"
+                    if lang == "zh"
+                    else f" (also diagnosed as: {', '.join(row['merged'])})"
+                )
+    return out
 
 
 def _same_passage(n: Note, b: Beat) -> bool:
