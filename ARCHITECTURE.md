@@ -194,8 +194,10 @@ per problem   later    does a later chapter explain it? then it is a planted rev
 whole story   plot     knowledge leaks and broken causality, tied to beat / note IDs
 per crisis    rescue   a beat that resolves a crisis by someone never named in an earlier
                        chapter: the model confirms or not -> deus ex machina
-per setup     payoff   does any later beat pay it off? if none -> dangling setup
-whole story   pacing   from the tension curve and hooks (no LLM): flat stretches, no hook
+per setup     payoff   its key word comes back later, or the model names the later beat that
+                       pays it off (in other words: 私账 returns as 账册); if neither -> dangling
+whole story   pacing   from the tension curve (no LLM): flat stretches; a quiet chapter ending
+                       becomes a suggestion (add a cliffhanger), not a problem
 top problems  plan     revisions (plant a setup, rewrite the motive, a setback that opens an
                        opportunity, reversal, past-life memory, special advantage, cliffhanger,
                        cost and payoff), each tied to the problems it fixes
@@ -223,9 +225,13 @@ beat consistent and cited nothing (BENCHMARK.md section 8).
 | A setup planted in the last chapter | not checked for a payoff (an open ending) |
 | A hook must be in the last 30% of the chapter | otherwise the chapter has no hook |
 | Plan targets must be known problem IDs | dropped |
+| A beat whose words are a later explanation of an earlier act (the note that made that act `delayed`) | not a problem: it is the reveal |
+| Findings with the same verdict on the same character in one chapter, going against a shared note | one finding for the scene, every beat as evidence |
+| Plot findings citing the same beat | one finding; the code-checked kind (knowledge leak, rescue from nowhere) is kept, the model's other diagnoses listed |
 
-Prompts are in the novel's language (Chinese or English). Runs are `story_audit` jobs, idempotent
-per (novel text, model, prompt version). `replay:<llm>` answers from recorded responses
+Prompts are in the novel's language (Chinese or English). The checks carry their own version
+(`CHECKS_VERSION`, now `checks-v4`): changing them re-scores recorded runs without the model.
+Runs are `story_audit` jobs, idempotent per (novel text, model, prompt and checks version). `replay:<llm>` answers from recorded responses
 (`bench/results/llm-cache/`) and refuses any prompt it has no recording for, so a real model's
 run can be shown on a machine without that model, and a changed text is never answered with an
 old response. The cast is sorted by name so the same novel gives byte-identical prompts from

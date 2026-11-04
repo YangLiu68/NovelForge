@@ -18,6 +18,7 @@ import {
   severityLabel,
   techniqueLabel,
   tensionCurve,
+  estimateLabel,
 } from "../story";
 import type {
   StoryAuditResult,
@@ -26,6 +27,7 @@ import type {
   StoryIssue,
   StoryNote,
   StorySuggestion,
+  LlmEstimate,
 } from "../types";
 import { useWorkspace } from "./workspaceContext";
 
@@ -37,6 +39,7 @@ const T = {
     model: "模型",
     configured: "服务器配置的模型",
     replay: "回放录制的 qwen2.5:7b 结果",
+    replayClaude: "回放录制的 Claude Opus 5.5 结果",
     mock: "离线模拟（无分析）",
     run: "开始审查",
     running: "审查中",
@@ -78,6 +81,7 @@ const T = {
     model: "Model",
     configured: "server's configured model",
     replay: "replay the recorded qwen2.5:7b run",
+    replayClaude: "replay the recorded Claude Opus 5.5 run",
     mock: "offline mock (no analysis)",
     run: "Run audit",
     running: "Running",
@@ -475,6 +479,7 @@ export default function StoryPage() {
   const [runs, setRuns] = useState<StoryAuditRun[]>([]);
   const [run, setRun] = useState<StoryAuditRun | null>(null);
   const [llm, setLlm] = useState("");
+  const [estimate, setEstimate] = useState<LlmEstimate | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<"problems" | "motives" | "pacing" | "dossier" | "checks">("problems");
 
@@ -491,6 +496,18 @@ export default function StoryPage() {
   useEffect(() => {
     load().catch((e: Error) => setError(e.message));
   }, [load]);
+
+  // What the selected model would cost on this novel, before the author starts it.
+  useEffect(() => {
+    let live = true;
+    api
+      .llmEstimate(novel.id, "story", llm || undefined)
+      .then((e) => live && setEstimate(e))
+      .catch(() => live && setEstimate(null));
+    return () => {
+      live = false;
+    };
+  }, [novel.id, llm, chapters.length]);
 
   // Poll while the run is queued or running.
   useEffect(() => {
@@ -531,6 +548,7 @@ export default function StoryPage() {
           {t.model}{" "}
           <select value={llm} onChange={(e) => setLlm(e.target.value)} data-testid="story-llm">
             <option value="">{t.configured}</option>
+            <option value="replay:openrouter:anthropic/claude-opus-5.5">{t.replayClaude}</option>
             <option value="replay:ollama:qwen2.5:7b">{t.replay}</option>
             <option value="mock">{t.mock}</option>
           </select>
@@ -552,6 +570,11 @@ export default function StoryPage() {
           </select>
         )}
       </div>
+      {estimate && (
+        <p className="muted small" data-testid="story-estimate">
+          {estimateLabel(lang, estimate)}
+        </p>
+      )}
       {error && <p className="error">{error}</p>}
       {!run && <p className="muted">{t.none}</p>}
       {run && (run.status === "queued" || run.status === "running") && (

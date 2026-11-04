@@ -35,6 +35,28 @@ def list_runs(novel: Novel = Depends(novel_dep), session: Session = SessionDep):
     return [story_audit.to_out(session, r, with_result=False) for r in runs]
 
 
+@router.get("/novels/{novel_id}/llm-estimate")
+def llm_estimate(
+    task: str = "story",
+    llm: str | None = None,
+    novel: Novel = Depends(novel_dep),
+    session: Session = SessionDep,
+):
+    """A rough cost of running the story audit (`task=story`) or LLM fact extraction
+    (`task=extract`) on this novel with the configured model, before starting it."""
+    from fastapi import HTTPException
+
+    from novelforge.llm.estimate import estimate
+    from novelforge.services.derived import chapter_ref
+    from novelforge.services.extraction_jobs import max_words_for
+
+    if task not in ("story", "extract"):
+        raise HTTPException(422, "task must be story or extract")
+    spec = allowed_llm(llm)
+    chapters, _ = story_audit._inputs(session, novel.id)
+    return estimate([chapter_ref(c) for c in chapters], spec, task, max_words_for(spec))
+
+
 @router.get("/story-audits/{run_id}")
 def get_run(run_id: uuid.UUID, session: Session = SessionDep):
     return story_audit.to_out(session, story_audit.get_run(session, run_id))

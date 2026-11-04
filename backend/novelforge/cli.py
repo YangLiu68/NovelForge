@@ -308,10 +308,12 @@ def cmd_bench_consistency(args: argparse.Namespace) -> int:
         k=args.k,
         max_chapters=args.max_chapters,
         cache_dir=Path(args.out) / "llm-cache",
+        with_rules=args.with_rules,
     )
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    safe = (report["extraction"]["extractor"] + "-" + report["embedder"]).replace("/", "_")
+    both = "+rules" if report["extraction"].get("with_rules") else ""
+    safe = (report["extraction"]["extractor"] + both + "-" + report["embedder"]).replace("/", "_")
     path = (
         out / f"consistency-{report['corpus']}-{safe.replace(':', '-')}-{report['chapters']}ch.json"
     )
@@ -355,6 +357,9 @@ def cmd_bench_real(args: argparse.Namespace) -> int:
     out.mkdir(parents=True, exist_ok=True)
     suffix = "" if report["sheet_pronouns"] else "-inferred-pronouns"
     safe_extractor = report["extractor"].replace(":", "-").replace("/", "-")
+    window = (report.get("llm_usage") or {}).get("window_words")
+    if window and window != 6000:
+        safe_extractor += f"-w{window}"
     path = out / f"real-{report['book']}-{safe_extractor}{suffix}.json"
     path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     (out / f"real-{report['book']}-{safe_extractor}{suffix}.md").write_text(
@@ -576,6 +581,7 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("bench-consistency", help="contradiction benchmark with memory ablation")
     p.add_argument("corpus")
+    p.add_argument("--with-rules", action="store_true", help="LLM claims plus the rule extractor's")
     p.add_argument("--extractor", default="rules", help="rules | mock | ollama:<model> | anthropic")
     p.add_argument("--embedder", default="hash")
     p.add_argument("--k", type=int, default=5, help="passages retrieved per claim")

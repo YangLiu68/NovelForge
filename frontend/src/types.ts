@@ -450,3 +450,19 @@ export interface StoryAuditRun {
   counts?: { issues: number; severe: number; suggestions: number };
   result?: StoryAuditResult | null;
 }
+
+/** GET /api/novels/{id}/llm-estimate: a rough cost before a run (backend llm/estimate.py). */
+export interface LlmEstimate {
+  llm: string;
+  task: "story" | "extract";
+  language: string;
+  chapters: number;
+  calls: number;
+  input_tokens: number;
+  output_tokens: number;
+  free: boolean;
+  cost_usd: number | null;
+  low_usd: number | null;
+  high_usd: number | null;
+  basis: string;
+}

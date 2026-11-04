@@ -192,6 +192,32 @@ What the ablation shows:
   and journeys within one chapter ("three days later"); recognising those removed every false
   alarm and lifted recall by 5.6 points (section 2 has the caveat).
 
+### With an LLM extractor and the world-rule judge (Claude Haiku 5.5, 100 chapters)
+
+`novelforge bench-consistency bench/corpora/syn-100-s7 --extractor
+openrouter:anthropic/claude-haiku-5.5 --embedder hash [--with-rules]`. The extraction answers are
+the ones recorded for section 5; the judge reads the world rules the model extracted and judges
+the 8 passages hybrid search retrieves for each (7 calls, $0.001). The structured system:
+
+| Claims from | Recall | False findings | Negatives flagged | Missed |
+|---|---|---|---|---|
+| rules-v6 | 9 / 12 (0.750) | 0 | 0 / 13 | 2 identity (implication), the world rule |
+| Haiku alone | 10 / 12 (0.833) | 0 | 0 / 13 | both ability contradictions |
+| **Haiku plus rules** | **12 / 12 (1.000)** | **0** | **0 / 13** | none |
+
+- **The judge finds the planted world-rule violation** ("A gull flew straight across the Grey
+  Reach", against "no bird ever crosses the Grey Reach"), which no rule can.
+- **The model reads states, the rules read acts.** Haiku extracted every "could not ride" and
+  "learned to ride", but not "Cadra rode out along the coast road at a gallop" as a use of the
+  skill, so both ability contradictions were missed; the rules read the verb. Together they miss
+  nothing. On Chinese the union was worse than the model alone (section 9), because the Chinese
+  rules are the weaker reader there; `REPORT_PREFER_LLM` is off by default for this reason.
+- **A failed attempt is not a violation.** The first run flagged "Vesa tried to cut the
+  saltglass, but the knife skidded off it", although the judge prompt says failed attempts do not
+  count. The judge's quote is now checked for an attempt that failed ("tried to … but", "failed
+  to", "in vain", 试图…却, 没能, 未能, 徒劳) and such a finding is dropped: the table above is the
+  re-scored run, with the same recorded answers. This is dev data for that check.
+
 ## 4. Scale and load
 
 Command: `novelforge bench-load bench/corpora/load-1000-s7` (generated with `--filler 25`, about
@@ -455,11 +481,88 @@ reports in `bench/results/story-*-story-v3.md`, every response in `bench/results
   tormenting a flower seller, called villainy without cause). Of its 11 issues on no label,
   judged by hand: 4 restate a labelled problem at another beat of the same scene (the slap's
   aftermath, the secret compartment as "cause and effect" and as an "unsolved mystery"), and 7
-  are wrong or weak: 4 "no hook" chapter endings that do
-  end on a question or a theft, the headmaster's favour called out of character in the chapter
+  are wrong or weak: 4 "no hook" chapter endings (one is fair, chapter 7 ends on a
+  resolution; three end on an open question, an omen or a theft), the headmaster's favour called out of character in the chapter
   that explains it, a minor "unmotivated" note the model itself rates as harmless, and the moved
   ledger as a "dangling setup" because its key word 私账 comes back as 账册. Two of those seven
   come from the code's rules (the key-word payoff check, the computed verdict), not the model.
+
+### Checks v4: one problem, one finding (code only, re-scored from the recordings)
+
+The 青石渡 noise was mostly the code's: the same scene reported three times, one plot problem
+reported under three kinds, a reveal judged as an act, a payoff missed because the setup came
+back in other words, and quiet chapter endings listed among the logic problems. `checks-v4`
+(prompts unchanged) folds findings with the same verdict on the same character in one chapter
+when they go against a shared note, folds plot findings citing the same beat under the
+code-checked kind, treats a beat whose words are an earlier act's later explanation as the
+reveal, asks the model's payoff question when a setup's key word does not come back, and turns
+a missing ending hook into a revision suggestion (add a cliffhanger) instead of a problem;
+flat stretches stay problems. Every recorded run was re-scored without the model:
+
+| Run | Problems found | Traps set off | Issues (on no label) checks-v3 → v4 |
+|---|---|---|---|
+| 青石渡, Claude Opus 5.5 | 3 / 6 → 3 / 6 | 0 / 4 → 0 / 4 | 21 (11) → **11 (3)** |
+| 青石渡, qwen2.5:7b | 2 / 6 → 2 / 6 | 1 / 4 → 1 / 4 | 9 (5) → 8 (4) |
+| 雪夜当铺 (dev), qwen2.5:7b | 4 / 6 → 4 / 6 | 1 / 8 → 1 / 8 | 6 (1) → 6 (1) |
+| 雪夜当铺（修订版）, qwen2.5:7b | — | 0 / 14 → 0 / 14 | 5 (5) → 3 (3) |
+
+No problem found before was lost. The hook reclassification accounts for 4 of Claude's 8
+removed issues and 2 of the revision's; the rest are merges and the reveal rule. These changes
+were made after looking at 青石渡, so its v4 numbers are not blind.
+
+### A fresh held-out: 青崖问剑 (2026-11-03)
+
+青崖问剑 (仙侠宗门, 8 chapters of about 330 characters, 6 problems, 6 traps, 2 ambiguous cases)
+was written and labelled by a separate agent that saw neither the audit, its prompts nor any
+other sample, and added to the repository (`caf042d`) before any model ran on it. It was then
+audited once per model with story-v3 prompts and checks-v4:
+
+| Model | Problems found | +right place, other diagnosis | Traps set off | Issues (on no label) | Calls | Cost |
+|---|---|---|---|---|---|---|
+| **Claude Opus 5.5** | **4 / 6** | +1 | 1 / 6 (0 / 6 by hand) | 13 (7) | 73 | $1.49 |
+| **Claude Haiku 5.5** | **3 / 6** | +1 | **0 / 6** | 10 (5) | 66 | **$0.049** |
+
+- **Found by both**: the timid disciple who gambles away her mother's medicine money, the
+  stranger who rescues the heroine from the cliff and vanishes, and the flat chapter; Opus also
+  the locked box never opened.
+- **The villain without a motive was flagged as "against the character" by both** (the
+  label wants "villainy without cause"): the model cited the notes that he had never met his
+  victims as what the act goes against. 青石渡's classmate who tears up a stranger's essay went
+  the same way.
+- **The knowledge leak was seen and filed elsewhere**: Opus reported that the rival "reveals
+  what was told only to the heroine, with no source" as cause and effect in the chapter where
+  the secret was told, so it does not count.
+- **Opus's one trap was the scorer's**: a dangling "why did he do it" (the villain's motive)
+  in chapter 2 was counted against the trap about a powder paid off under another name in the
+  same chapter. The powder itself was recognised as paid off. Plot traps now need the finding
+  to overlap the trap's own passage; the table keeps the first score.
+- **Wrong issues, by hand (Opus)**: 4 of 7. Two are the inner-sect senior bowing to and then
+  defending the herbalist, explained in chapter 7 (she saved his life): the model found that
+  note, and the code threw it out because the only word it shares with the act is a name. One is
+  a knowledge leak that is not one: the heroine says she saw the rival sell the pills, which
+  chapter 1 states, but her file had 32 notes and only the latest 24 were shown. One is an
+  elder ordering an arrest on evidence, called out of character. Of the other three, two restate
+  labelled problems and one (why the herbalist's meridians broke) is a fair open question.
+- **Haiku is the better deal**: one problem fewer than Opus, no trap, fewer wrong issues, for a
+  thirtieth of the price.
+
+**Checks v5 (after this run, so seen):** the shared-word test now ignores only the actor's own
+names (a third person named in both the act and the note counts); a long character file keeps
+the notes that share words with the beat or secret before the latest ones; harm with no reason
+at all is villainy without cause even when the model cites a note it goes against. Re-scored
+from the recordings, with the few changed prompts sent to the model (11 calls in all):
+
+| Run | Problems found | Traps set off | Issues (on no label) |
+|---|---|---|---|
+| 青崖问剑, Opus | 4 → **5 / 6** | 1 → **0 / 6** | 13 (7) → 11 (6) |
+| 青崖问剑, Haiku | 3 → **4 / 6** | 0 / 6 | 10 (5) → 8 (3) |
+| 青石渡, Opus | 3 / 6 | 0 / 4 | 11 (3) → 11 (4) |
+| 青石渡, qwen2.5:7b | 2 → 3 / 6 | 1 / 4 | 8 (4) |
+| 雪夜当铺 (dev), qwen2.5:7b | 4 / 6 | 1 / 8 | 6 (1) |
+| 雪夜当铺（修订版）, qwen2.5:7b | — | 0 / 14 | 3 (3) |
+
+A held-out story sample is spent once a version has been fixed on it; the next check of v5 needs
+another one.
 
 ## 9. Chinese continuity facts (rules-zh and Claude)
 
@@ -555,6 +658,21 @@ counted, not scored.
   day, and the sentence that says she learned (尉迟兰就是这样学会骑马的) comes after it, so the use
   looked earlier than the learning. The rules' false finding is 白发苍苍 read as 裴照's hair when it
   belongs to the old man beside him.
+- **Model size matters less than its price.** The same frozen prompt on the same unseen novel
+  with two smaller models (scored with the detector as frozen, so blind except for the model
+  choice; the fact numbers are independent of the detector):
+
+  | Model (OpenRouter) | Contradictions found | False findings | Claim precision | Claim recall (asserted) | Cost | Model time |
+  |---|---|---|---|---|---|---|
+  | Claude Haiku 5.5 | 9 / 9 | 1 | 0.979 | 0.821 (0.905) | **$0.011** | 72 s |
+  | Claude Sonnet 5.5 | 7 / 9 | 0 | 0.978 | 0.804 (0.905) | $0.084 | 29 s |
+  | Claude Opus 5.5 | 9 / 9 | 1 | 0.98 | 0.857 (0.952) | $0.255 | 101 s |
+
+  Haiku finds what Opus finds at a twenty-third of the price (its one false finding is the same
+  riding lesson). Sonnet misses two: a dead man shown squatting by the well (it does not emit
+  `presence` for him) and reading inferred from someone reading a letter aloud. With the lesson
+  fix all three make no false finding. One novel is too few to rank them; it is enough to say
+  the cheapest model is not the weak link here.
 - **Rules plus Claude is worse than Claude alone** on these samples: the union keeps the rules'
   false findings (one per novel) and adds nothing Claude missed. `REPORT_PREFER_LLM=true` makes
   the app's report use the model's claims in chapters it has read (accepted claims always

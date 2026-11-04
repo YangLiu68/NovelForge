@@ -37,8 +37,13 @@ def enqueue_llm_extraction(session: Session, chapter: Chapter, llm_spec: str) ->
 
 
 def max_words_for(llm_spec: str) -> int:
-    # Small local models get small windows (short, bounded JSON); hosted models read whole chapters.
-    # A replay must cut the same windows as the run it replays.
+    """Words per LLM extraction window. Small local models get small windows (short, bounded
+    JSON); hosted models read up to a long chapter at once unless LLM_WINDOW_WORDS says
+    otherwise. A replay must cut the same windows as the run it replays."""
+    from novelforge.config import get_settings
+
+    if get_settings().llm_window_words > 0:
+        return get_settings().llm_window_words
     hosted = llm_spec.removeprefix("replay:").startswith(("anthropic", "openrouter"))
     return 6000 if hosted else 500
 

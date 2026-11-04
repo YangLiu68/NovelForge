@@ -14,6 +14,7 @@ nothing (the mock has no judge), which the benchmark reports as such.
 from __future__ import annotations
 
 import hashlib
+import re
 import uuid
 from datetime import UTC, datetime
 from typing import Any
@@ -29,6 +30,18 @@ from novelforge.llm.registry import get_llm
 from novelforge.models import Chapter, Claim, EvidenceSpan, Novel, StoredFinding, WorldRule
 from novelforge.retrieval.embedders import get_embedder
 from novelforge.retrieval.search import search
+
+# A sentence that says the act was tried and failed confirms the rule ("tried to cut the
+# saltglass, but the knife skidded off"). The prompt says so; a small model still flags some, so
+# the code drops them, as it drops quotes it cannot find.
+_FAILED_ATTEMPT = re.compile(
+    r"\b(?:tried|tries|attempted|attempts|struggled) to\b[^.!?]*?"
+    r"\b(?:but|yet|only to|failed|in vain)\b"
+    r"|\bfailed to\b|\bin vain\b"
+    r"|(?:试图|想要|企图|试着)[^。！？]*?(?:却|但|可是|没能|未能|失败|徒劳)|没能|未能|徒劳",
+    re.I,
+)
+
 
 SCHEMA = {
     "title": "rule_judgement",
@@ -117,6 +130,7 @@ def judge_rule(
             raise
         return [], {"candidates": len(hits), "error": str(exc)}
     out = []
+    dropped = 0
     data = result.data if isinstance(result.data, dict) else {}
     for v in data.get("violations") or []:
         try:
@@ -128,6 +142,9 @@ def judge_rule(
         hit = hits[idx - 1]
         found = locate(hit.text, str(v.get("quote", "")))
         if found is None:
+            continue
+        if _FAILED_ATTEMPT.search(hit.text[found.start : found.end]):
+            dropped += 1
             continue
         start, end = hit.start + found.start, hit.start + found.end
         evidence = []
@@ -151,6 +168,7 @@ def judge_rule(
         )
     usage = {
         "candidates": len(hits),
+        "dropped_failed_attempts": dropped,
         "input_tokens": result.input_tokens,
         "output_tokens": result.output_tokens,
         "cost_usd": result.cost_usd,

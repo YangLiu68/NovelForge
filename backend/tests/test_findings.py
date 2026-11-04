@@ -164,3 +164,15 @@ def test_rule_judge_stores_verified_violations(client, sample_novel_id, run_jobs
         f["kind"] == "world_rule_violation" for f in report(client, sample_novel_id)["findings"]
     )
     assert review  # imported for side effects in other tests
+
+
+def test_a_failed_attempt_is_not_a_world_rule_violation():
+    from novelforge.services.rule_judge import _FAILED_ATTEMPT
+
+    assert _FAILED_ATTEMPT.search("Vesa tried to cut the saltglass, but the knife skidded off it.")
+    assert _FAILED_ATTEMPT.search("她试图劈开盐晶，刀却滑开了。")
+    assert _FAILED_ATTEMPT.search("They searched in vain for the bird.")
+    # Done, or tried and done: still a violation.
+    assert not _FAILED_ATTEMPT.search("A gull flew straight across the Grey Reach.")
+    assert not _FAILED_ATTEMPT.search("He tried to light the lamp and it caught at once.")
+    assert not _FAILED_ATTEMPT.search("剑光一闪，盐晶被劈成两半。")

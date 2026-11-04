@@ -11,7 +11,7 @@ from __future__ import annotations
 PROMPT_VERSION = "story-v3"
 # The deterministic checks applied to the model's answers (audit.py). A change here re-scores
 # recorded runs without calling the model; stored audits are reused only for the same pair.
-CHECKS_VERSION = "checks-v4"
+CHECKS_VERSION = "checks-v5"
 AUDIT_VERSION = f"{PROMPT_VERSION}/{CHECKS_VERSION}"
 
 NOTES = {

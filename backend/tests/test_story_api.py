@@ -133,3 +133,37 @@ def test_a_recorded_run_replays_through_the_api(client, run_jobs, tmp_path, monk
     finally:
         get_settings.cache_clear()
         get_llm.cache_clear()
+
+
+def test_llm_estimate_before_a_run(client):
+    novel_id = client.post("/api/samples/qingshi-du/import").json()["novel_id"]
+    r = client.get(f"/api/novels/{novel_id}/llm-estimate", params={"task": "story"})
+    assert r.status_code == 200, r.text
+    e = r.json()
+    # The configured model in tests is the offline mock: free, but the calls are still counted.
+    assert e["free"] and e["cost_usd"] == 0.0 and e["calls"] == 8 * 7 + 10 and e["language"] == "zh"
+    assert (
+        client.get(f"/api/novels/{novel_id}/llm-estimate", params={"task": "x"}).status_code == 422
+    )
+    # A client cannot price a model the server has not enabled.
+    r = client.get(
+        f"/api/novels/{novel_id}/llm-estimate",
+        params={"llm": "openrouter:anthropic/claude-opus-5.5"},
+    )
+    assert r.status_code >= 400
+
+
+def test_estimate_prices_hosted_models_and_admits_unknown_ones():
+    from novelforge.core.domain import ChapterRef
+    from novelforge.llm.estimate import estimate
+
+    chapters = [ChapterRef(f"c{i}", i, "", "word " * 3000, 1, 0) for i in range(1, 4)]
+    e = estimate(chapters, "openrouter:anthropic/claude-haiku-5.5", "extract", 6000)
+    assert e["calls"] == 3 and e["input_tokens"] == 3 * 1760 + 3 * 4500
+    assert e["output_tokens"] == int(e["input_tokens"] * 0.6)
+    assert e["low_usd"] < e["cost_usd"] < e["high_usd"]
+    assert (
+        estimate(chapters, "openrouter:anthropic/claude-haiku-5.5", "extract", 1000)["calls"] == 9
+    )
+    assert estimate(chapters, "openrouter:someone/new-model", "story", 6000)["cost_usd"] is None
+    assert estimate(chapters, "ollama:qwen2.5:7b", "story", 500)["free"]

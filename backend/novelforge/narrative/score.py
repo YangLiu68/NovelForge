@@ -113,10 +113,14 @@ def score(audit: StoryAudit, truth: dict[str, Any], chapters: list[ChapterRef]) 
                 and _overlaps(issue, item["chapter"], spans(item))
             )
         if kind == "plot":
+            # The trap's own passage, not any plot finding in its chapter: on 青崖问剑 a dangling
+            # "why did he do it" in chapter 2 was first counted against the trap about a powder
+            # paid off under another name in the same chapter.
             return (
                 issue.family == "plot"
                 and issue.kind in item["forbid"]
-                and (issue.chapter == item["chapter"])
+                and issue.chapter == item["chapter"]
+                and (not item.get("evidence") or _overlaps_any(issue, item["chapter"], spans(item)))
             )
         if kind == "pacing":
             return issue.family == "pacing" and item["chapter"] in issue.chapters

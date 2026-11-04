@@ -1,0 +1,3132 @@
+{
+  "sample": "qingya-wenjian",
+  "title": "青崖问剑",
+  "audit": {
+    "language": "zh",
+    "llm": "openrouter:anthropic/claude-haiku-5.5",
+    "prompt_version": "story-v3",
+    "chapters": [
+      {
+        "number": 1,
+        "title": "重回十日前"
+      },
+      {
+        "number": 2,
+        "title": "药圃"
+      },
+      {
+        "number": 3,
+        "title": "北崖"
+      },
+      {
+        "number": 4,
+        "title": "雨天"
+      },
+      {
+        "number": 5,
+        "title": "三更"
+      },
+      {
+        "number": 6,
+        "title": "搜屋"
+      },
+      {
+        "number": 7,
+        "title": "名册"
+      },
+      {
+        "number": 8,
+        "title": "问剑台"
+      }
+    ],
+    "cast": [
+      "云姑",
+      "沈清禾",
+      "秦长老",
+      "苏小棠",
+      "裴照雪",
+      "韩烈",
+      "顾长风"
+    ],
+    "notes": [
+      {
+        "id": "N1",
+        "character": "云姑",
+        "kind": "sheet",
+        "text": "掌管外门药圃的老药婆，沈清禾的师父。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N2",
+        "character": "云姑",
+        "kind": "sheet",
+        "text": "人设：严厉寡言，护短，把药圃里的灵草看得比命还重。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N3",
+        "character": "云姑",
+        "kind": "sheet",
+        "text": "处境：外门里没有靠山，药圃是她半生的心血。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N4",
+        "character": "沈清禾",
+        "kind": "sheet",
+        "text": "女主，十六岁，青崖宗外门弟子，孤女，被掌管药圃的云姑收为徒弟。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N5",
+        "character": "沈清禾",
+        "kind": "sheet",
+        "text": "前世在外门大比前三日被裴照雪栽赃盗取丹经残页，废去修为、逐出山门，死在山下；",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N6",
+        "character": "沈清禾",
+        "kind": "sheet",
+        "text": "如今重生回到大比前十日，记得前世发生的事。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N7",
+        "character": "沈清禾",
+        "kind": "sheet",
+        "text": "人设：谨慎隐忍，凡事谋定后动、先留退路，从不在人前出头，说话从不大声。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N8",
+        "character": "沈清禾",
+        "kind": "sheet",
+        "text": "处境：修为卡在炼气四层，大比须进前十才能入内门。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N9",
+        "character": "秦长老",
+        "kind": "sheet",
+        "text": "青崖宗执法长老。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N10",
+        "character": "秦长老",
+        "kind": "sheet",
+        "text": "人设：铁面无私，只认证据，不凭一面之词定罪。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N11",
+        "character": "苏小棠",
+        "kind": "sheet",
+        "text": "沈清禾的同屋师妹，十五岁，山下农户出身。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N12",
+        "character": "苏小棠",
+        "kind": "sheet",
+        "text": "人设：胆小怕事，见了执法堂的人都不敢抬头，从不违反门规。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N13",
+        "character": "苏小棠",
+        "kind": "sheet",
+        "text": "处境：家里穷，娘常年腿疾，她把每一块灵石都攒下来给娘买药，一块也舍不得乱花。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N14",
+        "character": "裴照雪",
+        "kind": "sheet",
+        "text": "外门弟子第一人，内门裴长老的孙女。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N15",
+        "character": "裴照雪",
+        "kind": "sheet",
+        "text": "人设：表面温婉，心高气傲，最重颜面。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N16",
+        "character": "裴照雪",
+        "kind": "sheet",
+        "text": "处境：半月前私下把宗门的培元丹卖给山下药商，被沈清禾撞见，怕事情败露，一心要把沈清禾赶出宗门。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N17",
+        "character": "韩烈",
+        "kind": "sheet",
+        "text": "执法堂巡山弟子，出身寻常，平日只管巡山。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N18",
+        "character": "韩烈",
+        "kind": "sheet",
+        "text": "与沈清禾、云姑素不相识，和裴照雪也没有往来。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N19",
+        "character": "顾长风",
+        "kind": "sheet",
+        "text": "内门首席弟子，剑道天才。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N20",
+        "character": "顾长风",
+        "kind": "sheet",
+        "text": "人设：冷傲寡言，从不正眼看外门弟子，也从不插手外门之事。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N21",
+        "character": "沈清禾",
+        "kind": "background",
+        "text": "前世被裴照雪陷害，遭废修为、逐出山门，死于山脚雪夜。",
+        "chapter": 1,
+        "quote": "她被废了修为，逐出山门，死在山脚的雪夜里。",
+        "start": 185,
+        "end": 206,
+        "located": "exact"
+      },
+      {
+        "id": "N22",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "亲眼在后山撞见裴照雪把宗门培元丹卖给山下药商（亲眼所见）。",
+        "chapter": 1,
+        "quote": "半月前在后山，她撞见裴照雪把宗门的培元丹一瓶瓶卖给山下的药商。",
+        "start": 218,
+        "end": 249,
+        "located": "exact"
+      },
+      {
+        "id": "N23",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "前世得知裴照雪会在大比前夜把失窃经页塞进她的药篓（前世记忆）。",
+        "chapter": 1,
+        "quote": "大比前三日的夜里，裴照雪把藏经阁失窃的那页《青崖丹经》塞进了她的药篓；",
+        "start": 135,
+        "end": 170,
+        "located": "exact"
+      },
+      {
+        "id": "N24",
+        "character": "沈清禾",
+        "kind": "wound",
+        "text": "因撞破裴照雪倒卖丹药，被其视为眼中钉。",
+        "chapter": 1,
+        "quote": "裴照雪容不下她，只因半月前在后山，她撞见裴照雪把宗门的培元丹一瓶瓶卖给山下的药商。",
+        "start": 208,
+        "end": 249,
+        "located": "exact"
+      },
+      {
+        "id": "N25",
+        "character": "沈清禾",
+        "kind": "goal",
+        "text": "大比那日要登上问剑台，当众揭露裴照雪的所作所为。",
+        "chapter": 1,
+        "quote": "那一日，她要站上问剑台，当着全宗上下，把裴照雪做过的事一件件说出来。",
+        "start": 353,
+        "end": 387,
+        "located": "exact"
+      },
+      {
+        "id": "N26",
+        "character": "沈清禾",
+        "kind": "personality",
+        "text": "做事谨慎，凡事先留退路。",
+        "chapter": 1,
+        "quote": "她向来谨慎，凡事先留三分退路，这一世也不会改。",
+        "start": 305,
+        "end": 328,
+        "located": "exact"
+      },
+      {
+        "id": "N27",
+        "character": "苏小棠",
+        "kind": "situation",
+        "text": "攒灵石作药钱，为山下病中的母亲买药，舍不得花用。",
+        "chapter": 1,
+        "quote": "那是她攒给山下病娘的药钱，一块也舍不得花。",
+        "start": 60,
+        "end": 81,
+        "located": "exact"
+      },
+      {
+        "id": "N28",
+        "character": "裴照雪",
+        "kind": "situation",
+        "text": "暗中把宗门培元丹私下卖给山下药商。",
+        "chapter": 1,
+        "quote": "她撞见裴照雪把宗门的培元丹一瓶瓶卖给山下的药商。",
+        "start": 225,
+        "end": 249,
+        "located": "exact"
+      },
+      {
+        "id": "N29",
+        "character": "裴照雪",
+        "kind": "relationship",
+        "text": "因沈清禾撞破她倒卖丹药而视其为威胁，容不下她。",
+        "chapter": 1,
+        "quote": "裴照雪容不下她，只因半月前在后山，她撞见裴照雪把宗门的培元丹一瓶瓶卖给山下的药商。",
+        "start": 208,
+        "end": 249,
+        "located": "exact"
+      },
+      {
+        "id": "N30",
+        "character": "云姑",
+        "kind": "situation",
+        "text": "云姑的药圃位于外门最偏僻的山坳里。",
+        "chapter": 2,
+        "quote": "云姑的药圃在外门最偏的山坳里。",
+        "start": 0,
+        "end": 15,
+        "located": "exact"
+      },
+      {
+        "id": "N31",
+        "character": "云姑",
+        "kind": "knowledge",
+        "text": "追魂粉无色无味，沾衣三五日洗不掉，需用灵犀草汁验出，云姑亲口告知清禾（别人告诉）。",
+        "chapter": 2,
+        "quote": "要验时拿灵犀草汁一抹，便会泛出幽蓝的光。",
+        "start": 138,
+        "end": 158,
+        "located": "exact"
+      },
+      {
+        "id": "N32",
+        "character": "云姑",
+        "kind": "relationship",
+        "text": "云姑将仅有的一包追魂粉交给清禾，叮嘱省着用。",
+        "chapter": 2,
+        "quote": "省着用，统共就这一包。",
+        "start": 171,
+        "end": 182,
+        "located": "exact"
+      },
+      {
+        "id": "N33",
+        "character": "沈清禾",
+        "kind": "relationship",
+        "text": "清禾称云姑为师父，并向其请教。",
+        "chapter": 2,
+        "quote": "我的药篓近来总被人翻动，可有法子知道是谁？",
+        "start": 63,
+        "end": 84,
+        "located": "exact"
+      },
+      {
+        "id": "N34",
+        "character": "沈清禾",
+        "kind": "relationship",
+        "text": "清禾与韩烈素无往来，从未说过话。",
+        "chapter": 2,
+        "quote": "清禾与他从未说过一句话，云姑也不认得他。",
+        "start": 226,
+        "end": 246,
+        "located": "exact"
+      },
+      {
+        "id": "N35",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "清禾亲眼目睹顾长风路过时向云姑躬身行礼。",
+        "chapter": 2,
+        "quote": "石径那头，内门首席顾长风恰好路过，远远朝云姑躬身一礼。",
+        "start": 336,
+        "end": 363,
+        "located": "exact"
+      },
+      {
+        "id": "N36",
+        "character": "韩烈",
+        "kind": "background",
+        "text": "韩烈是执法堂弟子，巡山时手持铁尺。",
+        "chapter": 2,
+        "quote": "一个穿执法堂黑衣的弟子拎着巡山的铁尺晃过来，是韩烈。",
+        "start": 200,
+        "end": 226,
+        "located": "exact"
+      },
+      {
+        "id": "N37",
+        "character": "顾长风",
+        "kind": "situation",
+        "text": "顾长风是内门首席弟子。",
+        "chapter": 2,
+        "quote": "石径那头，内门首席顾长风恰好路过，远远朝云姑躬身一礼。",
+        "start": 336,
+        "end": 363,
+        "located": "exact"
+      },
+      {
+        "id": "N38",
+        "character": "顾长风",
+        "kind": "personality",
+        "text": "顾长风素有冷傲之名，从不正眼看外门弟子。",
+        "chapter": 2,
+        "quote": "这个出了名冷傲、从不正眼看外门弟子的人，竟会向一个种药的婆子行礼。",
+        "start": 363,
+        "end": 396,
+        "located": "exact"
+      },
+      {
+        "id": "N39",
+        "character": "顾长风",
+        "kind": "relationship",
+        "text": "顾长风主动向云姑躬身行礼。",
+        "chapter": 2,
+        "quote": "竟会向一个种药的婆子行礼。",
+        "start": 383,
+        "end": 396,
+        "located": "exact"
+      },
+      {
+        "id": "N40",
+        "character": "沈清禾",
+        "kind": "situation",
+        "text": "修为卡在炼气四层，已经半年没有突破。",
+        "chapter": 3,
+        "quote": "清禾的修为卡在炼气四层，已经半年没动过。",
+        "start": 0,
+        "end": 20,
+        "located": "exact"
+      },
+      {
+        "id": "N41",
+        "character": "沈清禾",
+        "kind": "situation",
+        "text": "凭现有修为，连大比前二十都进不去。",
+        "chapter": 3,
+        "quote": "凭这点修为，大比连前二十都挤不进，更别说前十。",
+        "start": 20,
+        "end": 43,
+        "located": "exact"
+      },
+      {
+        "id": "N42",
+        "character": "沈清禾",
+        "kind": "goal",
+        "text": "为了破境，她独自去北崖采冰魄草。",
+        "chapter": 3,
+        "quote": "能破境的冰魄草，只长在北崖的绝壁上。",
+        "start": 45,
+        "end": 63,
+        "located": "exact"
+      },
+      {
+        "id": "N43",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "她亲眼见一个披灰袍的中年人救了自己，却不认识他。",
+        "chapter": 3,
+        "quote": "那是个披灰袍的中年人，清禾从未见过他。",
+        "start": 209,
+        "end": 228,
+        "located": "exact"
+      },
+      {
+        "id": "N44",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "她亲眼见窗台上的青瓷瓶和字条，但不知是谁留下的。",
+        "chapter": 3,
+        "quote": "没有落款。她把瓷瓶翻来覆去看了几遍，认不出是谁的东西。",
+        "start": 359,
+        "end": 386,
+        "located": "exact"
+      },
+      {
+        "id": "N45",
+        "character": "苏小棠",
+        "kind": "background",
+        "text": "母亲腿疾，一到下雨天就疼。",
+        "chapter": 4,
+        "quote": "我娘的腿一到下雨天就疼。",
+        "start": 60,
+        "end": 72,
+        "located": "exact"
+      },
+      {
+        "id": "N46",
+        "character": "苏小棠",
+        "kind": "goal",
+        "text": "想再攒二十块灵石，托人给母亲捎一副续脉膏。",
+        "chapter": 4,
+        "quote": "等我再攒二十块灵石，就能托人给她捎一副续脉膏。",
+        "start": 72,
+        "end": 95,
+        "located": "exact"
+      },
+      {
+        "id": "N47",
+        "character": "苏小棠",
+        "kind": "situation",
+        "text": "她有灵石，数过后用帕子包好，藏在枕下。",
+        "chapter": 4,
+        "quote": "苏小棠把她的灵石又数了一遍，数完照旧用帕子包好，塞回枕下。",
+        "start": 188,
+        "end": 217,
+        "located": "exact"
+      },
+      {
+        "id": "N48",
+        "character": "苏小棠",
+        "kind": "relationship",
+        "text": "苏小棠称清禾为姐，两人同住一处、一起吃饭。",
+        "chapter": 4,
+        "quote": "清禾姐，你说山下这会儿是不是也在下雨？",
+        "start": 125,
+        "end": 144,
+        "located": "exact"
+      },
+      {
+        "id": "N49",
+        "character": "沈清禾",
+        "kind": "relationship",
+        "text": "沈清禾与苏小棠同住一处，一起吃饭。",
+        "chapter": 4,
+        "quote": "两人就着咸菜喝了粥。",
+        "start": 155,
+        "end": 165,
+        "located": "exact"
+      },
+      {
+        "id": "N50",
+        "character": "云姑",
+        "kind": "situation",
+        "text": "左小臂经脉十年前已断，真气仅剩三成不到，一用便会反噬。",
+        "chapter": 5,
+        "quote": "这只手的经脉十年前就断了，真气用不到三成，一过便要反噬。",
+        "start": 93,
+        "end": 121,
+        "located": "exact"
+      },
+      {
+        "id": "N51",
+        "character": "云姑",
+        "kind": "relationship",
+        "text": "云姑对清禾说，大比期间人多手杂，自己未必能护住她。",
+        "chapter": 5,
+        "quote": "大比那几日人多手杂，我未必护得住你，有件事你得心里有数。",
+        "start": 38,
+        "end": 66,
+        "located": "exact"
+      },
+      {
+        "id": "N52",
+        "character": "云姑",
+        "kind": "relationship",
+        "text": "云姑交给清禾乌木小匣，嘱咐大比前无论出事都不许打开。",
+        "chapter": 5,
+        "quote": "贴身收着。大比之前，无论出了什么事都不许打开。",
+        "start": 182,
+        "end": 205,
+        "located": "exact"
+      },
+      {
+        "id": "N53",
+        "character": "沈清禾",
+        "kind": "background",
+        "text": "清禾前世经历过一场栽赃，记得它发生在大比前夜的三更。",
+        "chapter": 5,
+        "quote": "前世那场栽赃，就发生在今夜。",
+        "start": 244,
+        "end": 258,
+        "located": "exact"
+      },
+      {
+        "id": "N54",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "清禾亲自凑近壶口闻出水中是散功散，喝下会三日无法提真气。",
+        "chapter": 5,
+        "quote": "清禾睁开眼，凑近壶口一闻，是散功散，喝下去三日提不起半分真气。",
+        "start": 337,
+        "end": 368,
+        "located": "exact"
+      },
+      {
+        "id": "N55",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "清禾白日里在药篓口抹了一层看不见的粉，用来察觉有人动过药篓。",
+        "chapter": 5,
+        "quote": "药篓口那层看不见的粉，是她白日里亲手抹上的。",
+        "start": 368,
+        "end": 390,
+        "located": "exact"
+      },
+      {
+        "id": "N56",
+        "character": "沈清禾",
+        "kind": "goal",
+        "text": "清禾把丹经用油纸包好，趁夜埋在药圃石灯下藏起来。",
+        "chapter": 5,
+        "quote": "她倒净了水，把那页丹经用油纸包好，趁夜埋进药圃最里头那盏石灯底下。",
+        "start": 392,
+        "end": 425,
+        "located": "exact"
+      },
+      {
+        "id": "N57",
+        "character": "裴照雪",
+        "kind": "relationship",
+        "text": "裴照雪夜里潜入药房，在药篓中放东西，并在清禾水壶中下散功散。",
+        "chapter": 5,
+        "quote": "她在床尾的药篓里塞了一样东西，又拔开清禾床头水壶的塞子，抖进一包粉末。",
+        "start": 292,
+        "end": 327,
+        "located": "exact"
+      },
+      {
+        "id": "N58",
+        "character": "云姑",
+        "kind": "situation",
+        "text": "据裴照雪所说，云姑左手经脉十年前已断，真气使不出三成。",
+        "chapter": 6,
+        "quote": "你左手的经脉十年前就断了，真气使不出三成",
+        "start": 219,
+        "end": 239,
+        "located": "exact"
+      },
+      {
+        "id": "N59",
+        "character": "云姑",
+        "kind": "situation",
+        "text": "云姑出手接掌时小臂旧疤迸开、吐血，事后左手仍在发抖。",
+        "chapter": 6,
+        "quote": "云姑扶着门框，左手还在不住地发抖。",
+        "start": 392,
+        "end": 409,
+        "located": "exact"
+      },
+      {
+        "id": "N60",
+        "character": "云姑",
+        "kind": "relationship",
+        "text": "云姑在裴照雪面前把清禾护到身后。",
+        "chapter": 6,
+        "quote": "一把将清禾拽到身后",
+        "start": 197,
+        "end": 206,
+        "located": "exact"
+      },
+      {
+        "id": "N61",
+        "character": "沈清禾",
+        "kind": "situation",
+        "text": "秦长老说残页一日找不回，清禾便一日脱不了干系，即被牵连嫌疑。",
+        "chapter": 6,
+        "quote": "残页一日没找回，你便一日脱不了干系。",
+        "start": 142,
+        "end": 160,
+        "located": "exact"
+      },
+      {
+        "id": "N62",
+        "character": "秦长老",
+        "kind": "knowledge",
+        "text": "秦长老得知藏经阁丢失的一页《青崖丹经》在清禾屋中，消息来自别人告知。",
+        "chapter": 6,
+        "quote": "有人报到我这里，说在你屋里。",
+        "start": 42,
+        "end": 56,
+        "located": "exact"
+      },
+      {
+        "id": "N63",
+        "character": "裴照雪",
+        "kind": "relationship",
+        "text": "秦长老离开后，裴照雪转而对清禾出掌，二人存在敌对。",
+        "chapter": 6,
+        "quote": "人一走，裴照雪便变了脸，一掌朝清禾拍来。",
+        "start": 170,
+        "end": 190,
+        "located": "exact"
+      },
+      {
+        "id": "N64",
+        "character": "顾长风",
+        "kind": "relationship",
+        "text": "顾长风以连鞘长剑横在裴照雪与云姑、清禾之间，挡下了裴照雪的一掌。",
+        "chapter": 6,
+        "quote": "硬生生把那一掌挡了回去。",
+        "start": 320,
+        "end": 332,
+        "located": "exact"
+      },
+      {
+        "id": "N65",
+        "character": "顾长风",
+        "kind": "personality",
+        "text": "顾长风主张：内门弟子在外门之地动手伤人，须先问过执法堂。",
+        "chapter": 6,
+        "quote": "外门之地，内门弟子动手伤人，问过执法堂了么？",
+        "start": 348,
+        "end": 370,
+        "located": "exact"
+      },
+      {
+        "id": "N66",
+        "character": "顾长风",
+        "kind": "background",
+        "text": "七年前在药谷中蛇毒，险些丧命，云姑守了他一夜将他救回。",
+        "chapter": 7,
+        "quote": "七年前我在药谷中了蛇毒，是云姑守了我一夜，把我从鬼门关拉回来。",
+        "start": 68,
+        "end": 99,
+        "located": "exact"
+      },
+      {
+        "id": "N67",
+        "character": "顾长风",
+        "kind": "relationship",
+        "text": "自认欠云姑一份救命之情，一直没机会还，遂将此情转到清禾身上。",
+        "chapter": 7,
+        "quote": "这份情一直没机会还，你是她的徒弟。",
+        "start": 99,
+        "end": 116,
+        "located": "exact"
+      },
+      {
+        "id": "N68",
+        "character": "云姑",
+        "kind": "relationship",
+        "text": "曾救过顾长风的性命，顾长风对她心存感激。",
+        "chapter": 7,
+        "quote": "是云姑守了我一夜，把我从鬼门关拉回来。",
+        "start": 80,
+        "end": 99,
+        "located": "exact"
+      },
+      {
+        "id": "N69",
+        "character": "沈清禾",
+        "kind": "relationship",
+        "text": "是云姑的徒弟，顾长风视其为云姑之徒而还情。",
+        "chapter": 7,
+        "quote": "这份情一直没机会还，你是她的徒弟。",
+        "start": 99,
+        "end": 116,
+        "located": "exact"
+      },
+      {
+        "id": "N70",
+        "character": "沈清禾",
+        "kind": "situation",
+        "text": "卡了半年的炼气四层终于突破，修为有所精进。",
+        "chapter": 7,
+        "quote": "卡了半年的炼气四层，这两日终于破了",
+        "start": 158,
+        "end": 175,
+        "located": "exact"
+      },
+      {
+        "id": "N71",
+        "character": "沈清禾",
+        "kind": "situation",
+        "text": "大比名册上她的名字被朱笔划去，旁批“待查”，处境不明。",
+        "chapter": 7,
+        "quote": "她的名字被朱笔划去了，旁边批着两个字：待查。",
+        "start": 337,
+        "end": 359,
+        "located": "exact"
+      },
+      {
+        "id": "N72",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "从苏小棠口中得知其昨夜偷偷下山去了镇上赌坊。",
+        "chapter": 7,
+        "quote": "昨晚自己偷偷溜下山进了镇上的赌坊",
+        "start": 203,
+        "end": 219,
+        "located": "exact"
+      },
+      {
+        "id": "N73",
+        "character": "苏小棠",
+        "kind": "situation",
+        "text": "攒了三年的灵石本为娘买续脉膏，昨晚却在斗鸡上全部输光。",
+        "chapter": 7,
+        "quote": "把攒了三年、留给娘买续脉膏的灵石全押在一场斗鸡上，一把输了个精光。",
+        "start": 220,
+        "end": 253,
+        "located": "exact"
+      },
+      {
+        "id": "N74",
+        "character": "苏小棠",
+        "kind": "knowledge",
+        "text": "昨晚偷偷溜下山进镇上赌坊，这是她亲口告诉清禾的。",
+        "chapter": 7,
+        "quote": "昨晚自己偷偷溜下山进了镇上的赌坊",
+        "start": 203,
+        "end": 219,
+        "located": "exact"
+      },
+      {
+        "id": "N75",
+        "character": "沈清禾",
+        "kind": "background",
+        "text": "沈清禾是外门弟子，平日里少言。",
+        "chapter": 8,
+        "quote": "外门那个沈清禾，平日里连话都不肯大声说。",
+        "start": 66,
+        "end": 86,
+        "located": "exact"
+      },
+      {
+        "id": "N76",
+        "character": "沈清禾",
+        "kind": "situation",
+        "text": "沈清禾的名字已被宗门划去。",
+        "chapter": 8,
+        "quote": "弟子沈清禾，名字被划了，人还在。",
+        "start": 96,
+        "end": 112,
+        "located": "exact"
+      },
+      {
+        "id": "N77",
+        "character": "沈清禾",
+        "kind": "wound",
+        "text": "沈清禾称三日前有人把丹经塞进她的药篓，她被人栽赃。",
+        "chapter": 8,
+        "quote": "三日前的夜里，有人把它塞进了弟子的药篓。",
+        "start": 152,
+        "end": 172,
+        "located": "exact"
+      },
+      {
+        "id": "N78",
+        "character": "沈清禾",
+        "kind": "knowledge",
+        "text": "沈清禾亲眼见裴照雪半月前在后山把培元丹卖给药商（亲眼所见）。",
+        "chapter": 8,
+        "quote": "半月前，弟子在后山亲眼看见裴师姐把宗门的培元丹卖给山下的药商。",
+        "start": 251,
+        "end": 282,
+        "located": "exact"
+      },
+      {
+        "id": "N79",
+        "character": "沈清禾",
+        "kind": "relationship",
+        "text": "沈清禾认为裴照雪想除掉她，因此对裴照雪有怨。",
+        "chapter": 8,
+        "quote": "她要除掉弟子，为的就是这个。",
+        "start": 282,
+        "end": 296,
+        "located": "exact"
+      },
+      {
+        "id": "N80",
+        "character": "裴照雪",
+        "kind": "personality",
+        "text": "裴照雪自称做事从不抵赖。",
+        "chapter": 8,
+        "quote": "我裴照雪做事，从不抵赖。",
+        "start": 330,
+        "end": 342,
+        "located": "exact"
+      },
+      {
+        "id": "N81",
+        "character": "裴照雪",
+        "kind": "situation",
+        "text": "裴照雪被蓝光指认，右袖口浮现与残页相同的蓝光。",
+        "chapter": 8,
+        "quote": "裴照雪的右袖口上，慢慢也浮出一圈同样的蓝光。",
+        "start": 219,
+        "end": 241,
+        "located": "exact"
+      },
+      {
+        "id": "N82",
+        "character": "秦长老",
+        "kind": "goal",
+        "text": "秦长老当场下令拿人。",
+        "chapter": 8,
+        "quote": "秦长老沉声道：“拿下。”",
+        "start": 345,
+        "end": 357,
+        "located": "exact"
+      }
+    ],
+    "beats": [
+      {
+        "id": "B1",
+        "chapter": 1,
+        "character": "裴照雪",
+        "listed": true,
+        "action": "前世大比前三日夜里，把藏经阁失窃的丹经塞进沈清禾的药篓，陷害她",
+        "quote": "大比前三日的夜里，裴照雪把藏经阁失窃的那页《青崖丹经》塞进了她的药篓",
+        "start": 135,
+        "end": 169,
+        "hostile": true,
+        "target": "沈清禾",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B2",
+        "chapter": 1,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "决定沿用前世的谨慎作风，继续低头做人、不得罪任何人",
+        "quote": "她会照旧低头做人，谁也不得罪",
+        "start": 328,
+        "end": 342,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "自己已知前世大比后会被执法堂搜查、废修为逐出山门"
+      },
+      {
+        "id": "B3",
+        "chapter": 1,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "打算在大比问剑台上当众揭发裴照雪做过的事",
+        "quote": "那一日，她要站上问剑台，当着全宗上下，把裴照雪做过的事一件件说出来",
+        "start": 353,
+        "end": 386,
+        "hostile": true,
+        "target": "裴照雪",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "裴照雪私下把宗门培元丹一瓶瓶卖给山下药商"
+      },
+      {
+        "id": "B4",
+        "chapter": 2,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "向云姑求助，询问如何查出是谁翻动自己的药篓",
+        "quote": "师父，我的药篓近来总被人翻动，可有法子知道是谁？",
+        "start": 60,
+        "end": 84,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B5",
+        "chapter": 2,
+        "character": "云姑",
+        "listed": true,
+        "action": "交给清禾一包追魂粉，并说明用灵犀草汁验证的方法",
+        "quote": "追魂粉。无色无味，沾上衣料，三五日都洗不掉，旁人瞧不出半点。",
+        "start": 108,
+        "end": 138,
+        "hostile": false,
+        "target": "",
+        "cost": "唯一一包追魂粉交出，再无存货",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "追魂粉沾衣数日不褪，遇灵犀草汁会泛出幽蓝的光"
+      },
+      {
+        "id": "B6",
+        "chapter": 2,
+        "character": "韩烈",
+        "listed": true,
+        "action": "故意踩踏云姑的嫩芽，把它们一株株碾进泥里",
+        "quote": "韩烈低头看了看那片嫩芽，抬脚便踩了进去，一株一株碾进泥里，碾完了，还在鞋底蹭了蹭。",
+        "start": 248,
+        "end": 289,
+        "hostile": true,
+        "target": "云姑",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B7",
+        "chapter": 2,
+        "character": "云姑",
+        "listed": true,
+        "action": "压下怒火，没有追上去与韩烈理论",
+        "quote": "云姑攥着锄头，指节发白，终究没有追上去。",
+        "start": 314,
+        "end": 334,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B8",
+        "chapter": 2,
+        "character": "顾长风",
+        "listed": true,
+        "action": "路过时远远向云姑躬身行礼，态度与平日的冷傲形成反差",
+        "quote": "石径那头，内门首席顾长风恰好路过，远远朝云姑躬身一礼。",
+        "start": 336,
+        "end": 363,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B9",
+        "chapter": 3,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "瞒着所有人，天不亮独自上北崖取冰魄草",
+        "quote": "她谁也没告诉，天不亮便独自上了山。",
+        "start": 65,
+        "end": 82,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B10",
+        "chapter": 3,
+        "character": "披灰袍的中年人",
+        "listed": false,
+        "action": "在沈清禾坠崖之际伸手攥住她的手腕，把她救住",
+        "quote": "就在藤根将断的那一刻，一只手从崖顶伸下来，攥住了她的手腕。",
+        "start": 178,
+        "end": 207,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B11",
+        "chapter": 3,
+        "character": "留瓷瓶的人",
+        "listed": false,
+        "action": "在沈清禾窗台上留下三粒聚气丹和一张无落款的字条",
+        "quote": "窗台上多了一只青瓷小瓶，里头是三粒聚气丹，瓶下压着一张字条，只写了四个字：好生修炼。",
+        "start": 315,
+        "end": 357,
+        "hostile": false,
+        "target": "",
+        "cost": "三粒聚气丹",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "沈清禾修为卡在炼气四层、暗中独自去北崖取冰魄草的事"
+      },
+      {
+        "id": "B12",
+        "chapter": 4,
+        "character": "苏小棠",
+        "listed": true,
+        "action": "把灵石又数了一遍，用帕子包好，塞回枕下",
+        "quote": "苏小棠把她的灵石又数了一遍，数完照旧用帕子包好，塞回枕下。",
+        "start": 188,
+        "end": 217,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B13",
+        "chapter": 4,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "去井边打水烧热，和苏小棠各自洗了脚",
+        "quote": "清禾去井边打了一桶水回来，烧热了，两人各自洗了脚。",
+        "start": 285,
+        "end": 310,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B14",
+        "chapter": 5,
+        "character": "云姑",
+        "listed": true,
+        "action": "向清禾亮出十年前断经的旧疤，坦言自己真气所剩无几",
+        "quote": "这只手的经脉十年前就断了，真气用不到三成，一过便要反噬。",
+        "start": 93,
+        "end": 121,
+        "hostile": false,
+        "target": "",
+        "cost": "把从未示人的隐疾交给清禾，等于把软肋暴露出来",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B15",
+        "chapter": 5,
+        "character": "裴照雪",
+        "listed": true,
+        "action": "夜里潜入药房，在药篓里塞入东西，并把散功散抖进清禾的水壶",
+        "quote": "她在床尾的药篓里塞了一样东西，又拔开清禾床头水壶的塞子，抖进一包粉末。",
+        "start": 292,
+        "end": 327,
+        "hostile": true,
+        "target": "清禾",
+        "cost": "夜闯药房、亲手下药，一旦被发现便无法脱身",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "今夜三更要在药房栽赃清禾的计划"
+      },
+      {
+        "id": "B16",
+        "chapter": 5,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "凑近水壶辨出是散功散，并察觉药篓里的粉是自己白日抹上的记号，因此没有喝下",
+        "quote": "清禾睁开眼，凑近壶口一闻，是散功散，喝下去三日提不起半分真气。",
+        "start": 337,
+        "end": 368,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": true,
+        "secret": "药篓口那层看不见的粉是她白日里亲手抹上的，用来识破有人夜里动手脚"
+      },
+      {
+        "id": "B17",
+        "chapter": 5,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "把水倒净，将丹经包好，趁夜埋到药圃石灯底下，使其不落入栽赃者之手",
+        "quote": "她倒净了水，把那页丹经用油纸包好，趁夜埋进药圃最里头那盏石灯底下。",
+        "start": 392,
+        "end": 425,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": true,
+        "secret": "丹经藏在药圃最里头石灯底下"
+      },
+      {
+        "id": "B18",
+        "chapter": 6,
+        "character": "秦长老",
+        "listed": true,
+        "action": "以残页未找回为由施压，让清禾担上干系",
+        "quote": "残页一日没找回，你便一日脱不了干系。",
+        "start": 142,
+        "end": 160,
+        "hostile": true,
+        "target": "清禾",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B19",
+        "chapter": 6,
+        "character": "裴照雪",
+        "listed": true,
+        "action": "秦长老离开后翻脸，一掌朝清禾拍去",
+        "quote": "人一走，裴照雪便变了脸，一掌朝清禾拍来。",
+        "start": 170,
+        "end": 190,
+        "hostile": true,
+        "target": "清禾",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B20",
+        "chapter": 6,
+        "character": "云姑",
+        "listed": true,
+        "action": "闻讯赶来，把清禾拽到自己身后护住",
+        "quote": "云姑闻讯赶来，一把将清禾拽到身后。",
+        "start": 190,
+        "end": 207,
+        "hostile": false,
+        "target": "清禾",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B21",
+        "chapter": 6,
+        "character": "裴照雪",
+        "listed": true,
+        "action": "当众点破云姑左手旧伤，以此挑衅",
+        "quote": "云姑，你左手的经脉十年前就断了，真气使不出三成，还想护谁？",
+        "start": 216,
+        "end": 245,
+        "hostile": true,
+        "target": "云姑",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "云姑左手经脉十年前已断，真气使不出三成"
+      },
+      {
+        "id": "B22",
+        "chapter": 6,
+        "character": "云姑",
+        "listed": true,
+        "action": "抬起左手硬接裴照雪的掌力，旧伤迸裂",
+        "quote": "云姑抬起左手去接，小臂上的旧疤猛地迸开，一口血喷在青石板上。",
+        "start": 254,
+        "end": 284,
+        "hostile": false,
+        "target": "",
+        "cost": "旧伤迸裂，吐血",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B23",
+        "chapter": 6,
+        "character": "顾长风",
+        "listed": true,
+        "action": "以连鞘长剑横身挡下裴照雪的第三掌，解开云姑与清禾的危局",
+        "quote": "一柄连鞘长剑横在两人之间，硬生生把那一掌挡了回去。",
+        "start": 307,
+        "end": 332,
+        "hostile": false,
+        "target": "裴照雪",
+        "cost": "得罪内门弟子裴照雪",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B24",
+        "chapter": 7,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "追问顾长风窗台上那瓶聚气丹是不是他放的",
+        "quote": "顾师兄，窗台上那瓶聚气丹……",
+        "start": 37,
+        "end": 51,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B25",
+        "chapter": 7,
+        "character": "顾长风",
+        "listed": true,
+        "action": "承认丹药是自己放的，并说明是为了还七年前云姑救命之情",
+        "quote": "七年前我在药谷中了蛇毒，是云姑守了我一夜，把我从鬼门关拉回来。",
+        "start": 68,
+        "end": 99,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B26",
+        "chapter": 7,
+        "character": "苏小棠",
+        "listed": true,
+        "action": "偷偷溜下山去赌坊，把留给娘买续脉膏的灵石全押在斗鸡上输光",
+        "quote": "把攒了三年、留给娘买续脉膏的灵石全押在一场斗鸡上",
+        "start": 220,
+        "end": 244,
+        "hostile": false,
+        "target": "",
+        "cost": "攒了三年的灵石和娘的续脉膏钱全部输光",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B27",
+        "chapter": 7,
+        "character": "外门管事",
+        "listed": false,
+        "action": "在大比名册上用朱笔划去沈清禾的名字，批注待查",
+        "quote": "她的名字被朱笔划去了，旁边批着两个字：待查。",
+        "start": 337,
+        "end": 359,
+        "hostile": true,
+        "target": "沈清禾",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B28",
+        "chapter": 7,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "把那盅草汁封好揣进怀里，没有声张",
+        "quote": "把那盅草汁封好，揣进了怀里。",
+        "start": 396,
+        "end": 410,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B29",
+        "chapter": 8,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "跪到高台前，当众申明自己名字虽被划去、人却还在，要求把事情说清楚",
+        "quote": "弟子沈清禾，名字被划了，人还在。今日有一件事，要当着全宗的面说清楚。",
+        "start": 96,
+        "end": 130,
+        "hostile": false,
+        "target": "",
+        "cost": "当众申诉，把自己直接推到全宗众人和高台长老面前",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B30",
+        "chapter": 8,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "用草汁淋在残页和裴照雪袖口上，让两处同时显出蓝光，当众揭穿裴照雪栽赃",
+        "quote": "她把那盅碧绿的草汁先淋在残页一角，纸边浮起一层幽蓝的光",
+        "start": 175,
+        "end": 202,
+        "hostile": true,
+        "target": "裴照雪",
+        "cost": "彻底得罪裴照雪，并且当众撕破脸",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": true,
+        "secret": "这种碧绿草汁遇到被涂过的东西会显出幽蓝光，可以验出栽赃的痕迹"
+      },
+      {
+        "id": "B31",
+        "chapter": 8,
+        "character": "沈清禾",
+        "listed": true,
+        "action": "当众指控裴照雪半月前在后山把宗门培元丹卖给山下药商，并称自己亲眼所见",
+        "quote": "半月前，弟子在后山亲眼看见裴师姐把宗门的培元丹卖给山下的药商。",
+        "start": 251,
+        "end": 282,
+        "hostile": true,
+        "target": "裴照雪",
+        "cost": "以自己的性命和名誉作保，若证据不足便会被反咬",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "裴照雪私下把宗门培元丹卖给山下药商，只有沈清禾撞见"
+      },
+      {
+        "id": "B32",
+        "chapter": 8,
+        "character": "裴照雪",
+        "listed": true,
+        "action": "面对蓝光不辩解，当众承认自己所为，不肯抵赖",
+        "quote": "是我又如何？我裴照雪做事，从不抵赖。",
+        "start": 324,
+        "end": 342,
+        "hostile": false,
+        "target": "",
+        "cost": "当众认罪，宗门身份和前途多半就此断送",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B33",
+        "chapter": 8,
+        "character": "秦长老",
+        "listed": true,
+        "action": "执法长老下令将沈清禾与裴照雪一并拿下",
+        "quote": "秦长老沉声道：“拿下。”",
+        "start": 345,
+        "end": 357,
+        "hostile": true,
+        "target": "沈清禾",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      }
+    ],
+    "setups": [
+      {
+        "id": "S1",
+        "chapter": 1,
+        "text": "裴照雪大比前三日把失窃的丹经塞进沈清禾药篓，是前世被栽赃的关键，这一世可能会被兑现或破解。",
+        "quote": "大比前三日的夜里，裴照雪把藏经阁失窃的那页《青崖丹经》塞进了她的药篓",
+        "start": 135,
+        "end": 169,
+        "key": ""
+      },
+      {
+        "id": "S2",
+        "chapter": 1,
+        "text": "沈清禾撞见裴照雪私卖宗门培元丹，这是她被灭口的动机，后文会牵出揭发。",
+        "quote": "只因半月前在后山，她撞见裴照雪把宗门的培元丹一瓶瓶卖给山下的药商。",
+        "start": 216,
+        "end": 249,
+        "key": "培元丹"
+      },
+      {
+        "id": "S3",
+        "chapter": 2,
+        "text": "云姑交给清禾的追魂粉，需用灵犀草汁验证，之后很可能用来查出翻动药篓的人。",
+        "quote": "追魂粉。无色无味，沾上衣料，三五日都洗不掉，旁人瞧不出半点。要验时拿灵犀草汁一抹，便会泛出幽蓝的光。",
+        "start": 108,
+        "end": 158,
+        "key": "追魂粉"
+      },
+      {
+        "id": "S4",
+        "chapter": 2,
+        "text": "冷傲的内门首席顾长风向种药的云姑行礼，其中缘由尚未解开。",
+        "quote": "这个出了名冷傲、从不正眼看外门弟子的人，竟会向一个种药的婆子行礼。",
+        "start": 363,
+        "end": 396,
+        "key": "顾长风"
+      },
+      {
+        "id": "S5",
+        "chapter": 3,
+        "text": "救下清禾的灰袍人身份不明，之后可能与她有更深的牵连。",
+        "quote": "那是个披灰袍的中年人，清禾从未见过他。",
+        "start": 209,
+        "end": 228,
+        "key": ""
+      },
+      {
+        "id": "S6",
+        "chapter": 3,
+        "text": "窗台上留下聚气丹和“好生修炼”字条的送礼人是谁，尚未揭晓。",
+        "quote": "窗台上多了一只青瓷小瓶，里头是三粒聚气丹，瓶下压着一张字条，只写了四个字：好生修炼。",
+        "start": 315,
+        "end": 357,
+        "key": "青瓷小瓶"
+      },
+      {
+        "id": "S7",
+        "chapter": 5,
+        "text": "云姑嘱咐大比前不许打开乌木小匣，说大比过后清禾自会明白里面是什么。",
+        "quote": "贴身收着。大比之前，无论出了什么事都不许打开。等大比过了，你自然明白里头是什么。",
+        "start": 182,
+        "end": 222,
+        "key": "乌木小匣"
+      },
+      {
+        "id": "S8",
+        "chapter": 5,
+        "text": "清禾将丹经包好埋在石灯下，丹经的去向与用处尚未交代。",
+        "quote": "她倒净了水，把那页丹经用油纸包好，趁夜埋进药圃最里头那盏石灯底下。",
+        "start": 392,
+        "end": 425,
+        "key": "丹经"
+      },
+      {
+        "id": "S9",
+        "chapter": 6,
+        "text": "藏经阁丢失的《青崖丹经》残页下落未明，是否与清禾有关尚待查清。",
+        "quote": "藏经阁丢了一页《青崖丹经》，有人报到我这里，说在你屋里。",
+        "start": 28,
+        "end": 56,
+        "key": "残页"
+      },
+      {
+        "id": "S10",
+        "chapter": 7,
+        "text": "清禾的大比名字被划去并批注待查，缘由未明，后文需要交代。",
+        "quote": "她的名字被朱笔划去了，旁边批着两个字：待查。",
+        "start": 337,
+        "end": 359,
+        "key": "待查"
+      },
+      {
+        "id": "S11",
+        "chapter": 8,
+        "text": "三日前夜里有人把丹经塞进清禾药篓，幕后之人尚未查明",
+        "quote": "三日前的夜里，有人把它塞进了弟子的药篓。",
+        "start": 152,
+        "end": 172,
+        "key": "药篓"
+      }
+    ],
+    "pulses": [
+      {
+        "chapter": 1,
+        "summary": "沈清禾重生回前世大比前十日，记起自己被裴照雪栽赃、废修为逐出山门而死，决心这一世要在大比上揭发裴照雪。",
+        "tension": 3,
+        "emotions": [
+          "heartache",
+          "suspense",
+          "tension"
+        ],
+        "hook": true,
+        "hook_quote": "那一日，她要站上问剑台，当着全宗上下，把裴照雪做过的事一件件说出来。\n\n窗外，天光一寸寸亮起来。离大比，还有十日。",
+        "hook_start": 353,
+        "hook_end": 410
+      },
+      {
+        "chapter": 2,
+        "summary": "云姑的药圃被执法堂弟子韩烈踩毁，清禾得到追魂粉，又目睹内门首席顾长风向云姑行礼。",
+        "tension": 3,
+        "emotions": [
+          "anger",
+          "suspense",
+          "tension"
+        ],
+        "hook": true,
+        "hook_quote": "清禾把这一幕记在了心里。",
+        "hook_start": 398,
+        "hook_end": 410
+      },
+      {
+        "chapter": 3,
+        "summary": "清禾为破境独上北崖采冰魄草，险些坠崖，被一名神秘灰袍人所救，回住处后发现窗台上留有聚气丹和无名字条。",
+        "tension": 4,
+        "emotions": [
+          "suspense",
+          "tension",
+          "warmth"
+        ],
+        "hook": true,
+        "hook_quote": "她把瓷瓶翻来覆去看了几遍，认不出是谁的东西。",
+        "hook_start": 364,
+        "hook_end": 386
+      },
+      {
+        "chapter": 4,
+        "summary": "一场雨天里，清禾与苏小棠在屋中补衣、煮粥、晾药，苏小棠盼着攒够灵石给娘捎药，平淡度过一天。",
+        "tension": 1,
+        "emotions": [
+          "calm",
+          "warmth"
+        ],
+        "hook": false,
+        "hook_quote": null,
+        "hook_start": null,
+        "hook_end": null
+      },
+      {
+        "chapter": 5,
+        "summary": "云姑坦白旧伤并交给清禾一只上锁的乌木匣，当夜清禾识破裴照雪下毒栽赃，随即将丹经埋到石灯下。",
+        "tension": 4,
+        "emotions": [
+          "heartache",
+          "suspense",
+          "tension"
+        ],
+        "hook": true,
+        "hook_quote": "她倒净了水，把那页丹经用油纸包好，趁夜埋进药圃最里头那盏石灯底下。",
+        "hook_start": 392,
+        "hook_end": 425
+      },
+      {
+        "chapter": 6,
+        "summary": "执法长老因藏经阁丢失残页上门搜屋，裴照雪趁机出手伤人，云姑旧伤迸发吐血，顾长风及时挡下致命一掌。",
+        "tension": 4,
+        "emotions": [
+          "anger",
+          "suspense",
+          "tension"
+        ],
+        "hook": false,
+        "hook_quote": null,
+        "hook_start": null,
+        "hook_end": null
+      },
+      {
+        "chapter": 7,
+        "summary": "清禾得知窗台聚气丹是顾长风所放并突破炼气四层，苏小棠输光娘的续脉钱，清禾的名字在大比名册上被朱笔划去并批注待查。",
+        "tension": 3,
+        "emotions": [
+          "heartache",
+          "suspense",
+          "tension"
+        ],
+        "hook": true,
+        "hook_quote": "清禾看了那两个字很久，转身回了药圃，把那盅草汁封好，揣进了怀里。",
+        "hook_start": 378,
+        "hook_end": 410
+      },
+      {
+        "chapter": 8,
+        "summary": "沈清禾在问剑台当众揭发裴照雪栽赃并卖卖宗门丹药，裴照雪承认，秦长老下令将其拿下。",
+        "tension": 4,
+        "emotions": [
+          "tension",
+          "thrill"
+        ],
+        "hook": false,
+        "hook_quote": null,
+        "hook_start": null,
+        "hook_end": null
+      }
+    ],
+    "judgements": [
+      {
+        "beat": "B1",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "陷害是有代价和风险的主动选择，但档案中有明确的动机：倒卖丹药被撞破后的自保和排除威胁。它与“心高气傲、最重颜面”的人设相符，因此理由充分，不构成冲突。",
+        "motives": [
+          {
+            "motive": "半月前她私下倒卖宗门培元丹，被沈清禾撞见，她怕事情败露，想把沈清禾赶出宗门。",
+            "support": [
+              "N16",
+              "N28",
+              "N29"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B2",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "低调保身有前世创伤作依据，但她的核心目标是揭发裴照雪，而裴照雪本就容不下她，单纯“不得罪人”既达不到目标也护不住自己，读者会觉得决定与处境矛盾。",
+        "motives": [
+          {
+            "motive": "前世被裴照雪栽赃、废修为、死于雪夜的遭遇让她不敢贸然树敌，只想先保住自己。",
+            "support": [
+              "N21",
+              "N23"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N25",
+            "why": "这一决定与她大比当众揭露裴照雪的明确目标相冲突，且低头不得罪人并不能阻止裴照雪再次陷害她，因为裴照雪已视她为眼中钉。"
+          },
+          {
+            "note": "N29",
+            "why": "这一决定与她大比当众揭露裴照雪的明确目标相冲突，且低头不得罪人并不能阻止裴照雪再次陷害她，因为裴照雪已视她为眼中钉。"
+          },
+          {
+            "note": "N22",
+            "why": "这一决定与她大比当众揭露裴照雪的明确目标相冲突，且低头不得罪人并不能阻止裴照雪再次陷害她，因为裴照雪已视她为眼中钉。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B3",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "复仇动机和前世经历都很充分，但她的性格设定是先留退路、不在人前出头，文中没有交代她为何选择这种不留后路的公开方式，读者会觉得与人设矛盾。",
+        "motives": [
+          {
+            "motive": "她被裴照雪陷害废去修为、逐出山门，又亲眼撞见裴照雪倒卖宗门丹药，前世还知道对方会在大比前夜栽赃，因此想在问剑台上当众揭发。",
+            "support": [
+              "N21",
+              "N22",
+              "N23",
+              "N24"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "当众揭发是高调出头，与她谨慎隐忍、凡事留退路、从不在人前出头的性格相悖，且她目前修为卡在炼气四层，公开对峙风险很大，还可能失去进入内门的机会。"
+          },
+          {
+            "note": "N8",
+            "why": "当众揭发是高调出头，与她谨慎隐忍、凡事留退路、从不在人前出头的性格相悖，且她目前修为卡在炼气四层，公开对峙风险很大，还可能失去进入内门的机会。"
+          },
+          {
+            "note": "N26",
+            "why": "当众揭发是高调出头，与她谨慎隐忍、凡事留退路、从不在人前出头的性格相悖，且她目前修为卡在炼气四层，公开对峙风险很大，还可能失去进入内门的机会。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N25: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B4",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "向云姑求助是有明确目的的主动行为，理由来自前世记忆和揭露裴照雪的目标；向师父低调请教也符合她谨慎、不出头的人设和既有的师徒关系，没有明显冲突。",
+        "motives": [
+          {
+            "motive": "前世得知裴照雪会在大比前夜把失窃经页塞进她的药篓，她需要查出翻动药篓的人，以便提前识破栽赃、实现当众揭露裴照雪的目标。",
+            "support": [
+              "N23",
+              "N25"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B5",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "这是冒风险、付出代价的行为，且给出的理由只有师徒情分与护短，力度不足，读者会疑惑她为何如此轻易放弃唯一存货。",
+        "motives": [
+          {
+            "motive": "清禾是云姑的徒弟，且云姑护短，但前文并未写明清禾为何需要追魂粉，也没有交代云姑交出它能换来什么。",
+            "support": [
+              "N33",
+              "N2"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N3",
+            "why": "云姑处于外门无靠山的境地，药圃是她半生心血，却把唯一一包可用于追查的追魂粉无偿交出，等于失去自己仅有的筹码和防身之物，且无任何回报。"
+          },
+          {
+            "note": "N2",
+            "why": "云姑处于外门无靠山的境地，药圃是她半生心血，却把唯一一包可用于追查的追魂粉无偿交出，等于失去自己仅有的筹码和防身之物，且无任何回报。"
+          },
+          {
+            "note": "N32",
+            "why": "云姑处于外门无靠山的境地，药圃是她半生心血，却把唯一一包可用于追查的追魂粉无偿交出，等于失去自己仅有的筹码和防身之物，且无任何回报。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B6",
+        "model_verdict": "malice_without_cause",
+        "verdict": "malice_without_cause",
+        "severity": 3,
+        "reasoning": "故意毁坏他人嫩芽并伤害对方是需要理由的行为，档案中找不到动机，且他既与云姑无交集，又只是巡山弟子，行为缺乏依据，读者会觉得是作者为了情节需要硬塞进来的恶意。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N17",
+            "why": "韩烈与云姑素不相识、无仇无怨，档案里也没有任何利益或指令促使他毁掉她的嫩芽，这种故意碾踏与他巡山执法的身份不符。"
+          },
+          {
+            "note": "N18",
+            "why": "韩烈与云姑素不相识、无仇无怨，档案里也没有任何利益或指令促使他毁掉她的嫩芽，这种故意碾踏与他巡山执法的身份不符。"
+          }
+        ],
+        "fixes": [
+          "在前文补一段韩烈与云姑的冲突，例如云姑曾当众揭发他巡山时的失职，使他怀恨在心，让踩踏带有报复色彩。",
+          "让韩烈是奉命行事：安排执法堂上级或与裴照雪有关的人下令清除这片嫩芽，韩烈为了前途不得不照做，并在后文写他因此受到牵连或良心不安。",
+          "若不想给他动机，可改写为他误踩而非故意，或让他的恶意只是一时失态，并在后文让他为此付出代价（如被云姑当众质问、被执法堂责罚）。"
+        ],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B7",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "压下怒火、不追上去理论是一个有代价的选择，但她处境弱、药圃又是半生心血，理由成立；与“护短”的人设只有轻微张力，不构成冲突。",
+        "motives": [
+          {
+            "motive": "云姑在外门没有靠山，药圃是她半生的心血，她不能轻易与人起冲突而冒失去药圃的风险。",
+            "support": [
+              "N3",
+              "N30"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B8",
+        "model_verdict": "contradicts",
+        "verdict": "delayed",
+        "severity": 2,
+        "reasoning": "这是一个打破人设的主动行为，属于需要理由的选择。档案只记录了行礼这一事实（N39），前文没有任何恩情、利益或交易来解释他为何对云姑表示敬意，读者会觉得突兀。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N20",
+            "why": "顾长风素有冷傲之名，从不正眼看外门弟子，也从不插手外门之事，远远向云姑躬身行礼与此直接冲突，且前文没有交代他为何破例。"
+          },
+          {
+            "note": "N38",
+            "why": "顾长风素有冷傲之名，从不正眼看外门弟子，也从不插手外门之事，远远向云姑躬身行礼与此直接冲突，且前文没有交代他为何破例。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": "N66",
+        "explained_why": "N66 揭示七年前顾长风中蛇毒险些丧命，是云姑一夜守护将他救回，这正是他对云姑躬身行礼、态度反差的真正原因（救命之恩）；N67 进一步确认了他自认欠这份情。",
+        "checks": [
+          "explained later by N66: delayed reveal, not a flaw"
+        ]
+      },
+      {
+        "beat": "B9",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "破境的理由充分，行为本身有风险，所以需要理由，理由也成立。但她一向谨慎，此时既不留退路也不告知师父，显得与人设相悖，读者会觉得突兀。",
+        "motives": [
+          {
+            "motive": "为了破境，她修为卡在炼气四层半年，凭现有修为连大比前二十都进不去，只能独自去北崖采冰魄草。",
+            "support": [
+              "N40",
+              "N41",
+              "N42"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "瞒着所有人独自冒险上北崖，与她谨慎、凡事留退路的性格不符，也绕开了她一向求教的云姑。"
+          },
+          {
+            "note": "N26",
+            "why": "瞒着所有人独自冒险上北崖，与她谨慎、凡事留退路的性格不符，也绕开了她一向求教的云姑。"
+          },
+          {
+            "note": "N33",
+            "why": "瞒着所有人独自冒险上北崖，与她谨慎、凡事留退路的性格不符，也绕开了她一向求教的云姑。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B12",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "数灵石、用帕子包好藏回枕下是她攒药钱的日常动作，符合她节俭、为母亲买药的处境和设定，不需要额外理由，也与人设没有冲突。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B13",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "打水烧热、和同住的苏小棠各自洗脚是日常生活动作，没有代价、风险或伤害，也不与人设冲突，不需要额外理由。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B14",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "吐露隐疾有一定的动机依据（N51、N52），但文中没有明确说明她为何选择此时交底，且这一做法与她寡言、不示弱、无靠山的人设冲突，读者会觉得突兀。",
+        "motives": [
+          {
+            "motive": "大比期间人多手杂，云姑自己未必能护住清禾，所以需要让清禾知道她的真实状况。",
+            "support": [
+              "N51",
+              "N52"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N2",
+            "why": "云姑严厉寡言、护短，又处于外门无靠山的处境，把自己的致命软肋交给他人与她的性格和处境相悖。"
+          },
+          {
+            "note": "N3",
+            "why": "云姑严厉寡言、护短，又处于外门无靠山的处境，把自己的致命软肋交给他人与她的性格和处境相悖。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped conflict N50: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B15",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "夜闯药房、下散功散会让她付出被发现便无法脱身的代价，属于需要理由的选择。前文N16、N28、N29明确交代了她怕丹药倒卖败露、视清禾为威胁的动机，理由充分。人设上她重颜面、心高气傲，用暗中手段除掉威胁也与之相符，没有明显冲突。",
+        "motives": [
+          {
+            "motive": "为了不让被撞见倒卖培元丹的事败露，她要把沈清禾赶出宗门，因此对清禾下手。",
+            "support": [
+              "N16",
+              "N28",
+              "N29"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B16",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "水壶里闻出散功散、不喝下，是面对明显毒物的本能防范，不需要额外理由，也不与人设冲突。她能辨出药物并察觉药篓被动过，依托的是N54和N55的既有信息，与谨慎、先留退路的性格（N7、N26）一致。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B17",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "埋藏丹经有风险，但前世的栽赃经历和对裴照雪手段的预知给了明确动机，也符合她谨慎、先留退路的性格，两者不冲突。",
+        "motives": [
+          {
+            "motive": "前世她被裴照雪以失窃经页栽赃，且记得栽赃发生在大比前夜三更，她要让经页不落入栽赃者之手。",
+            "support": [
+              "N21",
+              "N23",
+              "N53"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B18",
+        "model_verdict": "malice_without_cause",
+        "verdict": "malice_without_cause",
+        "severity": 3,
+        "reasoning": "施压并让清禾担责会伤害她，属于需要理由的选择。档案中只有他从别人那里得知丹经在清禾屋中，这只是怀疑线索，不是利益、仇怨或目标，所以找不到促使他这样做的明确理由。他只认证据却用道听途说定人担责，与人设矛盾。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N10",
+            "why": "秦长老以执法长老自居且只认证据，却仅凭他人转告的消息就对清禾施压、让她担责，与他的人设冲突。"
+          },
+          {
+            "note": "N62",
+            "why": "秦长老以执法长老自居且只认证据，却仅凭他人转告的消息就对清禾施压、让她担责，与他的人设冲突。"
+          }
+        ],
+        "fixes": [
+          "在前文补一段秦长老与某方的利益或旧怨，例如他与清禾的师父或裴照雪有过争执，让他有动机借残页打压清禾。",
+          "改写他的做法：他先依程序封存清禾的屋子并要求取证，只有在找不到证据时才以“未找回即需担责”施压，并让他在后文承认所据消息有误。",
+          "让这次施压付出代价，例如清禾借此反查消息来源，揭出转告者的私心，秦长老因此失去执法公信，并在后文得到回报或转变。"
+        ],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B19",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "当众出掌伤人会暴露自己，与“最重颜面”的人设有张力，但她已在秦长老面前失态，且此前已多次对清禾下手（药篓、散功散），以灭口或逼其离开为目的的动手有前文铺垫，动机成立。当场出掌在时机上略显冒进，若能让她在人前失控后仍保持体面则更贴合人设。",
+        "motives": [
+          {
+            "motive": "怕丹药倒卖事情败露，一心要把沈清禾赶出宗门",
+            "support": [
+              "N16",
+              "N29"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B20",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "云姑是清禾的师父，且N51、N52显示她一直在为清禾的安全做准备；清禾遇到危险时她闻讯赶来把人护在身后，是符合护短人设的顺理成章反应。N59显示她为此付出了小臂旧疤迸开、吐血的代价，行为本身有前文铺垫且有代价，无需额外理由。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B21",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "她有想除掉沈清禾的动机，但选择在众人面前点破云姑伤势这种高调做法，与其温婉体面的人设和隐秘处境相冲突，理由只解释了针对谁，没有解释为何要这样做。",
+        "motives": [
+          {
+            "motive": "裴照雪怕倒卖培元丹的事败露，想把撞破此事的沈清禾赶出宗门；云姑当场护住沈清禾，成了她的阻碍，因此借旧伤羞辱云姑以削弱其护人之力。",
+            "support": [
+              "N16",
+              "N29",
+              "N60"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N15",
+            "why": "温婉、重颜面的她当众揭人旧伤、挑衅长辈式人物，与人设不符，也等于把注意力引向自己刚被撞见的处境，有暴露风险。"
+          },
+          {
+            "note": "N16",
+            "why": "温婉、重颜面的她当众揭人旧伤、挑衅长辈式人物，与人设不符，也等于把注意力引向自己刚被撞见的处境，有暴露风险。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B22",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "护徒的动机成立，但她明知左手只剩不到三成真气、一用就反噬，仍选择硬接，代价远超过她能承受的程度，缺少她在当时局面下只能如此的合理铺垫。",
+        "motives": [
+          {
+            "motive": "云姑在裴照雪面前护住清禾，是为了保护自己的徒弟，这是一种情感上的理由，有前文关系支撑。",
+            "support": [
+              "N1",
+              "N60"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N50",
+            "why": "云姑左手经脉已断、真气不足三成，一用便反噬，硬接掌力明知会伤及自身，与她的处境冲突，也不符合她对药圃和性命的审慎。"
+          },
+          {
+            "note": "N58",
+            "why": "云姑左手经脉已断、真气不足三成，一用便反噬，硬接掌力明知会伤及自身，与她的处境冲突，也不符合她对药圃和性命的审慎。"
+          },
+          {
+            "note": "N2",
+            "why": "云姑左手经脉已断、真气不足三成，一用便反噬，硬接掌力明知会伤及自身，与她的处境冲突，也不符合她对药圃和性命的审慎。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B23",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "挡掌得罪同门是明确代价，因此需要理由。N65 给出了一条原则性的立场，可以作为动机，但它只是一句主张，前文没有显示他因此事受过触动，也没有交代他为何要为外门之人冒险，和 N20、N38 的人设仍有明显落差。",
+        "motives": [
+          {
+            "motive": "他主张内门弟子在外门之地动手伤人须先问过执法堂，裴照雪未经此程序出手，他据此原则拦下这一掌。",
+            "support": [
+              "N65"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N20",
+            "why": "他素来冷傲，从不正眼看外门弟子，也从不插手外门之事，出手护住云姑、清禾并得罪内门同门，与此人设直接冲突，前文也没有交代他与云姑或清禾有私交。"
+          },
+          {
+            "note": "N38",
+            "why": "他素来冷傲，从不正眼看外门弟子，也从不插手外门之事，出手护住云姑、清禾并得罪内门同门，与此人设直接冲突，前文也没有交代他与云姑或清禾有私交。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B24",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "她有想知道救命恩人是谁的具体动机，但直接当面追问有风险，与她谨慎的人设略有冲突，读者可能觉得她过于直接。",
+        "motives": [
+          {
+            "motive": "她想弄清窗台上那瓶无名聚气丹和字条究竟是谁留下的，好确认救过自己的人是谁。",
+            "support": [
+              "N44"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "她一向谨慎隐忍、先留退路，眼下处境未明又被朱笔划名，当面追问顾长风等于主动暴露自己已注意到此事，与她的做事方式不符。"
+          },
+          {
+            "note": "N26",
+            "why": "她一向谨慎隐忍、先留退路，眼下处境未明又被朱笔划名，当面追问顾长风等于主动暴露自己已注意到此事，与她的做事方式不符。"
+          },
+          {
+            "note": "N71",
+            "why": "她一向谨慎隐忍、先留退路，眼下处境未明又被朱笔划名，当面追问顾长风等于主动暴露自己已注意到此事，与她的做事方式不符。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B25",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "还恩是明确的动机，前文有交代，所以“为什么做”成立。但承认丹药是自己放的，等于公开越过他一贯不插手外门的界线，且会让自己暴露在执法之责前，这一代价前文没有铺垫。",
+        "motives": [
+          {
+            "motive": "七年前云姑在药谷守他一夜、把他从蛇毒中救回，他自认欠下救命之情，一直没机会还，于是把这份情转到清禾身上。",
+            "support": [
+              "N67"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N20",
+            "why": "他向来冷傲寡言、从不插手外门之事，却主动承认放丹药、为外门的清禾出面，与这一设定相悖。"
+          },
+          {
+            "note": "N38",
+            "why": "他向来冷傲寡言、从不插手外门之事，却主动承认放丹药、为外门的清禾出面，与这一设定相悖。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N66: it quotes the beat itself (circular)",
+          "dropped reason N68: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B26",
+        "model_verdict": "contradicts",
+        "verdict": "contradicts",
+        "severity": 3,
+        "reasoning": "这是一个代价极大的行为（输光救母的钱、违反门规私自下山），前文没有利益、诱惑或压力的铺垫，且与胆小守规、攒钱为母治病的人设完全相反，读者会觉得突兀。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N12",
+            "why": "她的人设胆小守规、一块灵石都舍不得乱花，把给母亲买药的钱拿去赌博，与她的性格和全部动机直接冲突，前文也没有任何诱因让她去赌。"
+          },
+          {
+            "note": "N13",
+            "why": "她的人设胆小守规、一块灵石都舍不得乱花，把给母亲买药的钱拿去赌博，与她的性格和全部动机直接冲突，前文也没有任何诱因让她去赌。"
+          },
+          {
+            "note": "N27",
+            "why": "她的人设胆小守规、一块灵石都舍不得乱花，把给母亲买药的钱拿去赌博，与她的性格和全部动机直接冲突，前文也没有任何诱因让她去赌。"
+          },
+          {
+            "note": "N46",
+            "why": "她的人设胆小守规、一块灵石都舍不得乱花，把给母亲买药的钱拿去赌博，与她的性格和全部动机直接冲突，前文也没有任何诱因让她去赌。"
+          },
+          {
+            "note": "N47",
+            "why": "她的人设胆小守规、一块灵石都舍不得乱花，把给母亲买药的钱拿去赌博，与她的性格和全部动机直接冲突，前文也没有任何诱因让她去赌。"
+          }
+        ],
+        "fixes": [
+          "在第7章前补一段铺垫：如山下有人（如赌坊的人或同乡）以捎续脉膏或替母亲还债为名诱她，或她被催债、母亲病情突然恶化，让她陷入急迫处境。",
+          "改写行为动机：她并非主动去赌，而是被人设套或为替母还债而孤注一掷地去翻本，并在行为里体现她的挣扎与恐惧，与胆小的人设形成合理的张力。",
+          "让代价在后文得到回应：她因输钱违规下山被执法堂察觉或被清禾撞见，后续由清禾出面或她被迫面对后果，并在之后补上续脉膏的钱线，形成回报与补救。"
+        ],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B28",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "把草汁封好收起、不声张，是有风险的选择，但前文有她识破散功散和被牵连的处境作为理由，并且符合她谨慎、不在人前出头的人设（N7、N26）。",
+        "motives": [
+          {
+            "motive": "她已知草汁里被人下了散功散（N54），又被秦长老牵连嫌疑、处境未明（N61），便把证据封好藏起，留作日后自证。",
+            "support": [
+              "N54",
+              "N61"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B29",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "她有充分的动机，申诉的理由是明确的；但是这个高调公开的做法与她一贯的谨慎人设矛盾，读者会觉得她突然转性，而且没有交代她为什么不先私下或借云姑之手解决。",
+        "motives": [
+          {
+            "motive": "她的名字已被宗门划去、处境不明，且她被人栽赃，认定裴照雪想除掉她，她要借当众申诉澄清处境、洗清嫌疑，并朝大比登台揭露裴照雪的目标推进。",
+            "support": [
+              "N77",
+              "N79",
+              "N61",
+              "N25"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "当众跪地申诉会把她推到全宗和长老面前，与她谨慎隐忍、从不在人前出头、说话从不大声的人设直接冲突，而且她手里还有N78的证据却没有先用来留退路。"
+          },
+          {
+            "note": "N75",
+            "why": "当众跪地申诉会把她推到全宗和长老面前，与她谨慎隐忍、从不在人前出头、说话从不大声的人设直接冲突，而且她手里还有N78的证据却没有先用来留退路。"
+          },
+          {
+            "note": "N78",
+            "why": "当众跪地申诉会把她推到全宗和长老面前，与她谨慎隐忍、从不在人前出头、说话从不大声的人设直接冲突，而且她手里还有N78的证据却没有先用来留退路。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N76: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B30",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "复仇与翻案的动机在前文是有的，但她的行事风格是暗中谋定、不在人前出头，选择在众人面前当场揭穿，并且在嫌疑未洗清时主动得罪裴照雪，这一步与人设明显矛盾，读者会觉得她太冒进。",
+        "motives": [
+          {
+            "motive": "她亲眼见裴照雪在后山把培元丹卖给药商，又被裴照雪栽赃丹经，且大比时要当众揭露裴照雪，此前的私下遭遇与公开目标都构成动机。",
+            "support": [
+              "N25",
+              "N78",
+              "N79",
+              "N77",
+              "N5",
+              "N76"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "她一向谨慎隐忍、从不在人前出头，又因处境不明已被朱笔划名、有被牵连的嫌疑，当众撕破脸与她的性格和处境相悖，她本可先留退路再行动。"
+          },
+          {
+            "note": "N61",
+            "why": "她一向谨慎隐忍、从不在人前出头，又因处境不明已被朱笔划名、有被牵连的嫌疑，当众撕破脸与她的性格和处境相悖，她本可先留退路再行动。"
+          },
+          {
+            "note": "N71",
+            "why": "她一向谨慎隐忍、从不在人前出头，又因处境不明已被朱笔划名、有被牵连的嫌疑，当众撕破脸与她的性格和处境相悖，她本可先留退路再行动。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B31",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "怨仇和揭露目标给了理由，但她突然在众人面前当众指控，与谨慎隐忍、从不出头的人设冲突。她也没有交代为何此前半月未举报、此刻才公开，读者会觉得她太反常。",
+        "motives": [
+          {
+            "motive": "她被裴照雪视为眼中钉，又认定对方想借栽赃除掉自己，积怨已久；揭露裴照雪也是她的既定目标，名字被划去后她已无退路。",
+            "support": [
+              "N24",
+              "N25",
+              "N77",
+              "N79",
+              "N76"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "她一向谨慎隐忍、从不在人前出头、说话不大声，却在众人面前当众指控，还以性命和名誉作保，与她的人设明显相悖；她完全可以先私下禀告云姑或秦长老。"
+          },
+          {
+            "note": "N75",
+            "why": "她一向谨慎隐忍、从不在人前出头、说话不大声，却在众人面前当众指控，还以性命和名誉作保，与她的人设明显相悖；她完全可以先私下禀告云姑或秦长老。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B32",
+        "model_verdict": "contradicts",
+        "verdict": "contradicts",
+        "severity": 3,
+        "reasoning": "这一行为会让她付出身份和前途的代价，而档案里找不到促使她认罪的利益或压力；“做事从不抵赖”只是她的自我标榜，不构成理由。她的人设和处境都指向辩解或隐瞒，因此这一承认显得突兀。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N15",
+            "why": "她一向把颜面和宗门身份看得最重，又刚为了掩盖倒卖丹药的事想赶走沈清禾，当众认罪等于亲手断送自己的前途，与她的利益和处境直接相悖。"
+          },
+          {
+            "note": "N16",
+            "why": "她一向把颜面和宗门身份看得最重，又刚为了掩盖倒卖丹药的事想赶走沈清禾，当众认罪等于亲手断送自己的前途，与她的利益和处境直接相悖。"
+          },
+          {
+            "note": "N29",
+            "why": "她一向把颜面和宗门身份看得最重，又刚为了掩盖倒卖丹药的事想赶走沈清禾，当众认罪等于亲手断送自己的前途，与她的利益和处境直接相悖。"
+          }
+        ],
+        "fixes": [
+          "在第 8 章前补一段铺垫：蓝光证据确凿且无法遮掩，她的祖父裴长老明确表示若她抵赖便当众废其修为、逐出宗门，让她只能选择体面地承认以保住一条命。",
+          "改写为有算计的认罪：她承认倒卖培元丹的旧事，同时把散功散和药篓之事推给他人，借认罪换取轻判，并在后文因此付出宗门身份被剥夺的代价。",
+          "让她认罪的语气和动机更符合颜面优先的人设：她认的只是“以为无人知晓的小事”，并在后文以此为把柄，继续暗中对沈清禾施压，从而让承认成为另一种隐忍。"
+        ],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B33",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "拿人会让沈清禾和裴照雪承受严重后果，有转告消息作为理由，但消息来源未经查证，与他“只认证据”的人设冲突，读者会觉得他判断草率。",
+        "motives": [
+          {
+            "motive": "前文得知丢失的丹经页在沈清禾屋中，这一消息来自他人转告，因此他有了拿人的依据。",
+            "support": [
+              "N62"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N10",
+            "why": "秦长老被设定为只认证据、不凭一面之词定罪，而他仅凭别人转告的消息就当场下令拿人，且同时拿下裴照雪，没有核实证据的过程。"
+          },
+          {
+            "note": "N62",
+            "why": "秦长老被设定为只认证据、不凭一面之词定罪，而他仅凭别人转告的消息就当场下令拿人，且同时拿下裴照雪，没有核实证据的过程。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      }
+    ],
+    "issues": [
+      {
+        "id": "I1",
+        "family": "character",
+        "kind": "malice_without_cause",
+        "chapter": 2,
+        "chapters": [
+          2
+        ],
+        "character": "韩烈",
+        "severity": 3,
+        "title": "故意踩踏云姑的嫩芽，把它们一株株碾进泥里",
+        "explanation": "故意毁坏他人嫩芽并伤害对方是需要理由的行为，档案中找不到动机，且他既与云姑无交集，又只是巡山弟子，行为缺乏依据，读者会觉得是作者为了情节需要硬塞进来的恶意。",
+        "evidence": [
+          {
+            "chapter": 2,
+            "start": 248,
+            "end": 289,
+            "quote": "韩烈低头看了看那片嫩芽，抬脚便踩了进去，一株一株碾进泥里，碾完了，还在鞋底蹭了蹭。",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B6",
+          "N17",
+          "N18"
+        ],
+        "fixes": [
+          "在前文补一段韩烈与云姑的冲突，例如云姑曾当众揭发他巡山时的失职，使他怀恨在心，让踩踏带有报复色彩。",
+          "让韩烈是奉命行事：安排执法堂上级或与裴照雪有关的人下令清除这片嫩芽，韩烈为了前途不得不照做，并在后文写他因此受到牵连或良心不安。",
+          "若不想给他动机，可改写为他误踩而非故意，或让他的恶意只是一时失态，并在后文让他为此付出代价（如被云姑当众质问、被执法堂责罚）。"
+        ],
+        "rationale": "针对云姑，前文没有交代任何利益、恩怨或经历上的理由。",
+        "merged": []
+      },
+      {
+        "id": "I2",
+        "family": "character",
+        "kind": "malice_without_cause",
+        "chapter": 6,
+        "chapters": [
+          6
+        ],
+        "character": "秦长老",
+        "severity": 3,
+        "title": "以残页未找回为由施压，让清禾担上干系",
+        "explanation": "施压并让清禾担责会伤害她，属于需要理由的选择。档案中只有他从别人那里得知丹经在清禾屋中，这只是怀疑线索，不是利益、仇怨或目标，所以找不到促使他这样做的明确理由。他只认证据却用道听途说定人担责，与人设矛盾。",
+        "evidence": [
+          {
+            "chapter": 6,
+            "start": 142,
+            "end": 160,
+            "quote": "残页一日没找回，你便一日脱不了干系。",
+            "role": "beat"
+          },
+          {
+            "chapter": 6,
+            "start": 42,
+            "end": 56,
+            "quote": "有人报到我这里，说在你屋里。",
+            "role": "conflict"
+          }
+        ],
+        "refs": [
+          "B18",
+          "N10",
+          "N62"
+        ],
+        "fixes": [
+          "在前文补一段秦长老与某方的利益或旧怨，例如他与清禾的师父或裴照雪有过争执，让他有动机借残页打压清禾。",
+          "改写他的做法：他先依程序封存清禾的屋子并要求取证，只有在找不到证据时才以“未找回即需担责”施压，并让他在后文承认所据消息有误。",
+          "让这次施压付出代价，例如清禾借此反查消息来源，揭出转告者的私心，秦长老因此失去执法公信，并在后文得到回报或转变。"
+        ],
+        "rationale": "针对清禾，前文没有交代任何利益、恩怨或经历上的理由。",
+        "merged": []
+      },
+      {
+        "id": "I3",
+        "family": "character",
+        "kind": "contradicts",
+        "chapter": 7,
+        "chapters": [
+          7
+        ],
+        "character": "苏小棠",
+        "severity": 3,
+        "title": "偷偷溜下山去赌坊，把留给娘买续脉膏的灵石全押在斗鸡上输光",
+        "explanation": "这是一个代价极大的行为（输光救母的钱、违反门规私自下山），前文没有利益、诱惑或压力的铺垫，且与胆小守规、攒钱为母治病的人设完全相反，读者会觉得突兀。",
+        "evidence": [
+          {
+            "chapter": 7,
+            "start": 220,
+            "end": 244,
+            "quote": "把攒了三年、留给娘买续脉膏的灵石全押在一场斗鸡上",
+            "role": "beat"
+          },
+          {
+            "chapter": 1,
+            "start": 60,
+            "end": 81,
+            "quote": "那是她攒给山下病娘的药钱，一块也舍不得花。",
+            "role": "conflict"
+          },
+          {
+            "chapter": 4,
+            "start": 72,
+            "end": 95,
+            "quote": "等我再攒二十块灵石，就能托人给她捎一副续脉膏。",
+            "role": "conflict"
+          },
+          {
+            "chapter": 4,
+            "start": 188,
+            "end": 217,
+            "quote": "苏小棠把她的灵石又数了一遍，数完照旧用帕子包好，塞回枕下。",
+            "role": "conflict"
+          }
+        ],
+        "refs": [
+          "B26",
+          "N12",
+          "N13",
+          "N27",
+          "N46",
+          "N47"
+        ],
+        "fixes": [
+          "在第7章前补一段铺垫：如山下有人（如赌坊的人或同乡）以捎续脉膏或替母亲还债为名诱她，或她被催债、母亲病情突然恶化，让她陷入急迫处境。",
+          "改写行为动机：她并非主动去赌，而是被人设套或为替母还债而孤注一掷地去翻本，并在行为里体现她的挣扎与恐惧，与胆小的人设形成合理的张力。",
+          "让代价在后文得到回应：她因输钱违规下山被执法堂察觉或被清禾撞见，后续由清禾出面或她被迫面对后果，并在之后补上续脉膏的钱线，形成回报与补救。"
+        ],
+        "rationale": "与N12「人设：胆小怕事，见了执法堂的人都不敢抬头，从不违反门规。」、N13「处境：家里穷，娘常年腿疾，她把每一块灵石都攒下来给娘买药，一块也舍不得乱花。」、N27「攒灵石作药钱，为山下病中的母亲买药，舍不得花用。」、N46「想再攒二十块灵石，托人给母亲捎一副续脉膏。」、N47「她有灵石，数过后用帕子包好，藏在枕下。」冲突，前文没有交代这样做的理由。",
+        "merged": []
+      },
+      {
+        "id": "I4",
+        "family": "character",
+        "kind": "contradicts",
+        "chapter": 8,
+        "chapters": [
+          8
+        ],
+        "character": "裴照雪",
+        "severity": 3,
+        "title": "面对蓝光不辩解，当众承认自己所为，不肯抵赖",
+        "explanation": "这一行为会让她付出身份和前途的代价，而档案里找不到促使她认罪的利益或压力；“做事从不抵赖”只是她的自我标榜，不构成理由。她的人设和处境都指向辩解或隐瞒，因此这一承认显得突兀。",
+        "evidence": [
+          {
+            "chapter": 8,
+            "start": 324,
+            "end": 342,
+            "quote": "是我又如何？我裴照雪做事，从不抵赖。",
+            "role": "beat"
+          },
+          {
+            "chapter": 1,
+            "start": 208,
+            "end": 249,
+            "quote": "裴照雪容不下她，只因半月前在后山，她撞见裴照雪把宗门的培元丹一瓶瓶卖给山下的药商。",
+            "role": "conflict"
+          }
+        ],
+        "refs": [
+          "B32",
+          "N15",
+          "N16",
+          "N29"
+        ],
+        "fixes": [
+          "在第 8 章前补一段铺垫：蓝光证据确凿且无法遮掩，她的祖父裴长老明确表示若她抵赖便当众废其修为、逐出宗门，让她只能选择体面地承认以保住一条命。",
+          "改写为有算计的认罪：她承认倒卖培元丹的旧事，同时把散功散和药篓之事推给他人，借认罪换取轻判，并在后文因此付出宗门身份被剥夺的代价。",
+          "让她认罪的语气和动机更符合颜面优先的人设：她认的只是“以为无人知晓的小事”，并在后文以此为把柄，继续暗中对沈清禾施压，从而让承认成为另一种隐忍。"
+        ],
+        "rationale": "与N15「人设：表面温婉，心高气傲，最重颜面。」、N16「处境：半月前私下把宗门的培元丹卖给山下药商，被沈清禾撞见，怕事情败露，一心要把沈清禾赶出宗门。」、N29「因沈清禾撞破她倒卖丹药而视其为威胁，容不下她。」冲突，前文没有交代这样做的理由。",
+        "merged": []
+      },
+      {
+        "id": "I5",
+        "family": "plot",
+        "kind": "deus_ex_machina",
+        "chapter": 3,
+        "chapters": [
+          3
+        ],
+        "character": null,
+        "severity": 3,
+        "title": "灰袍人在第3章才首次出现，且恰好在沈清禾坠崖、藤根将断的生死关头从崖顶伸手相救，前文没有任何铺垫或伏笔，救命行为完全由外部人物完成，读者容易觉得是作者为解围而临时安排的救兵。",
+        "explanation": "灰袍人在第3章才首次出现，且恰好在沈清禾坠崖、藤根将断的生死关头从崖顶伸手相救，前文没有任何铺垫或伏笔，救命行为完全由外部人物完成，读者容易觉得是作者为解围而临时安排的救兵。",
+        "evidence": [
+          {
+            "chapter": 3,
+            "start": 178,
+            "end": 207,
+            "quote": "就在藤根将断的那一刻，一只手从崖顶伸下来，攥住了她的手腕。",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B10"
+        ],
+        "fixes": [
+          "在第1至2章埋下灰袍人的伏笔，例如让他在市集或山道上出现一次并与沈清禾有短暂交集，或留下一件可辨认的信物，使他的出现有迹可循。",
+          "改为沈清禾自己化解险境，例如她识破藤根将断的迹象后主动借力、反手抓住崖边凸石，或利用前文established的技能或道具脱困，救命之功归于主角。",
+          "若必须由灰袍人相救，让沈清禾此前主动求援或与他有过约定，例如她在前一章留下记号或传信，使他的到来成为她布局的结果而非巧合。"
+        ],
+        "rationale": "披灰袍的中年人此前从未出场，却化解了这场危机。",
+        "merged": []
+      },
+      {
+        "id": "I6",
+        "family": "plot",
+        "kind": "dangling_setup",
+        "chapter": 3,
+        "chapters": [
+          3
+        ],
+        "character": null,
+        "severity": 2,
+        "title": "救下清禾的灰袍人身份不明，之后可能与她有更深的牵连。",
+        "explanation": "救下清禾的灰袍人身份不明，之后可能与她有更深的牵连。",
+        "evidence": [
+          {
+            "chapter": 3,
+            "start": 209,
+            "end": 228,
+            "quote": "那是个披灰袍的中年人，清禾从未见过他。",
+            "role": "setup"
+          }
+        ],
+        "refs": [
+          "S5"
+        ],
+        "fixes": [],
+        "rationale": "后文没有回应这个伏笔。",
+        "merged": []
+      },
+      {
+        "id": "I7",
+        "family": "plot",
+        "kind": "causality",
+        "chapter": 5,
+        "chapters": [
+          5,
+          6
+        ],
+        "character": "秦长老",
+        "severity": 2,
+        "title": "B17 说清禾已把丹经埋到药圃石灯底下，但 N62 写秦长老得知残页在清禾屋中，二者对残页所在位置的说法互相矛盾。",
+        "explanation": "B17 说清禾已把丹经埋到药圃石灯底下，但 N62 写秦长老得知残页在清禾屋中，二者对残页所在位置的说法互相矛盾。",
+        "evidence": [
+          {
+            "chapter": 5,
+            "start": 392,
+            "end": 425,
+            "quote": "她倒净了水，把那页丹经用油纸包好，趁夜埋进药圃最里头那盏石灯底下。",
+            "role": "beat"
+          },
+          {
+            "chapter": 6,
+            "start": 142,
+            "end": 160,
+            "quote": "残页一日没找回，你便一日脱不了干系。",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B17",
+          "B18"
+        ],
+        "fixes": [
+          "将 N62 改为秦长老得知残页在清禾处或药圃附近，而非屋中。",
+          "若秦长老的消息确实是“屋中”，则在 B17 中补充清禾埋藏前已将残页另行转移的动作。",
+          "在 B18 中让秦长老的施压依据改为“有人告知残页与清禾有关”，避免与具体藏匿地点绑定。"
+        ],
+        "rationale": "前后因果接不上（模型的判断，程序只核对了引用）。",
+        "merged": []
+      },
+      {
+        "id": "I8",
+        "family": "pacing",
+        "kind": "flat_stretch",
+        "chapter": 4,
+        "chapters": [
+          4
+        ],
+        "character": null,
+        "severity": 2,
+        "title": "第 4 章紧张度只有 1，章末没有钩子",
+        "explanation": "一场雨天里，清禾与苏小棠在屋中补衣、煮粥、晾药，苏小棠盼着攒够灵石给娘捎药，平淡度过一天。",
+        "evidence": [
+          {
+            "chapter": 4,
+            "start": 333,
+            "end": 341,
+            "quote": "她们都睡得很早。",
+            "role": "chapter"
+          }
+        ],
+        "refs": [],
+        "fixes": [],
+        "rationale": "第 4 章紧张度只有 1，章末没有钩子",
+        "merged": []
+      }
+    ],
+    "suggestions": [
+      {
+        "targets": [
+          "I1"
+        ],
+        "chapter": 2,
+        "technique": "rewrite_motive",
+        "change": "给韩烈补上动机：他奉裴照雪之命来查云姑药圃，或他弟弟曾因云姑的药被执法堂罚过，故意毁苗是为了让云姑交出丹方、逼她离开药圃。毁苗前先让他有一句明确的威胁或索要。",
+        "why": "动机一旦清楚，读者就不会把韩烈看成为了情节硬塞的恶人；同时把裴照雪的线索提前埋到第二章，为后面的栽赃铺路，清禾的愤怒也更有依据。",
+        "sample": "韩烈踩住最后一株嫩芽，俯身压低声音：「云婆婆，裴师姐让我问你一句，丹方在哪。问不出来，这园子就别想留了。」"
+      },
+      {
+        "targets": [
+          "I3",
+          "I8"
+        ],
+        "chapter": 4,
+        "technique": "setup",
+        "change": "在雨天的平淡日常里埋下苏小棠的债务和赌坊线索：她攒钱时被同屋或山下商贩催还欠下的灵石，或她听见别人议论山下赌坊能「一夜翻倍」。章末加一个钩子：门外有人送来一张写着她名字的欠条。",
+        "why": "苏小棠第七章的赌博就有了压力与诱惑，不再突兀；第四章的平淡也被一个真实的危机撑住，读者会因为担心她而记住这一天，章末的悬念让节奏不至于断掉。",
+        "sample": "雨声里，门板被人拍得砰砰作响。苏小棠脸色一白，把灵石袋往怀里紧了紧。门外那人慢悠悠道：「小棠妹子，欠条上的日子到了。」"
+      },
+      {
+        "targets": [
+          "I5",
+          "I6"
+        ],
+        "chapter": 3,
+        "technique": "setup",
+        "change": "在第二章让清禾在药圃或山道上远远看到一个灰袍背影，或一枚刻有暗纹的玉佩掉在她脚边，埋下伏笔。第三章里清禾先自己死死攀住藤根，靠自救撑到灰袍人出现；救人时灰袍人手上留下一道旧伤或露出一个与第二章相同的标记，身份仍不点破。",
+        "why": "救命不再是凭空冒出的救兵，清禾自己的挣扎让她的命有分量；灰袍人的伏笔让读者产生追问，这一层悬念比单纯的救人更抓人。",
+        "sample": "藤根「咔」地裂开一道细缝，清禾咬牙把手往上一扣，指节发白。头顶忽然伸下一只手，袖口露出半截暗金的鹤纹，她来不及看清，便被猛地拽了上去。"
+      },
+      {
+        "targets": [
+          "I7"
+        ],
+        "chapter": 5,
+        "technique": "cut",
+        "change": "删掉秦长老「得知残页在清禾屋中」的那句交代，改为秦长老只知道「丹经在药圃附近」，或由韩烈在第六章搜屋时发现石灯下有新土。这样两处对残页位置的说法统一，并且把怀疑来源改成一个可追查的痕迹。",
+        "why": "因果链一旦闭合，读者不会觉得作者在前后矛盾地推进；石灯下的新土也成为一个小悬念，让第六章搜屋的紧张感有了实在的落点。",
+        "sample": "秦长老垂眼看着石灯下那一小块翻松的泥土，淡淡道：「有人刚在这里动过土。」身后的执法弟子立刻伸手去挖。"
+      },
+      {
+        "targets": [
+          "I2"
+        ],
+        "chapter": 6,
+        "technique": "rewrite_motive",
+        "change": "给秦长老补上利益或私怨：大比名额是他外甥的，清禾若被定为偷盗宗门典籍者，名额就会空出来；或他与裴照雪有交易，借执法之名替她压下清禾的指控。让他一边以残页未找回为由施压，一边暗中盘算名额或人情。",
+        "why": "施压有了明确的利益，人设不再是只认证据却道听途说定罪，读者会看清他的动机，对接下来的不公更愤怒，也为第八章的当众揭发增加张力。",
+        "sample": "秦长老慢慢转动手上的玉扳指：「残页找不回，便是你的罪。大比名册上，我外甥的名字……正好空出一个位置。」"
+      },
+      {
+        "targets": [
+          "I4"
+        ],
+        "chapter": 8,
+        "technique": "rewrite_motive",
+        "change": "让裴照雪认罪是被逼出来的交换：她若不认，顾长风就要被执法堂以护庇罪拖下，或她本人的父亲/师门会被牵连；她承认自己所为，只求保住别人。在认罪前先让她用一句「你以为我不敢认」之类的话，显示她其实在权衡，而不是放弃。",
+        "why": "认罪有了代价与理由，裴照雪从冷硬的恶人变成被逼到绝路的人，反转更有分量，读者会在震惊之后感到她的挣扎，问剑台的高潮也更揪心。",
+        "sample": "裴照雪看了一眼台下面色发白的顾长风，忽然笑了：「是我做的。拿我一个人的名声，换他的前程，这笔账，我算得清。」"
+      },
+      {
+        "targets": [],
+        "chapter": 6,
+        "technique": "cliffhanger",
+        "change": "第 6 章的结尾平稳收住，可以在最后一两句留一个悬念、危机或反转，让读者想立刻看下一章。",
+        "why": "执法长老因藏经阁丢失残页上门搜屋，裴照雪趁机出手伤人，云姑旧伤迸发吐血，顾长风及时挡下致命一掌。",
+        "sample": ""
+      }
+    ],
+    "rejected": [
+      {
+        "stage": "shape",
+        "chapter": 1,
+        "reason": "setup key is not a word of the chapter",
+        "item": {
+          "key": "药篓里的丹经",
+          "text": "裴照雪大比前三日把失窃的丹经塞进沈清禾药篓，是前世被栽赃的关键，这一世可能会被兑现或破解。",
+          "quote": "大比前三日的夜里，裴照雪把藏经阁失窃的那页《青崖丹经》塞进了她的药篓"
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 3,
+        "reason": "setup key is not a word of the chapter",
+        "item": {
+          "key": "灰袍人",
+          "text": "救下清禾的灰袍人身份不明，之后可能与她有更深的牵连。",
+          "quote": "那是个披灰袍的中年人，清禾从未见过他。"
+        }
+      }
+    ],
+    "errors": [],
+    "usage": {
+      "calls": 66,
+      "calls_by_stage": {
+        "notes": 8,
+        "beats": 8,
+        "shape": 8,
+        "motives": 30,
+        "leak": 1,
+        "later": 2,
+        "plot": 1,
+        "rescue": 1,
+        "payoff": 6,
+        "plan": 1
+      },
+      "input_tokens": 108259,
+      "output_tokens": 76829,
+      "cost_usd": 0.04924,
+      "llm_seconds": 452.2,
+      "seconds": 48.3
+    },
+    "checks_version": "checks-v5"
+  },
+  "score": {
+    "problems_found": 4,
+    "problems": 6,
+    "recall": 0.667,
+    "located": 4,
+    "by_kind": {
+      "character": {
+        "labelled": 2,
+        "found": 2
+      },
+      "plot": {
+        "labelled": 3,
+        "found": 1
+      },
+      "pacing": {
+        "labelled": 1,
+        "found": 1
+      }
+    },
+    "traps_set_off": 0,
+    "traps": 6,
+    "issues_reported": 8,
+    "issues_on_labels": 5,
+    "unlabelled_issues": [
+      "I2",
+      "I6",
+      "I7"
+    ],
+    "problem_rows": [
+      {
+        "id": "H1",
+        "kind": "character",
+        "found": true,
+        "issues": [
+          "I3"
+        ],
+        "located_other_kind": []
+      },
+      {
+        "id": "H2",
+        "kind": "character",
+        "found": true,
+        "issues": [
+          "I1"
+        ],
+        "located_other_kind": []
+      },
+      {
+        "id": "H3",
+        "kind": "plot",
+        "found": false,
+        "issues": [],
+        "located_other_kind": []
+      },
+      {
+        "id": "H4",
+        "kind": "plot",
+        "found": true,
+        "issues": [
+          "I5"
+        ],
+        "located_other_kind": []
+      },
+      {
+        "id": "H5",
+        "kind": "plot",
+        "found": false,
+        "issues": [],
+        "located_other_kind": []
+      },
+      {
+        "id": "H6",
+        "kind": "pacing",
+        "found": true,
+        "issues": [
+          "I8"
+        ],
+        "located_other_kind": []
+      }
+    ],
+    "trap_rows": [
+      {
+        "id": "T1",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T2",
+        "set_off": false,
+        "issues": [],
+        "verdicts": [
+          "consistent"
+        ]
+      },
+      {
+        "id": "T3",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T4",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T5",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T6",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      }
+    ],
+    "ambiguous_rows": [
+      {
+        "id": "A1",
+        "flagged": true,
+        "issues": [
+          "I4"
+        ]
+      },
+      {
+        "id": "A2",
+        "flagged": false,
+        "issues": []
+      }
+    ]
+  },
+  "grounding": {
+    "notes_kept": 62,
+    "beats_kept": 33,
+    "setups_kept": 11,
+    "judgements": 30,
+    "rejected": {
+      "shape: setup key is not a word of the chapter": 2
+    },
+    "quotes_located_by": {
+      "exact": 95
+    },
+    "verdicts_changed_by_checks": {
+      "contradicts -> delayed": 1
+    },
+    "errors": []
+  },
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "caf042d"
+  },
+  "replayed": false,
+  "cache": {
+    "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-qingya-wenjian-openrouter-anthropic-claude-haiku-5.5.jsonl",
+    "hits": 61,
+    "misses": 5
+  }
+}
