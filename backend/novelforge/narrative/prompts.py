@@ -9,6 +9,10 @@ chapters, and verdicts that cite nothing are downgraded (see `audit.py`).
 from __future__ import annotations
 
 PROMPT_VERSION = "story-v3"
+# The deterministic checks applied to the model's answers (audit.py). A change here re-scores
+# recorded runs without calling the model; stored audits are reused only for the same pair.
+CHECKS_VERSION = "checks-v4"
+AUDIT_VERSION = f"{PROMPT_VERSION}/{CHECKS_VERSION}"
 
 NOTES = {
     "zh": """你是一名严谨的小说编辑，正在为一部中文小说整理人物档案。只根据给出的这一章正文，记录本章交代的、关于名单中人物的事实。kind 只能是：

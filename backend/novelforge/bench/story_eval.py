@@ -108,7 +108,8 @@ def to_markdown(report: dict[str, Any]) -> str:
     a = report["audit"]
     lines = [
         f"*{report['title']}* (`{report['sample']}`): {len(a['chapters'])} chapters, "
-        f"{len(a['cast'])} characters. LLM `{a['llm']}`, prompts `{a['prompt_version']}`, "
+        f"{len(a['cast'])} characters. LLM `{a['llm']}`, prompts `{a['prompt_version']}`"
+        f"{', checks `' + a['checks_version'] + '`' if a.get('checks_version') else ''}, "
         f"{a['usage'].get('calls', 0)} calls, {a['usage'].get('input_tokens', 0):,} input / "
         f"{a['usage'].get('output_tokens', 0):,} output tokens, "
         f"{a['usage'].get('llm_seconds', 0)} s in the model.",

@@ -1,0 +1,2046 @@
+{
+  "sample": "qingshi-du",
+  "title": "青石渡",
+  "audit": {
+    "language": "zh",
+    "llm": "replay:ollama:qwen2.5:7b",
+    "prompt_version": "story-v3",
+    "chapters": [
+      {
+        "number": 1,
+        "title": "寄人篱下"
+      },
+      {
+        "number": 2,
+        "title": "文书处"
+      },
+      {
+        "number": 3,
+        "title": "出头"
+      },
+      {
+        "number": 4,
+        "title": "撕卷"
+      },
+      {
+        "number": 5,
+        "title": "祠堂"
+      },
+      {
+        "number": 6,
+        "title": "踏青"
+      },
+      {
+        "number": 7,
+        "title": "退学"
+      },
+      {
+        "number": 8,
+        "title": "账册"
+      }
+    ],
+    "cast": [
+      "周伯年",
+      "周宝",
+      "周舅母",
+      "孙账房",
+      "段少钧",
+      "段督军",
+      "程歌",
+      "许校长",
+      "赵启明"
+    ],
+    "notes": [
+      {
+        "id": "N1",
+        "character": "周伯年",
+        "kind": "sheet",
+        "text": "程歌的舅舅，镇上米铺的掌柜，性子软。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N2",
+        "character": "周宝",
+        "kind": "sheet",
+        "text": "程歌的表哥，周舅母的独子。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N3",
+        "character": "周舅母",
+        "kind": "sheet",
+        "text": "程歌的舅母，持家精明，嘴上刻薄。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N4",
+        "character": "孙账房",
+        "kind": "sheet",
+        "text": "督军府的账房先生。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N5",
+        "character": "段少钧",
+        "kind": "sheet",
+        "text": "段督军的独子，镇上有名的纨绔。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N6",
+        "character": "段督军",
+        "kind": "sheet",
+        "text": "青石镇驻军的督军。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N7",
+        "character": "程歌",
+        "kind": "sheet",
+        "text": "女主，十七岁，父母双亡，寄住在舅舅家。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N8",
+        "character": "程歌",
+        "kind": "sheet",
+        "text": "人设：胆子小，遇事先躲，从不与人争执，最怕给舅舅一家添麻烦。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N9",
+        "character": "程歌",
+        "kind": "sheet",
+        "text": "处境：学费靠在督军府文书处抄写挣来，丢了这份差事就读不成书。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N10",
+        "character": "许校长",
+        "kind": "sheet",
+        "text": "青石女中的校长。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N11",
+        "character": "赵启明",
+        "kind": "sheet",
+        "text": "程歌在女中隔壁男校的同年级学生。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N12",
+        "character": "程歌",
+        "kind": "background",
+        "text": "从小胆子就小，父亲常这么说。",
+        "chapter": 1,
+        "quote": "歌儿走路都贴着墙根。",
+        "start": 46,
+        "end": 56,
+        "located": "exact"
+      },
+      {
+        "id": "N13",
+        "character": "程歌",
+        "kind": "wound",
+        "text": "寄人篱下的日子最怕给舅舅一家添麻烦。",
+        "chapter": 1,
+        "quote": "寄人篱下的日子，她最怕的就是给舅舅一家添麻烦。",
+        "start": 89,
+        "end": 112,
+        "located": "exact"
+      },
+      {
+        "id": "N14",
+        "character": "周宝",
+        "kind": "background",
+        "text": "两回落榜。",
+        "chapter": 1,
+        "quote": "表哥周宝两回落榜，舅母的火气，这两年一天比一天大。",
+        "start": 210,
+        "end": 235,
+        "located": "exact"
+      },
+      {
+        "id": "N15",
+        "character": "程歌",
+        "kind": "goal",
+        "text": "自己挣学费。",
+        "chapter": 1,
+        "quote": "督军府文书处缺人抄写，我下学以后去。",
+        "start": 259,
+        "end": 277,
+        "located": "exact"
+      },
+      {
+        "id": "N16",
+        "character": "程歌",
+        "kind": "knowledge",
+        "text": "父亲临终前叮嘱十八岁生日那天再拆的信件内容关系到她这一辈子。",
+        "chapter": 1,
+        "quote": "信里的事，关系到她这一辈子。",
+        "start": 344,
+        "end": 358,
+        "located": "exact"
+      },
+      {
+        "id": "N17",
+        "character": "程歌",
+        "kind": "knowledge",
+        "text": "许校长减了她的学费一半。",
+        "chapter": 2,
+        "quote": "“程歌，你这学期的学费，学校减一半。”",
+        "start": 144,
+        "end": 163,
+        "located": "exact"
+      },
+      {
+        "id": "N18",
+        "character": "程歌",
+        "kind": "situation",
+        "text": "她家里并不算最穷，但也没有成绩最好。",
+        "chapter": 2,
+        "quote": "她既不是成绩最好的，也不是家里最穷的。",
+        "start": 209,
+        "end": 228,
+        "located": "exact"
+      },
+      {
+        "id": "N19",
+        "character": "段少钧",
+        "kind": "wound",
+        "text": "督军的儿子，就是这么欺负人的？",
+        "chapter": 3,
+        "quote": "你爹的兵吃的是青石镇的粮，你踩的是青石镇的人。",
+        "start": 180,
+        "end": 203,
+        "located": "exact"
+      },
+      {
+        "id": "N20",
+        "character": "程歌",
+        "kind": "goal",
+        "text": "出头",
+        "chapter": 3,
+        "quote": "扬手给了段少钧一记耳光，声音清脆得满街都听得见。",
+        "start": 121,
+        "end": 145,
+        "located": "exact"
+      },
+      {
+        "id": "N21",
+        "character": "程歌",
+        "kind": "relationship",
+        "text": "舅舅听说了这件事，吓得一宿没合眼。",
+        "chapter": 3,
+        "quote": "当天夜里，舅舅听说了这件事，吓得一宿没合眼。",
+        "start": 249,
+        "end": 271,
+        "located": "exact"
+      },
+      {
+        "id": "N22",
+        "character": "程歌",
+        "kind": "goal",
+        "text": "写作文《渡口》。",
+        "chapter": 4,
+        "quote": "女中和隔壁男校每学期合办一次作文会考，卷子交上去以前，要先放在礼堂的长桌上晾干墨迹。",
+        "start": 0,
+        "end": 42,
+        "located": "exact"
+      },
+      {
+        "id": "N23",
+        "character": "程歌",
+        "kind": "wound",
+        "text": "被赵启明撕毁作文。",
+        "chapter": 4,
+        "quote": "他和程歌素不相识，两个人连话都没说过一句。他也说不上自己图什么，只是觉得，看这个女学生回来以后对着空桌子哭，大概会很有意思。",
+        "start": 122,
+        "end": 184,
+        "located": "exact"
+      },
+      {
+        "id": "N24",
+        "character": "赵启明",
+        "kind": "goal",
+        "text": "看程歌哭。",
+        "chapter": 4,
+        "quote": "他和程歌素不相识，两个人连话都没说过一句。他也说不上自己图什么，只是觉得，看这个女学生回来以后对着空桌子哭，大概会很有意思。",
+        "start": 122,
+        "end": 184,
+        "located": "exact"
+      },
+      {
+        "id": "N25",
+        "character": "段督军",
+        "kind": "knowledge",
+        "text": "私账藏在祠堂供桌底下的暗格里。",
+        "chapter": 4,
+        "quote": "“老孙，私账我挪了地方。”他压低嗓子，“放在祠堂供桌底下的暗格里，按左边第三块砖就能打开。这件事，除了你我，谁也不许知道。",
+        "start": 239,
+        "end": 300,
+        "located": "exact"
+      },
+      {
+        "id": "N26",
+        "character": "程歌",
+        "kind": "knowledge",
+        "text": "暗格里是一本蓝皮账册。上面记的都是督军这些年倒卖军粮的账。",
+        "chapter": 5,
+        "quote": "上面一笔一笔，记的都是督军这些年倒卖军粮的账。",
+        "start": 191,
+        "end": 214,
+        "located": "exact"
+      },
+      {
+        "id": "N27",
+        "character": "程歌",
+        "kind": "situation",
+        "text": "她从没进过督军府的祠堂，在这之前，也没有任何人跟她提起过什么暗格。",
+        "chapter": 5,
+        "quote": "她从没进过督军府的祠堂，在这之前，也没有任何人跟她提起过什么暗格。",
+        "start": 132,
+        "end": 165,
+        "located": "exact"
+      },
+      {
+        "id": "N28",
+        "character": "程歌",
+        "kind": "background",
+        "text": "女中学生",
+        "chapter": 6,
+        "quote": "三月十一，女中放了一天假，先生带着全班去河边踏青。",
+        "start": 0,
+        "end": 25,
+        "located": "exact"
+      },
+      {
+        "id": "N29",
+        "character": "程歌",
+        "kind": "relationship",
+        "text": "和同桌关系好",
+        "chapter": 6,
+        "quote": "程歌和同桌坐在一块大石头上，看渡船一趟一趟地来回。",
+        "start": 101,
+        "end": 126,
+        "located": "exact"
+      },
+      {
+        "id": "N30",
+        "character": "程歌",
+        "kind": "situation",
+        "text": "住在舅舅家",
+        "chapter": 6,
+        "quote": "傍晚回到舅舅家",
+        "start": 196,
+        "end": 203,
+        "located": "exact"
+      },
+      {
+        "id": "N31",
+        "character": "程歌",
+        "kind": "knowledge",
+        "text": "舅母剥豆子",
+        "chapter": 6,
+        "quote": "程歌帮舅母剥了一筐豆子",
+        "start": 204,
+        "end": 215,
+        "located": "exact"
+      },
+      {
+        "id": "N32",
+        "character": "程歌",
+        "kind": "knowledge",
+        "text": "作文会考作弊",
+        "chapter": 7,
+        "quote": "学校的规矩，会考作弊，一律退学",
+        "start": 77,
+        "end": 92,
+        "located": "exact"
+      },
+      {
+        "id": "N33",
+        "character": "程歌",
+        "kind": "situation",
+        "text": "面临退学",
+        "chapter": 7,
+        "quote": "桌上放着一张退学通知",
+        "start": 63,
+        "end": 73,
+        "located": "exact"
+      },
+      {
+        "id": "N34",
+        "character": "程歌",
+        "kind": "relationship",
+        "text": "舅母支持宝儿补习",
+        "chapter": 7,
+        "quote": "她说，退了正好，省下的学费给宝儿补习",
+        "start": 118,
+        "end": 136,
+        "located": "exact"
+      },
+      {
+        "id": "N35",
+        "character": "许校长",
+        "kind": "knowledge",
+        "text": "程歌会考作弊",
+        "chapter": 7,
+        "quote": "学校的规矩，会考作弊，一律退学",
+        "start": 77,
+        "end": 92,
+        "located": "exact"
+      },
+      {
+        "id": "N36",
+        "character": "段少钧",
+        "kind": "relationship",
+        "text": "远房舅公身份",
+        "chapter": 7,
+        "quote": "自称是程歌的远房舅公，刚从南洋回来",
+        "start": 198,
+        "end": 215,
+        "located": "exact"
+      },
+      {
+        "id": "N37",
+        "character": "段少钧",
+        "kind": "knowledge",
+        "text": "补齐学费并捐款",
+        "chapter": 7,
+        "quote": "当场替程歌补齐了三年的学费，又捐给学校一座图书馆",
+        "start": 217,
+        "end": 241,
+        "located": "exact"
+      },
+      {
+        "id": "N38",
+        "character": "孙账房",
+        "kind": "goal",
+        "text": "不再找卖花姑娘一家的麻烦，也不许再动周伯年的米铺。",
+        "chapter": 8,
+        "quote": "程歌只提了一个条件：督军府从此不许再找卖花姑娘一家的麻烦，也不许再动她舅舅的米铺。孙账房一口答应了。",
+        "start": 58,
+        "end": 108,
+        "located": "exact"
+      },
+      {
+        "id": "N39",
+        "character": "程歌",
+        "kind": "relationship",
+        "text": "父亲是许校长的学生，欠许校长人情。",
+        "chapter": 8,
+        "quote": "“程歌，你父亲是我的先生。”许校长忽然开口，“我十四岁那年交不起学费，是他替我交了三年。减你一半学费，是我欠他的。",
+        "start": 131,
+        "end": 188,
+        "located": "exact"
+      },
+      {
+        "id": "N40",
+        "character": "周伯年",
+        "kind": "situation",
+        "text": "经营着一家米铺。",
+        "chapter": 8,
+        "quote": "“读书的命，有人有，有人没有。",
+        "start": 256,
+        "end": 271,
+        "located": "piece"
+      },
+      {
+        "id": "N41",
+        "character": "周宝",
+        "kind": "background",
+        "text": "第三回落榜。",
+        "chapter": 8,
+        "quote": "周宝第三回落了榜，舅母看见程歌，冷冷地哼了一声：“读书的命，有人有，有人没有。”",
+        "start": 232,
+        "end": 272,
+        "located": "exact"
+      }
+    ],
+    "beats": [
+      {
+        "id": "B1",
+        "chapter": 1,
+        "character": "程歌",
+        "listed": true,
+        "action": "提出自己去督军府文书处抄写以挣学费",
+        "quote": "舅母，学费我自己挣。督军府文书处缺人抄写，我下学以后去。",
+        "start": 249,
+        "end": 277,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B2",
+        "chapter": 1,
+        "character": "程歌",
+        "listed": true,
+        "action": "藏起父亲留下的信",
+        "quote": "她把信贴在胸口，又小心地放了回去。",
+        "start": 360,
+        "end": 377,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B3",
+        "chapter": 1,
+        "character": "程歌",
+        "listed": true,
+        "action": "担心给舅舅一家添麻烦",
+        "quote": "寄人篱下的日子，她最怕的就是给舅舅一家添麻烦。",
+        "start": 89,
+        "end": 112,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B4",
+        "chapter": 1,
+        "character": "周舅母",
+        "listed": true,
+        "action": "拍账本责备程歌的学费问题",
+        "quote": "“女中一学期的学费是十二块大洋，宝儿去年考县中，补习就花了八块，到现在也没考上。”舅母瞥了程歌一眼，“咱家可不是开钱庄的。”",
+        "start": 132,
+        "end": 194,
+        "hostile": true,
+        "target": "程歌",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B5",
+        "chapter": 1,
+        "character": "周宝",
+        "listed": true,
+        "action": "落榜，导致舅母生气",
+        "quote": "表哥周宝两回落榜，舅母的火气，这两年一天比一天大。",
+        "start": 210,
+        "end": 235,
+        "hostile": false,
+        "target": "舅母",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B6",
+        "chapter": 1,
+        "character": "窗外的人",
+        "listed": false,
+        "action": "敲后门，声音急重",
+        "quote": "窗外，有人在敲舅舅家的后门，敲得又急又重。",
+        "start": 379,
+        "end": 400,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B7",
+        "chapter": 2,
+        "character": "许校长",
+        "listed": true,
+        "action": "告知程歌学费减半",
+        "quote": "程歌，你这学期的学费，学校减一半",
+        "start": 145,
+        "end": 161,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B8",
+        "chapter": 2,
+        "character": "程歌",
+        "listed": true,
+        "action": "思考许校长的决定",
+        "quote": "她把这件事在心里翻来覆去想了一整天，也没想出个所以然。",
+        "start": 263,
+        "end": 290,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B9",
+        "chapter": 3,
+        "character": "程歌",
+        "listed": true,
+        "action": "扬手给了段少钧一记耳光",
+        "quote": "你爹的兵吃的是青石镇的粮，你踩的是青石镇的人",
+        "start": 180,
+        "end": 202,
+        "hostile": true,
+        "target": "段少钧",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B10",
+        "chapter": 3,
+        "character": "周伯年",
+        "listed": true,
+        "action": "听说了这件事，吓得一宿没合眼",
+        "quote": "当天夜里，舅舅听说了这件事",
+        "start": 249,
+        "end": 262,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B11",
+        "chapter": 4,
+        "character": "赵启明",
+        "listed": true,
+        "action": "撕碎程歌的作文卷子",
+        "quote": "赵启明从她身后走过，顺手抽出那张卷子，三两下撕成了碎片，扔进了礼堂角落的炭盆里。",
+        "start": 80,
+        "end": 120,
+        "hostile": true,
+        "target": "程歌",
+        "cost": "",
+        "located": "sentence",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B12",
+        "chapter": 4,
+        "character": "段督军",
+        "listed": true,
+        "action": "告诉孙账房挪动私账的位置",
+        "quote": "老孙，私账我挪了地方。",
+        "start": 240,
+        "end": 251,
+        "hostile": false,
+        "target": "",
+        "cost": "透露秘密",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "把私账放在祠堂供桌底下的暗格里"
+      },
+      {
+        "id": "B13",
+        "chapter": 5,
+        "character": "程歌",
+        "listed": true,
+        "action": "进入督军府祠堂并发现暗格",
+        "quote": "她跪到供桌前，伸手按下左边第三块砖，暗格“咔”地弹开了。",
+        "start": 102,
+        "end": 130,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "sentence",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B14",
+        "chapter": 5,
+        "character": "程歌",
+        "listed": true,
+        "action": "发现督军倒卖军粮的账册",
+        "quote": "暗格里是一本蓝皮账册。程歌翻了几页，手心全是汗：上面一笔一笔，记的都是督军这些年倒卖军粮的账。",
+        "start": 167,
+        "end": 214,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B15",
+        "chapter": 5,
+        "character": "程歌",
+        "listed": true,
+        "action": "带走账册",
+        "quote": "她把账册塞进衣裳底下，原路走了出去。",
+        "start": 216,
+        "end": 234,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B16",
+        "chapter": 6,
+        "character": "先生",
+        "listed": false,
+        "action": "招呼大家往回走",
+        "quote": "先生招呼大家往回走。",
+        "start": 158,
+        "end": 168,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B17",
+        "chapter": 6,
+        "character": "程歌的同桌",
+        "listed": false,
+        "action": "买了两块桂花糕，分了程歌一块",
+        "quote": "同桌买了两块桂花糕，分了程歌一块。",
+        "start": 177,
+        "end": 194,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B18",
+        "chapter": 7,
+        "character": "段少钧",
+        "listed": true,
+        "action": "替程歌补齐学费并捐图书馆",
+        "quote": "一个穿着白西装、戴着金丝眼镜的中年人走了进来，自称是程歌的远房舅公，刚从南洋回来。",
+        "start": 175,
+        "end": 216,
+        "hostile": false,
+        "target": "",
+        "cost": "三年学费",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B19",
+        "chapter": 7,
+        "character": "许校长",
+        "listed": true,
+        "action": "不再提作文会考的事",
+        "quote": "作文会考的事，许校长便不再提了。",
+        "start": 242,
+        "end": 258,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B20",
+        "chapter": 8,
+        "character": "程歌",
+        "listed": true,
+        "action": "把蓝皮账册的头几页抄了一份，装进信封，托人送到孙账房手里。",
+        "quote": "十六这天，程歌把蓝皮账册的头几页抄了一份，装进信封，托人送到了孙账房手里。",
+        "start": 0,
+        "end": 37,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B21",
+        "chapter": 8,
+        "character": "程歌",
+        "listed": true,
+        "action": "在桥头与孙账房谈判，提出条件。",
+        "quote": "督军府从此不许再找卖花姑娘一家的麻烦，也不许再动她舅舅的米铺。",
+        "start": 68,
+        "end": 99,
+        "hostile": false,
+        "target": "督军府",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B22",
+        "chapter": 8,
+        "character": "程歌",
+        "listed": true,
+        "action": "在女中门口遇见许校长，得知许校长当年的帮助。",
+        "quote": "我十四岁那年交不起学费，是他替我交了三年。减你一半学费，是我欠他的",
+        "start": 154,
+        "end": 187,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B23",
+        "chapter": 8,
+        "character": "程歌",
+        "listed": true,
+        "action": "与舅母对话，舅母冷嘲热讽。",
+        "quote": "读书的命，有人有，有人没有。",
+        "start": 257,
+        "end": 271,
+        "hostile": true,
+        "target": "周宝",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B24",
+        "chapter": 8,
+        "character": "程歌",
+        "listed": true,
+        "action": "回到小屋，吹灭了灯。",
+        "quote": "她回到小屋，吹灭了灯。",
+        "start": 324,
+        "end": 335,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      }
+    ],
+    "setups": [
+      {
+        "id": "S1",
+        "chapter": 4,
+        "text": "督军挪动了私账藏匿地点给孙账房交代",
+        "quote": "老孙，私账我挪了地方。",
+        "start": 240,
+        "end": 251,
+        "key": "私账"
+      },
+      {
+        "id": "S2",
+        "chapter": 5,
+        "text": "上面一笔一笔，记的都是督军这些年倒卖军粮的账。",
+        "quote": "她从没进过督军府的祠堂，在这之前，也没有任何人跟她提起过什么暗格。",
+        "start": 132,
+        "end": 165,
+        "key": "蓝皮账册"
+      }
+    ],
+    "pulses": [
+      {
+        "chapter": 1,
+        "summary": "程歌决定自己挣学费，并在夜里拆开父亲留下的信。",
+        "tension": 3,
+        "emotions": [
+          "suspense",
+          "tension"
+        ],
+        "hook": true,
+        "hook_quote": "窗外，有人在敲舅舅家的后门，敲得又急又重。",
+        "hook_start": 379,
+        "hook_end": 400
+      },
+      {
+        "chapter": 2,
+        "summary": "程歌因誊抄督军行程单而获得学费减免，但她不明白原因。",
+        "tension": 1,
+        "emotions": [
+          "calm",
+          "suspense"
+        ],
+        "hook": true,
+        "hook_quote": "她把这件事在心里翻来覆去想了一整天，也没想出个所以然。",
+        "hook_start": 263,
+        "hook_end": 290
+      },
+      {
+        "chapter": 3,
+        "summary": "程歌在青石桥头教训了督军的儿子段少钧，并因此受到舅母的警告。",
+        "tension": 4,
+        "emotions": [
+          "anger",
+          "thrill"
+        ],
+        "hook": true,
+        "hook_quote": "当天夜里，舅舅听说了这件事，吓得一宿没合眼。",
+        "hook_start": 249,
+        "hook_end": 271
+      },
+      {
+        "chapter": 4,
+        "summary": "程歌辛苦写的作文被赵启明撕毁，段督军秘密挪动了私账。",
+        "tension": 4,
+        "emotions": [
+          "anger",
+          "thrill"
+        ],
+        "hook": true,
+        "hook_quote": "这件事，除了你我，谁也不许知道。",
+        "hook_start": 284,
+        "hook_end": 300
+      },
+      {
+        "chapter": 5,
+        "summary": "程歌在督军府祠堂发现督军贪污的证据并藏了起来。",
+        "tension": 4,
+        "emotions": [
+          "suspense",
+          "thrill"
+        ],
+        "hook": true,
+        "hook_quote": "她把账册塞进衣裳底下，原路走了出去。",
+        "hook_start": 216,
+        "hook_end": 234
+      },
+      {
+        "chapter": 6,
+        "summary": "女中放假去河边踏青，程歌和同学分享食物后回家休息。",
+        "tension": 1,
+        "emotions": [
+          "suspense",
+          "warmth"
+        ],
+        "hook": false,
+        "hook_quote": null,
+        "hook_start": null,
+        "hook_end": null
+      },
+      {
+        "chapter": 7,
+        "summary": "程歌因会考作弊被退学，但在舅公的帮助下得以继续学业。",
+        "tension": 2,
+        "emotions": [
+          "suspense",
+          "warmth"
+        ],
+        "hook": true,
+        "hook_quote": "他当场替程歌补齐了三年的学费，又捐给学校一座图书馆，作文会考的事，许校长便不再提了。",
+        "hook_start": 216,
+        "hook_end": 258
+      },
+      {
+        "chapter": 8,
+        "summary": "程歌将账册交给孙账房，并达成协议后，在许校长的提醒下回忆起父亲的帮助。",
+        "tension": 1,
+        "emotions": [
+          "suspense",
+          "warmth"
+        ],
+        "hook": true,
+        "hook_quote": "读书的命，有人有，有人没有。",
+        "hook_start": 257,
+        "hook_end": 271
+      }
+    ],
+    "judgements": [
+      {
+        "beat": "B1",
+        "model_verdict": "routine",
+        "verdict": "delayed",
+        "severity": 3,
+        "reasoning": "程歌的行为与她的人设不符，她通常会避免麻烦和冲突。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲"
+          },
+          {
+            "note": "N12",
+            "why": "胆子小，遇事先躲"
+          },
+          {
+            "note": "N13",
+            "why": "胆子小，遇事先躲"
+          }
+        ],
+        "fixes": [],
+        "explained_by": "N39",
+        "explained_why": "程歌提出去督军府文书处抄写以挣学费是为了偿还父亲欠许校长的人情，避免退学的困境。",
+        "checks": [
+          "explained later by N39: delayed reveal, not a flaw"
+        ]
+      },
+      {
+        "beat": "B2",
+        "model_verdict": "routine",
+        "verdict": "contradicts",
+        "severity": 1,
+        "reasoning": "程歌的行为符合她的性格设定，即胆小且避免麻烦。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B3",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是程歌的一种本能反应，不是主动的选择。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B4",
+        "model_verdict": "malice_without_cause",
+        "verdict": "malice_without_cause",
+        "severity": 1,
+        "reasoning": "这是日常对话的一部分，没有表现出周舅母做出选择的过程。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B5",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，没有显示出周宝做出了选择。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B7",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，符合许校长的身份和职责。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B8",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "程歌只是在思考许校长的决定，并没有做出选择或行动。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B9",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "程歌平时胆小怕事，但这次面对舅舅的威胁，她选择了反击，这表明她内心深处对屈辱和愤怒的强烈反应。",
+        "motives": [
+          {
+            "motive": "舅舅的威胁让她感到屈辱和愤怒",
+            "support": [
+              "N8",
+              "N13"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "胆子小，遇事先躲，从不与人争执"
+          },
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲，从不与人争执"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B10",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常反应，没有选择的成分。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B11",
+        "model_verdict": "contradicts",
+        "verdict": "contradicts",
+        "severity": 3,
+        "reasoning": "行为与人物一贯温和的形象不符，需要铺垫或解释。",
+        "motives": [
+          {
+            "motive": "看不顺眼",
+            "support": []
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N24",
+            "why": "赵启明在前文表现得比较温和，突然撕碎程歌的作文卷子有些突兀。"
+          }
+        ],
+        "fixes": [
+          "补充赵启明和程歌之间的矛盾冲突，比如两人在学习上竞争激烈。",
+          "让赵启明之前有过类似的行为，为这次撕碎作文卷子做铺垫。",
+          "增加赵启明对程歌的敌意或不满情绪，使这一行为显得合情合理。"
+        ],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "the stated reason is dislike or whim, which is not a motive"
+        ]
+      },
+      {
+        "beat": "B12",
+        "model_verdict": "consistent",
+        "verdict": "unverified",
+        "severity": 1,
+        "reasoning": "段督军主动告知孙账房私账的新位置，这需要理由来解释他的选择。",
+        "motives": [
+          {
+            "motive": "透露秘密",
+            "support": []
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N25: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B13",
+        "model_verdict": "routine",
+        "verdict": "contradicts",
+        "severity": 3,
+        "reasoning": "程歌的行为与她的人设不符，她通常会选择逃避而不是主动探索未知的事物。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲"
+          },
+          {
+            "note": "N12",
+            "why": "胆子小，遇事先躲"
+          },
+          {
+            "note": "N13",
+            "why": "胆子小，遇事先躲"
+          }
+        ],
+        "fixes": [
+          "补充一段经历，比如她在抄写文书时无意中发现暗格的存在，并因此感到好奇或不安。",
+          "改写成她是在舅舅的命令下或者出于某种不得已的原因才进入祠堂并发现暗格的。",
+          "让她在发现暗格后表现出犹豫和害怕，但最终还是决定查看内容以帮助自己或他人。"
+        ],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "later explanation N39 names neither the beat's target nor anything in it"
+        ]
+      },
+      {
+        "beat": "B14",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "程歌发现了督军的不法行为，这与她想要出头的目标相吻合。",
+        "motives": [
+          {
+            "motive": "发现证据，为自己的目标出头",
+            "support": [
+              "N20"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲"
+          },
+          {
+            "note": "N12",
+            "why": "胆子小，遇事先躲"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B15",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "程歌的行为违背了她的性格设定和原则，带走了账册会带来风险。",
+        "motives": [
+          {
+            "motive": "怕给舅舅一家添麻烦",
+            "support": [
+              "N8",
+              "N13"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "她胆子小，遇事先躲，从不与人争执。"
+          },
+          {
+            "note": "N12",
+            "why": "她胆子小，遇事先躲，从不与人争执。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B18",
+        "model_verdict": "consistent",
+        "verdict": "unverified",
+        "severity": 1,
+        "reasoning": "段少钧选择帮助程歌，是因为舅公身份带来的面子和义务感。",
+        "motives": [
+          {
+            "motive": "远房舅公的身份",
+            "support": []
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N36: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B19",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，没有表现出许校长做出了选择或决定。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B20",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "程歌的行为虽然出于好意，但她的性格和处境让她更倾向于避免麻烦。",
+        "motives": [
+          {
+            "motive": "怕给舅舅一家添麻烦",
+            "support": [
+              "N8",
+              "N13"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "胆子小，遇事先躲，从不与人争执"
+          },
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲，从不与人争执"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B21",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "程歌提出条件是为了避免给舅舅一家添麻烦，但她的性格和处境让她不太可能主动去谈判。",
+        "motives": [
+          {
+            "motive": "怕给舅舅一家添麻烦",
+            "support": [
+              "N8",
+              "N13"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N7",
+            "why": "胆子小，遇事先躲，从不与人争执。"
+          },
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲，从不与人争执。"
+          },
+          {
+            "note": "N12",
+            "why": "胆子小，遇事先躲，从不与人争执。"
+          },
+          {
+            "note": "N13",
+            "why": "胆子小，遇事先躲，从不与人争执。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B22",
+        "model_verdict": "routine",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "程歌得知许校长当年的帮助，但没有表现出任何反应或行动。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "reveal: the beat states N39, which explains B1; not a flaw"
+        ]
+      },
+      {
+        "beat": "B23",
+        "model_verdict": "contradicts",
+        "verdict": "contradicts",
+        "severity": 2,
+        "reasoning": "程歌一贯胆小怕事，面对舅母的冷嘲热讽，她通常会选择逃避而非正面应对。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N8",
+            "why": "胆子小，遇事先躲"
+          }
+        ],
+        "fixes": [
+          "补充一段程歌在其他场合躲避舅母或其他人的冷嘲热讽的经历",
+          "让程歌在某个关键时刻选择不退缩，为这次对话做铺垫"
+        ],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B24",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，符合程歌胆小、怕麻烦的人设。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      }
+    ],
+    "issues": [
+      {
+        "id": "I1",
+        "family": "character",
+        "kind": "contradicts",
+        "chapter": 4,
+        "chapters": [
+          4
+        ],
+        "character": "赵启明",
+        "severity": 3,
+        "title": "撕碎程歌的作文卷子",
+        "explanation": "行为与人物一贯温和的形象不符，需要铺垫或解释。",
+        "evidence": [
+          {
+            "chapter": 4,
+            "start": 80,
+            "end": 120,
+            "quote": "赵启明从她身后走过，顺手抽出那张卷子，三两下撕成了碎片，扔进了礼堂角落的炭盆里。",
+            "role": "beat"
+          },
+          {
+            "chapter": 4,
+            "start": 122,
+            "end": 184,
+            "quote": "他和程歌素不相识，两个人连话都没说过一句。他也说不上自己图什么，只是觉得，看这个女学生回来以后对着空桌子哭，大概会很有意思。",
+            "role": "conflict"
+          }
+        ],
+        "refs": [
+          "B11",
+          "N24"
+        ],
+        "fixes": [
+          "补充赵启明和程歌之间的矛盾冲突，比如两人在学习上竞争激烈。",
+          "让赵启明之前有过类似的行为，为这次撕碎作文卷子做铺垫。",
+          "增加赵启明对程歌的敌意或不满情绪，使这一行为显得合情合理。"
+        ],
+        "rationale": "与N24「看程歌哭。」冲突，前文没有交代这样做的理由。",
+        "merged": []
+      },
+      {
+        "id": "I2",
+        "family": "character",
+        "kind": "contradicts",
+        "chapter": 5,
+        "chapters": [
+          5
+        ],
+        "character": "程歌",
+        "severity": 3,
+        "title": "进入督军府祠堂并发现暗格",
+        "explanation": "程歌的行为与她的人设不符，她通常会选择逃避而不是主动探索未知的事物。",
+        "evidence": [
+          {
+            "chapter": 5,
+            "start": 102,
+            "end": 130,
+            "quote": "她跪到供桌前，伸手按下左边第三块砖，暗格“咔”地弹开了。",
+            "role": "beat"
+          },
+          {
+            "chapter": 1,
+            "start": 46,
+            "end": 56,
+            "quote": "歌儿走路都贴着墙根。",
+            "role": "conflict"
+          },
+          {
+            "chapter": 1,
+            "start": 89,
+            "end": 112,
+            "quote": "寄人篱下的日子，她最怕的就是给舅舅一家添麻烦。",
+            "role": "conflict"
+          }
+        ],
+        "refs": [
+          "B13",
+          "N8",
+          "N12",
+          "N13"
+        ],
+        "fixes": [
+          "补充一段经历，比如她在抄写文书时无意中发现暗格的存在，并因此感到好奇或不安。",
+          "改写成她是在舅舅的命令下或者出于某种不得已的原因才进入祠堂并发现暗格的。",
+          "让她在发现暗格后表现出犹豫和害怕，但最终还是决定查看内容以帮助自己或他人。"
+        ],
+        "rationale": "与N8「人设：胆子小，遇事先躲，从不与人争执，最怕给舅舅一家添麻烦。」、N12「从小胆子就小，父亲常这么说。」、N13「寄人篱下的日子最怕给舅舅一家添麻烦。」冲突，前文没有交代这样做的理由。",
+        "merged": []
+      },
+      {
+        "id": "I3",
+        "family": "plot",
+        "kind": "causality",
+        "chapter": 8,
+        "chapters": [
+          8
+        ],
+        "character": null,
+        "severity": 3,
+        "title": "程歌在第8章才得知蓝皮账册的存在，但在此之前已经将账册的头几页抄了一份并送给了孙账房。",
+        "explanation": "程歌在第8章才得知蓝皮账册的存在，但在此之前已经将账册的头几页抄了一份并送给了孙账房。",
+        "evidence": [
+          {
+            "chapter": 8,
+            "start": 0,
+            "end": 37,
+            "quote": "十六这天，程歌把蓝皮账册的头几页抄了一份，装进信封，托人送到了孙账房手里。",
+            "role": "beat"
+          },
+          {
+            "chapter": 8,
+            "start": 68,
+            "end": 99,
+            "quote": "督军府从此不许再找卖花姑娘一家的麻烦，也不许再动她舅舅的米铺。",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B20",
+          "B21"
+        ],
+        "fixes": [
+          "调整事件顺序，让程歌在发现账册之前先抄写并送出。",
+          "或者重新安排抄写和送账册的具体时间点。"
+        ],
+        "rationale": "前后因果接不上（模型的判断，程序只核对了引用）。",
+        "merged": []
+      },
+      {
+        "id": "I4",
+        "family": "character",
+        "kind": "contradicts",
+        "chapter": 8,
+        "chapters": [
+          8
+        ],
+        "character": "程歌",
+        "severity": 2,
+        "title": "与舅母对话，舅母冷嘲热讽。",
+        "explanation": "程歌一贯胆小怕事，面对舅母的冷嘲热讽，她通常会选择逃避而非正面应对。",
+        "evidence": [
+          {
+            "chapter": 8,
+            "start": 257,
+            "end": 271,
+            "quote": "读书的命，有人有，有人没有。",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B23",
+          "N8"
+        ],
+        "fixes": [
+          "补充一段程歌在其他场合躲避舅母或其他人的冷嘲热讽的经历",
+          "让程歌在某个关键时刻选择不退缩，为这次对话做铺垫"
+        ],
+        "rationale": "与N8「人设：胆子小，遇事先躲，从不与人争执，最怕给舅舅一家添麻烦。」冲突，前文没有交代这样做的理由。",
+        "merged": []
+      },
+      {
+        "id": "I5",
+        "family": "plot",
+        "kind": "dangling_setup",
+        "chapter": 4,
+        "chapters": [
+          4
+        ],
+        "character": null,
+        "severity": 2,
+        "title": "督军挪动了私账藏匿地点给孙账房交代",
+        "explanation": "督军挪动了私账藏匿地点给孙账房交代",
+        "evidence": [
+          {
+            "chapter": 4,
+            "start": 240,
+            "end": 251,
+            "quote": "老孙，私账我挪了地方。",
+            "role": "setup"
+          }
+        ],
+        "refs": [
+          "S1"
+        ],
+        "fixes": [],
+        "rationale": "伏笔的关键词“私账”在之后的章节里没有再出现。",
+        "merged": []
+      },
+      {
+        "id": "I6",
+        "family": "pacing",
+        "kind": "flat_stretch",
+        "chapter": 6,
+        "chapters": [
+          6,
+          7,
+          8
+        ],
+        "character": null,
+        "severity": 2,
+        "title": "第 6–8 章紧张度只有 1、2、1",
+        "explanation": "女中放假去河边踏青，程歌和同学分享食物后回家休息。 / 程歌因会考作弊被退学，但在舅公的帮助下得以继续学业。 / 程歌将账册交给孙账房，并达成协议后，在许校长的提醒下回忆起父亲的帮助。",
+        "evidence": [
+          {
+            "chapter": 6,
+            "start": 196,
+            "end": 229,
+            "quote": "傍晚回到舅舅家，程歌帮舅母剥了一筐豆子，吃过晚饭，就回小屋睡下了。",
+            "role": "chapter"
+          },
+          {
+            "chapter": 7,
+            "start": 260,
+            "end": 305,
+            "quote": "中年人临走前拍了拍程歌的肩膀，说了句好好读书，便坐上汽车走了。从那以后，程歌再也没见过他。",
+            "role": "chapter"
+          },
+          {
+            "chapter": 8,
+            "start": 324,
+            "end": 335,
+            "quote": "她回到小屋，吹灭了灯。",
+            "role": "chapter"
+          }
+        ],
+        "refs": [],
+        "fixes": [],
+        "rationale": "第 6–8 章紧张度只有 1、2、1",
+        "merged": []
+      },
+      {
+        "id": "I7",
+        "family": "character",
+        "kind": "contradicts",
+        "chapter": 1,
+        "chapters": [
+          1
+        ],
+        "character": "程歌",
+        "severity": 1,
+        "title": "藏起父亲留下的信",
+        "explanation": "程歌的行为符合她的性格设定，即胆小且避免麻烦。",
+        "evidence": [
+          {
+            "chapter": 1,
+            "start": 360,
+            "end": 377,
+            "quote": "她把信贴在胸口，又小心地放了回去。",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B2",
+          "N8"
+        ],
+        "fixes": [],
+        "rationale": "与N8「人设：胆子小，遇事先躲，从不与人争执，最怕给舅舅一家添麻烦。」冲突，前文没有交代这样做的理由。",
+        "merged": []
+      },
+      {
+        "id": "I8",
+        "family": "character",
+        "kind": "malice_without_cause",
+        "chapter": 1,
+        "chapters": [
+          1
+        ],
+        "character": "周舅母",
+        "severity": 1,
+        "title": "拍账本责备程歌的学费问题",
+        "explanation": "这是日常对话的一部分，没有表现出周舅母做出选择的过程。",
+        "evidence": [
+          {
+            "chapter": 1,
+            "start": 132,
+            "end": 194,
+            "quote": "“女中一学期的学费是十二块大洋，宝儿去年考县中，补习就花了八块，到现在也没考上。”舅母瞥了程歌一眼，“咱家可不是开钱庄的。”",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B4"
+        ],
+        "fixes": [],
+        "rationale": "针对程歌，前文没有交代任何利益、恩怨或经历上的理由。",
+        "merged": []
+      }
+    ],
+    "suggestions": [],
+    "rejected": [
+      {
+        "stage": "shape",
+        "chapter": 1,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "信",
+          "text": "父亲临终前拉着她的手，一字一句地叮嘱，信里的事，关系到她这一辈子。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 3,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "舅母",
+          "text": "舅母的警告",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 5,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "程歌",
+          "kind": "goal",
+          "text": "她把账册塞进衣裳底下，打算带走这些证据。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "beats",
+        "chapter": 6,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "程歌",
+          "action": "帮舅母剥了一筐豆子",
+          "quote": "程歌帮舅母剥了一筐豆子。",
+          "hostile": false,
+          "target": "",
+          "cost": "",
+          "resolves_crisis": false,
+          "uses_secret": false,
+          "secret": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 7,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "舅公",
+          "text": "程歌的远房舅公从南洋回来，帮助她继续学业。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 8,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "账册",
+          "text": "蓝皮账册",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 8,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "许校长",
+          "text": "十四岁那年交不起学费，是他替我交了三年。减你一半学费，是我欠他的。",
+          "quote": ""
+        }
+      }
+    ],
+    "errors": [
+      "payoff: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model",
+      "plan: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model"
+    ],
+    "usage": {
+      "calls": 50,
+      "calls_by_stage": {
+        "notes": 8,
+        "beats": 8,
+        "shape": 8,
+        "motives": 21,
+        "later": 3,
+        "plot": 1,
+        "rescue": 1
+      },
+      "input_tokens": 32349,
+      "output_tokens": 8069,
+      "cost_usd": 0.0,
+      "llm_seconds": 996.8,
+      "seconds": 0.0
+    },
+    "checks_version": "checks-v4"
+  },
+  "score": {
+    "problems_found": 2,
+    "problems": 6,
+    "recall": 0.333,
+    "located": 3,
+    "by_kind": {
+      "character": {
+        "labelled": 2,
+        "found": 0
+      },
+      "plot": {
+        "labelled": 3,
+        "found": 1
+      },
+      "pacing": {
+        "labelled": 1,
+        "found": 1
+      }
+    },
+    "traps_set_off": 1,
+    "traps": 4,
+    "issues_reported": 8,
+    "issues_on_labels": 4,
+    "unlabelled_issues": [
+      "I3",
+      "I4",
+      "I5",
+      "I7"
+    ],
+    "problem_rows": [
+      {
+        "id": "H1",
+        "kind": "character",
+        "found": false,
+        "issues": [],
+        "located_other_kind": []
+      },
+      {
+        "id": "H2",
+        "kind": "character",
+        "found": false,
+        "issues": [],
+        "located_other_kind": [
+          "I1"
+        ]
+      },
+      {
+        "id": "H3",
+        "kind": "plot",
+        "found": true,
+        "issues": [
+          "I2"
+        ],
+        "located_other_kind": []
+      },
+      {
+        "id": "H4",
+        "kind": "plot",
+        "found": false,
+        "issues": [],
+        "located_other_kind": []
+      },
+      {
+        "id": "H5",
+        "kind": "plot",
+        "found": false,
+        "issues": [],
+        "located_other_kind": []
+      },
+      {
+        "id": "H6",
+        "kind": "pacing",
+        "found": true,
+        "issues": [
+          "I6"
+        ],
+        "located_other_kind": []
+      }
+    ],
+    "trap_rows": [
+      {
+        "id": "U1",
+        "set_off": true,
+        "issues": [
+          "I8"
+        ],
+        "verdicts": [
+          "malice_without_cause"
+        ]
+      },
+      {
+        "id": "U2",
+        "set_off": false,
+        "issues": [],
+        "verdicts": [
+          "routine"
+        ]
+      },
+      {
+        "id": "U3",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "U4",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      }
+    ],
+    "ambiguous_rows": [
+      {
+        "id": "A1",
+        "flagged": false,
+        "issues": []
+      },
+      {
+        "id": "A2",
+        "flagged": false,
+        "issues": []
+      }
+    ]
+  },
+  "grounding": {
+    "notes_kept": 30,
+    "beats_kept": 24,
+    "setups_kept": 2,
+    "judgements": 21,
+    "rejected": {
+      "shape: setup quote not found": 5,
+      "notes: quote not found in the chapter": 1,
+      "beats: quote not found in the chapter": 1
+    },
+    "quotes_located_by": {
+      "exact": 51,
+      "piece": 1,
+      "sentence": 2
+    },
+    "verdicts_changed_by_checks": {
+      "routine -> delayed": 1,
+      "routine -> contradicts": 2,
+      "consistent -> unverified": 2,
+      "routine -> consistent": 1
+    },
+    "errors": [
+      "payoff: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model",
+      "plan: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model"
+    ]
+  },
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "a0ac061"
+  },
+  "replayed": true,
+  "cache": {
+    "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-qingshi-du-ollama-qwen2.5-7b.jsonl",
+    "hits": null,
+    "misses": null
+  }
+}

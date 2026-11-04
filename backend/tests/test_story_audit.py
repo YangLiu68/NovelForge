@@ -428,8 +428,11 @@ def test_pacing_and_hooks(mock):
     assert pulses[3].tension == 1
     flat = [i for i in a.issues if i.kind == "flat_stretch"]
     assert [i.chapters for i in flat] == [[3]]
-    no_hook = [i for i in a.issues if i.kind == "no_hook"]
-    assert [i.chapter for i in no_hook] == [2]
+    # A quiet ending is a suggestion (add a cliffhanger), not a problem; the flat chapter and
+    # the last one get none.
+    assert not [i for i in a.issues if i.kind == "no_hook"]
+    hooks = [x for x in a.suggestions if x.technique == "cliffhanger" and not x.targets]
+    assert [x.chapter for x in hooks] == [2] and "第 2 章" in hooks[0].change
 
 
 def test_issues_are_ranked_and_the_plan_only_targets_known_issues(mock):
@@ -437,11 +440,11 @@ def test_issues_are_ranked_and_the_plan_only_targets_known_issues(mock):
     sev = [i.severity for i in a.issues]
     assert sev == sorted(sev, reverse=True)
     assert a.issues[0].severity == 3 and a.issues[0].family == "character"
-    assert [s.targets for s in a.suggestions] == [[a.issues[0].id]]
+    assert [s.targets for s in a.suggestions if s.targets] == [[a.issues[0].id]]
     assert any(r["stage"] == "plan" for r in a.rejected)
-    # notes, beats, shape, motives (one per listed beat), leak, later, plot, rescue, plan; the
-    # setup's payoff is decided by its key word, without a call
-    assert a.usage["calls"] == 3 + 3 + 3 + 4 + 1 + 2 + 1 + 1 + 1
+    # notes, beats, shape, motives (one per listed beat), leak, later, plot, rescue, payoff (the
+    # setup's key word never comes back, so the model is asked), plan
+    assert a.usage["calls"] == 3 + 3 + 3 + 4 + 1 + 2 + 1 + 1 + 1 + 1
     g = grounding(a)
     assert g["verdicts_changed_by_checks"] == {
         "consistent -> contradicts": 1,  # its only reason quoted the act itself
@@ -804,3 +807,67 @@ def test_a_note_read_off_the_act_is_not_what_it_goes_against(mock):
     assert gift.conflicts == []
     assert any("dropped conflict" in c and "circular" in c for c in gift.checks)
     assert gift.verdict == "unverified"  # a reason ("同情") was stated, none grounded
+
+
+def test_a_setup_paid_off_in_other_words_is_not_dangling(mock):
+    # 铜钥匙 never comes back as a word, but the model finds the beat that pays it off.
+    mock.on_schema(
+        "setup_payoff",
+        lambda s, p, _: {"paid_off_by": re.findall(r"(B\d+)（", p)[0], "why": "换了说法"},
+    )
+    a = audit_story(chapters(), CAST, mock)
+    assert not [i for i in a.issues if i.kind == "dangling_setup"]
+    assert a.usage["calls_by_stage"]["payoff"] == 1
+
+
+def _row(family, kind, chapter, refs, character="程歌", severity=2, title="t"):
+    from novelforge.narrative.audit import Evidence
+
+    return dict(
+        family=family, kind=kind, chapter=chapter, chapters=[chapter], character=character,
+        severity=severity, title=title, explanation="", rationale="r", fixes=[],
+        evidence=[Evidence(chapter, 10 * len(refs), 10 * len(refs) + 5, title, "beat")],
+        refs=list(refs),
+    )  # fmt: skip
+
+
+def test_one_scene_or_one_beat_is_one_finding():
+    from novelforge.narrative.audit import _merge_rows
+
+    rows = [
+        _row("character", "contradicts", 3, ["B12", "N8", "N13"], title="打耳光", severity=3),
+        _row("character", "contradicts", 3, ["B13", "N8"], title="当众斥责"),  # same scene
+        _row("character", "contradicts", 3, ["B14", "N40"], title="唱歌"),  # another conflict
+        _row("character", "contradicts", 5, ["B21", "N8"], title="潜入"),  # another chapter
+        _row("plot", "causality", 4, ["B18", "B22"], character=None),
+        _row("plot", "knowledge_leak", 5, ["B22"], severity=3),
+    ]
+    out = _merge_rows(rows, "zh")
+    assert [(r["kind"], r["chapter"], r.get("merged", [])) for r in out] == [
+        ("contradicts", 3, ["当众斥责"]),
+        ("contradicts", 3, []),
+        ("contradicts", 5, []),
+        ("knowledge_leak", 5, ["causality"]),  # the code-checked diagnosis stays on top
+    ]
+    scene = out[0]
+    assert scene["severity"] == 3 and scene["refs"] == ["B12", "N8", "N13", "B13"]
+    assert len(scene["evidence"]) == 2 and "还有 1 处" in scene["rationale"]
+    assert out[3]["refs"] == ["B22", "B18"] and "也被判为" in out[3]["rationale"]
+
+
+def test_the_beat_that_reveals_an_earlier_reason_is_not_a_flaw(mock):
+    from novelforge.narrative.audit import Beat, Judgement, Note, StoryAuditor
+
+    auditor = StoryAuditor(chapters(), CAST, mock)
+    a = auditor.audit
+    reveal = Note("N9", "许校长", "background", "替程歌父亲还情", 3, "x", 100, 140)
+    a.notes = [reveal]
+    a.beats = [
+        Beat("B2", 1, "许校长", True, "减学费", "q", 5, 20, False, "", "", "exact"),
+        Beat("B8", 3, "许校长", True, "说出原因", "q", 90, 150, False, "", "", "exact"),
+    ]
+    j = lambda beat, verdict, by=None: Judgement(beat, verdict, verdict, 2, "", [], [], ["f"], by)  # noqa: E731
+    a.judgements = [j("B2", "delayed", "N9"), j("B8", "contradicts")]
+    auditor._reveals()
+    assert a.judgements[1].verdict == "consistent" and a.judgements[1].fixes == []
+    assert "explains B2" in a.judgements[1].checks[-1]

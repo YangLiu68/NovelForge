@@ -16,7 +16,7 @@ from novelforge.llm.base import LLMError
 from novelforge.llm.registry import get_llm
 from novelforge.models import Chapter, Character, Novel, StoryAuditRun
 from novelforge.narrative.audit import CastMember, StoryAuditor
-from novelforge.narrative.prompts import PROMPT_VERSION
+from novelforge.narrative.prompts import AUDIT_VERSION
 from novelforge.services.errors import NotFound
 
 
@@ -44,7 +44,7 @@ def start_audit(session: Session, novel: Novel, llm_spec: str) -> StoryAuditRun:
         .where(
             StoryAuditRun.novel_id == novel.id,
             StoryAuditRun.llm == llm_spec,
-            StoryAuditRun.prompt_version == PROMPT_VERSION,
+            StoryAuditRun.prompt_version == AUDIT_VERSION,
             StoryAuditRun.status != "failed",
         )
         .order_by(StoryAuditRun.created_at.desc())
@@ -54,7 +54,7 @@ def start_audit(session: Session, novel: Novel, llm_spec: str) -> StoryAuditRun:
     run = StoryAuditRun(
         novel_id=novel.id,
         llm=llm_spec,
-        prompt_version=PROMPT_VERSION,
+        prompt_version=AUDIT_VERSION,
         chapter_versions=versions,
         status="queued",
         input_tokens=0,

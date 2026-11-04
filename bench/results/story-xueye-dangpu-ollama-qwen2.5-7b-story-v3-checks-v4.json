@@ -1,0 +1,2403 @@
+{
+  "sample": "xueye-dangpu",
+  "title": "雪夜当铺",
+  "audit": {
+    "language": "zh",
+    "llm": "replay:ollama:qwen2.5:7b",
+    "prompt_version": "story-v3",
+    "chapters": [
+      {
+        "number": 1,
+        "title": "回到十七岁"
+      },
+      {
+        "number": 2,
+        "title": "三十七文"
+      },
+      {
+        "number": 3,
+        "title": "落水"
+      },
+      {
+        "number": 4,
+        "title": "青雀"
+      },
+      {
+        "number": 5,
+        "title": "暗语"
+      },
+      {
+        "number": 6,
+        "title": "年货"
+      },
+      {
+        "number": 7,
+        "title": "公堂"
+      },
+      {
+        "number": 8,
+        "title": "账"
+      }
+    ],
+    "cast": [
+      "刘三",
+      "周掌柜",
+      "小六",
+      "小桃",
+      "春杏",
+      "沈承业",
+      "沈知微",
+      "沈若兰",
+      "钱县令",
+      "陆明川",
+      "陈伯",
+      "顾晏"
+    ],
+    "notes": [
+      {
+        "id": "N1",
+        "character": "刘三",
+        "kind": "sheet",
+        "text": "长乐赌坊管讨债的人。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N2",
+        "character": "周掌柜",
+        "kind": "sheet",
+        "text": "周记当铺的老掌柜。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N3",
+        "character": "小六",
+        "kind": "sheet",
+        "text": "沈承业身边的小厮。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N4",
+        "character": "小桃",
+        "kind": "sheet",
+        "text": "沈知微的小丫鬟。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N5",
+        "character": "春杏",
+        "kind": "sheet",
+        "text": "沈知微母亲的陪嫁丫鬟。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N6",
+        "character": "沈承业",
+        "kind": "sheet",
+        "text": "沈知微的二叔。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N7",
+        "character": "沈承业",
+        "kind": "sheet",
+        "text": "好赌，在长乐赌坊欠下三百两。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N8",
+        "character": "沈知微",
+        "kind": "sheet",
+        "text": "女主，十七岁（重生）。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N9",
+        "character": "沈知微",
+        "kind": "sheet",
+        "text": "前世十九岁那年冻死在周记当铺门外。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N10",
+        "character": "沈知微",
+        "kind": "sheet",
+        "text": "人设：冷静、聪明、凡事先算账，把自己的利益放在第一位，从不做亏本的买卖。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N11",
+        "character": "沈知微",
+        "kind": "sheet",
+        "text": "处境：父亲新丧，家产被二叔把持，身上只有三十七文钱。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N12",
+        "character": "沈若兰",
+        "kind": "sheet",
+        "text": "沈承业的女儿，沈知微的堂妹。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N13",
+        "character": "钱县令",
+        "kind": "sheet",
+        "text": "临川县令。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N14",
+        "character": "陆明川",
+        "kind": "sheet",
+        "text": "陆家公子，沈知微前世的未婚夫。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N15",
+        "character": "陈伯",
+        "kind": "sheet",
+        "text": "沈家的老仆。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N16",
+        "character": "顾晏",
+        "kind": "sheet",
+        "text": "周记当铺的少东家，出了名的冷面，借钱必立字据。",
+        "chapter": null,
+        "quote": null,
+        "start": null,
+        "end": null,
+        "located": null
+      },
+      {
+        "id": "N17",
+        "character": "沈知微",
+        "kind": "background",
+        "text": "前世死在十九岁那年的腊月。",
+        "chapter": 1,
+        "quote": "她死在十九岁那年的腊月。",
+        "start": 80,
+        "end": 92,
+        "located": "exact"
+      },
+      {
+        "id": "N18",
+        "character": "沈知微",
+        "kind": "wound",
+        "text": "心软过，结果连命都赔了进去。",
+        "chapter": 1,
+        "quote": "前世她心软过，结果连命都赔了进去。",
+        "start": 373,
+        "end": 390,
+        "located": "exact"
+      },
+      {
+        "id": "N19",
+        "character": "沈承业",
+        "kind": "background",
+        "text": "在城南的长乐赌坊欠了三百两银子。",
+        "chapter": 1,
+        "quote": "二叔在城南的长乐赌坊欠了三百两银子，赌坊的刘三放过话，年前还不上，就剁他一只手。",
+        "start": 495,
+        "end": 535,
+        "located": "exact"
+      },
+      {
+        "id": "N20",
+        "character": "沈承业",
+        "kind": "goal",
+        "text": "替沈知微当家。",
+        "chapter": 1,
+        "quote": "这个家，我先替她当着。",
+        "start": 436,
+        "end": 447,
+        "located": "exact"
+      },
+      {
+        "id": "N21",
+        "character": "沈知微",
+        "kind": "knowledge",
+        "text": "二叔在年前把沈家老宅卖给了陆家。",
+        "chapter": 1,
+        "quote": "前世，正是这个月底，二叔把沈家老宅连同绸缎铺子一起卖给了陆家，换来的银子一半填了赌债。",
+        "start": 535,
+        "end": 578,
+        "located": "exact"
+      },
+      {
+        "id": "N22",
+        "character": "沈知微",
+        "kind": "situation",
+        "text": "枕头底下有三十七文铜钱、一支银簪和一块玉佩。",
+        "chapter": 1,
+        "quote": "枕头底下三十七文铜钱，一支母亲留下的银簪，还有贴身挂着的那块玉佩。",
+        "start": 196,
+        "end": 229,
+        "located": "exact"
+      },
+      {
+        "id": "N23",
+        "character": "沈知微",
+        "kind": "goal",
+        "text": "这一世只算自己的账。",
+        "chapter": 1,
+        "quote": "这一世，她只算自己的账。谁的情都不欠，谁的亏都不吃，每一文钱都要花在刀刃上。",
+        "start": 335,
+        "end": 373,
+        "located": "exact"
+      },
+      {
+        "id": "N24",
+        "character": "沈知微",
+        "kind": "background",
+        "text": "前世在周记当铺咽气",
+        "chapter": 2,
+        "quote": "城东的周记当铺是临川最大的当铺，也是前世她咽气的地方。",
+        "start": 20,
+        "end": 47,
+        "located": "exact"
+      },
+      {
+        "id": "N25",
+        "character": "沈知微",
+        "kind": "personality",
+        "text": "心地善良",
+        "chapter": 2,
+        "quote": "沈知微心里一软，把怀里的三十七文数出二十文，全倒进了他的碗里。",
+        "start": 110,
+        "end": 141,
+        "located": "exact"
+      },
+      {
+        "id": "N26",
+        "character": "沈知微",
+        "kind": "knowledge",
+        "text": "正月盐价会跌一半",
+        "chapter": 2,
+        "quote": "正月里盐价要跌一半。手里有盐引的，最好年前出手。",
+        "start": 362,
+        "end": 386,
+        "located": "exact"
+      },
+      {
+        "id": "N27",
+        "character": "顾晏",
+        "kind": "personality",
+        "text": "冷面阎王",
+        "chapter": 2,
+        "quote": "顾晏是出了名的冷面阎王，连亲舅舅来借钱都要立字据。",
+        "start": 306,
+        "end": 331,
+        "located": "exact"
+      },
+      {
+        "id": "N28",
+        "character": "沈知微",
+        "kind": "situation",
+        "text": "仅剩十七文银子",
+        "chapter": 2,
+        "quote": "剩下的十七文，只够她再撑三天。",
+        "start": 179,
+        "end": 194,
+        "located": "exact"
+      },
+      {
+        "id": "N29",
+        "character": "刘三",
+        "kind": "goal",
+        "text": "要三百两银子",
+        "chapter": 3,
+        "quote": "三百两，腊月三十之前，少一个子儿，你这只右手就别要了",
+        "start": 53,
+        "end": 79,
+        "located": "exact"
+      },
+      {
+        "id": "N30",
+        "character": "沈承业",
+        "kind": "wound",
+        "text": "急着要钱",
+        "chapter": 3,
+        "quote": "二叔急着要钱，接下来一定会打老宅的主意",
+        "start": 164,
+        "end": 183,
+        "located": "exact"
+      },
+      {
+        "id": "N31",
+        "character": "沈知微",
+        "kind": "goal",
+        "text": "弄清楚地契在哪里",
+        "chapter": 3,
+        "quote": "她得赶在他前面，弄清楚地契在哪里",
+        "start": 184,
+        "end": 200,
+        "located": "exact"
+      },
+      {
+        "id": "N32",
+        "character": "沈若兰",
+        "kind": "wound",
+        "text": "看堂姐不顺眼",
+        "chapter": 3,
+        "quote": "她就是看她不顺眼，看她那副不哭不闹的样子就来气",
+        "start": 387,
+        "end": 410,
+        "located": "exact"
+      },
+      {
+        "id": "N33",
+        "character": "沈知微",
+        "kind": "goal",
+        "text": "打听二叔的地契下落",
+        "chapter": 4,
+        "quote": "用五十文换老宅的下落，这笔买卖不亏。",
+        "start": 99,
+        "end": 117,
+        "located": "exact"
+      },
+      {
+        "id": "N34",
+        "character": "小六",
+        "kind": "knowledge",
+        "text": "知道地契藏在何处",
+        "chapter": 4,
+        "quote": "我听见他跟车夫说，‘周记那边’。",
+        "start": 165,
+        "end": 181,
+        "located": "normalized"
+      },
+      {
+        "id": "N35",
+        "character": "沈承业",
+        "kind": "wound",
+        "text": "把地契当了",
+        "chapter": 4,
+        "quote": "二叔把地契当了。",
+        "start": 192,
+        "end": 200,
+        "located": "normalized"
+      },
+      {
+        "id": "N36",
+        "character": "周掌柜",
+        "kind": "knowledge",
+        "text": "知道匣子藏在后堂暗柜中",
+        "chapter": 4,
+        "quote": "沈二爷当的那只匣子，我锁进后堂的暗柜了。",
+        "start": 248,
+        "end": 268,
+        "located": "normalized"
+      },
+      {
+        "id": "N37",
+        "character": "顾晏",
+        "kind": "relationship",
+        "text": "与周掌柜关系密切",
+        "chapter": 4,
+        "quote": "这件事只有你我两个人知道，连账房都不知道。",
+        "start": 310,
+        "end": 331,
+        "located": "normalized"
+      },
+      {
+        "id": "N38",
+        "character": "沈知微",
+        "kind": "background",
+        "text": "前世，沈知微从没进过周记的后堂，更不知道当铺里还有暗柜。",
+        "chapter": 5,
+        "quote": "前世，沈知微从没进过周记的后堂，更不知道当铺里还有暗柜。",
+        "start": 156,
+        "end": 184,
+        "located": "exact"
+      },
+      {
+        "id": "N39",
+        "character": "沈知微",
+        "kind": "wound",
+        "text": "春杏是母亲的陪嫁丫鬟，可前世二叔夺宅的时候，第一个跑去二叔那里报信讨赏的，就是她。",
+        "chapter": 5,
+        "quote": "春杏是母亲的陪嫁丫鬟，可前世二叔夺宅的时候，第一个跑去二叔那里报信讨赏的，就是她。",
+        "start": 300,
+        "end": 341,
+        "located": "exact"
+      },
+      {
+        "id": "N40",
+        "character": "沈知微",
+        "kind": "knowledge",
+        "text": "匣子里是沈家老宅的地契，还有二叔按了手印的当票。",
+        "chapter": 5,
+        "quote": "匣子里是沈家老宅的地契，还有二叔按了手印的当票。",
+        "start": 194,
+        "end": 218,
+        "located": "exact"
+      },
+      {
+        "id": "N41",
+        "character": "沈知微",
+        "kind": "personality",
+        "text": "她抽回裙角，说‘你去找二叔吧，他如今手头宽裕’。",
+        "chapter": 5,
+        "quote": "沈知微抽回裙角，“你去找二叔吧，他如今手头宽裕。”",
+        "start": 354,
+        "end": 379,
+        "located": "sentence"
+      },
+      {
+        "id": "N42",
+        "character": "春杏",
+        "kind": "wound",
+        "text": "前世二叔夺宅的时候，第一个跑去二叔那里报信讨赏的，就是她。",
+        "chapter": 5,
+        "quote": "前世二叔夺宅的时候，第一个跑去二叔那里报信讨赏的，就是她。",
+        "start": 312,
+        "end": 341,
+        "located": "exact"
+      },
+      {
+        "id": "N43",
+        "character": "小桃",
+        "kind": "knowledge",
+        "text": "知道府里厨娘的手艺",
+        "chapter": 6,
+        "quote": "比府里厨娘做的还好吃。",
+        "start": 150,
+        "end": 161,
+        "located": "exact"
+      },
+      {
+        "id": "N44",
+        "character": "小桃",
+        "kind": "goal",
+        "text": "希望攒钱买喜欢的东西",
+        "chapter": 6,
+        "quote": "等明年攒够了钱再来买。",
+        "start": 196,
+        "end": 207,
+        "located": "exact"
+      },
+      {
+        "id": "N45",
+        "character": "沈承业",
+        "kind": "relationship",
+        "text": "二叔没过几天就知道了地契不见了的事。",
+        "chapter": 7,
+        "quote": "地契不见了的事，二叔没过几天就知道了。",
+        "start": 0,
+        "end": 19,
+        "located": "exact"
+      },
+      {
+        "id": "N46",
+        "character": "沈知微",
+        "kind": "knowledge",
+        "text": "那支银簪是母亲留下的。",
+        "chapter": 7,
+        "quote": "那天你拿来当的那支银簪，我一眼就认出来了。",
+        "start": 420,
+        "end": 441,
+        "located": "exact"
+      },
+      {
+        "id": "N47",
+        "character": "顾晏",
+        "kind": "relationship",
+        "text": "救过沈知微的母亲。",
+        "chapter": 7,
+        "quote": "十年前城东那场大火，我被困在柴房里，是你母亲冲进去把我背出来的。",
+        "start": 374,
+        "end": 406,
+        "located": "exact"
+      },
+      {
+        "id": "N48",
+        "character": "顾晏",
+        "kind": "knowledge",
+        "text": "认出沈知微当的银簪是她母亲留下的。",
+        "chapter": 7,
+        "quote": "那天你拿来当的那支银簪，我一眼就认出来了。",
+        "start": 420,
+        "end": 441,
+        "located": "exact"
+      },
+      {
+        "id": "N49",
+        "character": "沈承业",
+        "kind": "background",
+        "text": "二叔再也没有东西可卖。",
+        "chapter": 8,
+        "quote": "地契回到了沈知微手里，二叔再也没有东西可卖。",
+        "start": 0,
+        "end": 22,
+        "located": "exact"
+      },
+      {
+        "id": "N50",
+        "character": "刘三",
+        "kind": "situation",
+        "text": "腊月十八，长乐赌坊的刘三带着人堵了沈家的大门。",
+        "chapter": 8,
+        "quote": "腊月十八，长乐赌坊的刘三带着人堵了沈家的大门。",
+        "start": 24,
+        "end": 47,
+        "located": "exact"
+      },
+      {
+        "id": "N51",
+        "character": "沈知微",
+        "kind": "goal",
+        "text": "先把账算清楚。谁欠我的，一笔一笔，都要还回来。",
+        "chapter": 8,
+        "quote": "谁欠我的，一笔一笔，都要还回来。",
+        "start": 506,
+        "end": 522,
+        "located": "piece"
+      },
+      {
+        "id": "N52",
+        "character": "陆明川",
+        "kind": "wound",
+        "text": "陆明川的脸一下子白了。",
+        "chapter": 8,
+        "quote": "陆明川的脸一下子白了。",
+        "start": 391,
+        "end": 402,
+        "located": "exact"
+      },
+      {
+        "id": "N53",
+        "character": "沈知微",
+        "kind": "knowledge",
+        "text": "周记守夜的伙计是你表舅，他把那晚的事告诉了你。",
+        "chapter": 8,
+        "quote": "“周记守夜的伙计是你表舅，他把那晚的事告诉了你，你转头就去了二叔那里。”",
+        "start": 292,
+        "end": 328,
+        "located": "sentence"
+      },
+      {
+        "id": "N54",
+        "character": "陆明川",
+        "kind": "knowledge",
+        "text": "陆家欠我二叔一百两，二叔答应你，只要把我送进大牢，这笔账就一笔勾销，老宅也照样卖给陆家。",
+        "chapter": 8,
+        "quote": "沈知微慢慢地说，“陆家欠我二叔一百两，二叔答应你，只要把我送进大牢，这笔账就一笔勾销，老宅也照样卖给陆家。",
+        "start": 328,
+        "end": 381,
+        "located": "sentence"
+      },
+      {
+        "id": "N55",
+        "character": "沈知微",
+        "kind": "personality",
+        "text": "温文尔雅的样子。",
+        "chapter": 8,
+        "quote": "婚约的事，我们再议一议，好不好？",
+        "start": 217,
+        "end": 233,
+        "located": "piece"
+      },
+      {
+        "id": "N56",
+        "character": "沈承业",
+        "kind": "situation",
+        "text": "二叔答应你，只要把我送进大牢，这笔账就一笔勾销，老宅也照样卖给陆家。",
+        "chapter": 8,
+        "quote": "沈知微慢慢地说，“陆家欠我二叔一百两，二叔答应你，只要把我送进大牢，这笔账就一笔勾销，老宅也照样卖给陆家。",
+        "start": 328,
+        "end": 381,
+        "located": "sentence"
+      }
+    ],
+    "beats": [
+      {
+        "id": "B1",
+        "chapter": 1,
+        "character": "沈知微",
+        "listed": true,
+        "action": "确认自己不是躺在周记当铺门外的雪地里。",
+        "quote": "她盯着帐顶那块洗得发白的补丁看了很久，才确认自己不是躺在周记当铺门外的雪地里。",
+        "start": 36,
+        "end": 75,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "sentence",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B2",
+        "chapter": 1,
+        "character": "沈知微",
+        "listed": true,
+        "action": "决定这一世只算自己的账。",
+        "quote": "她把这一世的家底摸了一遍：枕头底下三十七文铜钱，一支母亲留下的银簪，还有贴身挂着的那块玉佩。玉佩是母亲临终前亲手给她系上的，边上缺了一个小口。母亲那时已经说不出整句话，只攥着她的手反复念：“走投无路的时候……拿着它，去城西……找……”话没说完，人就去了。",
+        "start": 183,
+        "end": 310,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "母亲留下的玉佩和遗言"
+      },
+      {
+        "id": "B3",
+        "chapter": 1,
+        "character": "沈承业",
+        "listed": true,
+        "action": "决定由自己暂时管理当铺。",
+        "quote": "嫂子去得早，大哥又走了，知微一个姑娘家，哪管得了铺子？这个家，我先替她当着。",
+        "start": 409,
+        "end": 447,
+        "hostile": false,
+        "target": "沈知微",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B4",
+        "chapter": 1,
+        "character": "沈承业",
+        "listed": true,
+        "action": "承认自己欠赌债。",
+        "quote": "前世，正是这个月底，二叔把沈家老宅连同绸缎铺子一起卖给了陆家，换来的银子一半填了赌债。",
+        "start": 535,
+        "end": 578,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B5",
+        "chapter": 1,
+        "character": "沈若兰",
+        "listed": true,
+        "action": "给沈知微送姜汤。",
+        "quote": "堂姐醒了没有？我给你送姜汤来了。",
+        "start": 618,
+        "end": 634,
+        "hostile": false,
+        "target": "沈知微",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B6",
+        "chapter": 2,
+        "character": "沈知微",
+        "listed": true,
+        "action": "给了小乞丐二十文钱",
+        "quote": "把怀里的三十七文数出二十文，全倒进了他的碗里。",
+        "start": 118,
+        "end": 141,
+        "hostile": false,
+        "target": "",
+        "cost": "剩下的十七文只够她再撑三天",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B7",
+        "chapter": 2,
+        "character": "沈知微",
+        "listed": true,
+        "action": "向顾晏借钱二两银子",
+        "quote": "不过沈姑娘若是缺钱，我可以另借你二两，不收利息，也不用抵押。",
+        "start": 267,
+        "end": 297,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B8",
+        "chapter": 2,
+        "character": "沈知微",
+        "listed": true,
+        "action": "告知顾晏正月盐价会跌",
+        "quote": "正月里盐价要跌一半。手里有盐引的，最好年前出手。",
+        "start": 362,
+        "end": 386,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "前世正月初十盐价暴跌的信息"
+      },
+      {
+        "id": "B9",
+        "chapter": 3,
+        "character": "刘三",
+        "listed": true,
+        "action": "威胁沈承业付三百两银子",
+        "quote": "沈二爷，三百两，腊月三十之前，少一个子儿，你这只右手就别要了。",
+        "start": 49,
+        "end": 80,
+        "hostile": true,
+        "target": "沈承业",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B10",
+        "chapter": 3,
+        "character": "沈若兰",
+        "listed": true,
+        "action": "推沈知微进冰窟窿",
+        "quote": "沈若兰忽然松开手，用力一推。",
+        "start": 277,
+        "end": 291,
+        "hostile": true,
+        "target": "沈知微",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B11",
+        "chapter": 3,
+        "character": "陈伯",
+        "listed": true,
+        "action": "救起沈知微",
+        "quote": "幸好老仆陈伯听见动静，拿竹竿把沈知微拉了上来。",
+        "start": 413,
+        "end": 436,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B12",
+        "chapter": 4,
+        "character": "沈知微",
+        "listed": true,
+        "action": "请小六吃了一碗腊八粥并给他五十文钱。",
+        "quote": "病好之后，沈知微做的第一件事，是请二叔身边的小厮小六吃了一碗腊八粥，又往他手里塞了五十文钱。",
+        "start": 0,
+        "end": 46,
+        "hostile": false,
+        "target": "",
+        "cost": "五十文钱",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B13",
+        "chapter": 4,
+        "character": "小六",
+        "listed": true,
+        "action": "告诉沈知微二叔前天夜里出过门，回来时匣子不见了。",
+        "quote": "我听见他跟车夫说，‘周记那边’。”",
+        "start": 165,
+        "end": 182,
+        "hostile": false,
+        "target": "沈承业",
+        "cost": "",
+        "located": "sentence",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B14",
+        "chapter": 4,
+        "character": "周掌柜",
+        "listed": true,
+        "action": "告诉顾晏匣子被锁在后堂暗柜里。",
+        "quote": "少东家，沈二爷当的那只匣子，我锁进后堂的暗柜了。暗柜上是一把字码锁，要拨对两个字才打得开。",
+        "start": 244,
+        "end": 289,
+        "hostile": false,
+        "target": "顾晏",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "青雀"
+      },
+      {
+        "id": "B15",
+        "chapter": 4,
+        "character": "周掌柜",
+        "listed": true,
+        "action": "透露暗柜上的字码锁需要拨对两个字才能打开。",
+        "quote": "那两个字是‘青雀’。这件事只有你我两个人知道，连账房都不知道。",
+        "start": 300,
+        "end": 331,
+        "hostile": false,
+        "target": "顾晏",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "青雀"
+      },
+      {
+        "id": "B16",
+        "chapter": 5,
+        "character": "沈知微",
+        "listed": true,
+        "action": "去周记当铺取东西",
+        "quote": "顾少东家让我来后堂取一样东西。",
+        "start": 49,
+        "end": 64,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B17",
+        "chapter": 5,
+        "character": "沈知微",
+        "listed": true,
+        "action": "打开暗柜取出地契和当票",
+        "quote": "她取出那只匣子。匣子里是沈家老宅的地契，还有二叔按了手印的当票。",
+        "start": 186,
+        "end": 218,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B18",
+        "chapter": 5,
+        "character": "沈知微",
+        "listed": true,
+        "action": "拒绝给春杏银子",
+        "quote": "春杏，我不欠你的。",
+        "start": 344,
+        "end": 353,
+        "hostile": false,
+        "target": "春杏",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B19",
+        "chapter": 5,
+        "character": "沈知微",
+        "listed": true,
+        "action": "拒绝帮助春杏",
+        "quote": "你去找二叔吧，他如今手头宽裕。",
+        "start": 363,
+        "end": 378,
+        "hostile": false,
+        "target": "春杏",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B20",
+        "chapter": 6,
+        "character": "小桃",
+        "listed": true,
+        "action": "在豆腐坊门口喝了一碗热豆花",
+        "quote": "豆花上撒了虾皮和葱花，小桃喝得鼻尖冒汗，说比府里厨娘做的还好吃。",
+        "start": 129,
+        "end": 161,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B21",
+        "chapter": 6,
+        "character": "小桃",
+        "listed": true,
+        "action": "在布庄看中了一块桃红的花布，但没买",
+        "quote": "摸了又摸，最后还是放下了，说等明年攒够了钱再来买。",
+        "start": 182,
+        "end": 207,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B22",
+        "chapter": 7,
+        "character": "钱县令",
+        "listed": true,
+        "action": "惊堂木一拍",
+        "quote": "人证物证俱在，先打二十大板！",
+        "start": 109,
+        "end": 123,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B23",
+        "chapter": 7,
+        "character": "钦差大人",
+        "listed": false,
+        "action": "判沈知微无罪，罚钱县令三个月俸禄",
+        "quote": "本官奉旨巡察江南，路过临川，听说这里有人当堂滥用私刑？",
+        "start": 193,
+        "end": 220,
+        "hostile": false,
+        "target": "",
+        "cost": "三个月俸禄",
+        "located": "exact",
+        "resolves_crisis": true,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B24",
+        "chapter": 7,
+        "character": "顾晏",
+        "listed": true,
+        "action": "解释十年前救他母亲的原因",
+        "quote": "你母亲冲进去把我背出来的。她没留名字，我找了她很多年。那天你拿来当的那支银簪，我一眼就认出来了。",
+        "start": 393,
+        "end": 441,
+        "hostile": false,
+        "target": "",
+        "cost": "回忆往事",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": true,
+        "secret": "十年前救顾晏母亲"
+      },
+      {
+        "id": "B25",
+        "chapter": 8,
+        "character": "沈知微",
+        "listed": true,
+        "action": "拒绝为二叔求情",
+        "quote": "一句求情的话都没说。",
+        "start": 94,
+        "end": 104,
+        "hostile": true,
+        "target": "刘三",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B26",
+        "chapter": 8,
+        "character": "沈知微",
+        "listed": true,
+        "action": "揭穿陆明川的背叛",
+        "quote": "周记守夜的伙计是你表舅，他把那晚的事告诉了你，你转头就去了二叔那里。",
+        "start": 293,
+        "end": 327,
+        "hostile": true,
+        "target": "陆明川",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B27",
+        "chapter": 8,
+        "character": "沈知微",
+        "listed": true,
+        "action": "要求陈伯送客",
+        "quote": "陈伯，送客。",
+        "start": 429,
+        "end": 435,
+        "hostile": true,
+        "target": "陆明川",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      },
+      {
+        "id": "B28",
+        "chapter": 8,
+        "character": "沈知微",
+        "listed": true,
+        "action": "决定清算旧账",
+        "quote": "先把账算清楚。",
+        "start": 494,
+        "end": 501,
+        "hostile": false,
+        "target": "",
+        "cost": "",
+        "located": "exact",
+        "resolves_crisis": false,
+        "uses_secret": false,
+        "secret": ""
+      }
+    ],
+    "setups": [
+      {
+        "id": "S1",
+        "chapter": 1,
+        "text": "母亲临终前亲手给她系上的那块玉佩",
+        "quote": "走投无路的时候……拿着它，去城西……找……",
+        "start": 278,
+        "end": 299,
+        "key": "玉佩"
+      },
+      {
+        "id": "S2",
+        "chapter": 4,
+        "text": "暗柜上的字码锁密码",
+        "quote": "那两个字是‘青雀’。",
+        "start": 300,
+        "end": 310,
+        "key": "青雀"
+      }
+    ],
+    "pulses": [
+      {
+        "chapter": 1,
+        "summary": "沈知微在父亲去世后醒来，决定这一世只算自己的账，并且得知二叔要把家业交给她打理。",
+        "tension": 3,
+        "emotions": [
+          "heartache",
+          "suspense"
+        ],
+        "hook": true,
+        "hook_quote": "她还有二十七天。",
+        "hook_start": 580,
+        "hook_end": 588
+      },
+      {
+        "chapter": 2,
+        "summary": "沈知微在周记当铺前施舍乞丐，并得到了少东家顾晏的帮助。",
+        "tension": 2,
+        "emotions": [
+          "suspense",
+          "warmth"
+        ],
+        "hook": true,
+        "hook_quote": "“你信，就当是我还你的利息；不信，就当我没说。”",
+        "hook_start": 465,
+        "hook_end": 489
+      },
+      {
+        "chapter": 3,
+        "summary": "沈若兰推沈知微落水，幸得陈伯相救。",
+        "tension": 4,
+        "emotions": [
+          "anger",
+          "suspense"
+        ],
+        "hook": true,
+        "hook_quote": "她裹着棉被在床上发了一夜的烧，梦里全是前世的雪。",
+        "hook_start": 436,
+        "hook_end": 460
+      },
+      {
+        "chapter": 4,
+        "summary": "沈知微通过贿赂小六得知二叔将地契当了，同时顾晏在周记当铺得到了关于地契的重要线索。",
+        "tension": 3,
+        "emotions": [
+          "suspense",
+          "tension"
+        ],
+        "hook": true,
+        "hook_quote": "那两个字是‘青雀’。这件事只有你我两个人知道，连账房都不知道。",
+        "hook_start": 300,
+        "hook_end": 331
+      },
+      {
+        "chapter": 5,
+        "summary": "沈知微在周记当铺取走地契和当票，并拒绝了春杏的求助。",
+        "tension": 2,
+        "emotions": [
+          "suspense",
+          "tension"
+        ],
+        "hook": true,
+        "hook_quote": "你去找二叔吧，他如今手头宽裕。",
+        "hook_start": 363,
+        "hook_end": 378
+      },
+      {
+        "chapter": 6,
+        "summary": "沈知微和小桃在临川城年市上置办年货，并享受了一顿简单的晚餐。",
+        "tension": 1,
+        "emotions": [
+          "suspense",
+          "warmth"
+        ],
+        "hook": false,
+        "hook_quote": null,
+        "hook_start": null,
+        "hook_end": null
+      },
+      {
+        "chapter": 7,
+        "summary": "沈知微因偷盗家产被告上公堂，幸得钦差大人相助无罪释放。",
+        "tension": 4,
+        "emotions": [
+          "suspense",
+          "thrill"
+        ],
+        "hook": true,
+        "hook_quote": "你母亲冲进去把我背出来的。她没留名字，我找了她很多年。",
+        "hook_start": 393,
+        "hook_end": 420
+      },
+      {
+        "chapter": 8,
+        "summary": "沈知微揭露了陆明川的背叛，并决定清算所有债务。",
+        "tension": 4,
+        "emotions": [
+          "suspense",
+          "thrill"
+        ],
+        "hook": true,
+        "hook_quote": "她说，“谁欠我的，一笔一笔，都要还回来。”",
+        "hook_start": 502,
+        "hook_end": 523
+      }
+    ],
+    "judgements": [
+      {
+        "beat": "B1",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，不需要理由。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B2",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "沈知微在前世因心软而丧命，这次重生后决定只算自己的账，这是对过往经历的直接回应。",
+        "motives": [
+          {
+            "motive": "前世心软导致死亡，决定不再做亏本买卖",
+            "support": [
+              "N18"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B3",
+        "model_verdict": "consistent",
+        "verdict": "unverified",
+        "severity": 1,
+        "reasoning": "这是行为人主动选择的行为，且有明确的目标。",
+        "motives": [
+          {
+            "motive": "替沈知微当家",
+            "support": []
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N20: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B4",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是个交代背景信息的行为，没有表现出选择的性质。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B5",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是日常行为，符合人物身份和情境。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B6",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 3,
+        "reasoning": "这个行为与她的人设不符，显得突兀。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped conflict N25: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B7",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "沈知微向顾晏借钱买盐，虽然符合她重生后精明算计的人设，但与她前世心地善良的性格冲突。",
+        "motives": [
+          {
+            "motive": "为了买盐",
+            "support": [
+              "N26"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N25",
+            "why": "心地善良"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B8",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "沈知微为了保护自己的利益而选择告知顾晏正月盐价会跌，符合她的人设。",
+        "motives": [
+          {
+            "motive": "利益：从自己的利益出发，告知顾晏以避免自己损失。",
+            "support": [
+              "N10",
+              "N23"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B9",
+        "model_verdict": "consistent",
+        "verdict": "unverified",
+        "severity": 1,
+        "reasoning": "刘三威胁沈承业是因为他欠了三百两银子，这是个合理的理由。",
+        "motives": [
+          {
+            "motive": "欠债不还",
+            "support": []
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N29: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B10",
+        "model_verdict": "consistent",
+        "verdict": "malice_without_cause",
+        "severity": 1,
+        "reasoning": "行为符合人物档案中的设定，且有明确的理由。",
+        "motives": [
+          {
+            "motive": "看堂姐不顺眼",
+            "support": []
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N32: dislike or whim is not a motive",
+          "the stated reason is dislike or whim, which is not a motive"
+        ]
+      },
+      {
+        "beat": "B11",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，符合老仆的身份和职责。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B12",
+        "model_verdict": "routine",
+        "verdict": "contradicts",
+        "severity": 3,
+        "reasoning": "沈知微的行为与她人设中的‘心地善良’相冲突，不符合她的性格设定。",
+        "motives": [],
+        "conflicts": [
+          {
+            "note": "N25",
+            "why": "心地善良"
+          }
+        ],
+        "fixes": [
+          "补充一段经历，说明沈知微在前世因心软而遭受的教训，让她明白这次必须谨慎行事。",
+          "改写成沈知微出于某种不得已的原因才请小六吃粥并给钱，比如是为了获取信息或维持表面和谐。",
+          "让这个行为付出代价，并在后文得到回报，例如通过其他方式弥补这五十文钱的价值。"
+        ],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B13",
+        "model_verdict": "consistent",
+        "verdict": "unverified",
+        "severity": 1,
+        "reasoning": "小六选择告诉沈承业，是为了避免二叔怀疑他偷走了地契。这是一个需要理由的选择。",
+        "motives": [
+          {
+            "motive": "担心二叔怀疑自己偷了地契",
+            "support": []
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N34: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B14",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是日常动作，符合周掌柜作为老掌柜的职责。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B15",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，不需要理由。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B16",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "行为符合人物档案中提到的她会为自己谋利，且前文有明确利益驱动。",
+        "motives": [
+          {
+            "motive": "利益：从二叔那里取回沈家老宅的地契",
+            "support": [
+              "N21",
+              "N38",
+              "N40"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B17",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "沈知微为了弄清地契的下落，决定打开暗柜取地契和当票。",
+        "motives": [
+          {
+            "motive": "弄清楚地契在哪里",
+            "support": [
+              "N31"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": [
+          "dropped reason N40: it quotes the beat itself (circular)"
+        ]
+      },
+      {
+        "beat": "B18",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "沈知微拒绝给春杏银子，是因为她想起了前世因心软而付出惨痛代价的经历。但她的行为与她善良的性格相冲突。",
+        "motives": [
+          {
+            "motive": "过去的经历或创伤",
+            "support": [
+              "N18",
+              "N39"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N25",
+            "why": "心地善良（N25）"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B19",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 1,
+        "reasoning": "沈知微拒绝帮助春杏，符合她从不做亏本买卖的人设。",
+        "motives": [
+          {
+            "motive": "利益：从不做亏本买卖",
+            "support": [
+              "N10",
+              "N23"
+            ]
+          }
+        ],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B20",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，符合小桃的身份和行为习惯。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B21",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，符合小桃的丫鬟身份和经济状况。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B22",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是一个标准的官场行为，不需要理由或特别解释。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B24",
+        "model_verdict": "routine",
+        "verdict": "routine",
+        "severity": 1,
+        "reasoning": "这是对过去事件的解释，不是行为选择。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B25",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "沈知微拒绝为二叔求情，与她前世的善良和今生的原则冲突。",
+        "motives": [
+          {
+            "motive": "二叔夺宅在先，恩情在后",
+            "support": [
+              "N21",
+              "N39"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N25",
+            "why": "心地善良（N25）"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B26",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 3,
+        "reasoning": "沈知微揭穿陆明川的背叛是为了给自己讨回公道，但她的行为与她心地善良的人设不符。",
+        "motives": [
+          {
+            "motive": "二叔夺宅，她要为自己讨回公道",
+            "support": [
+              "N21",
+              "N39"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N25",
+            "why": "N25 心地善良"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B27",
+        "model_verdict": "malice_without_cause",
+        "verdict": "malice_without_cause",
+        "severity": 1,
+        "reasoning": "这是一个日常动作，符合人物档案中的设定。",
+        "motives": [],
+        "conflicts": [],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      },
+      {
+        "beat": "B28",
+        "model_verdict": "consistent",
+        "verdict": "consistent",
+        "severity": 2,
+        "reasoning": "虽然前世有仇，但沈知微这一世已经变得冷静和聪明，选择清算旧账符合她的性格转变。",
+        "motives": [
+          {
+            "motive": "前世冻死在周记当铺门外，对周记有仇",
+            "support": [
+              "N24",
+              "N38"
+            ]
+          }
+        ],
+        "conflicts": [
+          {
+            "note": "N25",
+            "why": "前世心地善良，但这一世却决定清算旧账。"
+          }
+        ],
+        "fixes": [],
+        "explained_by": null,
+        "explained_why": null,
+        "checks": []
+      }
+    ],
+    "issues": [
+      {
+        "id": "I1",
+        "family": "character",
+        "kind": "contradicts",
+        "chapter": 4,
+        "chapters": [
+          4
+        ],
+        "character": "沈知微",
+        "severity": 3,
+        "title": "请小六吃了一碗腊八粥并给他五十文钱。",
+        "explanation": "沈知微的行为与她人设中的‘心地善良’相冲突，不符合她的性格设定。",
+        "evidence": [
+          {
+            "chapter": 4,
+            "start": 0,
+            "end": 46,
+            "quote": "病好之后，沈知微做的第一件事，是请二叔身边的小厮小六吃了一碗腊八粥，又往他手里塞了五十文钱。",
+            "role": "beat"
+          },
+          {
+            "chapter": 2,
+            "start": 110,
+            "end": 141,
+            "quote": "沈知微心里一软，把怀里的三十七文数出二十文，全倒进了他的碗里。",
+            "role": "conflict"
+          }
+        ],
+        "refs": [
+          "B12",
+          "N25"
+        ],
+        "fixes": [
+          "补充一段经历，说明沈知微在前世因心软而遭受的教训，让她明白这次必须谨慎行事。",
+          "改写成沈知微出于某种不得已的原因才请小六吃粥并给钱，比如是为了获取信息或维持表面和谐。",
+          "让这个行为付出代价，并在后文得到回报，例如通过其他方式弥补这五十文钱的价值。"
+        ],
+        "rationale": "与N25「心地善良」冲突，前文没有交代这样做的理由。",
+        "merged": []
+      },
+      {
+        "id": "I2",
+        "family": "plot",
+        "kind": "deus_ex_machina",
+        "chapter": 7,
+        "chapters": [
+          7
+        ],
+        "character": null,
+        "severity": 3,
+        "title": "钦差大人突然出现并解救主角，显得突兀。",
+        "explanation": "钦差大人突然出现并解救主角，显得突兀。",
+        "evidence": [
+          {
+            "chapter": 7,
+            "start": 193,
+            "end": 220,
+            "quote": "本官奉旨巡察江南，路过临川，听说这里有人当堂滥用私刑？",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B23"
+        ],
+        "fixes": [
+          "在前几章埋下关于钦差大人的线索，比如钱县令曾试图贿赂他或有其他官员提到他的名字。",
+          "让主角提前得知钦差大人的到来，并且主动求援或者有所准备。",
+          "增加钦差大人之前的背景故事，解释为什么他会出现在临川，以及他对司法公正的态度。"
+        ],
+        "rationale": "钦差大人此前从未出场，却化解了这场危机。",
+        "merged": []
+      },
+      {
+        "id": "I3",
+        "family": "plot",
+        "kind": "dangling_setup",
+        "chapter": 1,
+        "chapters": [
+          1
+        ],
+        "character": null,
+        "severity": 2,
+        "title": "母亲临终前亲手给她系上的那块玉佩",
+        "explanation": "母亲临终前亲手给她系上的那块玉佩",
+        "evidence": [
+          {
+            "chapter": 1,
+            "start": 278,
+            "end": 299,
+            "quote": "走投无路的时候……拿着它，去城西……找……",
+            "role": "setup"
+          }
+        ],
+        "refs": [
+          "S1"
+        ],
+        "fixes": [],
+        "rationale": "伏笔的关键词“玉佩”在之后的章节里没有再出现。",
+        "merged": []
+      },
+      {
+        "id": "I4",
+        "family": "pacing",
+        "kind": "flat_stretch",
+        "chapter": 5,
+        "chapters": [
+          5,
+          6
+        ],
+        "character": null,
+        "severity": 2,
+        "title": "第 5–6 章紧张度只有 2、1，章末没有钩子",
+        "explanation": "沈知微在周记当铺取走地契和当票，并拒绝了春杏的求助。 / 沈知微和小桃在临川城年市上置办年货，并享受了一顿简单的晚餐。",
+        "evidence": [
+          {
+            "chapter": 5,
+            "start": 381,
+            "end": 395,
+            "quote": "她头也不回地走进了巷子深处。",
+            "role": "chapter"
+          },
+          {
+            "chapter": 6,
+            "start": 271,
+            "end": 301,
+            "quote": "晚饭是腊肉炒蒜苗，配一碗白米饭。小桃吃了两碗，早早就睡下了。",
+            "role": "chapter"
+          }
+        ],
+        "refs": [],
+        "fixes": [],
+        "rationale": "第 5–6 章紧张度只有 2、1，章末没有钩子",
+        "merged": []
+      },
+      {
+        "id": "I5",
+        "family": "character",
+        "kind": "malice_without_cause",
+        "chapter": 3,
+        "chapters": [
+          3
+        ],
+        "character": "沈若兰",
+        "severity": 1,
+        "title": "推沈知微进冰窟窿",
+        "explanation": "行为符合人物档案中的设定，且有明确的理由。",
+        "evidence": [
+          {
+            "chapter": 3,
+            "start": 277,
+            "end": 291,
+            "quote": "沈若兰忽然松开手，用力一推。",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B10"
+        ],
+        "fixes": [],
+        "rationale": "针对沈知微，前文没有交代任何利益、恩怨或经历上的理由；“看不顺眼”这类说法不算理由。",
+        "merged": []
+      },
+      {
+        "id": "I6",
+        "family": "character",
+        "kind": "malice_without_cause",
+        "chapter": 8,
+        "chapters": [
+          8
+        ],
+        "character": "沈知微",
+        "severity": 1,
+        "title": "要求陈伯送客",
+        "explanation": "这是一个日常动作，符合人物档案中的设定。",
+        "evidence": [
+          {
+            "chapter": 8,
+            "start": 429,
+            "end": 435,
+            "quote": "陈伯，送客。",
+            "role": "beat"
+          }
+        ],
+        "refs": [
+          "B27"
+        ],
+        "fixes": [],
+        "rationale": "针对陆明川，前文没有交代任何利益、恩怨或经历上的理由。",
+        "merged": []
+      }
+    ],
+    "suggestions": [],
+    "rejected": [
+      {
+        "stage": "shape",
+        "chapter": 2,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "正月里盐价要跌一半",
+          "text": "正月初十盐价暴跌，临川好几家商号一夜之间倒了，周记也赔进去一大笔。这件事，她记了两辈子。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 3,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "地契",
+          "text": "弄清楚地契在哪里",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 3,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "陈伯",
+          "text": "老仆听见动静，拿竹竿把沈知微拉了上来",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 5,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "沈知微",
+          "kind": "goal",
+          "text": "回家的路上，在巷口撞见了从前伺候过母亲的春杏。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 5,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "沈知微",
+          "kind": "relationship",
+          "text": "春杏跪在雪地里拉住她的裙角，说自己的老娘病了，求大小姐赏几钱银子抓药。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 5,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "沈知微",
+          "kind": "situation",
+          "text": "回家的路上，在巷口撞见了从前伺候过母亲的春杏。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 5,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "地契",
+          "text": "沈家老宅的地契和当票藏在暗柜中",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 5,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "春杏",
+          "text": "春杏求情未果，暗示二叔可能有问题",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 6,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "沈知微",
+          "kind": "background",
+          "text": "出身于临川城的富家",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 6,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "沈知微",
+          "kind": "personality",
+          "text": "喜欢热闹，对新年充满期待",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 6,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "小桃",
+          "kind": "personality",
+          "text": "好奇心强，喜欢新鲜事物",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 6,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "沈知微",
+          "kind": "situation",
+          "text": "家境殷实，可以自由置办年货",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "beats",
+        "chapter": 6,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "沈知微",
+          "action": "看着满街的红灯笼一盏一盏亮起来",
+          "quote": "",
+          "hostile": false,
+          "target": "",
+          "cost": "",
+          "resolves_crisis": false,
+          "uses_secret": false,
+          "secret": ""
+        }
+      },
+      {
+        "stage": "notes",
+        "chapter": 7,
+        "reason": "quote not found in the chapter",
+        "item": {
+          "character": "钱县令",
+          "kind": "situation",
+          "text": "被钦差大人罚了三个月的俸禄。",
+          "quote": "又罚了钱县令三个月的俸禄，随后起轿离开。"
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 7,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "银簪",
+          "text": "那天你拿来当的那支银簪，我一眼就认出来了。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 7,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "母亲",
+          "text": "是你母亲冲进去把我背出来的。她没留名字，我找了她很多年。",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 8,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "陆家欠沈承业一百两",
+          "text": "陆家欠沈承业一百两",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "shape",
+        "chapter": 8,
+        "reason": "setup quote not found",
+        "item": {
+          "key": "地契",
+          "text": "地契回到了沈知微手里",
+          "quote": ""
+        }
+      },
+      {
+        "stage": "plot",
+        "chapter": null,
+        "reason": "causality without a cause and an effect",
+        "item": {
+          "kind": "causality",
+          "chapter": 5,
+          "character": "",
+          "refs": [
+            "B17",
+            "N40"
+          ],
+          "explanation": "沈知微在第5章打开暗柜取出地契和当票，但直到第8章才得知匣子里是沈家老宅的地契。这之间没有明确交代她如何得知这些信息。",
+          "severity": 2,
+          "fixes": [
+            "在第4或5章增加一段描述，说明沈知微是如何得知地契和当票的具体内容的。",
+            "将N40的信息提前到B17之前出现。"
+          ]
+        }
+      },
+      {
+        "stage": "plot",
+        "chapter": null,
+        "reason": "causality without a cause and an effect",
+        "item": {
+          "kind": "causality",
+          "chapter": 8,
+          "character": "",
+          "refs": [
+            "B26",
+            "N53"
+          ],
+          "explanation": "沈知微在第8章揭穿陆明川的背叛，但直到第8章才得知周记守夜的伙计是她的表舅。这之间没有明确交代她如何得知这些信息。",
+          "severity": 2,
+          "fixes": [
+            "在第7或8章增加一段描述，说明沈知微是如何得知周记守夜的伙计是她的表舅的。",
+            "将N53的信息提前到B26之前出现。"
+          ]
+        }
+      }
+    ],
+    "errors": [
+      "payoff: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model",
+      "plan: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model"
+    ],
+    "usage": {
+      "calls": 55,
+      "calls_by_stage": {
+        "notes": 8,
+        "beats": 8,
+        "shape": 8,
+        "motives": 27,
+        "later": 1,
+        "plot": 1,
+        "rescue": 2
+      },
+      "input_tokens": 39683,
+      "output_tokens": 9833,
+      "cost_usd": 0.0,
+      "llm_seconds": 1283.3,
+      "seconds": 0.0
+    },
+    "checks_version": "checks-v4"
+  },
+  "score": {
+    "problems_found": 4,
+    "problems": 6,
+    "recall": 0.667,
+    "located": 4,
+    "by_kind": {
+      "character": {
+        "labelled": 2,
+        "found": 1
+      },
+      "plot": {
+        "labelled": 3,
+        "found": 2
+      },
+      "pacing": {
+        "labelled": 1,
+        "found": 1
+      }
+    },
+    "traps_set_off": 1,
+    "traps": 8,
+    "issues_reported": 6,
+    "issues_on_labels": 5,
+    "unlabelled_issues": [
+      "I6"
+    ],
+    "problem_rows": [
+      {
+        "id": "P1",
+        "kind": "character",
+        "found": false,
+        "issues": [],
+        "located_other_kind": []
+      },
+      {
+        "id": "P2",
+        "kind": "character",
+        "found": true,
+        "issues": [
+          "I5"
+        ],
+        "located_other_kind": []
+      },
+      {
+        "id": "P3",
+        "kind": "plot",
+        "found": false,
+        "issues": [],
+        "located_other_kind": []
+      },
+      {
+        "id": "P4",
+        "kind": "plot",
+        "found": true,
+        "issues": [
+          "I2"
+        ],
+        "located_other_kind": []
+      },
+      {
+        "id": "P5",
+        "kind": "plot",
+        "found": true,
+        "issues": [
+          "I3"
+        ],
+        "located_other_kind": []
+      },
+      {
+        "id": "P6",
+        "kind": "pacing",
+        "found": true,
+        "issues": [
+          "I4"
+        ],
+        "located_other_kind": []
+      }
+    ],
+    "trap_rows": [
+      {
+        "id": "T1",
+        "set_off": true,
+        "issues": [
+          "I1"
+        ],
+        "verdicts": [
+          "contradicts"
+        ]
+      },
+      {
+        "id": "T2",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T3",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T4",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T5",
+        "set_off": false,
+        "issues": [],
+        "verdicts": [
+          "consistent",
+          "consistent"
+        ]
+      },
+      {
+        "id": "T6",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T7",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      },
+      {
+        "id": "T8",
+        "set_off": false,
+        "issues": [],
+        "verdicts": []
+      }
+    ],
+    "ambiguous_rows": []
+  },
+  "grounding": {
+    "notes_kept": 40,
+    "beats_kept": 28,
+    "setups_kept": 2,
+    "judgements": 27,
+    "rejected": {
+      "shape: setup quote not found": 9,
+      "notes: quote not found in the chapter": 8,
+      "beats: quote not found in the chapter": 1,
+      "plot: causality without a cause and an effect": 2
+    },
+    "quotes_located_by": {
+      "exact": 56,
+      "normalized": 4,
+      "sentence": 6,
+      "piece": 2
+    },
+    "verdicts_changed_by_checks": {
+      "consistent -> unverified": 3,
+      "consistent -> malice_without_cause": 1,
+      "routine -> contradicts": 1
+    },
+    "errors": [
+      "payoff: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model",
+      "plan: not_recorded: no recorded answer from ollama:qwen2.5:7b for this prompt; the text, cast or prompt version differ from the recorded run, so run it with a live model"
+    ]
+  },
+  "environment": {
+    "machine": "arm64",
+    "python": "3.12.10",
+    "commit": "a0ac061"
+  },
+  "replayed": true,
+  "cache": {
+    "path": "/Users/yangliu/Desktop/jbproject/NovelForge/bench/results/llm-cache/story-xueye-dangpu-ollama-qwen2.5-7b.jsonl",
+    "hits": null,
+    "misses": null
+  }
+}
