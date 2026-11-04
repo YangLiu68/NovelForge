@@ -118,7 +118,7 @@ docker compose up --build               # UI http://localhost:8080, API http://l
 
 CI builds the images, starts the stack and uses it ([scripts/compose-smoke.sh](scripts/compose-smoke.sh):
 health, migrations, an English and a Chinese sample imported with their planted findings, the
-frontend and its `/api` proxy); the same script runs locally.
+frontend and its `/api` proxy); the same script passes locally (macOS, Colima).
 
 ## Benchmarks
 
