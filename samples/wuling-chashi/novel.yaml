@@ -1,6 +1,6 @@
 # Original Chinese held-out sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
 # Written by a separate agent that did not see the extractor or the other Chinese samples; scored once
-# against rules-zh-v2 after it was frozen (commit 397ad1f), see BENCHMARK.md section 9.
+# against rules-zh-v2 after it was frozen (commit f554591), see BENCHMARK.md section 9.
 # Planted continuity contradictions and look-alike traps are labelled in ground_truth.yaml.
 slug: wuling-chashi
 title: 雾岭茶事

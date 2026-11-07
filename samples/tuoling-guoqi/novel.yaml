@@ -1,7 +1,7 @@
 # Original Chinese held-out sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
 # Written by a separate agent that did not see the extractors, the prompts or the other Chinese samples;
 # scored once against rules-zh-v3 and the Claude prompt extract-zh-v2 after they were frozen (commit
-# fbf67ff), see BENCHMARK.md section 9.
+# d761376), see BENCHMARK.md section 9.
 slug: tuoling-guoqi
 title: 驼铃过碛
 language: zh

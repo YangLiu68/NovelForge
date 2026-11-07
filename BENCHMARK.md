@@ -8,7 +8,9 @@ bench/run_all.sh        # regenerates the corpora and every result below (~30 mi
 ```
 
 Raw outputs are in [bench/results/](bench/results). Each section names the commit its numbers
-come from (reports from `bc2ddf6` on also record it themselves). All corpora: generator version 4,
+come from (reports from `dbf1c49` on also record it themselves; a report written before
+2026-11-06 records the hash from before a history rewrite that edited commit messages only, and
+[bench/results/commit-map.tsv](bench/results/commit-map.tsv) maps it). All corpora: generator version 4,
 seed 7 (version 4 adds the dye sentence to the labels and pronouns to the character sheets; the
 chapter text, retrieval questions and planted evidence are byte-identical to version 3, so
 the retrieval results in section 1 hold for both). Hardware: Apple M4, 16 GB, macOS 15.3, Python 3.12.10, PostgreSQL 16.2 + pgvector 0.6.2
@@ -50,7 +52,7 @@ set of phrasings.
 ## 1. Retrieval
 
 Command: `novelforge bench-retrieval bench/corpora/syn-100-s7 --embedder fastembed --reranker cross-encoder`
-(commit `2572c56`). Embedder: BAAI/bge-small-en-v1.5 (local ONNX, CPU). Reranker: ms-marco-MiniLM-L-6-v2 cross-encoder
+(commit `5f61354`). Embedder: BAAI/bge-small-en-v1.5 (local ONNX, CPU). Reranker: ms-marco-MiniLM-L-6-v2 cross-encoder
 over the top 30. A passage is relevant when it overlaps a labelled evidence span for the question.
 
 | Mode | R@1 | R@3 | R@10 | MRR@10 | nDCG@10 | p50 ms | p95 ms |
@@ -93,8 +95,8 @@ mocks keep tests deterministic; they are not semantic, and these rows show why t
 
 Command: `novelforge bench-extraction bench/corpora/syn-1000-s7 --extractor rules`. A fact is
 found when an `asserted` claim has the same chapter, character, predicate and value as a labelled
-statement and overlaps its sentence. The table compares `rules-v3` (frozen at `e709488`, run from
-a worktree) with the current `rules-v6` (`9cc3b88`), both against generator-v4 labels.
+statement and overlaps its sentence. The table compares `rules-v3` (frozen at `318baf8`, run from
+a worktree) with the current `rules-v6` (`c78d3a0`), both against generator-v4 labels.
 
 | Predicate | v3 precision | v3 recall | v6 precision | v6 recall |
 |---|---|---|---|---|
@@ -146,7 +148,7 @@ the same detectors; they differ only in what the checker can see when it checks 
 
 A finding counts only if it names the right category and character and cites the planted
 statement itself; a negative counts as violated when a false alarm cites it. rules-v6 ran at
-`9cc3b88`, rules-v3 at `d7830ba`; rules-v2 ran from a worktree at `2572c56` with the same scoring
+`c78d3a0`, rules-v3 at `71c7179`; rules-v2 ran from a worktree at `5f61354` with the same scoring
 code copied in, so every row uses the same scorer.
 
 **1,000 chapters** (125 planted contradictions, 148 negatives), rules-v6:
@@ -221,7 +223,7 @@ the 8 passages hybrid search retrieves for each (7 calls, $0.001). The structure
 ## 4. Scale and load
 
 Command: `novelforge bench-load bench/corpora/load-1000-s7` (generated with `--filler 25`, about
-1,250 words per chapter; commit `9cc3b88`, rules-v6, hash embedder so indexing time measures the
+1,250 words per chapter; commit `c78d3a0`, rules-v6, hash embedder so indexing time measures the
 pipeline rather than a model). Everything runs in one process against a fresh database.
 
 | Measure | 100 chapters | 1,000 chapters |
@@ -244,7 +246,7 @@ pipeline rather than a model). Everything runs in one process against a fresh da
 | Peak RSS of the benchmark process | 170 MB | 834 MB |
 
 These runs shared the machine with other jobs at a load average near 100 on 10 cores, far busier
-than the previous run (rules-v3 at `eb34a16`: 1,000-chapter import 59.7 s, exact vector search
+than the previous run (rules-v3 at `67fd2b3`: 1,000-chapter import 59.7 s, exact vector search
 127 ms, save 213 ms, report 524 ms, graph 2,037 ms). Import got faster because rules-v6 matches
 its patterns at each name instead of at every character. Search latencies rose with the machine
 load (the search code did not change); the report and timeline also handle 5% more claims.
@@ -262,7 +264,7 @@ What this says about a 1.25-million-word manuscript on a laptop:
 ## 5. LLM extraction: a small local model, then Claude
 
 Command: `novelforge bench-extraction bench/corpora/syn-40-s7 --extractor ollama:qwen2.5:3b
---max-chapters 15` (commit `51fa460`). No API key was available, and the largest model this
+--max-chapters 15` (commit `2485c0c`). No API key was available, and the largest model this
 16 GB machine could run beside other jobs was qwen2.5:3b (4-bit, 2.5 GB in Ollama on the M4 GPU).
 It ran on the first 15 chapters of a 40-chapter corpus (55 labelled facts) with schema-constrained
 JSON and an output cap of 2,048 tokens per call. The scoring is the same as in section 2.
@@ -439,7 +441,7 @@ verdict on it. Issues on no label are listed for a person to judge, not counted 
 | draft (qwen2.5:3b) | verdict per beat, batched | 2 / 6 | 1 / 8 | 5 |
 | story-v1 | verdict per beat, batched | 1 / 6 | 0 / 8 | 6 |
 | story-v2 | sub-questions per beat, verdict computed in code; rescue check; payoff check per setup | 4 / 6 | 1 / 8 | 7 |
-| story-v3 (frozen `1860fc6`) | beats and chapter shape asked separately; setups carry a key word; a per-beat source check for secrets | 5 / 6, **4 / 6** after the fix below | 1 / 8 | 1 |
+| story-v3 (frozen `bd11858`) | beats and chapter shape asked separately; setups carry a key word; a per-beat source check for secrets | 5 / 6, **4 / 6** after the fix below | 1 / 8 | 1 |
 
 Asked for a verdict directly (v1), the 7B model called 15 of the 18 judged beats consistent and
 cited nothing (it wrote note IDs into the motive text), so the code downgraded them to "not grounded"
@@ -464,7 +466,7 @@ do not change. The fix came from the dev sample, so the held-out numbers below s
 | 雪夜当铺（修订版） | none planted | | **0 / 14** | 5 | 61 calls, 51,291 in / 11,538 out, 1,484 s |
 | 青石渡, **Claude Opus 5.5** (2026-11-03) | **3 / 6** (the timid heroine's slap; the ledger opened with a secret she never learned; the flat chapter) | +2 (the classmate's malice called "against the character"; the rich relative from nowhere flagged as a mystery and as a headmaster acting out of character) | **0 / 4** | 11 | 68 calls, 104,224 in / 41,211 out, 657 s, **$1.24** |
 
-The Claude run used the same prompts and checks as the qwen runs (story-v3, frozen `1860fc6`;
+The Claude run used the same prompts and checks as the qwen runs (story-v3, frozen `bd11858`;
 nothing was changed after the held-out qwen run, the v4 rules below were not applied). It is not
 a fresh sample, as planned earlier: the author of the checks had read how qwen failed on it.
 
@@ -537,7 +539,7 @@ were made after looking at 青石渡, so its v4 numbers are not blind.
 
 青崖问剑 (仙侠宗门, 8 chapters of about 330 characters, 6 problems, 6 traps, 2 ambiguous cases)
 was written and labelled by a separate agent that saw neither the audit, its prompts nor any
-other sample, and added to the repository (`caf042d`) before any model ran on it. It was then
+other sample, and added to the repository (`7dae11c`) before any model ran on it. It was then
 audited once per model with story-v3 prompts and checks-v4:
 
 | Model | Problems found | +right place, other diagnosis | Traps set off | Issues (on no label) | Calls | Cost |
@@ -657,7 +659,7 @@ earlier samples are development data for it. Prompt v1 was run on them; the miss
 prompt v2 (explained hair changes are marked: 剪掉染过的头发, a colour revealed to have been
 dyed) and three code fixes (a dyed colour in the quote is a change; a more detailed birthplace
 agrees with the place it starts with, 云州城外的一个小渡口 is in 云州; a remembered lesson clears an
-ability conflict). Version frozen in `fbf67ff` (`extract-zh-v2-96a9225a`). A fourth novel,
+ability conflict). Version frozen in `d761376` (`extract-zh-v2-96a9225a`). A fourth novel,
 驼铃过碛 (沙漠商队, 4 chapters, 7,539 characters, 9 contradictions, 9 negatives, 56 facts), was
 written by a separate agent that saw neither the extractors, the prompts nor the other Chinese
 samples, and scored once with the rules, Claude, and both. Scoring counts the predicates the
@@ -735,7 +737,9 @@ uv run novelforge audit-story qingshi-du --llm ollama:qwen2.5:7b --replay   # st
 
 - Corpora are byte-identical for the same seed, chapter count, filler and generator version.
 - Each JSON in `bench/results/` records the corpus, generator version, embedder, reranker,
-  extractor, machine and (from `bc2ddf6` on) the git commit.
+  extractor, machine and (from `dbf1c49` on) the git commit. Commits were rewritten on
+  2026-11-06 (messages only, trees unchanged); `bench/results/commit-map.tsv` maps the hashes
+  recorded before then.
 - Models: BAAI/bge-small-en-v1.5 and ms-marco-MiniLM-L-6-v2 via fastembed 0.8.1 (ONNX, CPU).
   Retrieval scores are deterministic; latencies vary with machine load.
 

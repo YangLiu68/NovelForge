@@ -94,7 +94,7 @@ jobs (timings are not benchmarks).
   [YangLiu68/NovelForge](https://github.com/YangLiu68/NovelForge)): backend (ruff, pytest against
   PostgreSQL 16 + pgvector, sample evaluation in memory and through the database, a retrieval
   smoke test), frontend (typecheck, unit tests, build), Playwright end to end, and Docker
-  Compose. First green run 2026-11-04 (`ced12aa`): all four jobs passed, Playwright 14 passed in
+  Compose. First green run 2026-11-04 (`7d302e2`): all four jobs passed, Playwright 14 passed in
   24.5 s. The first run failed only in the e2e job: `ubuntu-latest` had become Ubuntu 26.04,
   for which Playwright 1.55 has no browsers, so the runners are pinned to `ubuntu-24.04`.
 - **Docker Compose**: the CI job builds both images, starts the stack and runs

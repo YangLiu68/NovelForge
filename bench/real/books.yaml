@@ -102,7 +102,7 @@ books:
   - id: the-secret-garden
     title: The Secret Garden
     author: Frances Hodgson Burnett
-    role: v5 held-out    # added after rules-v5 was frozen (f29b4d3), scored once
+    role: v5 held-out    # added after rules-v5 was frozen (f0b21b9), scored once
     url: https://www.gutenberg.org/cache/epub/113/pg113.txt
     sha256: 6b0bb5fbd0c4e873d2d22028da9d753cf3977d5f70ac58221556b28060badbf5
     title_lines: 1
