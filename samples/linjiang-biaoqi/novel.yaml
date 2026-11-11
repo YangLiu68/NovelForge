@@ -1,6 +1,6 @@
 # Original Chinese held-out sample written for NovelForge (no third-party content). See LICENSE_NOTES.md.
 # Written by a separate agent that did not see the Chinese extractor or the dev sample; scored once
-# against rules-zh-v1 after it was frozen (commit 785ca9c), see BENCHMARK.md section 9.
+# against rules-zh-v1 after it was frozen (commit f41688b), see BENCHMARK.md section 9.
 # Planted continuity contradictions, look-alike traps and the full fact list are in ground_truth.yaml.
 slug: linjiang-biaoqi
 title: 临江镖旗

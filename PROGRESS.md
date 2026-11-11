@@ -7,13 +7,16 @@ force-pushed. Every commit keeps its file tree byte for byte, so each result sti
 the same code. Hashes cited in the docs are updated. Result files keep the hash they recorded,
 and [bench/results/commit-map.tsv](bench/results/commit-map.tsv) maps old hashes to new.
 
+On 2026-11-11 the commit messages were edited once more (model-name mentions reworded), so the
+hashes changed again; the docs cite the current ones and the map covers both rewrites.
+
 ## 2026-11-04: published; CI, Docker and the Anthropic SDK path run for real
 
 The user asked to push and to run what had never run.
 
 - **GitHub**: public repository [YangLiu68/NovelForge](https://github.com/YangLiu68/NovelForge),
   history scanned for keys first (none), local paths removed from committed reports. CI green on
-  `7d302e2`: backend, frontend, Playwright (14 passed) and Docker Compose. The first run's e2e
+  `74184fc`: backend, frontend, Playwright (14 passed) and Docker Compose. The first run's e2e
   failure was the runner image (`ubuntu-latest` = 26.04, unsupported by Playwright 1.55);
   runners are pinned to 24.04.
 - **Docker Compose** now runs in CI and is used, not only built: `scripts/compose-smoke.sh`
@@ -36,7 +39,7 @@ of billed usage is not in the recordings, not traced).
   the notes about the beat, harm with no reason as villainy without cause. On 青石渡 Claude's
   unlabelled issues went from 11 to 3 with no find lost.
 - **A second story held-out**, 青崖问剑, written by a separate agent and scored once (frozen
-  `7dae11c`): Opus 5.5 4/6 problems, 0/6 traps by hand, $1.49; Haiku 5.5 3/6, 0/6, $0.049.
+  `352a282`): Opus 5.5 4/6 problems, 0/6 traps by hand, $1.49; Haiku 5.5 3/6, 0/6, $0.049.
   checks-v5 came from its misses (seen): 5/6 and 4/6.
 - **English with Claude Haiku 5.5**: synthetic extraction P 0.982 R 0.961 (rules 1.0 / 0.884);
   contradictions 10/12 alone, **12/12 with the rules, 0 false findings**, including the
@@ -68,7 +71,7 @@ answer recorded so it re-scores offline; total billed $3.51.
   11 issues on no label, 7 of them wrong or weak by hand (qwen2.5:7b: 2/6, 1/4). $1.24.
 - **Chinese LLM extraction**: a Chinese prompt (`extract-zh-v2`), developed on the four earlier
   samples, plus three detector fixes found there (a dyed or explained hair change, a more
-  detailed birthplace, a remembered lesson). Frozen in `d761376`; a fourth novel 驼铃过碛, written
+  detailed birthplace, a remembered lesson). Frozen in `1807c1f`; a fourth novel 驼铃过碛, written
   by a separate agent, scored once: **Claude 9/9 contradictions with 1 false finding, claims P
   0.98 R 0.857; rules-zh-v3 7/9 with 1, P 0.923 R 0.643**. The false finding (riding practice
   shown before the sentence that says she learned) was then fixed in the detector; re-scored,
@@ -137,7 +140,7 @@ suspense), for Chinese web novels.
 - **Results with qwen2.5:7b** (the largest model that fits beside other jobs; Claude not run, no
   key). Dev: v1 prompts 1/6 problems, v2 4/6, v3 5/6 with 1/8 traps, 4/6 after a fix found while
   reviewing the dev output (a "conflict" cited a note read off the act itself; such citations are
-  now refused, as they already were for reasons). Frozen v3 (`bd11858`) on
+  now refused, as they already were for reasons). Frozen v3 (`623e24b`) on
   the held-out novel: 2/6 found (+1 with another diagnosis), 1/4 traps, about 5 noisy issues. On
   the revision: 0/14 fixed places flagged again. The held-out misses are reading errors (an
   invented motive citing the conflicting notes, a misattributed rescuer, a setup without a quote);
@@ -161,14 +164,14 @@ real novels and improved it under a held-out protocol (BENCHMARK.md section 6,
 - **What it showed.** rules-v3 (P 0.99 / R 0.81 on synthetic text) found 3 of 30 explicit
   identity facts in *Little Women*. Pronouns, "with" phrases and ages in apposition were the
   main gaps; "sailed away", "wrote no more" and hedge scope the main errors.
-- **rules-v4** (frozen `f0f86d0`): precision-first pronoun and "with"-phrase attribution
+- **rules-v4** (frozen `d168c8f`): precision-first pronoun and "with"-phrase attribution
   (`core/coref.py`) that abstains on any ambiguity, plus the dev-book fixes. On its held-out
   books (*Anne of Green Gables*, *Pride and Prejudice*) recall went from 3/32 to 11/32 with no
   wrong fact.
-- **rules-v5** (frozen `f0b21b9`): past states in time clauses ("ever since he was twenty") are
+- **rules-v5** (frozen `745c06b`): past states in time clauses ("ever since he was twenty") are
   `recalled`. On a fresh held-out book (*The Secret Garden*, cast written before reading it)
   recall went from 1/25 to 5/25, with one wrong attribution.
-- **rules-v6** (`c78d3a0`): that attribution fixed; measured only on books it has seen.
+- **rules-v6** (`ff5d8b8`): that attribution fixed; measured only on books it has seen.
 - **Synthetic side effects.** Generator v4 labels the dye sentence and puts pronouns on the
   sheets, text byte-identical to v3; extraction recall 0.813 -> 0.903 at precision 1.0.
 - **Also:** `novelforge import-text` for any `.txt` novel; pronouns on the character sheet in the
@@ -181,22 +184,22 @@ All benchmarks were run for real on this machine (BENCHMARK.md, raw output in `b
 What the runs changed:
 
 - **Generator fix.** At 1,000 chapters the multi-year time skips made ages implausible; skips now
-  scale with novel length (generator version 3, `5f61354`).
-- **rules-v3** (`83318f3`). The 1,000-chapter failure analysis found four phrasings the rules
+  scale with novel length (generator version 3, `89c9fee`).
+- **rules-v3** (`5d0106a`). The 1,000-chapter failure analysis found four phrasings the rules
   missed or misread ("At fifty, …", "dove from the pier and swam", "dyed her hair red",
   "Three days later …"). Fixing them removed every false alarm in the contradiction benchmark
   (15 → 0) and raised rule recall from 0.784 to 0.812. The phrasings came from this generator's
   templates, so BENCHMARK.md flags the gain as corpus-specific.
-- **Stricter scoring** (`67bbe41`, `38244ef`). A finding now counts only if it cites the planted
+- **Stricter scoring** (`bd39328`, `229a86e`). A finding now counts only if it cites the planted
   statement itself, matching is one-to-one, and negatives are violated only by false alarms. This
   lowered every system's recall; the tables use the strict scorer for both extractor versions.
 - **Local LLM run** (qwen2.5:3b through Ollama). Its first run produced facts whose quotes were
   real but unrelated to the value ("Jorin could not swim." as evidence of a location), which
   quote verification alone accepted. Extraction now also rejects a fact whose value is not in its
-  quote (`71c7179`), and LLM benchmarks record and replay responses so validation changes can be
+  quote (`e94e5f6`), and LLM benchmarks record and replay responses so validation changes can be
   re-scored without the model.
-- **Provenance.** Reports record the git commit (`dbf1c49`); results name the extractor version
-  that produced them (`67fd2b3`).
+- **Provenance.** Reports record the git commit (`79f9634`); results name the extractor version
+  that produced them (`172b315`).
 
 ## 2026-10-15: Milestones 2–6
 

@@ -58,13 +58,13 @@ held-out protocol below limits, but does not remove, that bias.
 2. The dev failures drove rules-v4 (pronoun and "with"-phrase attribution, ages in apposition,
    word-sense and negation guards, hedge scope, title handling). Each change was checked
    against the synthetic benchmarks as well.
-3. rules-v4 was frozen (commit `f0f86d0`) before either held-out book was run.
+3. rules-v4 was frozen (commit `d168c8f`) before either held-out book was run.
 4. Both versions were then run on the two held-out books, and all their claims, findings and
    candidate sentences were labelled.
 5. Four of the six held-out errors were one kind, a past state in a time clause ("ever since
    he was twenty"); rules-v5 handles it, so those two books stopped being unseen for v5. The
    other two ("might" hedging a different part of the sentence) are left as they are.
-6. rules-v5 was frozen (commit `f0b21b9`), a fourth book was added, and it was run and
+6. rules-v5 was frozen (commit `745c06b`), a fourth book was added, and it was run and
    labelled once. The cast list was written before its text was read.
 
 Results and their discussion are in [BENCHMARK.md](../../BENCHMARK.md#6-real-prose);
